@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Главная колледжа</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Главная колледжа.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div id="top" style="min-height: 100vh; background: #F4F5F7; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column;">
+
+<div style="background: #15171C; color: #D5D9E0; font-size: 13px;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 8px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 24px;">
+<span>Калининград, ул. Горького, 166 · <a href="tel:+74012916106" style="color: #FFFFFF; text-decoration: none;">+7 (4012) 91-61-06</a></span>
+<nav aria-label="Служебные ссылки" style="display: flex; flex-wrap: wrap; gap: 4px 20px;">
+<a href="#top" style="display: inline-flex; align-items: center; gap: 6px; color: #FFFFFF; text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Версия для слабовидящих</a>
+<a href="sitemap.html" style="color: #FFFFFF; text-decoration: none;">Сведения об образовательной организации</a>
+<a href="https://vk.com/kitis39" style="color: #FFFFFF; text-decoration: none;">ВКонтакте</a>
+</nav>
+</div>
+</div>
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 12px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;">
+<a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #15171C;">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px;">К</span>
+<span style="display: flex; flex-direction: column; line-height: 1.15;"><span style="font-weight: 700; font-size: 20px; letter-spacing: -0.01em;">КИТиС</span><span style="font-size: 11.5px; color: #5B6270; max-width: 210px;">Колледж информационных технологий и строительства</span></span>
+</a>
+<nav aria-label="Расписание" style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 4px;">
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Расписание</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Группы</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Преподаватели</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Аудитории</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Звонки</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Итоги</a>
+<a href="desktop.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: 14.5px; text-decoration: none; background: #15171C; color: #FFFFFF;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Меню</a>
+</nav>
+<a href="login.html" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; box-sizing: border-box; border-radius: 12px; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path></svg>Войти</a>
+</div>
+</header>
+
+<section style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 48px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 32px 48px;">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<span style="font-size: 13px; font-weight: 700; color: {{accent}}; text-transform: uppercase; letter-spacing: 0.08em;">ГБУ КО ПОО «КИТиС» · Калининград</span>
+<h1 style="margin: 0; font-size: clamp(34px, 4vw, 54px); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em;">Колледж информационных технологий и строительства</h1>
+<p style="margin: 0; max-width: 620px; font-size: 18px; color: #3A404C;">Веб-разработка, сетевое администрирование, разработка игр, строительство, туризм и рабочие профессии. Поступление после 9 и 11 класса.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<a href="abitur.html" style="display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border-radius: 14px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none;">Выбрать специальность<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a href="desktop.html" style="display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border-radius: 14px; border: 1px solid #C9CED6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 16px; text-decoration: none;">Расписание занятий</a>
+</div>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; background: #F4F5F7; border: 1px solid #E3E6EB; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-size: 19px; font-weight: 700;">Найти расписание</h2>
+<div role="group" aria-label="Что ищем" style="display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: #E6E9ED;">
+<sc-for list="{{scopes}}" as="sc" hint-placeholder-count="3">
+<button type="button" onClick="{{sc.pick}}" aria-pressed="{{sc.pressed}}" style="flex: 1; height: 38px; border-radius: 9px; border: 0; background: {{sc.bg}}; color: #15171C; font-weight: {{sc.weight}}; font-size: 14px; box-shadow: {{sc.shadow}}; cursor: pointer;">{{sc.label}}</button>
+</sc-for>
+</div>
+<label style="display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #5B6270;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">Поиск расписания</span>
+<input type="search" placeholder="{{ph}}" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 15px; color: #15171C; outline: none;">
+</label>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+<span style="font-size: 13px; color: #5B6270; margin-right: 2px;">Недавние:</span>
+<a href="desktop.html" style="display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #DCE0E6; color: #15171C; font-size: 13px; font-weight: 600; text-decoration: none;">ИСр24-1</a>
+<a href="desktop.html" style="display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #DCE0E6; color: #15171C; font-size: 13px; font-weight: 500; text-decoration: none;">Громов Р. И.</a>
+<a href="desktop.html" style="display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #DCE0E6; color: #15171C; font-size: 13px; font-weight: 500; text-decoration: none;">ауд. 403</a>
+</div>
+<a href="desktop.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: #15171C; color: #FFFFFF; text-decoration: none;">
+<span style="flex: none; width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D;"></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;">
+<span style="font-size: 12px; color: #B9BEC8;">ИСр24-1 · сейчас 2 пара · ауд. 403</span>
+<span style="font-size: 14px; font-weight: 600;">Проектирование и разработка веб-приложений</span>
+</span>
+<span style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1;">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;">38:12</span>
+<span style="font-size: 11.5px; color: #B9BEC8;">до конца</span>
+</span>
+</a>
+</div>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px clamp(16px, 3vw, 32px) 0; display: flex; flex-direction: column; gap: 18px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Для кого этот раздел</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="3">
+<article style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<span style="width: 48px; height: 48px; border-radius: 14px; background: {{r.iconBg}}; color: {{r.iconFg}}; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{r.d}}"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<h3 style="margin: 0; font-size: 21px; font-weight: 700;">{{r.title}}</h3>
+<p style="margin: 0; font-size: 14px; color: #5B6270;">{{r.text}}</p>
+</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; border-top: 1px solid #EEF0F3;">
+<sc-for list="{{r.links}}" as="k" hint-placeholder-count="4">
+<li style="border-bottom: 1px solid #EEF0F3;"><a href="{{k.h}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; color: #15171C; text-decoration: none; font-size: 14.5px;">{{k.l}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a></li>
+</sc-for>
+</ul>
+<a href="{{r.href}}" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; border-radius: 12px; background: {{r.ctaBg}}; color: {{r.ctaFg}}; font-weight: 600; font-size: 15px; text-decoration: none;">{{r.cta}}</a>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px clamp(16px, 3vw, 32px) 0; display: flex; flex-direction: column; gap: 18px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Сервисы</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
+<sc-for list="{{services}}" as="s" hint-placeholder-count="8">
+<a href="{{s.h}}" style="display: flex; flex-direction: column; gap: 12px; padding: 18px 16px; min-height: 120px; box-sizing: border-box; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: {{s.bg}}; color: {{s.fg}}; display: flex; align-items: center; justify-content: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{s.d}}"></path></svg></span>
+<span style="font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{s.l}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section id="news" style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px clamp(16px, 3vw, 32px) 0; display: flex; flex-wrap: wrap; gap: 20px;">
+<div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Новости</h2>
+<a href="#news" style="font-weight: 600; font-size: 14px; color: {{accent}}; text-decoration: none;">Все новости</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+<sc-for list="{{news}}" as="n" hint-placeholder-count="4">
+<a href="#news" style="display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="aspect-ratio: 16 / 9; background: #E6E9ED; color: #5B6270; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.5"></circle><path d="m21 16-5-5-9 8"></path></svg>Фото новости</span>
+<span style="padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 6px;">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #5B6270;"><span style="font-weight: 600; color: {{n.tagFg}};">{{n.tag}}</span>·<span>{{n.date}}</span></span>
+<span style="font-weight: 600; font-size: 16px; line-height: 1.3;">{{n.title}}</span>
+</span>
+</a>
+</sc-for>
+</div>
+</div>
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Главное</h2>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 6px 18px; display: flex; flex-direction: column;">
+<sc-for list="{{main}}" as="g" hint-placeholder-count="4">
+<a href="#news" style="display: flex; flex-direction: column; gap: 2px; padding: 14px 0; border-bottom: 1px solid {{g.line}}; color: #15171C; text-decoration: none;">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">{{g.date}}</span>
+<span style="font-weight: 600; font-size: 15px; line-height: 1.35;">{{g.title}}</span>
+</a>
+</sc-for>
+</div>
+<a href="#news" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; font-weight: 600; font-size: 15px;">Объявления и мероприятия<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+</aside>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px clamp(16px, 3vw, 32px) 0;">
+<div style="background: {{accent}}; color: #FFFFFF; border-radius: 22px; padding: 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;">
+<div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Поступление</span>
+<h2 style="margin: 0; font-size: 30px; line-height: 1.15; font-weight: 700;">Заявление можно подать через Госуслуги</h2>
+<p style="margin: 0; font-size: 16px;">Ещё можно лично на ул. Горького, 166 или почтой. Приёмная комиссия: 8 (4012) 96-42-56, доб. 2.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<a href="abitur.html" style="display: inline-flex; align-items: center; height: 50px; padding: 0 22px; border-radius: 14px; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 15px; text-decoration: none;">Как поступить</a>
+<a href="https://www.gosuslugi.ru/" style="display: inline-flex; align-items: center; height: 50px; padding: 0 22px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.6); color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none;">Госуслуги</a>
+</div>
+</div>
+</section>
+
+<section id="about" style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px clamp(16px, 3vw, 32px) 56px; display: flex; flex-wrap: wrap; gap: 20px;">
+<div style="flex: 1 1 380px; min-width: 0; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700;">Контакты</h2>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>236029, Калининград, ул. Горького, 166</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg><a href="tel:+74012916106" style="color: #15171C;">+7 (4012) 91-61-06</a></div>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg><a href="mailto:info@kitis.ru" style="color: #15171C;">info@kitis.ru</a></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+<a href="https://vk.com/kitis39" style="display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 11px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">ВКонтакте</a>
+<a href="https://max.ru/" style="display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 11px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">MAX</a>
+<a href="#about" style="display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 11px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">Задать вопрос</a>
+</div>
+</div>
+<div style="flex: 999 1 560px; min-width: 0; min-height: 280px; border-radius: 18px; border: 1.5px dashed #B8BFCA; background: #E9EBEF; color: #5B6270; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"></path></svg>
+<span style="font-weight: 600;">[Карта: ул. Горького, 166]</span>
+<span style="font-size: 13px;">Здесь будет карта с проездом</span>
+</div>
+</section>
+
+<footer style="background: #15171C; color: #C5CAD3; font-size: 14px;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 40px clamp(16px, 3vw, 32px) 24px; display: flex; flex-direction: column; gap: 28px;">
+<div style="display: flex; flex-wrap: wrap; gap: 28px 48px;">
+<div style="flex: 2 1 300px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 700; font-size: 18px;">КИТиС</span>
+<span>ГБУ КО ПОО «Колледж информационных технологий и строительства»</span>
+<span>236029, Калининград, ул. Горького, 166</span>
+<span><a href="tel:+74012916106" style="color: #FFFFFF;">+7 (4012) 91-61-06</a> · <a href="mailto:info@kitis.ru" style="color: #FFFFFF;">info@kitis.ru</a></span>
+</div>
+<nav aria-label="Колледж" style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 600;">Колледж</span>
+<a href="#about" style="color: #C5CAD3; text-decoration: none;">История и музей</a>
+<a href="#news" style="color: #C5CAD3; text-decoration: none;">Новости и объявления</a>
+<a href="#about" style="color: #C5CAD3; text-decoration: none;">Вакансии</a>
+<a href="#about" style="color: #C5CAD3; text-decoration: none;">Отзывы</a>
+<a href="#about" style="color: #C5CAD3; text-decoration: none;">Контакты</a>
+</nav>
+<nav aria-label="Учёба" style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 600;">Учёба</span>
+<a href="desktop.html" style="color: #C5CAD3; text-decoration: none;">Расписание занятий</a>
+<a href="desktop.html" style="color: #C5CAD3; text-decoration: none;">Расписание звонков</a>
+<a href="student.html" style="color: #C5CAD3; text-decoration: none;">Дистанционное обучение</a>
+<a href="student.html" style="color: #C5CAD3; text-decoration: none;">Учебная часть</a>
+<a href="#about" style="color: #C5CAD3; text-decoration: none;">Центр карьеры</a>
+</nav>
+<nav aria-label="Обязательные разделы" style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 600;">Официально</span>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Сведения об образовательной организации</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Обращения граждан</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Противодействие коррупции</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Комплексная и антитеррористическая безопасность</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Информационная безопасность</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Закупки</a>
+</nav>
+</div>
+<div style="border-top: 1px solid #2C3039; padding-top: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 13px;">
+<span>Источник расписания: <a href="http://94.72.18.202:8083" style="color: #FFFFFF; font-weight: 600;">http://94.72.18.202:8083</a></span>
+<span>© 2026 КИТиС</span>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const accent = this.props.accent ?? '#2D5BE3';
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
+    const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
+    const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
+    const scope = s.scope || 'group';
+    const scopeList = [
+      ['group', 'Группа', 'Например, ИСр24-1'],
+      ['teacher', 'Преподаватель', 'Например, Кузнецов'],
+      ['room', 'Аудитория', 'Например, 214']
+    ];
+    let ph = scopeList[0][2];
+    const scopes = scopeList.map((x) => {
+      const on = x[0] === scope;
+      if (on) ph = x[2];
+      return {
+        label: x[1], pressed: on ? 'true' : 'false',
+        bg: on ? '#FFFFFF' : 'transparent', weight: on ? 600 : 500,
+        shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.10)' : 'none',
+        pick: () => this.setState({ scope: x[0] })
+      };
+    });
+    const I = {
+      userPlus: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6',
+      users: 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2',
+      board: 'M3 4h18v12H3zM12 16v4M8 20h8M7 12l3-3 3 2 4-4',
+      calendar: 'M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM16 2v4M8 2v4M3 10h18',
+      clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
+      doc: 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6',
+      laptop: 'M4 5h16v11H4zM2 20h20',
+      book: 'M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h11',
+      case: 'M3 8h18v12H3zM8 8V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3M3 13h18',
+      award: 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8',
+      cap: 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5M22 9v6'
+    };
+    const roles = [
+      { title: 'Абитуриентам', text: 'Специальности, правила приёма, подача заявления и общежитие', d: I.userPlus, href: 'abitur.html', cta: 'Поступление в КИТиС', primary: true,
+        links: [['Специальности и профессии', 'abitur.html'], ['Как поступить', 'abitur.html'], ['Общежитие', 'abitur.html'], ['Образовательный кредит и целевое обучение', 'abitur.html']] },
+      { title: 'Студентам', text: 'Расписание группы, замены, справки и дистанционное обучение', d: I.users, href: 'student.html', cta: 'Кабинет студента', primary: false,
+        links: [['Расписание группы', 'desktop.html'], ['Заказ справки в учебной части', 'student.html'], ['Дистанционное обучение', 'student.html'], ['ГИА и графики аттестаций', 'student.html']] },
+      { title: 'Преподавателям', text: 'Своё расписание, группы, методические материалы и аттестация', d: I.board, href: 'teacher.html', cta: 'Кабинет преподавателя', primary: false,
+        links: [['Моё расписание', 'teacher.html'], ['Методические материалы', 'teacher.html'], ['Аттестация', 'teacher.html'], ['Объявления для преподавателей', 'teacher.html']] }
+    ].map((r) => ({
+      title: r.title, text: r.text, d: r.d, href: r.href, cta: r.cta,
+      links: r.links.map((k) => ({ l: k[0], h: k[1] })),
+      iconBg: r.primary ? accent : accentSoft, iconFg: r.primary ? '#FFFFFF' : accent,
+      ctaBg: r.primary ? accent : '#F1F3F6', ctaFg: r.primary ? '#FFFFFF' : '#15171C'
+    }));
+    const services = [
+      ['Расписание занятий', I.calendar, 'desktop.html'],
+      ['Расписание звонков', I.clock, 'desktop.html'],
+      ['Заказать справку', I.doc, 'student.html'],
+      ['Дистанционное обучение', I.laptop, 'student.html'],
+      ['Дневник «Моя школа»', I.book, 'student.html'],
+      ['Центр карьеры', I.case, '#about'],
+      ['Профессионалитет', I.award, '#about'],
+      ['ЦОПП и курсы', I.cap, '#about']
+    ].map((x) => ({ l: x[0], d: x[1], h: x[2], bg: accentSoft, fg: accent }));
+    const tagColors = { 'Достижения': '#1F46B8', 'События': '#6233B5', 'Спорт': '#1C6B47' };
+    const news = [
+      ['03.11.2026', 'Гордимся: награды талантливым студенткам КИТиСа', 'Достижения'],
+      ['02.11.2026', 'Разговоры о важном ко Дню народного единства', 'События'],
+      ['02.11.2026', 'Лекция «Образ будущего России» в КИТиСе', 'События'],
+      ['31.10.2026', 'Волейболистки КИТиСа на областных соревнованиях', 'Спорт']
+    ].map((x) => ({ date: x[0], title: x[1], tag: x[2], tagFg: tagColors[x[2]] }));
+    const mainList = [
+      ['19.10.2026', 'День открытых дверей!'],
+      ['23.09.2026', 'Праздничные мероприятия ко Дню среднего профессионального образования'],
+      ['20.08.2026', '«Кадры» — бесплатное обучение в рамках национального проекта'],
+      ['19.06.2026', 'Приёмная комиссия открыта!']
+    ].map((x, i, arr) => ({ date: x[0], title: x[1], line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' }));
+    return { accent: accent, accentSoft: accentSoft, scopes: scopes, ph: ph, roles: roles, services: services, news: news, main: mainList };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>

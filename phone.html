@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="ru" data-fit="phone" data-w="390" data-h="844">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Расписание — телефон</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Расписание — телефон.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><span class="kb-x">Это версия для телефона — откройте ссылку на смартфоне</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+button,input,select{font-family:inherit}
+@keyframes kFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes kFade{from{opacity:0}to{opacity:1}}
+@keyframes kSlideUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes kSlideLeft{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes kGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes kPulse{0%{box-shadow:0 0 0 0 rgba(255,138,61,.6)}70%{box-shadow:0 0 0 8px rgba(255,138,61,0)}100%{box-shadow:0 0 0 0 rgba(255,138,61,0)}}
+@keyframes kShimmer{0%{opacity:.45}50%{opacity:1}100%{opacity:.45}}
+.tap{transition:transform .12s ease,background-color .2s ease,color .2s ease}
+.tap:active{transform:scale(.96)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #F4F5F7; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.4; display: flex; flex-direction: column;">
+
+<header style="flex: none; height: 60px; box-sizing: border-box; padding: 0 10px 0 12px; background: #FFFFFF; border-bottom: 1px solid #E3E6EB; display: flex; align-items: center; gap: 10px;">
+<sc-if value="{{hasPage}}" hint-placeholder-val="{{ false }}"><button type="button" class="tap" aria-label="Назад" onClick="{{goBack}}" style="flex: none; width: 44px; height: 44px; border-radius: 12px; border: 0; background: #F1F3F6; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button></sc-if>
+<sc-if value="{{noPage}}" hint-placeholder-val="{{ true }}"><span style="flex: none; width: 38px; height: 38px; border-radius: 11px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 19px;">К</span></sc-if>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.2;">
+<span style="font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{title}}</span>
+<span style="font-size: 12px; color: #5B6270; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{subtitle}}</span>
+</div>
+<button type="button" class="tap" aria-label="Поиск группы" onClick="{{goGroups}}" style="flex: none; width: 44px; height: 44px; border-radius: 12px; border: 0; background: #F1F3F6; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+</header>
+
+<div style="flex: 1; min-height: 0; overflow-y: auto; padding: 14px 16px 20px; display: flex; flex-direction: column; gap: 14px;">
+
+<sc-if value="{{isScheduleTab}}" hint-placeholder-val="{{ true }}">
+<div role="group" aria-label="Раздел расписания" style="flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 12px; background: #E6E9ED;">
+<sc-for list="{{subs}}" as="sb" hint-placeholder-count="3">
+<button type="button" class="tap" onClick="{{sb.pick}}" aria-pressed="{{sb.pressed}}" style="height: 40px; border-radius: 9px; border: 0; background: {{sb.bg}}; color: #15171C; font-weight: {{sb.weight}}; font-size: 14px; box-shadow: {{sb.shadow}}; cursor: pointer;">{{sb.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isPairs}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kFadeUp .4s ease both;">
+<button type="button" class="tap" onClick="{{goGroups}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 48px; padding: 0 14px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; cursor: pointer;"><span style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2;"><span style="font-size: 11.5px; color: #5B6270;">{{groupCaption}}</span><span style="font-size: 18px; font-weight: 700;">{{group}}</span></span><span style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: {{accent}};">Сменить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></span></button>
+
+<sc-if value="{{hasData}}" hint-placeholder-val="{{ true }}">
+<section aria-label="Текущая пара" style="background: #15171C; color: #FFFFFF; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #FF8A3D; animation: kPulse 1.8s ease-out infinite;"></span>Сейчас · 2 пара</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #B9BEC8;">10:10 – 11:40</span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 10px;">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 46px; font-weight: 700; line-height: 0.95; letter-spacing: -0.04em;">{{timer}}</span>
+<span style="font-size: 13px; color: #B9BEC8; padding-bottom: 4px;">до конца пары</span>
+</div>
+<div aria-hidden="true" style="height: 5px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div>
+<span style="font-size: 15.5px; font-weight: 600; line-height: 1.3;">Проектирование и разработка веб-приложений</span>
+<span style="font-size: 13px; color: #B9BEC8;">Громов Р. И. · ауд. 403 · далее 3 пара в 12:10</span>
+</section>
+</sc-if>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-size: 15px; font-weight: 700;">9 – 14 ноября</span>
+<span style="font-size: 12.5px; color: #5B6270;">Текущая неделя</span>
+</div>
+<div role="tablist" aria-label="День недели" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px;">
+<sc-for list="{{dayPills}}" as="d" hint-placeholder-count="6">
+<button type="button" role="tab" class="tap" aria-selected="{{d.selected}}" onClick="{{d.pick}}" style="height: 58px; border-radius: 13px; border: 1px solid {{d.border}}; background: {{d.bg}}; color: {{d.fg}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; cursor: pointer;">
+<span style="font-size: 11.5px; font-weight: 500;">{{d.short}}</span>
+<span style="font-size: 17px; font-weight: 700; line-height: 1.1;">{{d.num}}</span>
+<span style="font-size: 10px; font-weight: 600; opacity: 0.85;">{{d.count}}</span>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 2px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 700;">{{dayTitle}}</h2>
+<span style="font-size: 12.5px; color: #5B6270;">{{dayCount}}</span>
+</div>
+<sc-if value="{{dayNote}}" hint-placeholder-val="{{ false }}"><div style="font-size: 12.5px; color: #3A404C; padding: 8px 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E6EB;">Кураторский день: подъём флага 08:15, кураторский час 08:30</div></sc-if>
+<sc-for list="{{dayLessons}}" as="l" hint-placeholder-count="3">
+<div style="background: {{l.bg}}; border: 1px solid {{l.border}}; border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; animation: kSlideLeft .35s ease both; animation-delay: {{l.delay}};">
+<div style="flex: none; width: 44px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
+<span style="width: 28px; height: 28px; border-radius: 8px; background: {{l.numBg}}; color: {{l.numFg}}; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 2px;">{{l.n}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{l.start}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{l.end}}</span>
+</div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+<span style="font-weight: 600; font-size: 15px; line-height: 1.3;">{{l.subject}}</span>
+<sc-if value="{{l.now}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: #FFE6D3; color: #9A4410;">Идёт сейчас</span></sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<button type="button" class="tap" onClick="{{l.openTeacher}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: #F1F3F6; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.teacher}}</button>
+<sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: #F1F3F6; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.room}}</button></sc-if>
+</div>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{dayEmpty}}" hint-placeholder-val="{{ false }}"><div style="padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; font-size: 13.5px; color: #5B6270;">{{dayEmptyText}}</div></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{isBellsSub}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px; animation: kFadeUp .4s ease both;">
+<div role="group" aria-label="День" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+<sc-for list="{{bellTabs}}" as="bt" hint-placeholder-count="2">
+<button type="button" class="tap" onClick="{{bt.pick}}" aria-pressed="{{bt.pressed}}" style="height: 44px; border-radius: 12px; border: 1px solid {{bt.border}}; background: {{bt.bg}}; color: {{bt.fg}}; font-weight: 600; font-size: 14px; cursor: pointer;">{{bt.label}}</button>
+</sc-for>
+</div>
+<span style="font-size: 12.5px; color: #5B6270;">{{bellNote}}</span>
+<sc-for list="{{bells}}" as="b" hint-placeholder-count="11">
+<sc-if value="{{b.isPair}}" hint-placeholder-val="{{ true }}">
+<div style="position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; background: {{b.bg}}; border: 1px solid #E3E6EB; animation: kFadeUp .35s ease both; animation-delay: {{b.delay}};">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{b.numBg}}; color: {{b.numFg}}; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center;">{{b.n}}</span>
+<span style="flex: 1; font-weight: 600; font-size: 14.5px;">{{b.n}} пара</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{{b.time}}</span>
+<sc-if value="{{b.now}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; left: 0; bottom: 0; height: 3px; width: {{progress}}%; background: #E06A1B;"></span></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{b.isEvent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; background: #FFFFFF; border: 1px dashed #C9CED6; animation: kFadeUp .35s ease both; animation-delay: {{b.delay}};">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"></path></svg></span>
+<span style="flex: 1; font-weight: 600; font-size: 14px;">{{b.label}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #3A404C;">{{b.time}}</span>
+</div>
+</sc-if>
+<sc-if value="{{b.isBreak}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 12px 0 54px; font-size: 12px; color: #5B6270;">{{b.label}}</div>
+</sc-if>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isResultsSub}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px; animation: kFadeUp .4s ease both;">
+<span style="font-size: 13px; color: #5B6270;">{{group}} · 9 – 14 ноября · посчитано по расписанию</span>
+<sc-if value="{{hasData}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{stats}}" as="st" hint-placeholder-count="4">
+<div style="padding: 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; display: flex; flex-direction: column; gap: 2px; animation: kFadeUp .4s ease both; animation-delay: {{st.delay}};">
+<span style="font-size: 30px; font-weight: 700; line-height: 1; color: {{st.color}};">{{st.value}}</span>
+<span style="font-size: 12.5px; color: #5B6270;">{{st.label}}</span>
+</div>
+</sc-for>
+</div>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700;">По дисциплинам</h2>
+<sc-for list="{{bySubj}}" as="r" hint-placeholder-count="6">
+<div style="display: flex; flex-direction: column; gap: 5px;">
+<div style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px;"><span>{{r.label}}</span><span style="font-weight: 700; white-space: nowrap;">{{r.value}}</span></div>
+<div aria-hidden="true" style="height: 8px; border-radius: 4px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.pct}}%; border-radius: 4px; background: {{accent}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div></div>
+</div>
+</sc-for>
+</section>
+</sc-if>
+<sc-if value="{{noData}}" hint-placeholder-val="{{ false }}"><div style="padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; font-size: 13.5px; color: #5B6270;">Итоги появятся, когда с сервера подтянется расписание группы</div></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{isGroupsTab}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px; animation: kFadeUp .4s ease both;">
+<label style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #5B6270;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">Найти группу</span>
+<input type="search" placeholder="Например, ИСр24-1" onChange="{{onGq}}" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 15px; color: #15171C; outline: none;">
+</label>
+<div role="group" aria-label="Буквы в названии группы" style="display: flex; gap: 6px; overflow-x: auto; margin: 0 -16px; padding: 0 16px 2px;">
+<sc-for list="{{prefixChips}}" as="c" hint-placeholder-count="15">
+<button type="button" class="tap" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="flex: none; display: inline-flex; align-items: center; gap: 5px; height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-weight: 600; font-size: 13.5px; cursor: pointer;">{{c.label}}<span style="font-size: 11.5px; font-weight: 500; opacity: 0.8;">{{c.count}}</span></button>
+</sc-for>
+</div>
+<sc-for list="{{groupSections}}" as="sec" hint-placeholder-count="3">
+<span style="font-size: 12px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">{{sec.title}} · {{sec.count}}</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+<sc-for list="{{sec.items}}" as="g" hint-placeholder-count="6">
+<button type="button" class="tap" onClick="{{g.pick}}" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; min-height: 58px; padding: 8px 10px; box-sizing: border-box; border-radius: 12px; border: {{g.border}}; background: {{g.bg}}; color: #15171C; text-align: left; cursor: pointer; animation: kFadeUp .35s ease both; animation-delay: {{g.delay}};">
+<span style="font-size: 15px; font-weight: 700;">{{g.code}}</span>
+<span style="font-size: 10.5px; color: #5B6270;">{{g.meta}}</span>
+</button>
+</sc-for>
+</div>
+</sc-for>
+<sc-if value="{{noGroups}}" hint-placeholder-val="{{ false }}"><div style="padding: 20px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; font-size: 13.5px; color: #5B6270;">Такой группы нет</div></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{isTeachersTab}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px; animation: kFadeUp .4s ease both;">
+<label style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #5B6270;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">Найти преподавателя</span>
+<input type="search" placeholder="Фамилия, например Громов" onChange="{{onTq}}" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 15px; color: #15171C; outline: none;">
+</label>
+<div role="group" aria-label="Первая буква фамилии" style="display: flex; gap: 4px; overflow-x: auto; margin: 0 -16px; padding: 0 16px 2px;">
+<sc-for list="{{letterChips}}" as="c" hint-placeholder-count="24">
+<button type="button" class="tap" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="flex: none; min-width: 36px; height: 36px; padding: 0 10px; border-radius: 10px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-weight: 700; font-size: 13.5px; cursor: pointer;">{{c.label}}</button>
+</sc-for>
+</div>
+<span style="font-size: 12.5px; color: #5B6270;">{{teacherCount}}</span>
+<sc-for list="{{teacherList}}" as="t" hint-placeholder-count="10">
+<button type="button" class="tap" onClick="{{t.pick}}" style="display: flex; gap: 12px; align-items: center; min-height: 56px; padding: 8px 12px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: left; cursor: pointer; animation: kFadeUp .3s ease both; animation-delay: {{t.delay}};">
+<span style="flex: none; width: 38px; height: 38px; border-radius: 50%; background: {{accentSoft}}; color: {{accent}}; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center;">{{t.ini}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;">
+<span style="font-weight: 600; font-size: 14.5px;">{{t.name}}</span>
+<sc-if value="{{t.hasSub}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #5B6270; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{t.sub}}</span></sc-if>
+</span>
+<sc-if value="{{t.busy}}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="Сейчас на паре" style="flex: none; width: 8px; height: 8px; border-radius: 50%; background: #E06A1B; animation: kPulse 1.8s ease-out infinite;"></span></sc-if>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA2AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+</button>
+</sc-for>
+<sc-if value="{{noTeachers}}" hint-placeholder-val="{{ false }}"><div style="padding: 20px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; font-size: 13.5px; color: #5B6270;">Никого не нашли</div></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{isRoomsTab}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px; animation: kFadeUp .4s ease both;">
+<span style="font-size: 13px; color: #5B6270;">{{roomsTotal}} аудиторий. Нажмите — откроется занятость на неделю.</span>
+<sc-for list="{{roomSections}}" as="sec" hint-placeholder-count="5">
+<span style="font-size: 12px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">{{sec.title}} · {{sec.count}}</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+<sc-for list="{{sec.items}}" as="r" hint-placeholder-count="6">
+<button type="button" class="tap" onClick="{{r.pick}}" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; min-height: 58px; padding: 8px 10px; box-sizing: border-box; border-radius: 12px; border: {{r.border}}; background: {{r.bg}}; color: #15171C; text-align: left; cursor: pointer; animation: kFadeUp .3s ease both; animation-delay: {{r.delay}};">
+<span style="font-size: 15px; font-weight: 700;">{{r.title}}</span>
+<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: {{r.fg}};"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{r.dot}};"></span>{{r.status}}</span>
+</button>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isMenuTab}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kFadeUp .4s ease both;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<sc-for list="{{menuPages}}" as="mp" hint-placeholder-count="5">
+<button type="button" class="tap" onClick="{{mp.pick}}" style="display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 12px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: left; cursor: pointer; animation: kFadeUp .35s ease both; animation-delay: {{mp.delay}};">
+<span style="flex: none; width: 42px; height: 42px; border-radius: 12px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{mp.d}}"></path></svg></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-weight: 700; font-size: 15px;">{{mp.l}}</span><span style="font-size: 12.5px; color: #5B6270;">{{mp.s}}</span></span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+</button>
+</sc-for>
+</div>
+<sc-for list="{{menuLinks}}" as="sec" hint-placeholder-count="2">
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 6px 14px; display: flex; flex-direction: column;">
+<span style="padding: 10px 0 4px; font-size: 12px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em;">{{sec.title}}</span>
+<sc-for list="{{sec.items}}" as="i" hint-placeholder-count="5">
+<a href="{{i.h}}" class="tap" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; border-top: 1px solid #F0F2F5; color: #15171C; text-decoration: none; font-size: 14.5px;">{{i.l}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+</sc-for>
+</section>
+</sc-for>
+<span style="font-size: 12px; color: #5B6270; text-align: center;">Источник расписания: <a href="http://94.72.18.202:8083" style="color: {{accent}};">94.72.18.202:8083</a></span>
+</div>
+</sc-if>
+
+<sc-if value="{{isHome}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 11.5px; font-weight: 700; color: {{accent}}; text-transform: uppercase; letter-spacing: 0.08em;">ГБУ КО ПОО «КИТиС» · Калининград</span>
+<h1 style="margin: 0; font-size: 24px; line-height: 1.15; font-weight: 700;">Колледж информационных технологий и строительства</h1>
+<p style="margin: 0; font-size: 14px; color: #3A404C;">Веб-разработка, сетевое администрирование, разработка игр, строительство, туризм и рабочие профессии.</p>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+<button type="button" class="tap" onClick="{{openAbitur}}" style="height: 44px; border-radius: 12px; border: 0; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 14px; cursor: pointer;">Абитуриентам</button>
+<button type="button" class="tap" onClick="{{goSchedule}}" style="height: 44px; border-radius: 12px; border: 1px solid #C9CED6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px; cursor: pointer;">Расписание</button>
+</div>
+</section>
+<h2 style="margin: 4px 2px 0; font-size: 17px; font-weight: 700;">Новости</h2>
+<sc-for list="{{news}}" as="n" hint-placeholder-count="4">
+<a href="https://kitis.ru/" style="display: flex; flex-direction: column; gap: 3px; padding: 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; animation: kFadeUp .35s ease both; animation-delay: {{n.delay}};"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{n.date}}</span><span style="font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{n.title}}</span></a>
+</sc-for>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px; font-size: 14px;">
+<h2 style="margin: 0 0 4px; font-size: 16px; font-weight: 700;">Контакты</h2>
+<span>236029, Калининград, ул. Горького, 166</span>
+<a href="tel:+74012916106" style="color: #15171C;">+7 (4012) 91-61-06</a>
+<a href="mailto:info@kitis.ru" style="color: #15171C;">info@kitis.ru</a>
+<a href="https://vk.com/kitis39" style="color: {{accent}}; font-weight: 600;">ВКонтакте</a>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{isAbitur}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h1 style="margin: 0; font-size: 24px; line-height: 1.15; font-weight: 700;">Поступление в КИТиС</h1>
+<p style="margin: 0; font-size: 14px; color: #3A404C;">После 9 и 11 класса. Заявление — лично, почтой или через Госуслуги.</p>
+<a href="https://www.gosuslugi.ru/" style="display: flex; align-items: center; justify-content: center; height: 46px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 14.5px; text-decoration: none;">Подать заявление на Госуслугах</a>
+<button type="button" class="tap" onClick="{{openRegister}}" style="height: 44px; border-radius: 12px; border: 1px solid #C9CED6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px; cursor: pointer;">Регистрация абитуриента</button>
+</section>
+<h2 style="margin: 4px 2px 0; font-size: 17px; font-weight: 700;">Как поступить · 2026</h2>
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="5">
+<div style="display: flex; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; animation: kFadeUp .35s ease both; animation-delay: {{st.delay}};">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{st.bg}}; color: {{st.fg}}; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">{{st.n}}</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="display: flex; justify-content: space-between; gap: 8px;"><span style="font-weight: 700; font-size: 14.5px;">{{st.title}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700; color: #3A404C; white-space: nowrap;">{{st.date}}</span></span><span style="font-size: 13px; color: #5B6270;">{{st.text}}</span></span>
+</div>
+</sc-for>
+<h2 style="margin: 4px 2px 0; font-size: 17px; font-weight: 700;">Специальности и профессии</h2>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 4px 14px;">
+<sc-for list="{{specs}}" as="sp" hint-placeholder-count="10">
+<a href="https://kitis.ru/abitur/specialties/" style="display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid {{sp.line}}; color: #15171C; text-decoration: none;">
+<span style="flex: none; width: 62px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #3A404C;">{{sp.code}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 14px; font-weight: 600;">{{sp.name}}</span><span style="font-size: 12px; color: {{sp.fg}};">{{sp.kind}}</span></span>
+</a>
+</sc-for>
+</section>
+<section style="background: {{accentSoft}}; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 4px; font-size: 14px;">
+<h2 style="margin: 0 0 4px; font-size: 16px; font-weight: 700;">Приёмная комиссия</h2>
+<span>ул. Горького, 166 · пн – ср, 9:00 – 15:00</span>
+<a href="tel:+74012964256" style="color: #15171C;">8 (4012) 96-42-56, доб. 2</a>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{isStudent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 22px; font-weight: 700;">Добрый день, [имя]!</span><span style="font-size: 13px; color: #5B6270;">ИСр24-1 · куратор Шевченко П. С.</span></div>
+<button type="button" class="tap" onClick="{{goSchedule}}" style="display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; border: 0; background: #15171C; color: #FFFFFF; text-align: left; cursor: pointer;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D; animation: kPulse 1.8s ease-out infinite;"></span><span style="flex: 1; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 12px; color: #B9BEC8;">Сейчас 2 пара · ауд. 403</span><span style="font-size: 14px; font-weight: 600;">Проектирование и разработка веб-приложений</span></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;">{{timer}}</span></button>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700;">Изменения в расписании</h2>
+<span style="font-size: 13.5px; color: #3A404C;">На этой неделе изменений нет. Если пару перенесут, уведомление придёт сюда.</span>
+</section>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{studentLinks}}" as="sl" hint-placeholder-count="6">
+<a href="{{sl.h}}" class="tap" style="display: flex; flex-direction: column; gap: 8px; min-height: 92px; padding: 12px; box-sizing: border-box; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; animation: kFadeUp .35s ease both; animation-delay: {{sl.delay}};"><span style="width: 36px; height: 36px; border-radius: 10px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{sl.d}}"></path></svg></span><span style="font-weight: 600; font-size: 13.5px; line-height: 1.25;">{{sl.l}}</span></a>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isTeacher}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
+<div style="display: flex; gap: 12px; align-items: center;"><span style="width: 48px; height: 48px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center;">ГР</span><span style="display: flex; flex-direction: column;"><span style="font-size: 20px; font-weight: 700;">Громов Р. И.</span><span style="font-size: 13px; color: #5B6270;">Кабинет преподавателя</span></span></div>
+<section style="background: #15171C; color: #FFFFFF; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 12px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;">Вы ведёте · 2 пара</span>
+<span style="font-size: 20px; font-weight: 700;">ИСр24-1 · ауд. 403</span>
+<span style="font-size: 13px; color: #B9BEC8;">До конца пары {{timer}} · далее 3 пара в 12:10</span>
+</section>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700;">Мои пары на неделе</h2>
+<sc-for list="{{teacherWeek}}" as="tw" hint-placeholder-count="6">
+<div style="display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: {{tw.bg}}; font-size: 13.5px;"><span style="flex: none; width: 64px; font-weight: 700;">{{tw.day}}</span><span style="flex: 1;">{{tw.n}} пара · {{tw.time}}</span><span style="color: #5B6270;">ИСр24-1</span></div>
+</sc-for>
+<span style="font-size: 12px; color: #5B6270;">Пары в других группах подтянутся со страницы преподавателя на сервере</span>
+</section>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 4px 14px;">
+<sc-for list="{{teacherLinks}}" as="tl" hint-placeholder-count="6">
+<a href="{{tl.h}}" style="display: flex; align-items: center; justify-content: space-between; min-height: 48px; border-bottom: 1px solid {{tl.line}}; color: #15171C; text-decoration: none; font-size: 14.5px;">{{tl.l}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+</sc-for>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{isLogin}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
+<div style="display: flex; flex-direction: column; gap: 4px;"><h1 style="margin: 0; font-size: 26px; font-weight: 700;">Вход</h1><span style="font-size: 13.5px; color: #5B6270;">Один вход для студентов, преподавателей и абитуриентов</span></div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Логин или e-mail<input type="text" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Пароль<input type="password" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
+<button type="button" class="tap" onClick="{{openStudent}}" style="height: 50px; border-radius: 12px; border: 0; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 15px; cursor: pointer;">Войти</button>
+<button type="button" class="tap" onClick="{{openRegister}}" style="height: 48px; border-radius: 12px; border: 1px solid #C9CED6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14.5px; cursor: pointer;">Зарегистрироваться</button>
+<button type="button" class="tap" onClick="{{goSchedule}}" style="height: 44px; border-radius: 12px; border: 0; background: transparent; color: {{accent}}; font-weight: 600; font-size: 14px; cursor: pointer;">Смотреть расписание без входа</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isRegister}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px; animation: kSlideLeft .35s ease both;">
+<div style="display: flex; flex-direction: column; gap: 4px;"><h1 style="margin: 0; font-size: 26px; font-weight: 700;">Регистрация</h1><span style="font-size: 13.5px; color: #5B6270;">Кто вы?</span></div>
+<div role="radiogroup" aria-label="Кто вы" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px;">
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="3">
+<button type="button" role="radio" class="tap" aria-checked="{{r.checked}}" onClick="{{r.pick}}" style="min-height: 48px; border-radius: 12px; border: {{r.border}}; background: {{r.bg}}; color: #15171C; font-weight: 600; font-size: 13px; cursor: pointer;">{{r.label}}</button>
+</sc-for>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">ФИО<input type="text" style="height: 46px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">E-mail<input type="email" style="height: 46px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
+<sc-if value="{{roleStudent}}" hint-placeholder-val="{{ true }}"><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Группа<select style="height: 46px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"><option>СОД25-1</option><option>СОД25-2К</option><option>СОД26-1</option><option>СОД26-2К</option><option>С23-1</option><option>С23-3К</option><option>С23УЗ</option><option>С24-1</option><option>С24-2</option><option>С24-3К</option><option>С24УЗ</option><option>С25-1</option><option>С25-2</option><option>С25-3</option><option>С25-УЗ</option><option>С26-1</option><option>С26-2</option><option>С26-3</option><option>С26-4</option><option>С26-УЗ</option><option>УМД25-1</option><option>УМД26-1</option><option>ИМс24-1</option><option>ИМС25-1</option><option>ИМС26-1</option><option>ИМС26-2</option><option>СА23-1</option><option>СА24-1</option><option>СА24-2</option><option>СА24УЗ</option><option>СА25-1</option><option>СА25-2</option><option>СА25-УЗ</option><option>СА26-1</option><option>СА26-2</option><option>СА26-УЗ</option><option>ИСа23-1</option><option>ИСа24-1</option><option>ИСа25-1</option><option>ИСп23-1</option><option>ИСп23-2К</option><option>ИСп24-1</option><option>ИСп24-2К</option><option>ИСп25-1</option><option selected>ИСр24-1</option><option>ИСр25-1</option><option>ИСс24-1</option><option>ИСс25-1</option><option>ВЕБ26-1</option><option>ВЕБ26-2</option><option>РКИ25-1</option><option>РКИ26-1</option><option>РКИ26-2</option><option>СВ25-1</option><option>СВ25-2К</option><option>СВ26-1</option><option>СВ26-2К</option><option>М25-1</option><option>М26-1</option><option>ТГ26-1К</option></select></label></sc-if>
+<sc-if value="{{roleAbitur}}" hint-placeholder-val="{{ false }}"><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Интересует<select style="height: 46px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 14px; background: #FFFFFF;"><option selected="">09.02.09 Веб-разработка</option><option>09.02.06 Сетевое и системное администрирование</option><option>43.02.16 Туризм и гостеприимство</option><option>Пока не решил(а)</option></select></label></sc-if>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Пароль<input type="password" style="height: 46px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
+<div style="padding: 12px; border-radius: 12px; background: {{accentSoft}}; font-size: 13px; color: #15171C;">{{roleNote}}</div>
+<label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 13.5px; color: #3A404C;"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: {{accent}};">Согласен(на) на обработку персональных данных</label>
+<button type="button" class="tap" onClick="{{submitRegister}}" style="height: 50px; border-radius: 12px; border: 0; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 15px; cursor: pointer;">Зарегистрироваться</button>
+</div>
+</sc-if>
+</div>
+
+<nav aria-label="Главная навигация" style="flex: none; background: #FFFFFF; border-top: 1px solid #E3E6EB; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 6px 4px 14px;">
+<sc-for list="{{bottom}}" as="b" hint-placeholder-count="5">
+<button type="button" class="tap" onClick="{{b.pick}}" aria-current="{{b.current}}" style="min-height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 0; background: transparent; color: {{b.color}}; cursor: pointer; padding: 0;">
+<span style="width: 50px; height: 30px; border-radius: 15px; background: {{b.pill}}; display: flex; align-items: center; justify-content: center; transition: background-color .25s ease;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{b.d}}"></path></svg></span>
+<span style="font-size: 10.5px; font-weight: {{b.weight}}; white-space: nowrap; letter-spacing: -0.01em;">{{b.label}}</span>
+</button>
+</sc-for>
+</nav>
+
+<sc-if value="{{sheetOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end;">
+<button type="button" aria-label="Закрыть" onClick="{{closeSheet}}" style="position: absolute; inset: 0; border: 0; background: rgba(21, 23, 28, 0.45); cursor: pointer; animation: kFade .25s ease both;"></button>
+<section role="dialog" aria-label="{{sheet.title}}" style="position: relative; max-height: 82%; overflow-y: auto; background: #FFFFFF; border-radius: 22px 22px 0 0; padding: 10px 18px 26px; display: flex; flex-direction: column; gap: 10px; animation: kSlideUp .32s cubic-bezier(.2,.8,.2,1) both;">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: #DCE0E6;"></span>
+<div style="display: flex; gap: 12px; align-items: center;">
+<span style="flex: none; min-width: 52px; height: 52px; padding: 0 6px; box-sizing: border-box; border-radius: 26px; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center;">{{sheet.badge}}</span>
+<span style="display: flex; flex-direction: column; line-height: 1.25;"><span style="font-weight: 700; font-size: 18px;">{{sheet.title}}</span><span style="font-size: 13px; color: #5B6270;">{{sheet.sub}}</span></span>
+</div>
+<sc-if value="{{sheet.hasExtra}}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: #3A404C; padding: 10px 12px; border-radius: 10px; background: #F4F5F7;">{{sheet.extra}}</div></sc-if>
+<span style="font-size: 14px; font-weight: 700;">{{sheet.listTitle}}</span>
+<sc-if value="{{sheet.hasWeek}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{sheet.days}}" as="d" hint-placeholder-count="6">
+<div style="display: flex; gap: 10px; padding: 9px 12px; border-radius: 12px; background: {{d.bg}}; animation: kFadeUp .3s ease both; animation-delay: {{d.delay}};">
+<span style="flex: none; width: 50px; font-weight: 700; font-size: 13px;">{{d.label}}</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
+<sc-if value="{{d.empty}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12.5px; color: #5B6270;">{{d.emptyText}}</span></sc-if>
+<sc-for list="{{d.pairs}}" as="p" hint-placeholder-count="1">
+<div style="display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 13px; font-weight: 600; color: {{p.fg}};">{{p.n}} пара · {{p.time}}</span><span style="font-size: 12px; color: #5B6270;">{{p.info}}</span></div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<span style="font-size: 12px; color: #5B6270;">{{sheet.note}}</span>
+</sc-if>
+<sc-if value="{{sheet.noWeek}}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{skeleton}}" as="k" hint-placeholder-count="6">
+<div style="display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 12px; background: #F7F8FA;">
+<span style="flex: none; width: 50px; font-weight: 700; font-size: 13px; color: #5B6270;">{{k.label}}</span>
+<span style="flex: 1; height: 9px; border-radius: 5px; background: #E6E9ED; animation: kShimmer 1.6s ease-in-out infinite; animation-delay: {{k.delay}};"></span>
+</div>
+</sc-for>
+<span style="font-size: 12.5px; color: #3A404C; padding: 10px 12px; border-radius: 10px; background: {{accentSoft}};">{{sheet.note}}</span>
+</sc-if>
+<button type="button" class="tap" onClick="{{closeSheet}}" style="height: 48px; border-radius: 12px; border: 0; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 15px; cursor: pointer;">Закрыть</button>
+</section>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    this._timer = setInterval(() => {
+      const cur = (this.state && this.state.left != null) ? this.state.left : 2292;
+      this.setState({ left: cur <= 1 ? 2292 : cur - 1 });
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._timer);
+  }
+  renderVals() {
+    const s = this.state || {};
+    const accent = this.props.accent ?? '#2D5BE3';
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
+    const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
+    const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
+    const left = s.left != null ? s.left : 2292;
+    const tab = s.tab || 'schedule';
+    const sub = s.sub || 'pairs';
+    const page = s.page || '';
+    const group = s.group || 'ИСр24-1';
+    const day = s.day != null ? s.day : 3;
+    const bellDay = s.bellDay || 'week';
+    const role = s.role || 'student';
+    const sheet = s.sheet || null;
+    const gpre = s.gpre || '';
+    const tl = s.tl || '';
+    const gq = (s.gq || '').trim().toLowerCase();
+    const tq = (s.tq || '').trim().toLowerCase();
+    const set = (o) => () => this.setState(o);
+    const pl = (n, one, few, many) => {
+      const a = Math.abs(n) % 100, b = a % 10;
+      if (a > 10 && a < 20) return many;
+      if (b === 1) return one;
+      if (b >= 2 && b <= 4) return few;
+      return many;
+    };
+    const delay = (i) => (Math.min(i, 12) * 0.035).toFixed(3) + 's';
+    const dayNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+    const dayShort = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    const monTimes = [['09:10', '10:30'], ['10:40', '12:00'], ['12:20', '13:40'], ['13:50', '15:10'], ['16:00', '17:20'], ['17:30', '18:50']];
+    const wkTimes = [['08:30', '10:00'], ['10:10', '11:40'], ['12:10', '13:40'], ['13:50', '15:20'], ['15:30', '17:00'], ['17:10', '18:40']];
+    const timesFor = (d) => d === 0 ? monTimes : wkTimes;
+    const TODAY = 3, NOWP = 2;
+
+    const GROUPS = ['СОД25-1', 'СОД25-2К', 'СОД26-1', 'СОД26-2К', 'С23-1', 'С23-3К', 'С23УЗ', 'С24-1', 'С24-2', 'С24-3К', 'С24УЗ', 'С25-1', 'С25-2', 'С25-3', 'С25-УЗ', 'С26-1', 'С26-2', 'С26-3', 'С26-4', 'С26-УЗ', 'УМД25-1', 'УМД26-1', 'ИМс24-1', 'ИМС25-1', 'ИМС26-1', 'ИМС26-2', 'СА23-1', 'СА24-1', 'СА24-2', 'СА24УЗ', 'СА25-1', 'СА25-2', 'СА25-УЗ', 'СА26-1', 'СА26-2', 'СА26-УЗ', 'ИСа23-1', 'ИСа24-1', 'ИСа25-1', 'ИСп23-1', 'ИСп23-2К', 'ИСп24-1', 'ИСп24-2К', 'ИСп25-1', 'ИСр24-1', 'ИСр25-1', 'ИСс24-1', 'ИСс25-1', 'ВЕБ26-1', 'ВЕБ26-2', 'РКИ25-1', 'РКИ26-1', 'РКИ26-2', 'СВ25-1', 'СВ25-2К', 'СВ26-1', 'СВ26-2К', 'М25-1', 'М26-1', 'ТГ26-1К'];
+    const TEACHERS = ['Андрийченко В. А.', 'Анчиков А. И.', 'Баденкова Ю. А.', 'Богачёв В. И.', 'Борисов А. В.', 'Брускина Н. И.', 'Волошин Р. Н.', 'Голованова Н. С.', 'Голота Ю. А.', 'Гребенник В. С.', 'Григорян Н. А.', 'Гришина С. В.', 'Громов Р. И.', 'Дайлида В. К.', 'Досаева А. А.', 'Дрёмов А. В.', 'Евстафиева Т. В.', 'Егорова И. И.', 'Ефремов И. А.', 'Журбицкая А. М.', 'Журский Р. Д.', 'Зуев В. М.', 'Иванов Д. С.', 'Казакова Н. Н.', 'Каминская Е. В.', 'Кибиц Д. Н.', 'Кирьянова Я. В.', 'Кислова Н. В.', 'Ковалёва О. Р.', 'Коваль Е. Н.', 'Кожевникова Д. О.', 'Коленда Е. Р.', 'Колошко Е. А.', 'Корнева М. И.', 'Котельников А. М.', 'Краснощекова В. В.', 'Кривуля М. А.', 'Кривцун А. А.', 'Кузнецова Т. А.', 'Куприянова А. П.', 'Лебедева А. В.', 'Леонова А. Е.', 'Линник О. В.', 'Максимова Н. А.', 'Минбулатова И. Г.', 'Молите Д. А.', 'Морылёв К. С.', 'Непочатых А. В.', 'Одегов С. Ю.', 'Письменчук М. А.', 'Плешков В. М.', 'Подгорных О. А.', 'Подтяжкин В. Д.', 'Позднякова Г. А.', 'Пронин И. А.', 'Разумова А. М.', 'Рыбачек А. А.', 'Савило С. Ф.', 'Садовская А. А.', 'Садыков Т. А.', 'Сергиеня Д. Д.', 'Смирнов И. А.', 'Спирин В. В.', 'Сычугова Д. Д.', 'Трифонова А. Ю.', 'Тютюнова Е. В.', 'Ушкина Т. А.', 'Федоренко М. В.', 'Федосов А. В.', 'Хмеленко В. В.', 'Хорунжий Д. Г.', 'Храмов С. С.', 'Чертищев В. А.', 'Шадрина О. А.', 'Шаройкина Т. Я.', 'Шевченко П. С.', 'Ширяева Н. С.'];
+    const ROOMS = ['104', '105', '105м', '108м', '109м', '111', '112', '201', '201м', '202', '202м', '203', '203м', '204', '204м', '206м', '207', '207м', '208м', '209м', '210м', '213м', '301/1', '301/2', '302', '303', '304', '307', '308', '309', '401/1', '401/2', '402', '403', '404', '407', '409', 'Акт.зал', 'Библ.1', 'Библиотека', 'Малый зал', 'Свар.маст', 'Сп. зал 1', 'Сп. зал 2', 'Сп. зал 3', 'Стол.маст'];
+    const INFO = {
+      'Шевченко П. С.': ['Шевченко Полина Сергеевна', 'Преподаватель · куратор ИСр24-1', '09.02.06, 09.02.07 (разработчик), 08.02.01'],
+      'Молите Д. А.': ['Молите Дарья Андреевна', 'Преподаватель', ''],
+      'Храмов С. С.': ['Храмов Станислав Семенович', 'Преподаватель', '09.02.06, 09.02.07 (разработчик)'],
+      'Котельников А. М.': ['Котельников Алексей Михайлович', 'Преподаватель', ''],
+      'Андрийченко В. А.': ['Андрийченко Виктория Александровна', 'Преподаватель', '08.02.14, 09.02.06, 09.02.07 (разработчик), 08.02.01, 08.01.28'],
+      'Чертищев В. А.': ['Чертищев Владимир Александрович', 'Руководитель физического воспитания', '09.02.06, 09.02.07 (разработчик), 08.02.01']
+    };
+    const S = {
+      rov: 'Разговоры о важном', gd: 'Графический дизайн и мультимедиа', bzh: 'Безопасность жизнедеятельности',
+      opt: 'Оптимизация веб-приложений', sec: 'Обеспечение безопасности веб-приложений', econ: 'Экономика отрасли',
+      pe: 'Физическая культура', law: 'Правовое обеспечение профессиональной деятельности',
+      web: 'Проектирование и разработка веб-приложений', up: 'Учебная практика 08'
+    };
+    const L = (n, subj, room, teacher) => ({ n: n, subj: subj, room: room, teacher: teacher });
+    const week = [
+      [L(1, S.rov, '203', 'Шевченко П. С.'), L(2, S.gd, '', 'Морылёв К. С.'), L(3, S.gd, '', 'Морылёв К. С.')],
+      [L(1, S.bzh, '201', 'Котельников А. М.'), L(2, S.bzh, '201', 'Котельников А. М.'), L(3, S.opt, '401/2', 'Молите Д. А.'), L(4, S.sec, '301/1', 'Храмов С. С.')],
+      [L(1, S.gd, '', 'Морылёв К. С.'), L(2, S.econ, 'Малый зал', 'Брускина Н. И.'), L(3, S.pe, 'Сп. зал 3', 'Чертищев В. А.'), L(4, S.sec, '301/1', 'Храмов С. С.'), L(5, S.law, '202', 'Андрийченко В. А.')],
+      [L(1, S.web, '403', 'Громов Р. И.'), L(2, S.web, '403', 'Громов Р. И.'), L(3, S.web, '403', 'Громов Р. И.')],
+      [L(4, S.web, '403', 'Громов Р. И.'), L(5, S.web, '403', 'Громов Р. И.'), L(6, S.web, '403', 'Громов Р. И.')],
+      [L(1, S.up, '403', 'Морылёв К. С.'), L(2, S.up, '403', 'Морылёв К. С.'), L(3, S.up, '403', 'Морылёв К. С.')]
+    ];
+    const flat = [];
+    week.forEach((d, di) => d.forEach((l) => flat.push(Object.assign({ d: di }, l))));
+    const isNow = (l) => l.d === TODAY && l.n === NOWP;
+    const fmtRoom = (x) => !x ? '' : (/^\d/.test(x) ? 'ауд. ' + x : x);
+    const roomTitle = (x) => /^\d/.test(x) ? 'Аудитория ' + x : x;
+    const iniOf = (name) => { const p = name.split(' '); return (p[0] || '').charAt(0) + (p[1] || '').charAt(0); };
+    const hasData = group === 'ИСр24-1';
+    const timer = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0');
+    const progress = ((5400 - left) / 5400 * 100).toFixed(1);
+
+    const subs = [['pairs', 'Пары'], ['bells', 'Звонки'], ['results', 'Итоги']].map((x) => {
+      const on = x[0] === sub;
+      return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', weight: on ? 700 : 500, shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.12)' : 'none', pick: set({ sub: x[0] }) };
+    });
+
+    const dayPills = dayShort.map((d, i) => {
+      const on = i === day;
+      const cnt = hasData ? week[i].length : 0;
+      return {
+        short: i === TODAY ? 'Сег.' : d, num: 9 + i, count: cnt ? cnt + ' ' + pl(cnt, 'пара', 'пары', 'пар') : '—',
+        selected: on ? 'true' : 'false', bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C',
+        border: on ? accent : (i === TODAY ? accent : '#E3E6EB'), pick: set({ day: i })
+      };
+    });
+    const times = timesFor(day);
+    const dayLessons = !hasData ? [] : week[day].map((l, k) => {
+      const now = day === TODAY && l.n === NOWP;
+      return {
+        n: l.n, start: times[l.n - 1][0], end: times[l.n - 1][1], subject: l.subj, teacher: l.teacher,
+        room: fmtRoom(l.room), hasRoom: !!l.room, now: now,
+        bg: now ? '#FFF4EA' : '#FFFFFF', border: now ? '#F5C9A6' : '#E3E6EB',
+        numBg: now ? '#B4530F' : '#F1F3F6', numFg: now ? '#FFFFFF' : '#15171C', delay: delay(k),
+        openTeacher: set({ sheet: { type: 't', key: l.teacher } }),
+        openRoom: set({ sheet: { type: 'r', key: l.room } })
+      };
+    });
+    const dc = dayLessons.length;
+
+    const pairRow = (i, t, now) => ({ isPair: true, isEvent: false, isBreak: false, n: i + 1, time: t[0] + ' – ' + t[1], label: '', now: now, bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : '#F1F3F6', numFg: now ? '#FFFFFF' : '#15171C' });
+    const eventRow = (label, time) => ({ isPair: false, isEvent: true, isBreak: false, n: '', time: time, label: label, now: false, bg: '', numBg: '', numFg: '' });
+    const breakRow = (label) => ({ isPair: false, isEvent: false, isBreak: true, n: '', time: '', label: label, now: false, bg: '', numBg: '', numFg: '' });
+    let bells;
+    if (bellDay === 'mon') {
+      bells = [eventRow('Подъём флага', '08:15 – 08:25'), breakRow('5 мин'), eventRow('Кураторский час', '08:30 – 09:00'), breakRow('10 мин'),
+        pairRow(0, monTimes[0], false), breakRow('10 мин'), pairRow(1, monTimes[1], false), breakRow('20 мин'),
+        pairRow(2, monTimes[2], false), breakRow('10 мин'), pairRow(3, monTimes[3], false), breakRow('10 мин'),
+        eventRow('Кураторский час', '15:20 – 15:50'), breakRow('10 мин'), pairRow(4, monTimes[4], false), breakRow('10 мин'), pairRow(5, monTimes[5], false)];
+    } else {
+      const br = ['перемена 10 мин', 'перемена 30 мин', 'перемена 10 мин', 'перемена 10 мин', 'перемена 10 мин'];
+      bells = [];
+      wkTimes.forEach((t, i) => { bells.push(pairRow(i, t, i === 1)); if (i < br.length) bells.push(breakRow(br[i])); });
+    }
+    bells = bells.map((b, i) => Object.assign(b, { delay: delay(i) }));
+    const bellTabs = [['mon', 'Понедельник'], ['week', 'Вт – Сб']].map((x) => {
+      const on = x[0] === bellDay;
+      return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ bellDay: x[0] }) };
+    });
+
+    const countBy = (key) => {
+      const map = {};
+      flat.forEach((l) => { map[l[key]] = (map[l[key]] || 0) + 1; });
+      return Object.keys(map).map((k) => [k, map[k]]).sort((a, b) => b[1] - a[1]);
+    };
+    const subjCounts = countBy('subj');
+    const maxS = subjCounts.length ? subjCounts[0][1] : 1;
+    const bySubj = subjCounts.map((x, i) => ({ label: x[0], value: x[1] + ' ' + pl(x[1], 'пара', 'пары', 'пар'), pct: Math.round(x[1] / maxS * 100), delay: delay(i) }));
+    const tCount = countBy('teacher').length;
+    const stats = [
+      [flat.length, pl(flat.length, 'пара на неделе', 'пары на неделе', 'пар на неделе'), accent],
+      [6, 'учебных дней', '#15171C'],
+      [subjCounts.length, pl(subjCounts.length, 'дисциплина', 'дисциплины', 'дисциплин'), '#15171C'],
+      [tCount, pl(tCount, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
+    ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
+
+    const prefixOf = (g) => { const mm = /^[^\d]+/.exec(g); return mm ? mm[0] : g; };
+    const fams = {}, famOrder = [];
+    GROUPS.forEach((g) => {
+      const p = prefixOf(g), k = p.toUpperCase();
+      if (!fams[k]) { fams[k] = { forms: {}, items: [] }; famOrder.push(k); }
+      fams[k].forms[p] = (fams[k].forms[p] || 0) + 1;
+      fams[k].items.push(g);
+    });
+    const famLabel = (k) => { const f = fams[k].forms; return Object.keys(f).sort((a, b) => f[b] - f[a])[0]; };
+    const prefixChips = [{ k: '', label: 'Все', count: GROUPS.length }].concat(famOrder.map((k) => ({ k: k, label: famLabel(k), count: fams[k].items.length }))).map((c) => {
+      const on = c.k === gpre;
+      return { label: c.label, count: c.count, pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ gpre: c.k }) };
+    });
+    let gi = 0, shownGroups = 0;
+    const groupSections = famOrder.filter((k) => !gpre || k === gpre).map((k) => {
+      const items = fams[k].items.filter((g) => !gq || g.toLowerCase().indexOf(gq) >= 0).map((code) => {
+        const on = code === group;
+        const it = { code: code, meta: code === 'ИСр24-1' ? 'есть расписание' : (on ? 'открыта' : 'открыть'), border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF', pick: set({ group: code, tab: 'schedule', sub: 'pairs', page: '' }), delay: delay(gi) };
+        gi += 1;
+        return it;
+      });
+      shownGroups += items.length;
+      return { title: famLabel(k), count: items.length, items: items };
+    }).filter((sec) => sec.items.length > 0);
+
+    const teacherAll = TEACHERS.map((name) => {
+      const pairs = flat.filter((l) => l.teacher === name);
+      const sb = [];
+      pairs.forEach((l) => { if (sb.indexOf(l.subj) < 0) sb.push(l.subj); });
+      return { key: name, info: INFO[name], subs: sb, has: pairs.length > 0, busy: pairs.some(isNow) };
+    });
+    const letters = [];
+    TEACHERS.forEach((n) => { const c = n.charAt(0); if (letters.indexOf(c) < 0) letters.push(c); });
+    const letterChips = [''].concat(letters).map((c) => {
+      const on = c === tl;
+      return { label: c || 'Все', pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ tl: c }) };
+    });
+    let tk = 0;
+    const teacherList = teacherAll.filter((t) => (!tl || t.key.charAt(0) === tl) && (!tq || t.key.toLowerCase().indexOf(tq) >= 0)).map((t) => {
+      const it = { name: t.key, ini: iniOf(t.key), sub: t.busy ? 'Сейчас на паре · ауд. 403' : t.subs.join(', '), hasSub: t.has, busy: t.busy, pick: set({ sheet: { type: 't', key: t.key } }), delay: delay(tk) };
+      tk += 1;
+      return it;
+    });
+
+    const roomSecs = {}, roomOrder = [];
+    ROOMS.forEach((r) => { const k = /^\d/.test(r) ? r.charAt(0) : 'x'; if (!roomSecs[k]) { roomSecs[k] = []; roomOrder.push(k); } roomSecs[k].push(r); });
+    let rk = 0;
+    const roomSections = roomOrder.map((k) => {
+      const list = roomSecs[k];
+      return {
+        title: k === 'x' ? 'Залы и мастерские' : list[0] + ' – ' + list[list.length - 1], count: list.length,
+        items: list.map((r) => {
+          const uses = flat.filter((l) => l.room === r);
+          const busy = uses.some(isNow);
+          const it = {
+            title: r, status: busy ? 'занята' : (uses.length ? 'есть ИСр24-1' : 'на сервере'),
+            dot: busy ? '#E06A1B' : (uses.length ? accent : '#C9CED6'), fg: busy ? '#9A4410' : '#5B6270',
+            border: busy ? '1px solid #F5C9A6' : '1px solid #E3E6EB', bg: busy ? '#FFF4EA' : '#FFFFFF',
+            pick: set({ sheet: { type: 'r', key: r } }), delay: delay(rk)
+          };
+          rk += 1;
+          return it;
+        })
+      };
+    });
+
+    const weekOf = (pred, infoFn, emptyText) => dayShort.map((ds, di) => {
+      const pairs = flat.filter((l) => l.d === di && pred(l)).map((l) => ({ n: l.n, time: timesFor(di)[l.n - 1].join(' – '), info: infoFn(l), fg: isNow(l) ? '#9A4410' : '#15171C' }));
+      return { label: ds + ', ' + (9 + di), pairs: pairs, empty: pairs.length === 0, emptyText: emptyText, bg: di === TODAY ? accentSoft : '#F7F8FA', delay: delay(di) };
+    });
+    const skeleton = dayShort.map((ds, di) => ({ label: ds + ', ' + (9 + di), delay: (di * 0.12).toFixed(2) + 's' }));
+    let sheetData = { title: '', sub: '', badge: '', extra: '', hasExtra: false, listTitle: '', hasWeek: false, noWeek: false, days: [], note: '' };
+    if (sheet && sheet.type === 't') {
+      const t = teacherAll.find((x) => x.key === sheet.key);
+      if (t) {
+        sheetData = {
+          title: t.info ? t.info[0] : t.key, sub: t.info ? t.info[1] : 'Должность на kitis.ru не указана', badge: iniOf(t.key),
+          extra: t.info && t.info[2] ? 'Программы: ' + t.info[2] : '', hasExtra: !!(t.info && t.info[2]),
+          listTitle: 'Пары на неделю · 9 – 14 ноября', hasWeek: t.has, noWeek: !t.has,
+          days: weekOf((l) => l.teacher === t.key, (l) => 'ИСр24-1 · ' + l.subj + ' · ' + (l.room ? fmtRoom(l.room) : 'ауд. не указана'), 'Нет пар с ИСр24-1'),
+          note: t.has ? 'Показаны пары с ИСр24-1. Пары в других группах подтянутся со страницы преподавателя на сервере.' : 'Пары на неделю загрузятся со страницы преподавателя на сервере расписания.'
+        };
+      }
+    } else if (sheet && sheet.type === 'r') {
+      const key = sheet.key;
+      const uses = flat.filter((l) => l.room === key);
+      const busy = uses.some(isNow);
+      sheetData = {
+        title: roomTitle(key), sub: busy ? 'Сейчас занята · 2 пара ИСр24-1' : (uses.length ? 'Сейчас пар ИСр24-1 нет' : 'Расписание аудитории — на сервере'),
+        badge: /^\d/.test(key) ? key : key.slice(0, 3), extra: '', hasExtra: false,
+        listTitle: 'Занятость на неделю · 9 – 14 ноября', hasWeek: uses.length > 0, noWeek: uses.length === 0,
+        days: weekOf((l) => l.room === key, (l) => 'ИСр24-1 · ' + l.subj + ' · ' + l.teacher, 'Нет пар ИСр24-1'),
+        note: uses.length ? 'Показаны пары ИСр24-1. Остальные группы подтянутся со страницы аудитории на сервере.' : 'Занятость на неделю загрузится со страницы аудитории на сервере расписания.'
+      };
+    }
+
+    const I = {
+      cal: 'M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM16 2v4M8 2v4M3 10h18',
+      users: 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2',
+      user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6',
+      door: 'M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01',
+      menu: 'M4 6h16M4 12h16M4 18h16',
+      home: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
+      plus: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6',
+      cap: 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5',
+      board: 'M3 4h18v12H3zM12 16v4M8 20h8M7 12l3-3 3 2 4-4',
+      key: 'M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3',
+      doc: 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6',
+      laptop: 'M4 5h16v11H4zM2 20h20',
+      book: 'M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h11',
+      chart: 'M3 3v18h18M7 15l4-4 3 3 5-6'
+    };
+    const bottomDefs = [['schedule', 'Расписание', I.cal], ['groups', 'Группы', I.users], ['teachers', 'Преподаватели', I.user], ['rooms', 'Аудитории', I.door], ['menu', 'Меню', I.menu]];
+    const bottom = bottomDefs.map((x) => {
+      const on = x[0] === tab;
+      return { label: x[1], d: x[2], current: on ? 'page' : 'false', color: on ? accent : '#5B6270', pill: on ? accentSoft : 'transparent', weight: on ? 700 : 500, pick: set({ tab: x[0], page: '', sheet: null }) };
+    });
+
+    const menuPages = [
+      ['home', 'Главная колледжа', 'Новости и контакты', I.home],
+      ['abitur', 'Абитуриентам', 'Специальности, приём, документы', I.plus],
+      ['student', 'Кабинет студента', 'Справки, дистант, изменения', I.cap],
+      ['teacher', 'Кабинет преподавателя', 'Мои пары и материалы', I.board],
+      ['login', 'Вход и регистрация', 'Одна учётная запись для всех', I.key]
+    ].map((x, i) => ({ l: x[1], s: x[2], d: x[3], pick: set({ page: x[0] }), delay: delay(i) }));
+    const K = 'https://kitis.ru/';
+    const menuLinks = [
+      { title: 'О колледже', items: [['История', 'https://kitis.ru/life/history/'], ['Медиацентр', K], ['Выпускникам и Центр карьеры', K], ['Профессионалитет', K], ['УПК', K], ['БЦК', K], ['Дистанционное обучение', 'https://kitis.ru/distance/'], ['Курсы', K], ['Профессиональные конкурсы', K]] },
+      { title: 'Официально', items: [['Сведения об образовательной организации', 'https://kitis.ru/sveden/'], ['Обращения', K], ['Противодействие коррупции', K], ['Комплексная безопасность', K], ['Антитеррористическая защищённость', K], ['Информационная безопасность', K], ['БПОО', K], ['Закупки', K], ['Образовательный кредит в СПО', K]] }
+    ].map((sec) => ({ title: sec.title, items: sec.items.map((x) => ({ l: x[0], h: x[1] })) }));
+
+    const news = [['03.11.2026', 'Гордимся: награды талантливым студенткам КИТиСа'], ['02.11.2026', 'Разговоры о важном ко Дню народного единства'], ['02.11.2026', 'Лекция «Образ будущего России» в КИТиСе'], ['31.10.2026', 'Волейболистки КИТиСа на областных соревнованиях']].map((x, i) => ({ date: x[0], title: x[1], delay: delay(i) }));
+    const steps = [
+      ['Выберите программы', '', 'После 9 класса — до трёх, после 11 — до пяти'],
+      ['Подайте заявление', '20.06–15.08', 'Лично, почтой или через Госуслуги'],
+      ['Следите за рейтингом', 'с 5.08', 'По среднему баллу профильных предметов'],
+      ['Принесите оригиналы', 'до 19.08', 'Аттестат и медицинская справка'],
+      ['Зачисление', 'после 19.08', 'Только с оригиналом аттестата']
+    ].map((x, i) => ({ n: i + 1, title: x[0], date: x[1], text: x[2], bg: i === 0 ? accent : accentSoft, fg: i === 0 ? '#FFFFFF' : accent, delay: delay(i) }));
+    const specs = [
+      ['43.02.16', 'Туризм и гостеприимство'], ['09.02.09', 'Веб-разработка'], ['09.02.10', 'Разработка компьютерных игр, дополненной и виртуальной реальности'],
+      ['08.02.15', 'Информационное моделирование в строительстве'], ['09.02.06', 'Сетевое и системное администрирование'], ['08.02.01', 'Строительство и эксплуатация зданий и сооружений'],
+      ['08.02.14', 'Эксплуатация и обслуживание многоквартирного дома'], ['15.01.05', 'Сварщик (ручной и частично механизированной сварки (наплавки))'],
+      ['08.01.28', 'Мастер отделочных строительных и декоративных работ'], ['35.01.28', 'Мастер столярного и мебельного производства']
+    ].map((x, i, arr) => {
+      const prof = x[0].slice(3, 5) === '01';
+      return { code: x[0], name: x[1], kind: prof ? 'Профессия' : 'Специальность', fg: prof ? '#1C6B47' : '#1F46B8', line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' };
+    });
+    const studentLinks = [
+      ['Заказ справки', I.doc, 'https://kitis.ru/students/training-part/'], ['Дистанционное обучение', I.laptop, 'https://kitis.ru/students/distance-learning/'],
+      ['Дневник «Моя школа»', I.book, K], ['Учебные материалы', I.book, 'https://kitis.ru/students/educational-materials/'],
+      ['ГИА', I.cap, 'https://kitis.ru/students/gia/'], ['Графики аттестаций', I.chart, 'https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/']
+    ].map((x, i) => ({ l: x[0], d: x[1], h: x[2], delay: delay(i) }));
+    const teacherWeek = flat.filter((l) => l.teacher === 'Громов Р. И.').map((l) => ({ day: dayShort[l.d] + ', ' + (9 + l.d), n: l.n, time: timesFor(l.d)[l.n - 1].join(' – '), bg: isNow(l) ? '#FFF4EA' : '#F7F8FA' }));
+    const teacherLinks = [['Методические материалы', 'https://kitis.ru/teachers/docs/'], ['Аттестации', 'https://kitis.ru/teachers/attestation/'], ['Учебно-методическая работа', 'https://kitis.ru/teachers/educational-methodical-work/'], ['Воспитательная работа', 'https://kitis.ru/teachers/educational-work/'], ['Объявления', 'https://kitis.ru/teachers/announcing/'], ['Снижение бюрократической нагрузки', 'https://kitis.ru/teachers/snizheniye-byurokraticheskoy-nagruzki/']].map((x, i, arr) => ({ l: x[0], h: x[1], line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' }));
+    const roleDefs = [['student', 'Студент', 'Аккаунт подтвердит куратор группы (у ИСр24-1 — Шевченко П. С.).', 'student'], ['teacher', 'Преподаватель', 'ФИО сверят со списком преподавателей в расписании, учётную запись подтвердит учебная часть.', 'teacher'], ['abitur', 'Абитуриент', 'Подтверждение не нужно: придёт письмо, а новости приёма будут на почте.', 'abitur']];
+    let roleNote = roleDefs[0][2], roleTarget = 'student';
+    const roles = roleDefs.map((x) => {
+      const on = x[0] === role;
+      if (on) { roleNote = x[2]; roleTarget = x[3]; }
+      return { label: x[1], checked: on ? 'true' : 'false', border: on ? '2px solid ' + accent : '1px solid #DCE0E6', bg: on ? accentSoft : '#FFFFFF', pick: set({ role: x[0] }) };
+    });
+    const groupOptions = GROUPS.map((g) => ({ code: g, selected: g === 'ИСр24-1' }));
+
+    const pageTitles = { home: ['Главная колледжа', 'kitis.ru'], abitur: ['Абитуриентам', 'Приём 2026'], student: ['Кабинет студента', 'ИСр24-1'], teacher: ['Кабинет преподавателя', 'Громов Р. И.'], login: ['Вход', 'Личный кабинет'], register: ['Регистрация', 'Личный кабинет'] };
+    const tabTitles = { schedule: ['Расписание', group + ' · чт, 12 ноября'], groups: ['Группы', GROUPS.length + ' групп'], teachers: ['Преподаватели', TEACHERS.length + ' преподавателей'], rooms: ['Аудитории', ROOMS.length + ' аудиторий'], menu: ['Меню', 'Всё, что не про расписание'] };
+    const tt = page ? pageTitles[page] : tabTitles[tab];
+
+    return {
+      accent: accent, accentSoft: accentSoft, timer: timer, progress: progress, group: group, hasData: hasData, noData: !hasData,
+      groupCaption: hasData ? 'Группа · куратор Шевченко П. С.' : 'Группа · пары подтянутся с сервера',
+      title: tt[0], subtitle: tt[1], hasPage: !!page, noPage: !page,
+      isScheduleTab: !page && tab === 'schedule',
+      isPairs: !page && tab === 'schedule' && sub === 'pairs',
+      isBellsSub: !page && tab === 'schedule' && sub === 'bells',
+      isResultsSub: !page && tab === 'schedule' && sub === 'results',
+      isGroupsTab: !page && tab === 'groups', isTeachersTab: !page && tab === 'teachers', isRoomsTab: !page && tab === 'rooms', isMenuTab: !page && tab === 'menu',
+      isHome: page === 'home', isAbitur: page === 'abitur', isStudent: page === 'student', isTeacher: page === 'teacher', isLogin: page === 'login', isRegister: page === 'register',
+      subs: subs, dayPills: dayPills, dayLessons: dayLessons,
+      dayTitle: dayNames[day] + ', ' + (9 + day) + ' ноября', dayCount: dc ? dc + ' ' + pl(dc, 'пара', 'пары', 'пар') : '',
+      dayNote: hasData && day === 0, dayEmpty: dc === 0, dayEmptyText: hasData ? 'В этот день пар нет' : 'Расписание группы подтянется с сервера',
+      bells: bells, bellTabs: bellTabs, bellNote: bellDay === 'mon' ? 'Кураторский день · пара 1 ч 20 мин' : 'Вторник – суббота · пара 1 ч 30 мин',
+      stats: stats, bySubj: bySubj,
+      prefixChips: prefixChips, groupSections: groupSections, noGroups: shownGroups === 0,
+      letterChips: letterChips, teacherList: teacherList, noTeachers: teacherList.length === 0,
+      teacherCount: teacherList.length + ' ' + pl(teacherList.length, 'преподаватель', 'преподавателя', 'преподавателей') + ' · ещё 2 строки «Вакансия» скрыты',
+      roomSections: roomSections, roomsTotal: ROOMS.length, skeleton: skeleton,
+      sheetOpen: !!sheet && !!sheetData.title, sheet: sheetData, closeSheet: set({ sheet: null }),
+      bottom: bottom, menuPages: menuPages, menuLinks: menuLinks,
+      news: news, steps: steps, specs: specs, studentLinks: studentLinks, teacherWeek: teacherWeek, teacherLinks: teacherLinks,
+      roles: roles, roleNote: roleNote, roleStudent: role === 'student', roleAbitur: role === 'abitur', groupOptions: groupOptions,
+      goBack: set({ page: page === 'register' ? 'login' : '', tab: 'menu' }),
+      goGroups: set({ tab: 'groups', page: '', sheet: null }),
+      goSchedule: set({ tab: 'schedule', sub: 'pairs', page: '' }),
+      openAbitur: set({ page: 'abitur' }), openRegister: set({ page: 'register' }), openStudent: set({ page: 'student' }),
+      submitRegister: set({ page: roleTarget }),
+      onGq: (e) => this.setState({ gq: e && e.target ? e.target.value : '' }),
+      onTq: (e) => this.setState({ tq: e && e.target ? e.target.value : '' })
+    };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>

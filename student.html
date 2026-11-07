@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Кабинет студента</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Кабинет студента.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div id="top" style="min-height: 100vh; background: #F4F5F7; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 12px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;">
+<a href="home.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #15171C;">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px;">К</span>
+<span style="display: flex; flex-direction: column; line-height: 1.15;"><span style="font-weight: 700; font-size: 20px; letter-spacing: -0.01em;">КИТиС</span><span style="font-size: 11.5px; color: #5B6270; max-width: 210px;">Колледж информационных технологий и строительства</span></span>
+</a>
+<nav aria-label="Расписание" style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 4px;">
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Расписание</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Группы</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Преподаватели</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Аудитории</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Звонки</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Итоги</a>
+<a href="desktop.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: 14.5px; text-decoration: none; background: #15171C; color: #FFFFFF;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Меню</a>
+</nav>
+<button type="button" aria-label="Уведомления" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"></path><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg></button>
+<a href="login.html" style="display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 12px 0 4px; border-radius: 12px; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; font-weight: 600; font-size: 14px;"><span style="width: 36px; height: 36px; border-radius: 9px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg></span>[Имя студента]</a>
+</div>
+</header>
+
+<main style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 28px clamp(16px, 3vw, 32px) 48px; display: flex; flex-direction: column; gap: 20px; flex: 1;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Добрый день, [имя]!</h1>
+<p style="margin: 0; color: #5B6270;">Студент · ИСр24-1 · куратор Шевченко П. С. · четверг, 12 ноября</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<a href="desktop.html" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 12px; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>Расписание на неделю</a>
+<a href="#services" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">Заказ справки в учебной части</a>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<div style="flex: 999 1 620px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section aria-label="Текущая пара" style="background: #15171C; color: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px;">
+<div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 6px;">
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D;"></span>Сейчас · 2 пара</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 60px; font-weight: 700; line-height: 0.95; letter-spacing: -0.04em;">38:12</span>
+<span style="font-size: 13.5px; color: #B9BEC8;">до конца пары · 10:10 – 11:40</span>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+<div aria-hidden="true" style="height: 6px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: 57.6%; background: #FF8A3D; border-radius: 3px;"></div></div>
+<span style="font-size: 20px; font-weight: 600; line-height: 1.3;">Проектирование и разработка веб-приложений</span>
+<span style="font-size: 14px; color: #B9BEC8;">Громов Р. И. · ауд. 403 · следующая пара в 12:10 там же</span>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 8px 20px 12px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 0 6px;">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700;">Сегодня</h2>
+<a href="desktop.html" style="font-size: 14px; font-weight: 600; color: {{accent}}; text-decoration: none;">Вся неделя</a>
+</div>
+<sc-for list="{{today}}" as="l" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 0; border-top: 1px solid #EEF0F3;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{l.numBg}}; color: {{l.numFg}}; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">{{l.n}}</span>
+<span style="flex: none; width: 112px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #3A404C;">{{l.time}}</span>
+<span style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;">
+<span style="font-weight: 600; font-size: 15px;">{{l.subject}}</span>
+<span style="font-size: 13px; color: #5B6270;">{{l.meta}}</span>
+</span>
+<span style="flex: none; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 7px; background: {{l.chipBg}}; color: {{l.chipFg}};">{{l.state}}</span>
+</div>
+</sc-for>
+</section>
+</div>
+
+<aside style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700;">Изменения в расписании</h2>
+<div style="display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: 12px; background: #F4F5F7;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1C6B47" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+<span style="font-size: 14px;">На этой неделе изменений нет</span>
+</div>
+<span style="font-size: 12.5px; color: #5B6270;">Если пару перенесут или поставят другого преподавателя, уведомление появится здесь и придёт на почту.</span>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0 0 4px; font-size: 18px; font-weight: 700;">Избранное</h2>
+<a href="desktop.html" style="display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 10px; background: {{accentSoft}}; color: #15171C; text-decoration: none; font-size: 14px;"><span style="font-weight: 600;">ИСр24-1</span><span style="color: #5B6270;">моя группа</span></a>
+<a href="desktop.html" style="display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 10px; color: #15171C; text-decoration: none; font-size: 14px;"><span style="font-weight: 600;">Шевченко П. С.</span><span style="color: #5B6270;">куратор</span></a>
+<a href="desktop.html" style="display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 10px; color: #15171C; text-decoration: none; font-size: 14px;"><span style="font-weight: 600;">Аудитория 403</span><span style="color: #5B6270;">сегодня 1 – 3 пара</span></a>
+</section>
+</aside>
+</div>
+
+<section id="services" style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+<h2 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Учёба и документы</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+<sc-for list="{{services}}" as="s" hint-placeholder-count="8">
+<a href="{{s.h}}" style="display: flex; gap: 14px; align-items: center; padding: 16px; min-height: 76px; box-sizing: border-box; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="flex: none; width: 42px; height: 42px; border-radius: 12px; background: {{s.bg}}; color: {{s.fg}}; display: flex; align-items: center; justify-content: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{s.d}}"></path></svg></span>
+<span style="font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{s.l}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+<h2 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Новости колледжа</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+<a href="home.html" style="display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">03.11.2026</span><span style="font-weight: 600; font-size: 15px;">Гордимся: награды талантливым студенткам КИТиСа</span></a>
+<a href="home.html" style="display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">02.11.2026</span><span style="font-weight: 600; font-size: 15px;">Разговоры о важном ко Дню народного единства</span></a>
+<a href="home.html" style="display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">31.10.2026</span><span style="font-weight: 600; font-size: 15px;">Волейболистки КИТиСа на областных соревнованиях</span></a>
+</div>
+</section>
+</main>
+
+<footer style="background: #15171C; color: #C5CAD3; font-size: 13px;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 20px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;">
+<span>ГБУ КО ПОО «КИТиС» · Калининград, ул. Горького, 166 · <a href="tel:+74012916106" style="color: #FFFFFF;">+7 (4012) 91-61-06</a></span>
+<span>Источник расписания: <a href="http://94.72.18.202:8083" style="color: #FFFFFF; font-weight: 600;">http://94.72.18.202:8083</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#2D5BE3';
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
+    const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
+    const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
+    const states = {
+      done: { label: 'Прошла', bg: '#F1F3F6', fg: '#5B6270', numBg: '#F1F3F6', numFg: '#5B6270' },
+      now: { label: 'Идёт · 38 мин', bg: '#FFE6D3', fg: '#9A4410', numBg: '#B4530F', numFg: '#FFFFFF' },
+      next: { label: 'Через 1 ч 8 мин', bg: accentSoft, fg: accent, numBg: accentSoft, numFg: accent }
+    };
+    const today = [
+      [1, '08:30 – 10:00', 'done'],
+      [2, '10:10 – 11:40', 'now'],
+      [3, '12:10 – 13:40', 'next']
+    ].map((x) => {
+      const st = states[x[2]];
+      return { n: x[0], time: x[1], subject: 'Проектирование и разработка веб-приложений', meta: 'Громов Р. И. · ауд. 403', state: st.label, chipBg: st.bg, chipFg: st.fg, numBg: st.numBg, numFg: st.numFg };
+    });
+    const services = [
+      ['Заказ справки в учебной части', 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6', 'https://kitis.ru/students/training-part/'],
+      ['Дистанционное обучение', 'M4 5h16v11H4zM2 20h20', 'https://kitis.ru/students/distance-learning/'],
+      ['Дневник «Моя школа»', 'M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h11', 'home.html'],
+      ['Учебные материалы', 'M2 6h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 6h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z', 'https://kitis.ru/students/educational-materials/'],
+      ['Государственная итоговая аттестация', 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5', 'https://kitis.ru/students/gia/'],
+      ['Графики академических аттестаций', 'M3 3v18h18M7 15l4-4 3 3 5-6', 'https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/'],
+      ['Общежитие', 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', 'https://kitis.ru/students/hostel/'],
+      ['Олимпиады и конкурсы', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'https://kitis.ru/students/olimpiady/']
+    ].map((x) => ({ l: x[0], d: x[1], h: x[2], bg: accentSoft, fg: accent }));
+    return { accent: accent, accentSoft: accentSoft, today: today, services: services };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>

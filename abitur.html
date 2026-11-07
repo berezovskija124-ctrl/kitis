@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Абитуриентам</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Абитуриентам.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+button,input{font-family:inherit}
+</style>
+</helmet>
+<div id="top" style="min-height: 100vh; background: #F4F5F7; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.45; display: flex; flex-direction: column;">
+
+<div style="background: #15171C; color: #D5D9E0; font-size: 13px;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 8px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 24px;">
+<span>Калининград, ул. Горького, 166 · <a href="tel:+74012916106" style="color: #FFFFFF; text-decoration: none;">+7 (4012) 91-61-06</a></span>
+<nav aria-label="Служебные ссылки" style="display: flex; flex-wrap: wrap; gap: 4px 20px;">
+<a href="#top" style="display: inline-flex; align-items: center; gap: 6px; color: #FFFFFF; text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Версия для слабовидящих</a>
+<a href="sitemap.html" style="color: #FFFFFF; text-decoration: none;">Сведения об образовательной организации</a>
+<a href="https://vk.com/kitis39" style="color: #FFFFFF; text-decoration: none;">ВКонтакте</a>
+</nav>
+</div>
+</div>
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 12px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;">
+<a href="home.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #15171C;">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px;">К</span>
+<span style="display: flex; flex-direction: column; line-height: 1.15;"><span style="font-weight: 700; font-size: 20px; letter-spacing: -0.01em;">КИТиС</span><span style="font-size: 11.5px; color: #5B6270; max-width: 210px;">Колледж информационных технологий и строительства</span></span>
+</a>
+<nav aria-label="Расписание" style="flex: 1 1 auto; display: flex; flex-wrap: wrap; gap: 4px;">
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Расписание</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Группы</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Преподаватели</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Аудитории</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Звонки</a>
+<a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Итоги</a>
+<a href="desktop.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: 14.5px; text-decoration: none; background: #15171C; color: #FFFFFF;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Меню</a>
+</nav>
+<a href="login.html" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; box-sizing: border-box; border-radius: 12px; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path></svg>Войти</a>
+</div>
+</header>
+
+<section style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 40px clamp(16px, 3vw, 32px) 44px; display: flex; flex-wrap: wrap; align-items: stretch; gap: 28px 48px;">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<nav aria-label="Путь" style="display: flex; gap: 8px; font-size: 13px; color: #5B6270;"><a href="home.html" style="color: #5B6270; text-decoration: none;">Главная</a><span aria-hidden="true">/</span><span style="color: #15171C; font-weight: 500;">Абитуриентам</span></nav>
+<h1 style="margin: 0; font-size: clamp(34px, 4vw, 52px); line-height: 1.05; font-weight: 700; letter-spacing: -0.025em;">Поступление в КИТиС</h1>
+<p style="margin: 0; max-width: 640px; font-size: 18px; color: #3A404C;">Веб-разработка, сетевое администрирование, разработка игр, строительство, туризм и рабочие профессии. Поступление после 9 и 11 класса.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<a href="https://www.gosuslugi.ru/" style="display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border-radius: 14px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none;">Подать заявление на Госуслугах</a>
+<a href="#catalog" style="display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border-radius: 14px; border: 1px solid #C9CED6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 16px; text-decoration: none;">Специальности и профессии</a>
+<a href="register.html" style="display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border-radius: 14px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 16px; text-decoration: none;">Регистрация абитуриента</a>
+</div>
+</div>
+<aside style="flex: 1 1 360px; min-width: 0; background: #F4F5F7; border: 1px solid #E3E6EB; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-size: 19px; font-weight: 700;">Приёмная комиссия</h2>
+<div style="display: flex; gap: 10px; align-items: flex-start;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Калининград, ул. Горького, 166</span></div>
+<div style="display: flex; gap: 10px; align-items: flex-start;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg><span><a href="tel:+74012964256" style="color: #15171C;">8 (4012) 96-42-56</a>, доб. 2</span></div>
+<div style="display: flex; gap: 10px; align-items: flex-start;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span>Пн – ср, 9:00 – 15:00<br><span style="color: #5B6270;">Чт – вс — выходные</span></span></div>
+<div style="display: flex; gap: 10px; align-items: flex-start;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg><a href="mailto:info@kitis.ru" style="color: #15171C;">info@kitis.ru</a></div>
+<a href="https://kitis.ru/upload/medialibrary/582/346zlysubndipunvm2a1fwcoop3kihoo/%D0%9F%D0%B0%D0%BC%D1%8F%D1%82%D0%BA%D0%B0%20%D0%B0%D0%B1%D0%B8%D1%82%D1%83%D1%80%D0%B8%D0%B5%D0%BD%D1%82%D1%83%202026.pdf" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 46px; margin-top: 4px; padding: 0 14px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DCE0E6; color: #15171C; text-decoration: none; font-weight: 600; font-size: 14px;"><span style="display: inline-flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5"></path></svg>Памятка абитуриента 2026, PDF</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"></path></svg></a>
+</aside>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 40px clamp(16px, 3vw, 32px) 0; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Как поступить</h2>
+<span style="font-size: 14px; color: #5B6270;">Сроки приёмной кампании 2026 — из памятки абитуриента</span>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="5">
+<li style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: {{st.bg}}; color: {{st.fg}}; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center;">{{st.n}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #3A404C;">{{st.date}}</span>
+</div>
+<span style="font-weight: 700; font-size: 16px; line-height: 1.3;">{{st.title}}</span>
+<span style="font-size: 14px; color: #5B6270;">{{st.text}}</span>
+</li>
+</sc-for>
+</ol>
+</section>
+
+<section id="catalog" style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 44px clamp(16px, 3vw, 32px) 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Специальности и профессии</h2>
+<span style="font-size: 14px; color: #5B6270;">{{countLabel}}</span>
+</div>
+<div role="group" aria-label="Направление" style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{dirChips}}" as="c" hint-placeholder-count="5">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-weight: 600; font-size: 14px; cursor: pointer;">{{c.label}}</button>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; align-items: start;">
+<sc-for list="{{list}}" as="p" hint-placeholder-count="10">
+<article style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #3A404C;">{{p.code}}</span>
+<span style="font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 7px; background: {{p.tagBg}}; color: {{p.tagFg}};">{{p.kind}}</span>
+</div>
+<h3 style="margin: 0; font-size: 18px; line-height: 1.25; font-weight: 700;">{{p.name}}</h3>
+<div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #EEF0F3; padding-top: 12px;">
+<span style="font-size: 12.5px; font-weight: 600; color: #5B6270;">{{p.subjTitle}}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{p.subjects}}" as="sb" hint-placeholder-count="5">
+<span style="font-size: 12.5px; padding: 3px 9px; border-radius: 7px; background: #F1F3F6; color: #15171C;">{{sb.name}}</span>
+</sc-for>
+</div>
+</div>
+<a href="https://kitis.ru/abitur/specialties/" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; border-radius: 12px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">Подробнее о программе</a>
+</article>
+</sc-for>
+</div>
+<a href="https://цифровойпомощник.рф/action" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px; border-radius: 18px; background: #15171C; color: #FFFFFF; text-decoration: none;">
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 18px;">Не знаете, что выбрать?</span><span style="font-size: 14px; color: #C5CAD3;">«Цифровой помощник выбора профессий»</span></span>
+<span style="display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 12px; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px;">Открыть</span>
+</a>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 44px clamp(16px, 3vw, 32px) 0; display: flex; flex-wrap: wrap; gap: 20px;">
+<div style="flex: 999 1 560px; min-width: 0; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700;">Документы</h2>
+<ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px 20px;">
+<sc-for list="{{docs}}" as="dc" hint-placeholder-count="8">
+<li style="display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{dc.color}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px;"><path d="M20 6 9 17l-5-5"></path></svg><span>{{dc.text}}</span></li>
+</sc-for>
+</ul>
+<p style="margin: 0; font-size: 13.5px; color: #5B6270;">Несовершеннолетний подаёт документы вместе с родителем или законным представителем. Через Госуслуги достаточно копии или электронного дубликата документа об образовании.</p>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700;">Как подать</h2>
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; background: #F4F5F7;"><span style="font-weight: 600;">Лично</span><span style="font-size: 14px; color: #5B6270;">ул. Горького, 166</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; background: #F4F5F7;"><span style="font-weight: 600;">Почтой</span><span style="font-size: 14px; color: #5B6270;">236029, Калининград, ул. Горького, 166</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; background: {{accentSoft}};"><span style="font-weight: 600;">Через Госуслуги</span><span style="font-size: 14px; color: #3A404C;">Статус заявления — в личном кабинете</span></div>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 44px clamp(16px, 3vw, 32px) 0; display: flex; flex-direction: column; gap: 18px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Полезно знать</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
+<sc-for list="{{infos}}" as="i" hint-placeholder-count="4">
+<a href="{{i.h}}" style="display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: {{i.bg}}; color: {{i.fg}}; display: flex; align-items: center; justify-content: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{i.d}}"></path></svg></span>
+<span style="font-weight: 700; font-size: 16px;">{{i.title}}</span>
+<span style="font-size: 14px; color: #5B6270;">{{i.text}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 44px clamp(16px, 3vw, 32px) 56px; display: flex; flex-wrap: wrap; gap: 20px;">
+<div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Частые вопросы</h2>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 4px 20px;">
+<sc-for list="{{faq}}" as="q" hint-placeholder-count="7">
+<div style="border-bottom: 1px solid {{q.line}};">
+<button type="button" onClick="{{q.toggle}}" aria-expanded="{{q.expanded}}" style="width: 100%; min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border: 0; background: transparent; color: #15171C; font-weight: 600; font-size: 16px; text-align: left; cursor: pointer;">{{q.q}}<span style="flex: none; width: 32px; height: 32px; border-radius: 9px; background: #F1F3F6; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500; line-height: 1;">{{q.sign}}</span></button>
+<sc-if value="{{q.open}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; padding: 0 44px 18px 0; font-size: 15px; color: #3A404C;">{{q.a}}</p>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Новости приёма</h2>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 6px 18px;">
+<a href="home.html" style="display: flex; flex-direction: column; gap: 2px; padding: 14px 0; border-bottom: 1px solid #EEF0F3; color: #15171C; text-decoration: none;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">19.10.2026</span><span style="font-weight: 600; font-size: 15px;">День открытых дверей!</span></a>
+<a href="home.html" style="display: flex; flex-direction: column; gap: 2px; padding: 14px 0; border-bottom: 1px solid #EEF0F3; color: #15171C; text-decoration: none;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">20.08.2026</span><span style="font-weight: 600; font-size: 15px;">«Кадры» — бесплатное обучение в рамках национального проекта</span></a>
+<a href="home.html" style="display: flex; flex-direction: column; gap: 2px; padding: 14px 0; color: #15171C; text-decoration: none;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6270;">19.06.2026</span><span style="font-weight: 600; font-size: 15px;">Приёмная комиссия открыта!</span></a>
+</div>
+<div style="background: {{accentSoft}}; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-weight: 700; font-size: 16px;">Не пропустить сроки</span>
+<span style="font-size: 14px; color: #3A404C;">После регистрации на сайте новости приёмной комиссии будут приходить на почту.</span>
+<a href="register.html" style="display: inline-flex; align-items: center; justify-content: center; height: 44px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none;">Регистрация</a>
+</div>
+</aside>
+</section>
+
+<footer style="background: #15171C; color: #C5CAD3; font-size: 14px;">
+<div style="max-width: 1360px; margin: 0 auto; padding: 36px clamp(16px, 3vw, 32px) 24px; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px;">
+<div style="flex: 2 1 300px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 700; font-size: 18px;">КИТиС</span>
+<span>ГБУ КО ПОО «Колледж информационных технологий и строительства»</span>
+<span>236029, Калининград, ул. Горького, 166</span>
+<span><a href="tel:+74012916106" style="color: #FFFFFF;">+7 (4012) 91-61-06</a> · <a href="mailto:info@kitis.ru" style="color: #FFFFFF;">info@kitis.ru</a></span>
+</div>
+<nav aria-label="Абитуриентам" style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 600;">Абитуриентам</span>
+<a href="https://kitis.ru/abitur/hostel/" style="color: #C5CAD3; text-decoration: none;">Заселение в общежитие</a>
+<a href="https://kitis.ru/abitur/obrazovatelnyy-kredit/" style="color: #C5CAD3; text-decoration: none;">Образовательный кредит</a>
+<a href="https://kitis.ru/abitur/tselevoe-obuchenie/" style="color: #C5CAD3; text-decoration: none;">Целевое обучение</a>
+<a href="https://kitis.ru/abitur/faq-abitur/" style="color: #C5CAD3; text-decoration: none;">Вопросы и ответы</a>
+</nav>
+<nav aria-label="Обязательные разделы" style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px;">
+<span style="color: #FFFFFF; font-weight: 600;">Официально</span>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Сведения об образовательной организации</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Обращения граждан</a>
+<a href="sitemap.html" style="color: #C5CAD3; text-decoration: none;">Противодействие коррупции и безопасность</a>
+</nav>
+</div>
+<div style="border-top: 1px solid #2C3039; padding-top: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 13px;">
+<span>Источник расписания: <a href="http://94.72.18.202:8083" style="color: #FFFFFF; font-weight: 600;">http://94.72.18.202:8083</a></span>
+<span>© 2026 КИТиС</span>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const accent = this.props.accent ?? '#2D5BE3';
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
+    const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
+    const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
+    const dir = s.dir || 'all';
+    const openQ = s.openQ != null ? s.openQ : 0;
+    const pl = (n, one, few, many) => {
+      const a = Math.abs(n) % 100, b = a % 10;
+      if (a > 10 && a < 20) return many;
+      if (b === 1) return one;
+      if (b >= 2 && b <= 4) return few;
+      return many;
+    };
+
+    const steps = [
+      ['Выберите программы', 'до заявления', 'После 9 класса — не больше трёх, после 11 класса — не больше пяти.'],
+      ['Подайте заявление', '20.06 – 15.08', 'Лично, почтой или через Госуслуги.'],
+      ['Следите за рейтингом', 'с 5 августа', 'Рейтинг строится по среднему баллу профильных предметов. Время подачи не важно.'],
+      ['Принесите оригиналы', 'до 19 августа', 'Документ об образовании и медицинская справка — без оригинала аттестата к зачислению не допускают.'],
+      ['Зачисление', 'после 19 августа', 'Право на первоочередное зачисление — у категорий из ч. 5.1 ст. 71 закона № 273-ФЗ.']
+    ].map((x, i) => ({ n: i + 1, title: x[0], date: x[1], text: x[2], bg: i === 0 ? accent : accentSoft, fg: i === 0 ? '#FFFFFF' : accent }));
+
+    const subjects = {
+      '08': ['Математика', 'Русский язык', 'Физика', 'Информатика', 'ОБЗР'],
+      '09': ['Математика', 'Русский язык', 'Физика', 'Информатика', 'Иностранный язык'],
+      '15': ['Математика', 'Русский язык', 'Физика', 'Информатика', 'ОБЗР'],
+      '35': ['Математика', 'Русский язык', 'Физика', 'Химия', 'ОБЗР']
+    };
+    const dirs = {
+      it: { label: 'IT', bg: '#EAF0FF', fg: '#1F46B8' },
+      build: { label: 'Строительство', bg: '#FFF1DC', fg: '#8A4B00' },
+      work: { label: 'Рабочие профессии', bg: '#E3F3EA', fg: '#1C6B47' },
+      tour: { label: 'Туризм', bg: '#F1EAFE', fg: '#6233B5' }
+    };
+    const all = [
+      ['43.02.16', 'Туризм и гостеприимство', 'tour'],
+      ['09.02.09', 'Веб-разработка', 'it'],
+      ['09.02.10', 'Разработка компьютерных игр, дополненной и виртуальной реальности', 'it'],
+      ['08.02.15', 'Информационное моделирование в строительстве', 'build'],
+      ['09.02.06', 'Сетевое и системное администрирование', 'it'],
+      ['08.02.01', 'Строительство и эксплуатация зданий и сооружений', 'build'],
+      ['08.02.14', 'Эксплуатация и обслуживание многоквартирного дома', 'build'],
+      ['15.01.05', 'Сварщик (ручной и частично механизированной сварки (наплавки))', 'work'],
+      ['08.01.28', 'Мастер отделочных строительных и декоративных работ', 'work'],
+      ['35.01.28', 'Мастер столярного и мебельного производства', 'work']
+    ].map((x) => {
+      const group = x[0].slice(0, 2);
+      const isProf = x[0].slice(3, 5) === '01';
+      const list = subjects[group];
+      return {
+        code: x[0], name: x[1], dir: x[2],
+        kind: (isProf ? 'Профессия' : 'Специальность') + ' · ' + dirs[x[2]].label,
+        tagBg: dirs[x[2]].bg, tagFg: dirs[x[2]].fg,
+        subjTitle: list ? 'Профильные предметы для конкурса' : 'Профильные предметы — уточняйте в приёмной комиссии',
+        subjects: (list || []).map((n) => ({ name: n }))
+      };
+    });
+    const list = dir === 'all' ? all : all.filter((p) => p.dir === dir);
+    const dirChips = [['all', 'Все'], ['it', 'IT'], ['build', 'Строительство'], ['work', 'Рабочие профессии'], ['tour', 'Туризм']].map((x) => {
+      const on = x[0] === dir;
+      return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: () => this.setState({ dir: x[0] }) };
+    });
+
+    const docs = [
+      'Паспорт — оригинал и копия',
+      'Документ об образовании — оригинал и копия',
+      '4 фотографии 3×4, юношам — 6',
+      'Медицинская справка',
+      'Копии СНИЛС и ИНН',
+      'Документ о преимущественном праве — если есть',
+      'Свидетельство о смене фамилии — если нужно',
+      'Индивидуальные достижения и сертификат ПФДО'
+    ].map((t) => ({ text: t, color: accent }));
+
+    const infos = [
+      ['Общежитие', 'Памятка по заселению 2026 и списки заселения', 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', 'https://kitis.ru/abitur/hostel/'],
+      ['Образовательный кредит', 'Раздел для абитуриентов на kitis.ru', 'M3 6h18v12H3zM3 10h18M7 15h3', 'https://kitis.ru/abitur/obrazovatelnyy-kredit/'],
+      ['Целевое обучение', 'Действует с 2024 года. Заказчики и условия — на trudvsem.ru', 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z', 'https://kitis.ru/abitur/tselevoe-obuchenie/'],
+      ['«Кадры»', 'Бесплатное обучение в рамках национального проекта', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'home.html']
+    ].map((x) => ({ title: x[0], text: x[1], d: x[2], h: x[3], bg: accentSoft, fg: accent }));
+
+    const faqRaw = [
+      ['Нужно ли заверять копии у нотариуса?', 'Нет. Достаточно показать оригинал документа об образовании в приёмной комиссии.'],
+      ['Что делать после подачи через Госуслуги?', 'Этапы рассмотрения приходят в личный кабинет. Оригинал документа об образовании нужно принести в приёмную комиссию — без него зачислить не могут.'],
+      ['Есть ли общежитие для иногородних?', 'Да: очникам — на время обучения, заочникам — на время сессии и экзаменов.'],
+      ['Как подать документы из другого города?', 'Отправить почтой заказным письмом с уведомлением и описью вложения на адрес колледжа.'],
+      ['Есть ли вечернее отделение?', 'Нет.'],
+      ['Какой проходной балл?', 'Он складывается по итогам работы приёмной комиссии и зависит от числа мест и поданных заявлений.'],
+      ['Можно ли поступить после 10 класса?', 'Да, на первый курс — по аттестату об основном общем образовании.']
+    ];
+    const faq = faqRaw.map((x, i, arr) => {
+      const open = i === openQ;
+      return { q: x[0], a: x[1], open: open, expanded: open ? 'true' : 'false', sign: open ? '−' : '+', line: i < arr.length - 1 ? '#EEF0F3' : 'transparent', toggle: () => this.setState({ openQ: open ? -1 : i }) };
+    });
+
+    return {
+      accent: accent, accentSoft: accentSoft,
+      steps: steps, list: list, dirChips: dirChips, docs: docs, infos: infos, faq: faq,
+      countLabel: list.length + ' ' + pl(list.length, 'программа', 'программы', 'программ')
+    };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>

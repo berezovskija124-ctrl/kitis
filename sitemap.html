@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru" data-fit="fixed" data-w="1400" data-h="1200">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Новая структура сайта</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Новая структура сайта.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+@keyframes kFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 1400px; height: 1200px; box-sizing: border-box; padding: 48px; background: #FFFFFF; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.4; display: flex; flex-direction: column; gap: 24px;">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 13px; font-weight: 700; color: {{accent}}; text-transform: uppercase; letter-spacing: 0.08em;">Эскиз · карта сайта</span>
+<h1 style="margin: 0; font-size: 38px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Новая структура сайта КИТиС</h1>
+</div>
+<p style="margin: 0; max-width: 520px; font-size: 15px; color: #5B6270;">Главное — расписание. Шесть разделов всегда на виду, всё остальное с kitis.ru — во вкладке «Меню».</p>
+</div>
+
+<section style="border-radius: 20px; background: #15171C; color: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px;">
+<span style="font-size: 20px; font-weight: 700;">Всегда на виду</span>
+<span style="font-size: 14px; color: #C5CAD3;">Компьютер — шапка сайта · телефон — нижняя панель, Звонки и Итоги — вкладки на экране расписания</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;">
+<sc-for list="{{primary}}" as="p" hint-placeholder-count="6">
+<a href="{{p.h}}" style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 16px; background: #FFFFFF; color: #15171C; text-decoration: none; animation: kFadeUp .45s ease both; animation-delay: {{p.delay}};">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{p.d}}"></path></svg></span>
+<span style="font-weight: 700; font-size: 16px;">{{p.l}}</span>
+<span style="font-size: 12.5px; color: #5B6270;">{{p.s}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="border-radius: 20px; border: 1px solid #E3E6EB; padding: 24px; display: flex; flex-direction: column; gap: 16px; flex: 1;">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px;">
+<span style="display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Меню</span>
+<span style="font-size: 14px; color: #5B6270;">Было {{oldCount}} пунктов в двух меню — теперь они собраны в три понятные группы</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="3">
+<div style="border-radius: 16px; background: #F4F5F7; padding: 16px; display: flex; flex-direction: column; gap: 4px; animation: kFadeUp .45s ease both; animation-delay: {{c.delay}};">
+<span style="font-size: 12.5px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">{{c.title}}</span>
+<sc-for list="{{c.items}}" as="i" hint-placeholder-count="6">
+<a href="{{i.h}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 10px; background: #FFFFFF; color: #15171C; text-decoration: none; font-size: 14px; font-weight: {{i.weight}};">{{i.l}}<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1400,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#2D5BE3';
+    const delay = (i) => (i * 0.06).toFixed(2) + 's';
+    const primary = [
+      ['Расписание', 'Неделя группы, таймер до конца пары', 'M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM16 2v4M8 2v4M3 10h18'],
+      ['Группы', 'Все группы, поиск, избранное', 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2'],
+      ['Преподаватели', 'Пары и должность каждого', 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6'],
+      ['Аудитории', 'Где пара и занята ли сейчас', 'M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01'],
+      ['Звонки', 'Понедельник и вт – сб', 'M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10.3 21a1.9 1.9 0 0 0 3.4 0'],
+      ['Итоги', 'Сколько пар по предметам', 'M3 3v18h18M8 16v-5M13 16V8M18 16V9']
+    ].map((x, i) => ({ l: x[0], s: x[1], d: x[2], h: 'desktop.html', delay: delay(i) }));
+    const K = 'https://kitis.ru/';
+    const cols = [
+      { title: 'Разделы сайта', strong: true, items: [['Главная колледжа', 'home.html'], ['Абитуриентам', 'abitur.html'], ['Студентам', 'student.html'], ['Преподавателям', 'teacher.html'], ['Вход и регистрация', 'login.html']] },
+      { title: 'О колледже', strong: false, items: [['История', 'https://kitis.ru/life/history/'], ['Медиацентр', K], ['Выпускникам и Центр карьеры', K], ['Профессионалитет', K], ['УПК', K], ['БЦК', K], ['Дистанционное обучение', 'https://kitis.ru/distance/'], ['Курсы', K], ['Профессиональные конкурсы', K]] },
+      { title: 'Официально', strong: false, items: [['Сведения об образовательной организации', 'https://kitis.ru/sveden/'], ['Обращения', K], ['Противодействие коррупции', K], ['Комплексная безопасность', K], ['Антитеррористическая защищённость', K], ['Информационная безопасность', K], ['БПОО', K], ['Закупки', K], ['Образовательный кредит в СПО', K]] }
+    ].map((c, i) => ({ title: c.title, delay: delay(i + 6), items: c.items.map((x) => ({ l: x[0], h: x[1], weight: c.strong ? 600 : 500 })) }));
+    return { accent: accent, primary: primary, cols: cols, oldCount: 22 };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>

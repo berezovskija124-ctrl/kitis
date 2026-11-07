@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ru" data-fit="fixed" data-w="1100" data-h="1460">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Блочная структура страницы</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Блочная структура страницы.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+</style>
+</helmet>
+<div style="width: 1100px; height: 1460px; box-sizing: border-box; padding: 48px; background: #FFFFFF; color: #15171C; font-family: 'Onest', system-ui, sans-serif; display: flex; flex-direction: column; gap: 16px;">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 8px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 13px; font-weight: 700; color: {{accent}}; text-transform: uppercase; letter-spacing: 0.08em;">Эскиз · блочная структура</span>
+<h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Главная страница расписания</h1>
+</div>
+<p style="margin: 0; max-width: 400px; font-size: 14px; line-height: 1.5; color: #5B6270;">Каждый блок — отдельный компонент. Смотреть расписание можно без входа; вход добавляет синхронизацию избранного и уведомления.</p>
+</div>
+
+<div style="height: 68px; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 14px 16px; display: flex; gap: 12px; align-items: center;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">1</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Шапка</span><span style="font-size: 13px; color: #5B6270;">Логотип · Расписание, Группы, Преподаватели, Аудитории, Звонки, Итоги · Войти · Меню (всё остальное)</span></div>
+</div>
+
+<div style="display: flex; gap: 16px; height: 160px;">
+<div style="flex: 2; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+<div style="display: flex; gap: 12px; align-items: flex-start;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">2</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Карточка группы / преподавателя / аудитории</span><span style="font-size: 13px; color: #5B6270;">Название, направление, курс · кнопки «В избранное» и «Отслеживать»</span></div>
+</div>
+<div style="display: flex; gap: 8px; padding-left: 42px;">
+<span style="width: 120px; height: 28px; border-radius: 8px; background: #DDE1E7;"></span>
+<span style="width: 110px; height: 28px; border-radius: 8px; background: #DDE1E7;"></span>
+<span style="width: 150px; height: 28px; border-radius: 8px; background: #DDE1E7;"></span>
+</div>
+</div>
+<div style="flex: 1; box-sizing: border-box; background: #E9EBEF; border: 1.5px dashed #9AA2AE; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+<div style="display: flex; gap: 12px; align-items: flex-start;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">3</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Сейчас идёт</span><span style="font-size: 13px; color: #5B6270;">Таймер до конца пары, прогресс, следующая пара</span></div>
+</div>
+<span style="padding-left: 42px; font-family: 'JetBrains Mono', monospace; font-size: 40px; font-weight: 700; color: #9AA2AE; line-height: 1;">38:12</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 16px; height: 700px;">
+<div style="flex: 2; display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+<div style="height: 68px; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 14px 16px; display: flex; gap: 12px; align-items: center;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Навигация по неделям</span><span style="font-size: 13px; color: #5B6270;">‹ Прошлая · «2 – 7 ноября» · Следующая › · вид «Неделя / День»</span></div>
+</div>
+<div style="flex: 1; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 14px; min-height: 0;">
+<div style="display: flex; gap: 12px; align-items: flex-start;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Сетка расписания</span><span style="font-size: 13px; color: #5B6270;">День → пары: номер и время, предмет, тип занятия, преподаватель, аудитория, подгруппы. Сегодняшний день и текущая пара подсвечены.</span></div>
+</div>
+<div style="flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; min-height: 0;">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="6">
+<div style="background: #FFFFFF; border: 1px solid {{d.border}}; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 13px; font-weight: 700; color: {{d.color}};">{{d.name}}</span>
+<sc-for list="{{d.bars}}" as="b" hint-placeholder-count="3">
+<div style="display: flex; gap: 8px; align-items: center;">
+<span style="flex: none; width: 18px; height: 18px; border-radius: 5px; background: {{b.dot}};"></span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+<span style="height: 8px; width: {{b.w}}%; border-radius: 4px; background: {{b.fill}};"></span>
+<span style="height: 6px; width: 55%; border-radius: 3px; background: #E3E6EB;"></span>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="height: 128px; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 12px; align-items: flex-start;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">6</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Контакты преподавателей</span><span style="font-size: 13px; color: #5B6270;">ФИО, дисциплина, почта, кабинет · ссылка на полный список</span></div>
+</div>
+<div style="display: flex; gap: 10px; padding-left: 42px;">
+<span style="flex: 1; height: 32px; border-radius: 8px; background: #DDE1E7;"></span>
+<span style="flex: 1; height: 32px; border-radius: 8px; background: #DDE1E7;"></span>
+<span style="flex: 1; height: 32px; border-radius: 8px; background: #DDE1E7;"></span>
+<span style="flex: 1; height: 32px; border-radius: 8px; background: #DDE1E7;"></span>
+</div>
+</div>
+</div>
+
+<div style="flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+<div style="height: 260px; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; gap: 12px; align-items: flex-start;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">7</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Избранное</span><span style="font-size: 13px; color: #5B6270;">Группы, преподаватели, аудитории · отметка «отслеживается»</span></div>
+</div>
+<sc-for list="{{favRows}}" as="r" hint-placeholder-count="4">
+<div style="display: flex; gap: 10px; align-items: center; padding-left: 42px;">
+<span style="flex: none; width: 26px; height: 26px; border-radius: 7px; background: #DDE1E7;"></span>
+<span style="height: 8px; width: {{r.w}}%; border-radius: 4px; background: #C9CED6;"></span>
+</div>
+</sc-for>
+</div>
+<div style="flex: 1; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; gap: 12px; align-items: flex-start;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">8</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Расписание звонков</span><span style="font-size: 13px; color: #5B6270;">Понедельник — кураторский день · вт – сб · текущая пара подсвечена</span></div>
+</div>
+<sc-for list="{{bells}}" as="b" hint-placeholder-count="6">
+<div style="display: flex; gap: 10px; align-items: center; padding: 6px 8px; margin-left: 34px; border-radius: 8px; background: {{b.bg}};">
+<span style="flex: none; width: 22px; height: 22px; border-radius: 6px; background: {{b.dot}}; color: {{b.fg}}; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{b.n}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #3A404C;">{{b.time}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="height: 68px; box-sizing: border-box; background: #F1F3F6; border: 1.5px dashed #B8BFCA; border-radius: 12px; padding: 14px 16px; display: flex; gap: 12px; align-items: center;">
+<span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">9</span>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">Подвал</span><span style="font-size: 13px; color: #5B6270;">Источник: http://94.72.18.202:8083 · пометка об автоматической загрузке · обратная связь</span></div>
+</div>
+
+<div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
+<span style="font-size: 13px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em;">Откуда берутся данные</span>
+<div style="display: flex; align-items: stretch; gap: 10px;">
+<sc-for list="{{flow}}" as="f" hint-placeholder-count="5">
+<div style="flex: 1; min-width: 0; box-sizing: border-box; border: 1px solid {{f.border}}; background: {{f.bg}}; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-weight: 700; font-size: 14px; color: #15171C;">{{f.title}}</span>
+<span style="font-size: 12.5px; line-height: 1.4; color: #5B6270;">{{f.text}}</span>
+</div>
+<sc-if value="{{f.arrow}}" hint-placeholder-val="{{ true }}">
+<span style="flex: none; display: flex; align-items: center; color: #9AA2AE;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+</sc-if>
+</sc-for>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1100,"height":1460}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#2D5BE3';
+    const names = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    const counts = [3, 4, 5, 3, 3, 3];
+    const widths = [82, 64, 90, 72];
+    const days = names.map((name, i) => {
+      const today = i === 3;
+      const bars = [];
+      for (let k = 0; k < counts[i]; k++) {
+        const now = today && k === 1;
+        bars.push({ w: widths[(k + i) % 4], dot: now ? '#E06A1B' : '#DDE1E7', fill: now ? '#F2B48A' : '#C9CED6' });
+      }
+      return { name: today ? name + ' · сегодня' : name, color: today ? accent : '#3A404C', border: today ? accent : '#E3E6EB', bars: bars };
+    });
+    const times = ['08:30 – 10:00', '10:10 – 11:40', '12:10 – 13:40', '13:50 – 15:20', '15:30 – 17:00', '17:10 – 18:40'];
+    const bells = times.map((t, i) => ({ n: i + 1, time: t, bg: i === 1 ? '#FFF4EA' : 'transparent', dot: i === 1 ? '#B4530F' : '#DDE1E7', fg: i === 1 ? '#FFFFFF' : '#3A404C' }));
+    const flow = [
+      { title: 'Сайт колледжа', text: '94.72.18.202:8083 — страницы групп, преподавателей, аудиторий' },
+      { title: 'Парсер', text: 'Забирает HTML по расписанию, разбирает таблицы в пары' },
+      { title: 'База данных', text: 'Группы, преподаватели, аудитории, пары, звонки, контакты' },
+      { title: 'Наш сайт', text: 'Красивое расписание, избранное, уведомления' },
+      { title: 'Студент', text: 'Браузер на компьютере или телефоне' }
+    ].map((f, i, arr) => ({ title: f.title, text: f.text, arrow: i < arr.length - 1, bg: i === 3 ? 'rgba(45, 91, 227, 0.08)' : '#F7F8FA', border: i === 3 ? accent : '#E3E6EB' }));
+    return {
+      accent: accent,
+      days: days,
+      bells: bells,
+      favRows: [{ w: 70 }, { w: 85 }, { w: 60 }, { w: 75 }],
+      flow: flow
+    };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>

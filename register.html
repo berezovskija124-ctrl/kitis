@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru" data-fit="fixed" data-w="1200" data-h="900">
+<head>
+<meta charset="utf-8">
+<title>КИТиС · Регистрация</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Регистрация.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+@media (max-width:520px){.kb .kb-x{display:none}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><span>Поля формы никуда не отправляются</span><a href="index.html">Все экраны</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+button,input,select{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1200px; height: 900px; box-sizing: border-box; background: #FFFFFF; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.4; display: flex;">
+
+<div style="flex: none; width: 360px; box-sizing: border-box; background: #15171C; color: #FFFFFF; padding: 40px 36px; display: flex; flex-direction: column; justify-content: space-between;">
+<a href="home.html" style="display: flex; align-items: center; gap: 12px; color: #FFFFFF; text-decoration: none;">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px;">К</span>
+<span style="display: flex; flex-direction: column; line-height: 1.15;"><span style="font-weight: 700; font-size: 20px;">КИТиС</span><span style="font-size: 12px; color: #C5CAD3;">Личный кабинет</span></span>
+</a>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 22px;">
+<li style="display: flex; gap: 14px; align-items: flex-start;"><span style="flex: none; width: 32px; height: 32px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</span><span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">Кто вы</span><span style="font-size: 13.5px; color: #C5CAD3;">{{roleTitle}}</span></span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start;"><span style="flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #5B6270; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">2</span><span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">Данные</span><span style="font-size: 13.5px; color: #C5CAD3;">ФИО, почта и пароль</span></span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start;"><span style="flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #5B6270; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">3</span><span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">Подтверждение</span><span style="font-size: 13.5px; color: #C5CAD3;">{{confirmBy}}</span></span></li>
+</ol>
+<p style="margin: 0; font-size: 13.5px; color: #C5CAD3;">Расписание, звонки и контакты открыты всем без регистрации. Аккаунт нужен для избранного, уведомлений о заменах и личного кабинета.</p>
+</div>
+
+<div style="flex: 1; min-width: 0; padding: 36px 52px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<h1 style="margin: 0; font-size: 30px; line-height: 1.15; font-weight: 700;">Регистрация</h1>
+<p style="margin: 0; color: #5B6270; font-size: 14.5px;">Одна учётная запись — для студентов, преподавателей и абитуриентов</p>
+</div>
+
+<div role="radiogroup" aria-label="Кто вы" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="3">
+<button type="button" role="radio" aria-checked="{{r.checked}}" onClick="{{r.pick}}" style="min-height: 88px; box-sizing: border-box; display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 14px; border: {{r.border}}; background: {{r.bg}}; color: #15171C; text-align: left; cursor: pointer;">
+<span style="flex: none; width: 36px; height: 36px; border-radius: 10px; background: {{r.iconBg}}; color: {{r.iconFg}}; display: flex; align-items: center; justify-content: center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{r.d}}"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 700; font-size: 15px;">{{r.title}}</span><span style="font-size: 12.5px; color: #5B6270; line-height: 1.35;">{{r.text}}</span></span>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{isStudent}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px;">
+<label style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">ФИО<input type="text" placeholder="Петров Иван Сергеевич" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">E-mail<input type="email" placeholder="ivan@example.ru" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Пароль<input type="password" placeholder="Не короче 8 символов" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Группа<select style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C9CED6; border-radius: 11px; background: #FFFFFF; font-size: 15px; font-weight: 400; color: #15171C;"><option>СОД25-1</option><option>СОД25-2К</option><option>СОД26-1</option><option>СОД26-2К</option><option>С23-1</option><option>С23-3К</option><option>С23УЗ</option><option>С24-1</option><option>С24-2</option><option>С24-3К</option><option>С24УЗ</option><option>С25-1</option><option>С25-2</option><option>С25-3</option><option>С25-УЗ</option><option>С26-1</option><option>С26-2</option><option>С26-3</option><option>С26-4</option><option>С26-УЗ</option><option>УМД25-1</option><option>УМД26-1</option><option>ИМс24-1</option><option>ИМС25-1</option><option>ИМС26-1</option><option>ИМС26-2</option><option>СА23-1</option><option>СА24-1</option><option>СА24-2</option><option>СА24УЗ</option><option>СА25-1</option><option>СА25-2</option><option>СА25-УЗ</option><option>СА26-1</option><option>СА26-2</option><option>СА26-УЗ</option><option>ИСа23-1</option><option>ИСа24-1</option><option>ИСа25-1</option><option>ИСп23-1</option><option>ИСп23-2К</option><option>ИСп24-1</option><option>ИСп24-2К</option><option>ИСп25-1</option><option selected="">ИСр24-1</option><option>ИСр25-1</option><option>ИСс24-1</option><option>ИСс25-1</option><option>ВЕБ26-1</option><option>ВЕБ26-2</option><option>РКИ25-1</option><option>РКИ26-1</option><option>РКИ26-2</option><option>СВ25-1</option><option>СВ25-2К</option><option>СВ26-1</option><option>СВ26-2К</option><option>М25-1</option><option>М26-1</option><option>ТГ26-1К</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;"><span>Студенческий билет <span style="font-weight: 400; color: #5B6270;">— необязательно</span></span><input type="text" placeholder="№ билета" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+</div>
+</sc-if>
+
+<sc-if value="{{isTeacher}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px;">
+<label style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">ФИО — как в расписании<input type="text" value="Громов Р. И." style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Рабочая почта<input type="email" placeholder="familiya@kitis.example" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Пароль<input type="password" placeholder="Не короче 8 символов" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<div style="grid-column: span 2; display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: #E3F3EA; color: #1C6B47; font-size: 14px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+<span><span style="font-weight: 600;">Найдено в расписании:</span> Громов Р. И. — ИСр24-1, «Проектирование и разработка веб-приложений». Кабинет преподавателя заполнится сам.</span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isAbitur}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px;">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">ФИО<input type="text" placeholder="Сидорова Анна Олеговна" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Телефон<input type="tel" placeholder="+7 (___) ___-__-__" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">E-mail<input type="email" placeholder="anna@example.ru" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Пароль<input type="password" placeholder="Не короче 8 символов" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 11px; font-size: 15px; font-weight: 400; color: #15171C;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Интересует<select style="height: 44px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C9CED6; border-radius: 11px; background: #FFFFFF; font-size: 15px; font-weight: 400; color: #15171C;"><option selected="">09.02.09 Веб-разработка</option><option>09.02.06 Сетевое и системное администрирование</option><option>09.02.10 Разработка компьютерных игр, дополненной и виртуальной реальности</option><option>43.02.16 Туризм и гостеприимство</option><option>Пока не решил(а)</option></select></label>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">
+<span>Поступаю после</span>
+<div role="group" aria-label="Поступаю после" style="display: flex; gap: 2px; padding: 3px; height: 44px; box-sizing: border-box; border-radius: 11px; background: #F1F3F6;">
+<button type="button" aria-pressed="true" style="flex: 1; border-radius: 8px; border: 0; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px; box-shadow: 0 1px 2px rgba(21, 23, 28, 0.10);">9 класса</button>
+<button type="button" aria-pressed="false" style="flex: 1; border-radius: 8px; border: 0; background: transparent; color: #3A404C; font-weight: 500; font-size: 14px;">11 класса</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: {{accentSoft}}; font-size: 14px; color: #15171C;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+<span>{{note}}</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label style="display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: #3A404C; cursor: pointer;"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: {{accent}};">Согласен(на) на обработку персональных данных</label>
+<sc-if value="{{isAbitur}}" hint-placeholder-val="{{ false }}"><label style="display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: #3A404C; cursor: pointer;"><input type="checkbox" checked style="width: 18px; height: 18px; margin: 0; accent-color: {{accent}};">Присылать новости приёмной комиссии и дни открытых дверей</label></sc-if>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 2px;">
+<a href="{{submitHref}}" style="display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 28px; border-radius: 12px; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none;">Зарегистрироваться</a>
+<span style="font-size: 14px; color: #5B6270;">Уже есть аккаунт? <a href="login.html" style="color: {{accent}}; font-weight: 600;">Войти</a></span>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1200,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const accent = this.props.accent ?? '#2D5BE3';
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
+    const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
+    const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
+    const role = s.role || 'student';
+    const defs = [
+      { id: 'student', title: 'Студент', text: 'Своя группа, замены, справки', d: 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5', confirm: 'Куратор группы', href: 'student.html',
+        note: 'Аккаунт подтвердит куратор группы (у ИСр24-1 — Шевченко П. С.). До этого расписание группы уже доступно.' },
+      { id: 'teacher', title: 'Преподаватель', text: 'Моё расписание и мои группы', d: 'M3 4h18v12H3zM12 16v4M8 20h8M7 12l3-3 3 2 4-4', confirm: 'Учебная часть', href: 'teacher.html',
+        note: 'Учётную запись подтвердит учебная часть: ФИО сверяется с расписанием преподавателей.' },
+      { id: 'abitur', title: 'Абитуриент', text: 'Новости приёма и напоминания о сроках', d: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6', confirm: 'Письмо на почту', href: 'abitur.html',
+        note: 'Подтверждение не нужно: после регистрации придёт письмо, а новости приёма будут приходить на почту.' }
+    ];
+    let cur = defs[0];
+    const roles = defs.map((r) => {
+      const on = r.id === role;
+      if (on) cur = r;
+      return {
+        title: r.title, text: r.text, d: r.d, checked: on ? 'true' : 'false',
+        border: on ? '2px solid ' + accent : '1px solid #DCE0E6',
+        bg: on ? accentSoft : '#FFFFFF',
+        iconBg: on ? accent : '#F1F3F6', iconFg: on ? '#FFFFFF' : '#3A404C',
+        pick: () => this.setState({ role: r.id })
+      };
+    });
+    return {
+      accent: accent, accentSoft: accentSoft, roles: roles,
+      isStudent: role === 'student', isTeacher: role === 'teacher', isAbitur: role === 'abitur',
+      roleTitle: cur.title, confirmBy: cur.confirm, note: cur.note, submitHref: cur.href
+    };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+</body>
+</html>
