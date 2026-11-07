@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <title>КИТиС · Главная колледжа</title>
 
+<script src="data/kitis-data.js"></script>
+<script src="kitis-model.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Главная колледжа.">
 <style>
@@ -31,6 +33,7 @@ html.phone-full body{background:#F4F5F7}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
+@keyframes kPulse{0%{box-shadow:0 0 0 0 rgba(255,138,61,.6)}70%{box-shadow:0 0 0 9px rgba(255,138,61,0)}100%{box-shadow:0 0 0 0 rgba(255,138,61,0)}}
 body{margin:0;background:#F4F5F7}
 a{color:#2D5BE3}a:hover{color:#1E3FA8}
 button,input{font-family:inherit}
@@ -99,14 +102,14 @@ button,input{font-family:inherit}
 <a href="desktop.html" style="display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #DCE0E6; color: #15171C; font-size: 13px; font-weight: 500; text-decoration: none;">ауд. 403</a>
 </div>
 <a href="desktop.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: #15171C; color: #FFFFFF; text-decoration: none;">
-<span style="flex: none; width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D;"></span>
+<span style="flex: none; width: 8px; height: 8px; border-radius: 50%; background: {{hw.dot}}; animation: {{hw.anim}};"></span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;">
-<span style="font-size: 12px; color: #B9BEC8;">ИСр24-1 · сейчас 2 пара · ауд. 403</span>
-<span style="font-size: 14px; font-weight: 600;">Проектирование и разработка веб-приложений</span>
+<span style="font-size: 12px; color: #B9BEC8;">{{hw.line}}</span>
+<span style="font-size: 14px; font-weight: 600;">{{hw.subject}}</span>
 </span>
 <span style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1;">
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;">38:12</span>
-<span style="font-size: 11.5px; color: #B9BEC8;">до конца</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;">{{hw.timer}}</span>
+<span style="font-size: 11.5px; color: #B9BEC8;">{{hw.note}}</span>
 </span>
 </a>
 </div>
@@ -256,6 +259,12 @@ button,input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":2900}}'>
 class Component extends DCLogic {
+  componentDidMount() {
+    this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._timer);
+  }
   renderVals() {
     const s = this.state || {};
     const accent = this.props.accent ?? '#2D5BE3';
@@ -328,7 +337,18 @@ class Component extends DCLogic {
       ['20.08.2026', '«Кадры» — бесплатное обучение в рамках национального проекта'],
       ['19.06.2026', 'Приёмная комиссия открыта!']
     ].map((x, i, arr) => ({ date: x[0], title: x[1], line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' }));
-    return { accent: accent, accentSoft: accentSoft, scopes: scopes, ph: ph, roles: roles, services: services, news: news, main: mainList };
+    const M = window.KitisModel;
+    const st = M.status('g', M.groupIndex('ИСр24-1'));
+    const L = st.lesson;
+    const room = (x) => !x ? '' : (/^\d/.test(x) ? ' · ауд. ' + x : ' · ' + x);
+    let hw;
+    if (st.mode === 'now') hw = { line: 'ИСр24-1 · сейчас ' + L.n + ' пара' + room(L.room), subject: L.subject, timer: M.fmtTimer(st.left), note: 'до конца', live: true };
+    else if (st.mode === 'break' || st.mode === 'before') hw = { line: 'ИСр24-1 · ' + L.n + ' пара в ' + L.start + room(L.room), subject: L.subject, timer: M.fmtTimer(st.left), note: 'до начала', live: true };
+    else if (L) hw = { line: 'ИСр24-1 · следующая пара ' + M.whenLabel(L.date) + ' в ' + L.start, subject: L.subject, timer: L.start, note: L.n + ' пара', live: false };
+    else hw = { line: 'ИСр24-1', subject: 'Расписание ещё не опубликовано', timer: '—', note: '', live: false };
+    hw.dot = hw.live ? '#FF8A3D' : '#5B6270';
+    hw.anim = hw.live ? 'kPulse 1.8s ease-out infinite' : 'none';
+    return { accent: accent, accentSoft: accentSoft, scopes: scopes, ph: ph, roles: roles, services: services, news: news, main: mainList, hw: hw };
   }
 }
 </script>

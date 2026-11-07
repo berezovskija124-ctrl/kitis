@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <title>КИТиС · Расписание — телефон</title>
 
+<script src="data/kitis-data.js"></script>
+<script src="kitis-model.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Расписание — телефон.">
 <style>
@@ -72,27 +74,33 @@ button,input,select{font-family:inherit}
 <div style="display: flex; flex-direction: column; gap: 14px; animation: kFadeUp .4s ease both;">
 <button type="button" class="tap" onClick="{{goGroups}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 48px; padding: 0 14px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; cursor: pointer;"><span style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2;"><span style="font-size: 11.5px; color: #5B6270;">{{groupCaption}}</span><span style="font-size: 18px; font-weight: 700;">{{group}}</span></span><span style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: {{accent}};">Сменить<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></span></button>
 
-<sc-if value="{{hasData}}" hint-placeholder-val="{{ true }}">
 <section aria-label="Текущая пара" style="background: #15171C; color: #FFFFFF; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-<span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #FF8A3D; animation: kPulse 1.8s ease-out infinite;"></span>Сейчас · 2 пара</span>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #B9BEC8;">10:10 – 11:40</span>
+<span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: {{plaque.dot}}; animation: {{plaque.anim}};"></span>{{plaque.badge}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #B9BEC8;">{{plaque.when}}</span>
 </div>
-<div style="display: flex; align-items: flex-end; gap: 10px;">
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 46px; font-weight: 700; line-height: 0.95; letter-spacing: -0.04em;">{{timer}}</span>
-<span style="font-size: 13px; color: #B9BEC8; padding-bottom: 4px;">до конца пары</span>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px 10px;">
+<span style="font-family: {{plaque.bigFont}}; font-size: {{plaque.bigSize}}; font-weight: 700; line-height: 0.95; letter-spacing: -0.03em;">{{plaque.big}}</span>
+<span style="font-size: 13px; color: #B9BEC8; padding-bottom: 4px;">{{plaque.bigNote}}</span>
 </div>
-<div aria-hidden="true" style="height: 5px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div>
-<span style="font-size: 15.5px; font-weight: 600; line-height: 1.3;">Проектирование и разработка веб-приложений</span>
-<span style="font-size: 13px; color: #B9BEC8;">Громов Р. И. · ауд. 403 · далее 3 пара в 12:10</span>
-</section>
+<sc-if value="{{plaque.hasProgress}}" hint-placeholder-val="{{ true }}">
+<div aria-hidden="true" style="height: 5px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{plaque.progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div>
 </sc-if>
+<sc-if value="{{plaque.hasSubject}}" hint-placeholder-val="{{ true }}">
+<span style="font-size: 15.5px; font-weight: 600; line-height: 1.3;">{{plaque.subject}}</span>
+<span style="font-size: 13px; color: #B9BEC8;">{{plaque.meta}}</span>
+</sc-if>
+</section>
 
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-<span style="font-size: 15px; font-weight: 700;">9 – 14 ноября</span>
-<span style="font-size: 12.5px; color: #5B6270;">Текущая неделя</span>
+<div style="display: flex; align-items: center; gap: 8px;">
+<button type="button" class="tap" aria-label="Прошлая неделя" onClick="{{prevWeek}}" style="flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: {{prevNav.cursor}}; opacity: {{prevNav.opacity}};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.25;">
+<span style="font-size: 15px; font-weight: 700;">{{weekShort}}</span>
+<span style="font-size: 11.5px; color: #5B6270;">{{weekSub}} · {{sourceNote}}</span>
 </div>
-<div role="tablist" aria-label="День недели" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px;">
+<button type="button" class="tap" aria-label="Следующая неделя" onClick="{{nextWeek}}" style="position: relative; flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: {{nextNav.cursor}}; opacity: {{nextNav.opacity}};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><sc-if value="{{nextBadge}}" hint-placeholder-val="{{ true }}"><span aria-label="Опубликовано расписание на следующую неделю" style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; border-radius: 50%; background: #2FA35A; border: 2px solid #F4F5F7; animation: kPulse 1.8s ease-out infinite;"></span></sc-if></button>
+</div>
+<div role="tablist" aria-label="День недели" style="display: grid; grid-template-columns: {{dayCols}}; gap: 4px;">
 <sc-for list="{{dayPills}}" as="d" hint-placeholder-count="6">
 <button type="button" role="tab" class="tap" aria-selected="{{d.selected}}" onClick="{{d.pick}}" style="height: 58px; border-radius: 13px; border: 1px solid {{d.border}}; background: {{d.bg}}; color: {{d.fg}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; cursor: pointer;">
 <span style="font-size: 11.5px; font-weight: 500;">{{d.short}}</span>
@@ -115,9 +123,10 @@ button,input,select{font-family:inherit}
 </div>
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
 <span style="font-weight: 600; font-size: 15px; line-height: 1.3;">{{l.subject}}</span>
+<sc-if value="{{l.hasMeta}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: #F1F3F6; color: #3A404C;">{{l.meta}}</span></sc-if>
 <sc-if value="{{l.now}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: #FFE6D3; color: #9A4410;">Идёт сейчас</span></sc-if>
 <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-<button type="button" class="tap" onClick="{{l.openTeacher}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: #F1F3F6; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.teacher}}</button>
+<sc-if value="{{l.hasTeacher}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openTeacher}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: #F1F3F6; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.teacher}}</button></sc-if>
 <sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: #F1F3F6; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.room}}</button></sc-if>
 </div>
 </div>
@@ -141,7 +150,7 @@ button,input,select{font-family:inherit}
 <span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{b.numBg}}; color: {{b.numFg}}; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center;">{{b.n}}</span>
 <span style="flex: 1; font-weight: 600; font-size: 14.5px;">{{b.n}} пара</span>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">{{b.time}}</span>
-<sc-if value="{{b.now}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; left: 0; bottom: 0; height: 3px; width: {{progress}}%; background: #E06A1B;"></span></sc-if>
+<sc-if value="{{b.now}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; left: 0; bottom: 0; height: 3px; width: {{bellProgress}}%; background: #E06A1B;"></span></sc-if>
 </div>
 </sc-if>
 <sc-if value="{{b.isEvent}}" hint-placeholder-val="{{ false }}">
@@ -160,8 +169,32 @@ button,input,select{font-family:inherit}
 
 <sc-if value="{{isResultsSub}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 12px; animation: kFadeUp .4s ease both;">
-<span style="font-size: 13px; color: #5B6270;">{{group}} · 9 – 14 ноября · посчитано по расписанию</span>
-<sc-if value="{{hasData}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 17px; font-weight: 700;">Выполнение нагрузки · {{group}}</span><span style="font-size: 12.5px; color: #5B6270;">Со страницы «Итоги» сервера расписания · {{updLine}}</span></div>
+<sc-if value="{{hasLoad}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{loadStats}}" as="st" hint-placeholder-count="2">
+<div style="padding: 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; display: flex; flex-direction: column; gap: 4px; animation: kFadeUp .4s ease both; animation-delay: {{st.delay}};">
+<span style="font-size: 22px; font-weight: 700; line-height: 1.1; color: {{st.color}};">{{st.value}}</span>
+<span style="font-size: 12px; color: #5B6270;">{{st.label}}</span>
+</div>
+</sc-for>
+</div>
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 4px 14px; display: flex; flex-direction: column;">
+<sc-for list="{{loadRows}}" as="r" hint-placeholder-count="6">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-bottom: 1px solid #EEF0F3; animation: kFadeUp .35s ease both; animation-delay: {{r.delay}};">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;"><span style="font-weight: 600; font-size: 14px; line-height: 1.3;">{{r.subject}}</span><span style="font-size: 12px; color: #5B6270;">{{r.meta}}</span></span>
+<span style="flex: none; font-size: 17px; font-weight: 700;">{{r.pctLabel}}</span>
+</div>
+<div aria-hidden="true" style="position: relative; height: 8px; border-radius: 4px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.pct}}%; border-radius: 4px; background: {{r.bar}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div><span style="position: absolute; top: 0; bottom: 0; left: {{r.planPct}}%; width: 2px; background: #15171C; opacity: .45;"></span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><span style="font-size: 11.5px; color: #5B6270;">{{r.nums}}</span><span style="flex: none; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: {{r.chipBg}}; color: {{r.chipFg}};">{{r.state}}</span></div>
+</div>
+</sc-for>
+<span style="padding: 10px 0; font-size: 11.5px; color: #5B6270;">Черта на полосе — сколько часов должно быть проведено по плану к этой дате.</span>
+</section>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 2px; margin-top: 6px;"><span style="font-size: 17px; font-weight: 700;">Неделя {{weekShort}}</span><span style="font-size: 12.5px; color: #5B6270;">{{weekSub}} · {{sourceNote}}</span></div>
+<sc-if value="{{hasStats}}" hint-placeholder-val="{{ true }}">
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
 <sc-for list="{{stats}}" as="st" hint-placeholder-count="4">
 <div style="padding: 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; display: flex; flex-direction: column; gap: 2px; animation: kFadeUp .4s ease both; animation-delay: {{st.delay}};">
@@ -180,7 +213,7 @@ button,input,select{font-family:inherit}
 </sc-for>
 </section>
 </sc-if>
-<sc-if value="{{noData}}" hint-placeholder-val="{{ false }}"><div style="padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; font-size: 13.5px; color: #5B6270;">Итоги появятся, когда с сервера подтянется расписание группы</div></sc-if>
+<sc-if value="{{noStats}}" hint-placeholder-val="{{ false }}"><div style="padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; font-size: 13.5px; color: #5B6270;">На этой неделе у группы пар нет</div></sc-if>
 </div>
 </sc-if>
 
@@ -339,7 +372,7 @@ button,input,select{font-family:inherit}
 <sc-if value="{{isStudent}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
 <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 22px; font-weight: 700;">Добрый день, [имя]!</span><span style="font-size: 13px; color: #5B6270;">ИСр24-1 · куратор Шевченко П. С.</span></div>
-<button type="button" class="tap" onClick="{{goSchedule}}" style="display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; border: 0; background: #15171C; color: #FFFFFF; text-align: left; cursor: pointer;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D; animation: kPulse 1.8s ease-out infinite;"></span><span style="flex: 1; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 12px; color: #B9BEC8;">Сейчас 2 пара · ауд. 403</span><span style="font-size: 14px; font-weight: 600;">Проектирование и разработка веб-приложений</span></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;">{{timer}}</span></button>
+<button type="button" class="tap" onClick="{{goSchedule}}" style="display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; border: 0; background: #15171C; color: #FFFFFF; text-align: left; cursor: pointer;"><span style="flex: none; width: 8px; height: 8px; border-radius: 50%; background: {{stu.dot}}; animation: {{stu.anim}};"></span><span style="flex: 1; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 12px; color: #B9BEC8;">{{stu.line}}</span><span style="font-size: 14px; font-weight: 600;">{{stu.subject}}</span></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;">{{stu.timer}}</span></button>
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
 <h2 style="margin: 0; font-size: 16px; font-weight: 700;">Изменения в расписании</h2>
 <span style="font-size: 13.5px; color: #3A404C;">На этой неделе изменений нет. Если пару перенесут, уведомление придёт сюда.</span>
@@ -356,16 +389,17 @@ button,input,select{font-family:inherit}
 <div style="display: flex; flex-direction: column; gap: 14px; animation: kSlideLeft .35s ease both;">
 <div style="display: flex; gap: 12px; align-items: center;"><span style="width: 48px; height: 48px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center;">ГР</span><span style="display: flex; flex-direction: column;"><span style="font-size: 20px; font-weight: 700;">Громов Р. И.</span><span style="font-size: 13px; color: #5B6270;">Кабинет преподавателя</span></span></div>
 <section style="background: #15171C; color: #FFFFFF; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
-<span style="font-size: 12px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;">Вы ведёте · 2 пара</span>
-<span style="font-size: 20px; font-weight: 700;">ИСр24-1 · ауд. 403</span>
-<span style="font-size: 13px; color: #B9BEC8;">До конца пары {{timer}} · далее 3 пара в 12:10</span>
+<span style="font-size: 12px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;">{{tc.badge}}</span>
+<span style="font-size: 20px; font-weight: 700;">{{tc.title}}</span>
+<span style="font-size: 13px; color: #B9BEC8;">{{tc.line}}</span>
 </section>
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
-<h2 style="margin: 0; font-size: 16px; font-weight: 700;">Мои пары на неделе</h2>
+<h2 style="margin: 0; font-size: 16px; font-weight: 700;">Мои пары · {{tcWeek}}</h2>
+<sc-if value="{{noTeacherWeek}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #5B6270;">На этой неделе пар нет</span></sc-if>
 <sc-for list="{{teacherWeek}}" as="tw" hint-placeholder-count="6">
-<div style="display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: {{tw.bg}}; font-size: 13.5px;"><span style="flex: none; width: 64px; font-weight: 700;">{{tw.day}}</span><span style="flex: 1;">{{tw.n}} пара · {{tw.time}}</span><span style="color: #5B6270;">ИСр24-1</span></div>
+<div style="display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: {{tw.bg}}; font-size: 13.5px;"><span style="flex: none; width: 64px; font-weight: 700;">{{tw.day}}</span><span style="flex: 1;">{{tw.n}} пара · {{tw.time}}</span><span style="color: #5B6270;">{{tw.group}}</span></div>
 </sc-for>
-<span style="font-size: 12px; color: #5B6270;">Пары в других группах подтянутся со страницы преподавателя на сервере</span>
+<span style="font-size: 12px; color: #5B6270;">Все группы преподавателя · с сервера расписания колледжа</span>
 </section>
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 4px 14px;">
 <sc-for list="{{teacherLinks}}" as="tl" hint-placeholder-count="6">
@@ -458,27 +492,22 @@ button,input,select{font-family:inherit}
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   componentDidMount() {
-    this._timer = setInterval(() => {
-      const cur = (this.state && this.state.left != null) ? this.state.left : 2292;
-      this.setState({ left: cur <= 1 ? 2292 : cur - 1 });
-    }, 1000);
+    this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
   }
   componentWillUnmount() {
     clearInterval(this._timer);
   }
   renderVals() {
+    const M = window.KitisModel;
     const s = this.state || {};
     const accent = this.props.accent ?? '#2D5BE3';
     const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
     const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
     const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
-    const left = s.left != null ? s.left : 2292;
     const tab = s.tab || 'schedule';
     const sub = s.sub || 'pairs';
     const page = s.page || '';
     const group = s.group || 'ИСр24-1';
-    const day = s.day != null ? s.day : 3;
-    const bellDay = s.bellDay || 'week';
     const role = s.role || 'student';
     const sheet = s.sheet || null;
     const gpre = s.gpre || '';
@@ -486,24 +515,15 @@ class Component extends DCLogic {
     const gq = (s.gq || '').trim().toLowerCase();
     const tq = (s.tq || '').trim().toLowerCase();
     const set = (o) => () => this.setState(o);
-    const pl = (n, one, few, many) => {
-      const a = Math.abs(n) % 100, b = a % 10;
-      if (a > 10 && a < 20) return many;
-      if (b === 1) return one;
-      if (b >= 2 && b <= 4) return few;
-      return many;
-    };
+    const pl = M.plural;
     const delay = (i) => (Math.min(i, 12) * 0.035).toFixed(3) + 's';
-    const dayNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-    const dayShort = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-    const monTimes = [['09:10', '10:30'], ['10:40', '12:00'], ['12:20', '13:40'], ['13:50', '15:10'], ['16:00', '17:20'], ['17:30', '18:50']];
-    const wkTimes = [['08:30', '10:00'], ['10:10', '11:40'], ['12:10', '13:40'], ['13:50', '15:20'], ['15:30', '17:00'], ['17:10', '18:40']];
-    const timesFor = (d) => d === 0 ? monTimes : wkTimes;
-    const TODAY = 3, NOWP = 2;
+    const cap = (x) => x ? x.charAt(0).toUpperCase() + x.slice(1) : x;
+    const fmtRoom = (x) => !x ? '' : (/^\d/.test(x) ? 'ауд. ' + x : x);
+    const roomTitle = (x) => /^\d/.test(x) ? 'Аудитория ' + x : x;
+    const iniOf = (name) => { const p = name.split(' '); return (p[0] || '').charAt(0) + (p[1] || '').charAt(0); };
+    const pairs = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
 
-    const GROUPS = ['СОД25-1', 'СОД25-2К', 'СОД26-1', 'СОД26-2К', 'С23-1', 'С23-3К', 'С23УЗ', 'С24-1', 'С24-2', 'С24-3К', 'С24УЗ', 'С25-1', 'С25-2', 'С25-3', 'С25-УЗ', 'С26-1', 'С26-2', 'С26-3', 'С26-4', 'С26-УЗ', 'УМД25-1', 'УМД26-1', 'ИМс24-1', 'ИМС25-1', 'ИМС26-1', 'ИМС26-2', 'СА23-1', 'СА24-1', 'СА24-2', 'СА24УЗ', 'СА25-1', 'СА25-2', 'СА25-УЗ', 'СА26-1', 'СА26-2', 'СА26-УЗ', 'ИСа23-1', 'ИСа24-1', 'ИСа25-1', 'ИСп23-1', 'ИСп23-2К', 'ИСп24-1', 'ИСп24-2К', 'ИСп25-1', 'ИСр24-1', 'ИСр25-1', 'ИСс24-1', 'ИСс25-1', 'ВЕБ26-1', 'ВЕБ26-2', 'РКИ25-1', 'РКИ26-1', 'РКИ26-2', 'СВ25-1', 'СВ25-2К', 'СВ26-1', 'СВ26-2К', 'М25-1', 'М26-1', 'ТГ26-1К'];
-    const TEACHERS = ['Андрийченко В. А.', 'Анчиков А. И.', 'Баденкова Ю. А.', 'Богачёв В. И.', 'Борисов А. В.', 'Брускина Н. И.', 'Волошин Р. Н.', 'Голованова Н. С.', 'Голота Ю. А.', 'Гребенник В. С.', 'Григорян Н. А.', 'Гришина С. В.', 'Громов Р. И.', 'Дайлида В. К.', 'Досаева А. А.', 'Дрёмов А. В.', 'Евстафиева Т. В.', 'Егорова И. И.', 'Ефремов И. А.', 'Журбицкая А. М.', 'Журский Р. Д.', 'Зуев В. М.', 'Иванов Д. С.', 'Казакова Н. Н.', 'Каминская Е. В.', 'Кибиц Д. Н.', 'Кирьянова Я. В.', 'Кислова Н. В.', 'Ковалёва О. Р.', 'Коваль Е. Н.', 'Кожевникова Д. О.', 'Коленда Е. Р.', 'Колошко Е. А.', 'Корнева М. И.', 'Котельников А. М.', 'Краснощекова В. В.', 'Кривуля М. А.', 'Кривцун А. А.', 'Кузнецова Т. А.', 'Куприянова А. П.', 'Лебедева А. В.', 'Леонова А. Е.', 'Линник О. В.', 'Максимова Н. А.', 'Минбулатова И. Г.', 'Молите Д. А.', 'Морылёв К. С.', 'Непочатых А. В.', 'Одегов С. Ю.', 'Письменчук М. А.', 'Плешков В. М.', 'Подгорных О. А.', 'Подтяжкин В. Д.', 'Позднякова Г. А.', 'Пронин И. А.', 'Разумова А. М.', 'Рыбачек А. А.', 'Савило С. Ф.', 'Садовская А. А.', 'Садыков Т. А.', 'Сергиеня Д. Д.', 'Смирнов И. А.', 'Спирин В. В.', 'Сычугова Д. Д.', 'Трифонова А. Ю.', 'Тютюнова Е. В.', 'Ушкина Т. А.', 'Федоренко М. В.', 'Федосов А. В.', 'Хмеленко В. В.', 'Хорунжий Д. Г.', 'Храмов С. С.', 'Чертищев В. А.', 'Шадрина О. А.', 'Шаройкина Т. Я.', 'Шевченко П. С.', 'Ширяева Н. С.'];
-    const ROOMS = ['104', '105', '105м', '108м', '109м', '111', '112', '201', '201м', '202', '202м', '203', '203м', '204', '204м', '206м', '207', '207м', '208м', '209м', '210м', '213м', '301/1', '301/2', '302', '303', '304', '307', '308', '309', '401/1', '401/2', '402', '403', '404', '407', '409', 'Акт.зал', 'Библ.1', 'Библиотека', 'Малый зал', 'Свар.маст', 'Сп. зал 1', 'Сп. зал 2', 'Сп. зал 3', 'Стол.маст'];
+    const CURATORS = { 'ИСр24-1': 'Шевченко П. С.' };
     const INFO = {
       'Шевченко П. С.': ['Шевченко Полина Сергеевна', 'Преподаватель · куратор ИСр24-1', '09.02.06, 09.02.07 (разработчик), 08.02.01'],
       'Молите Д. А.': ['Молите Дарья Андреевна', 'Преподаватель', ''],
@@ -512,154 +532,207 @@ class Component extends DCLogic {
       'Андрийченко В. А.': ['Андрийченко Виктория Александровна', 'Преподаватель', '08.02.14, 09.02.06, 09.02.07 (разработчик), 08.02.01, 08.01.28'],
       'Чертищев В. А.': ['Чертищев Владимир Александрович', 'Руководитель физического воспитания', '09.02.06, 09.02.07 (разработчик), 08.02.01']
     };
-    const S = {
-      rov: 'Разговоры о важном', gd: 'Графический дизайн и мультимедиа', bzh: 'Безопасность жизнедеятельности',
-      opt: 'Оптимизация веб-приложений', sec: 'Обеспечение безопасности веб-приложений', econ: 'Экономика отрасли',
-      pe: 'Физическая культура', law: 'Правовое обеспечение профессиональной деятельности',
-      web: 'Проектирование и разработка веб-приложений', up: 'Учебная практика 08'
-    };
-    const L = (n, subj, room, teacher) => ({ n: n, subj: subj, room: room, teacher: teacher });
-    const week = [
-      [L(1, S.rov, '203', 'Шевченко П. С.'), L(2, S.gd, '', 'Морылёв К. С.'), L(3, S.gd, '', 'Морылёв К. С.')],
-      [L(1, S.bzh, '201', 'Котельников А. М.'), L(2, S.bzh, '201', 'Котельников А. М.'), L(3, S.opt, '401/2', 'Молите Д. А.'), L(4, S.sec, '301/1', 'Храмов С. С.')],
-      [L(1, S.gd, '', 'Морылёв К. С.'), L(2, S.econ, 'Малый зал', 'Брускина Н. И.'), L(3, S.pe, 'Сп. зал 3', 'Чертищев В. А.'), L(4, S.sec, '301/1', 'Храмов С. С.'), L(5, S.law, '202', 'Андрийченко В. А.')],
-      [L(1, S.web, '403', 'Громов Р. И.'), L(2, S.web, '403', 'Громов Р. И.'), L(3, S.web, '403', 'Громов Р. И.')],
-      [L(4, S.web, '403', 'Громов Р. И.'), L(5, S.web, '403', 'Громов Р. И.'), L(6, S.web, '403', 'Громов Р. И.')],
-      [L(1, S.up, '403', 'Морылёв К. С.'), L(2, S.up, '403', 'Морылёв К. С.'), L(3, S.up, '403', 'Морылёв К. С.')]
-    ];
-    const flat = [];
-    week.forEach((d, di) => d.forEach((l) => flat.push(Object.assign({ d: di }, l))));
-    const isNow = (l) => l.d === TODAY && l.n === NOWP;
-    const fmtRoom = (x) => !x ? '' : (/^\d/.test(x) ? 'ауд. ' + x : x);
-    const roomTitle = (x) => /^\d/.test(x) ? 'Аудитория ' + x : x;
-    const iniOf = (name) => { const p = name.split(' '); return (p[0] || '').charAt(0) + (p[1] || '').charAt(0); };
-    const hasData = group === 'ИСр24-1';
-    const timer = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0');
-    const progress = ((5400 - left) / 5400 * 100).toFixed(1);
 
-    const subs = [['pairs', 'Пары'], ['bells', 'Звонки'], ['results', 'Итоги']].map((x) => {
-      const on = x[0] === sub;
-      return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', weight: on ? 700 : 500, shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.12)' : 'none', pick: set({ sub: x[0] }) };
-    });
+    const GL = M.groups(), TL = M.teachers(), RL = M.rooms();
+    const gi = M.groupIndex(group);
+    const clk = M.clock();
+    const b = M.bounds();
+    const wMin = b.min, wMax = Math.max(b.max, 1);
+    const w = Math.max(wMin, Math.min(wMax, s.w != null ? s.w : 0));
+    const wi = M.weekInfo(w);
+    const canPrev = w > wMin, canNext = w < wMax;
+    const navBtn = (on) => ({ opacity: on ? '1' : '0.35', cursor: on ? 'pointer' : 'default' });
+    const nowOf = (st, l) => st.mode === 'now' && l.date === clk.iso && l.n === st.lesson.n;
 
-    const dayPills = dayShort.map((d, i) => {
+    /* ---------- что сейчас ---------- */
+    const st = M.status('g', gi);
+    const L0 = st.lesson;
+    let plaque;
+    if (st.mode === 'now') {
+      const nx = st.next;
+      plaque = { live: true, badge: 'Сейчас · ' + L0.n + ' пара', when: L0.time, big: M.fmtTimer(st.left), bigMono: true, bigSize: '46px', bigNote: 'до конца пары',
+        progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true, subject: L0.subject,
+        meta: [L0.teacher, fmtRoom(L0.room)].filter(Boolean).join(' · ') + (nx ? ' · далее ' + nx.n + ' пара в ' + nx.start : ' · последняя пара') };
+    } else if (st.mode === 'break' || st.mode === 'before') {
+      plaque = { live: true, badge: st.mode === 'break' ? 'Перемена' : 'Скоро занятия', when: L0.time, big: M.fmtTimer(st.left), bigMono: true, bigSize: '46px', bigNote: 'до ' + L0.n + ' пары',
+        progress: '0', hasProgress: false, subject: L0.subject, meta: [L0.teacher, fmtRoom(L0.room)].filter(Boolean).join(' · ') };
+    } else if (L0) {
+      plaque = { live: false, badge: st.mode === 'after' ? 'На сегодня всё' : (clk.wd === 6 ? 'Сегодня выходной' : 'Сегодня пар нет'), when: 'следующая пара',
+        big: cap(M.whenLabel(L0.date)), bigMono: false, bigSize: '30px', bigNote: L0.n + ' пара · ' + L0.start,
+        progress: '0', hasProgress: false, subject: L0.subject, meta: [L0.teacher, fmtRoom(L0.room)].filter(Boolean).join(' · ') };
+    } else {
+      plaque = { live: false, badge: 'Пар не найдено', when: '', big: '—', bigMono: false, bigSize: '30px', bigNote: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, subject: '', meta: '' };
+    }
+    plaque.hasSubject = !!plaque.subject;
+    plaque.dot = plaque.live ? '#FF8A3D' : '#5B6270';
+    plaque.anim = plaque.live ? 'kPulse 1.8s ease-out infinite' : 'none';
+    plaque.bigFont = plaque.bigMono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif";
+
+    /* ---------- неделя группы ---------- */
+    const wk = M.week('g', gi, wi.monday);
+    const showDays = wk.filter((d) => d.wd < 6 || d.lessons.length);
+    const todayIdx = showDays.findIndex((d) => d.iso === clk.iso);
+    const defDay = todayIdx >= 0 ? todayIdx : Math.max(0, showDays.findIndex((d) => d.lessons.length));
+    const day = s.day != null && s.day < showDays.length ? s.day : defDay;
+    const dayPills = showDays.map((d, i) => {
       const on = i === day;
-      const cnt = hasData ? week[i].length : 0;
+      const today = d.iso === clk.iso;
+      const cnt = d.lessons.length;
       return {
-        short: i === TODAY ? 'Сег.' : d, num: 9 + i, count: cnt ? cnt + ' ' + pl(cnt, 'пара', 'пары', 'пар') : '—',
+        short: today ? 'Сег.' : d.short, num: d.num, count: cnt ? pairs(cnt) : '—',
         selected: on ? 'true' : 'false', bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C',
-        border: on ? accent : (i === TODAY ? accent : '#E3E6EB'), pick: set({ day: i })
+        border: on ? accent : (today ? accent : '#E3E6EB'), pick: set({ day: i })
       };
     });
-    const times = timesFor(day);
-    const dayLessons = !hasData ? [] : week[day].map((l, k) => {
-      const now = day === TODAY && l.n === NOWP;
+    const dSel = showDays[day] || showDays[0];
+    const dToday = dSel.iso === clk.iso;
+    const dayLessons = dSel.lessons.map((l, k) => {
+      const now = dToday && nowOf(st, l);
+      const meta = [l.subLabel, l.type === 'Практика' ? 'практика' : ''].filter(Boolean).join(' · ');
       return {
-        n: l.n, start: times[l.n - 1][0], end: times[l.n - 1][1], subject: l.subj, teacher: l.teacher,
-        room: fmtRoom(l.room), hasRoom: !!l.room, now: now,
+        n: l.n, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, teacher: l.teacher, hasTeacher: !!l.teacher,
+        room: fmtRoom(l.room), hasRoom: !!l.room, now: now, meta: meta, hasMeta: !!meta,
         bg: now ? '#FFF4EA' : '#FFFFFF', border: now ? '#F5C9A6' : '#E3E6EB',
         numBg: now ? '#B4530F' : '#F1F3F6', numFg: now ? '#FFFFFF' : '#15171C', delay: delay(k),
-        openTeacher: set({ sheet: { type: 't', key: l.teacher } }),
-        openRoom: set({ sheet: { type: 'r', key: l.room } })
+        openTeacher: set({ sheet: { type: 't', key: l.teachers[0] || '' } }),
+        openRoom: set({ sheet: { type: 'r', key: l.rooms[0] || '' } })
       };
     });
     const dc = dayLessons.length;
 
+    /* ---------- звонки ---------- */
+    const monTimes = M.MON_TIMES, wkTimes = M.WK_TIMES;
+    const bellDay = s.bellDay || (clk.wd === 0 ? 'mon' : 'week');
+    const bellList = clk.wd === 0 ? monTimes : (clk.wd <= 5 ? wkTimes : []);
+    let bellNow = -1;
+    let bellProgress = '0';
+    bellList.forEach((t, i) => {
+      const a = M.toSec(t[0]), e = M.toSec(t[1]);
+      if (a <= clk.secs && clk.secs < e) { bellNow = i; bellProgress = ((clk.secs - a) / (e - a) * 100).toFixed(1); }
+    });
     const pairRow = (i, t, now) => ({ isPair: true, isEvent: false, isBreak: false, n: i + 1, time: t[0] + ' – ' + t[1], label: '', now: now, bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : '#F1F3F6', numFg: now ? '#FFFFFF' : '#15171C' });
     const eventRow = (label, time) => ({ isPair: false, isEvent: true, isBreak: false, n: '', time: time, label: label, now: false, bg: '', numBg: '', numFg: '' });
     const breakRow = (label) => ({ isPair: false, isEvent: false, isBreak: true, n: '', time: '', label: label, now: false, bg: '', numBg: '', numFg: '' });
     let bells;
     if (bellDay === 'mon') {
+      const mn = (i) => clk.wd === 0 && bellNow === i;
       bells = [eventRow('Подъём флага', '08:15 – 08:25'), breakRow('5 мин'), eventRow('Кураторский час', '08:30 – 09:00'), breakRow('10 мин'),
-        pairRow(0, monTimes[0], false), breakRow('10 мин'), pairRow(1, monTimes[1], false), breakRow('20 мин'),
-        pairRow(2, monTimes[2], false), breakRow('10 мин'), pairRow(3, monTimes[3], false), breakRow('10 мин'),
-        eventRow('Кураторский час', '15:20 – 15:50'), breakRow('10 мин'), pairRow(4, monTimes[4], false), breakRow('10 мин'), pairRow(5, monTimes[5], false)];
+        pairRow(0, monTimes[0], mn(0)), breakRow('10 мин'), pairRow(1, monTimes[1], mn(1)), breakRow('20 мин'),
+        pairRow(2, monTimes[2], mn(2)), breakRow('10 мин'), pairRow(3, monTimes[3], mn(3)), breakRow('10 мин'),
+        eventRow('Кураторский час', '15:20 – 15:50'), breakRow('10 мин'), pairRow(4, monTimes[4], mn(4)), breakRow('10 мин'), pairRow(5, monTimes[5], mn(5))];
     } else {
       const br = ['перемена 10 мин', 'перемена 30 мин', 'перемена 10 мин', 'перемена 10 мин', 'перемена 10 мин'];
       bells = [];
-      wkTimes.forEach((t, i) => { bells.push(pairRow(i, t, i === 1)); if (i < br.length) bells.push(breakRow(br[i])); });
+      wkTimes.forEach((t, i) => { bells.push(pairRow(i, t, clk.wd >= 1 && clk.wd <= 5 && bellNow === i)); if (i < br.length) bells.push(breakRow(br[i])); });
     }
-    bells = bells.map((b, i) => Object.assign(b, { delay: delay(i) }));
+    bells = bells.map((x, i) => Object.assign(x, { delay: delay(i) }));
     const bellTabs = [['mon', 'Понедельник'], ['week', 'Вт – Сб']].map((x) => {
       const on = x[0] === bellDay;
       return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ bellDay: x[0] }) };
     });
 
-    const countBy = (key) => {
+    /* ---------- итоги ---------- */
+    const flat = [];
+    wk.forEach((d) => d.lessons.forEach((l) => flat.push(l)));
+    const countBy = (fn) => {
       const map = {};
-      flat.forEach((l) => { map[l[key]] = (map[l[key]] || 0) + 1; });
-      return Object.keys(map).map((k) => [k, map[k]]).sort((a, b) => b[1] - a[1]);
+      flat.forEach((l) => { const k = fn(l); if (k) map[k] = (map[k] || 0) + 1; });
+      return Object.keys(map).map((k) => [k, map[k]]).sort((a, c) => c[1] - a[1]);
     };
-    const subjCounts = countBy('subj');
+    const subjCounts = countBy((l) => l.subject);
     const maxS = subjCounts.length ? subjCounts[0][1] : 1;
-    const bySubj = subjCounts.map((x, i) => ({ label: x[0], value: x[1] + ' ' + pl(x[1], 'пара', 'пары', 'пар'), pct: Math.round(x[1] / maxS * 100), delay: delay(i) }));
-    const tCount = countBy('teacher').length;
+    const bySubj = subjCounts.map((x, i) => ({ label: x[0], value: pairs(x[1]), pct: Math.round(x[1] / maxS * 100), delay: delay(i) }));
+    const tCnt = countBy((l) => l.teacher).length;
+    const studyDays = wk.filter((d) => d.lessons.length).length;
     const stats = [
       [flat.length, pl(flat.length, 'пара на неделе', 'пары на неделе', 'пар на неделе'), accent],
-      [6, 'учебных дней', '#15171C'],
+      [studyDays, pl(studyDays, 'учебный день', 'учебных дня', 'учебных дней'), '#15171C'],
       [subjCounts.length, pl(subjCounts.length, 'дисциплина', 'дисциплины', 'дисциплин'), '#15171C'],
-      [tCount, pl(tCount, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
+      [tCnt, pl(tCnt, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
+    ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
+    const loadRaw = M.load(gi);
+    const sumOf = (k) => loadRaw.reduce((a, x) => a + (x[k] || 0), 0);
+    const hTotal = sumOf('total'), hFact = sumOf('fact'), hPlan = sumOf('plan');
+    const fmtD = (iso) => iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) : '—';
+    const loadRows = loadRaw.slice().sort((a, c) => a.subject.localeCompare(c.subject, 'ru') || a.sub - c.sub).map((x, i) => {
+      const pct = x.total ? Math.min(100, Math.round(x.fact / x.total * 100)) : 0;
+      const behind = x.fact < x.plan;
+      return {
+        subject: x.subject, meta: [x.teacher, x.type, x.sub ? x.sub + ' подгр.' : ''].filter(Boolean).join(' · '),
+        nums: x.fact + ' из ' + x.total + ' ч · по плану ' + x.plan + ' ч · до ' + fmtD(x.end),
+        pct: pct, pctLabel: (x.pct != null ? x.pct : pct) + '%', planPct: x.total ? Math.min(100, Math.round(x.plan / x.total * 100)) : 0,
+        bar: behind ? '#E06A1B' : accent, state: behind ? '−' + (x.plan - x.fact) + ' ч от плана' : 'по плану',
+        chipBg: behind ? '#FFE6D3' : accentSoft, chipFg: behind ? '#9A4410' : accent, delay: delay(i)
+      };
+    });
+    const loadStats = [
+      [hFact + ' из ' + hTotal + ' ч', 'проведено за семестр', accent],
+      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', hFact < hPlan ? 'отстаёт от плана на ' + (hPlan - hFact) + ' ч' : 'нагрузка по плану', hFact < hPlan ? '#9A4410' : '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
 
+    /* ---------- группы ---------- */
     const prefixOf = (g) => { const mm = /^[^\d]+/.exec(g); return mm ? mm[0] : g; };
     const fams = {}, famOrder = [];
-    GROUPS.forEach((g) => {
-      const p = prefixOf(g), k = p.toUpperCase();
+    GL.forEach((g) => {
+      const p = prefixOf(g.name), k = p.toUpperCase();
       if (!fams[k]) { fams[k] = { forms: {}, items: [] }; famOrder.push(k); }
       fams[k].forms[p] = (fams[k].forms[p] || 0) + 1;
       fams[k].items.push(g);
     });
-    const famLabel = (k) => { const f = fams[k].forms; return Object.keys(f).sort((a, b) => f[b] - f[a])[0]; };
-    const prefixChips = [{ k: '', label: 'Все', count: GROUPS.length }].concat(famOrder.map((k) => ({ k: k, label: famLabel(k), count: fams[k].items.length }))).map((c) => {
+    const famLabel = (k) => { const f = fams[k].forms; return Object.keys(f).sort((a, c) => f[c] - f[a])[0]; };
+    const prefixChips = [{ k: '', label: 'Все', count: GL.length }].concat(famOrder.map((k) => ({ k: k, label: famLabel(k), count: fams[k].items.length }))).map((c) => {
       const on = c.k === gpre;
       return { label: c.label, count: c.count, pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ gpre: c.k }) };
     });
-    let gi = 0, shownGroups = 0;
-    const groupSections = famOrder.filter((k) => !gpre || k === gpre).map((k) => {
-      const items = fams[k].items.filter((g) => !gq || g.toLowerCase().indexOf(gq) >= 0).map((code) => {
-        const on = code === group;
-        const it = { code: code, meta: code === 'ИСр24-1' ? 'есть расписание' : (on ? 'открыта' : 'открыть'), border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF', pick: set({ group: code, tab: 'schedule', sub: 'pairs', page: '' }), delay: delay(gi) };
-        gi += 1;
+    let gCount = 0, shownGroups = 0;
+    const isGroupsTab = !page && tab === 'groups';
+    const groupSections = !isGroupsTab ? [] : famOrder.filter((k) => !gpre || k === gpre).map((k) => {
+      const items = fams[k].items.filter((g) => !gq || g.name.toLowerCase().indexOf(gq) >= 0).map((g) => {
+        const on = g.name === group;
+        const gs = M.status('g', g.i);
+        const meta = gs.mode === 'now' ? 'сейчас ' + gs.lesson.n + ' пара' : (CURATORS[g.name] ? 'куратор ' + CURATORS[g.name] : (on ? 'открыта' : 'открыть'));
+        const it = { code: g.name, meta: meta, border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF', pick: set({ group: g.name, tab: 'schedule', sub: 'pairs', page: '', w: 0, day: null }), delay: delay(gCount) };
+        gCount += 1;
         return it;
       });
       shownGroups += items.length;
       return { title: famLabel(k), count: items.length, items: items };
     }).filter((sec) => sec.items.length > 0);
 
-    const teacherAll = TEACHERS.map((name) => {
-      const pairs = flat.filter((l) => l.teacher === name);
-      const sb = [];
-      pairs.forEach((l) => { if (sb.indexOf(l.subj) < 0) sb.push(l.subj); });
-      return { key: name, info: INFO[name], subs: sb, has: pairs.length > 0, busy: pairs.some(isNow) };
-    });
+    /* ---------- преподаватели и аудитории ---------- */
     const letters = [];
-    TEACHERS.forEach((n) => { const c = n.charAt(0); if (letters.indexOf(c) < 0) letters.push(c); });
+    TL.forEach((t) => { const c = t.name.charAt(0); if (letters.indexOf(c) < 0) letters.push(c); });
     const letterChips = [''].concat(letters).map((c) => {
       const on = c === tl;
       return { label: c || 'Все', pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ tl: c }) };
     });
     let tk = 0;
-    const teacherList = teacherAll.filter((t) => (!tl || t.key.charAt(0) === tl) && (!tq || t.key.toLowerCase().indexOf(tq) >= 0)).map((t) => {
-      const it = { name: t.key, ini: iniOf(t.key), sub: t.busy ? 'Сейчас на паре · ауд. 403' : t.subs.join(', '), hasSub: t.has, busy: t.busy, pick: set({ sheet: { type: 't', key: t.key } }), delay: delay(tk) };
+    const isTeachersTab = !page && tab === 'teachers';
+    const teacherList = !isTeachersTab ? [] : TL.filter((t) => (!tl || t.name.charAt(0) === tl) && (!tq || t.name.toLowerCase().indexOf(tq) >= 0)).map((t) => {
+      const ts = M.status('t', t.i);
+      const busy = ts.mode === 'now';
+      const sb = busy ? 'Сейчас на паре · ' + ts.lesson.group + (ts.lesson.room ? ' · ' + fmtRoom(ts.lesson.room) : '') : M.teacherLoad(t.i).subjects.slice(0, 2).join(', ');
+      const it = { name: t.name, ini: iniOf(t.name), sub: sb, hasSub: !!sb, busy: busy, pick: set({ sheet: { type: 't', key: t.name } }), delay: delay(tk) };
       tk += 1;
       return it;
     });
 
+    const isRoomsTab = !page && tab === 'rooms';
     const roomSecs = {}, roomOrder = [];
-    ROOMS.forEach((r) => { const k = /^\d/.test(r) ? r.charAt(0) : 'x'; if (!roomSecs[k]) { roomSecs[k] = []; roomOrder.push(k); } roomSecs[k].push(r); });
+    RL.forEach((r) => { const k = /^\d/.test(r.name) ? r.name.charAt(0) : 'x'; if (!roomSecs[k]) { roomSecs[k] = []; roomOrder.push(k); } roomSecs[k].push(r); });
     let rk = 0;
-    const roomSections = roomOrder.map((k) => {
+    const roomSections = !isRoomsTab ? [] : roomOrder.map((k) => {
       const list = roomSecs[k];
       return {
-        title: k === 'x' ? 'Залы и мастерские' : list[0] + ' – ' + list[list.length - 1], count: list.length,
+        title: k === 'x' ? 'Залы и мастерские' : list[0].name + ' – ' + list[list.length - 1].name, count: list.length,
         items: list.map((r) => {
-          const uses = flat.filter((l) => l.room === r);
-          const busy = uses.some(isNow);
+          const rs = M.status('r', r.i);
+          const busy = rs.mode === 'now';
           const it = {
-            title: r, status: busy ? 'занята' : (uses.length ? 'есть ИСр24-1' : 'на сервере'),
-            dot: busy ? '#E06A1B' : (uses.length ? accent : '#C9CED6'), fg: busy ? '#9A4410' : '#5B6270',
+            title: r.name, status: busy ? 'занята · ' + rs.lesson.group : 'свободна',
+            dot: busy ? '#E06A1B' : '#3BA55C', fg: busy ? '#9A4410' : '#5B6270',
             border: busy ? '1px solid #F5C9A6' : '1px solid #E3E6EB', bg: busy ? '#FFF4EA' : '#FFFFFF',
-            pick: set({ sheet: { type: 'r', key: r } }), delay: delay(rk)
+            pick: set({ sheet: { type: 'r', key: r.name } }), delay: delay(rk)
           };
           rk += 1;
           return it;
@@ -667,34 +740,49 @@ class Component extends DCLogic {
       };
     });
 
-    const weekOf = (pred, infoFn, emptyText) => dayShort.map((ds, di) => {
-      const pairs = flat.filter((l) => l.d === di && pred(l)).map((l) => ({ n: l.n, time: timesFor(di)[l.n - 1].join(' – '), info: infoFn(l), fg: isNow(l) ? '#9A4410' : '#15171C' }));
-      return { label: ds + ', ' + (9 + di), pairs: pairs, empty: pairs.length === 0, emptyText: emptyText, bg: di === TODAY ? accentSoft : '#F7F8FA', delay: delay(di) };
-    });
-    const skeleton = dayShort.map((ds, di) => ({ label: ds + ', ' + (9 + di), delay: (di * 0.12).toFixed(2) + 's' }));
+    const weekOf = (kind, idx, infoFn) => {
+      const stx = M.status(kind, idx);
+      return M.week(kind, idx, wi.monday).filter((d) => d.wd < 6 || d.lessons.length).map((d, di) => {
+        const today = d.iso === clk.iso;
+        const ps = d.lessons.map((l) => ({ n: l.n, time: l.time, info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C' }));
+        return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
+      });
+    };
+    const skeleton = M.DAY_SHORT.slice(0, 6).map((ds, di) => ({ label: ds + ', ' + parseInt(M.addDays(wi.monday, di).slice(8), 10), delay: (di * 0.12).toFixed(2) + 's' }));
+    const countWeek = (kind, idx) => M.week(kind, idx, wi.monday).reduce((a, d) => a + d.lessons.length, 0);
     let sheetData = { title: '', sub: '', badge: '', extra: '', hasExtra: false, listTitle: '', hasWeek: false, noWeek: false, days: [], note: '' };
-    if (sheet && sheet.type === 't') {
-      const t = teacherAll.find((x) => x.key === sheet.key);
-      if (t) {
+    if (sheet && sheet.type === 't' && sheet.key) {
+      const ti = M.teacherIndex(sheet.key);
+      if (ti >= 0) {
+        const info = INFO[sheet.key];
+        const ld = M.teacherLoad(ti);
+        const ts = M.status('t', ti);
+        const n = countWeek('t', ti);
         sheetData = {
-          title: t.info ? t.info[0] : t.key, sub: t.info ? t.info[1] : 'Должность на kitis.ru не указана', badge: iniOf(t.key),
-          extra: t.info && t.info[2] ? 'Программы: ' + t.info[2] : '', hasExtra: !!(t.info && t.info[2]),
-          listTitle: 'Пары на неделю · 9 – 14 ноября', hasWeek: t.has, noWeek: !t.has,
-          days: weekOf((l) => l.teacher === t.key, (l) => 'ИСр24-1 · ' + l.subj + ' · ' + (l.room ? fmtRoom(l.room) : 'ауд. не указана'), 'Нет пар с ИСр24-1'),
-          note: t.has ? 'Показаны пары с ИСр24-1. Пары в других группах подтянутся со страницы преподавателя на сервере.' : 'Пары на неделю загрузятся со страницы преподавателя на сервере расписания.'
+          title: info ? info[0] : sheet.key,
+          sub: ts.mode === 'now' ? 'Сейчас на паре · ' + ts.lesson.group + (ts.lesson.room ? ' · ' + fmtRoom(ts.lesson.room) : '') : (info ? info[1] : 'Должность на kitis.ru не указана'),
+          badge: iniOf(sheet.key),
+          extra: [info && info[2] ? 'Программы: ' + info[2] : '', ld.groups.length ? 'Группы: ' + ld.groups.join(', ') : ''].filter(Boolean).join(' · '),
+          listTitle: 'Пары · ' + wi.shortLabel + ' · ' + (n ? pairs(n) : 'нет пар'), hasWeek: wi.hasData, noWeek: !wi.hasData,
+          days: weekOf('t', ti, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + ' · ' + (l.room ? fmtRoom(l.room) : 'ауд. не указана')),
+          note: wi.hasData ? 'Источник: ' + wi.sourceNote + ' · все группы' : 'Расписание на эту неделю ещё не опубликовано на сервере колледжа.'
+        };
+        sheetData.hasExtra = !!sheetData.extra;
+      }
+    } else if (sheet && sheet.type === 'r' && sheet.key) {
+      const ri = M.roomIndex(sheet.key);
+      if (ri >= 0) {
+        const rs = M.status('r', ri);
+        const busy = rs.mode === 'now';
+        const n = countWeek('r', ri);
+        sheetData = {
+          title: roomTitle(sheet.key), sub: busy ? 'Сейчас занята · ' + rs.lesson.n + ' пара · ' + rs.lesson.group : 'Сейчас свободна',
+          badge: /^\d/.test(sheet.key) ? sheet.key : sheet.key.slice(0, 3), extra: '', hasExtra: false,
+          listTitle: 'Занятость · ' + wi.shortLabel + ' · ' + (n ? pairs(n) : 'нет пар'), hasWeek: wi.hasData, noWeek: !wi.hasData,
+          days: weekOf('r', ri, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + (l.teacher ? ' · ' + l.teacher : '')),
+          note: wi.hasData ? 'Источник: ' + wi.sourceNote + ' · все группы' : 'Расписание на эту неделю ещё не опубликовано на сервере колледжа.'
         };
       }
-    } else if (sheet && sheet.type === 'r') {
-      const key = sheet.key;
-      const uses = flat.filter((l) => l.room === key);
-      const busy = uses.some(isNow);
-      sheetData = {
-        title: roomTitle(key), sub: busy ? 'Сейчас занята · 2 пара ИСр24-1' : (uses.length ? 'Сейчас пар ИСр24-1 нет' : 'Расписание аудитории — на сервере'),
-        badge: /^\d/.test(key) ? key : key.slice(0, 3), extra: '', hasExtra: false,
-        listTitle: 'Занятость на неделю · 9 – 14 ноября', hasWeek: uses.length > 0, noWeek: uses.length === 0,
-        days: weekOf((l) => l.room === key, (l) => 'ИСр24-1 · ' + l.subj + ' · ' + l.teacher, 'Нет пар ИСр24-1'),
-        note: uses.length ? 'Показаны пары ИСр24-1. Остальные группы подтянутся со страницы аудитории на сервере.' : 'Занятость на неделю загрузится со страницы аудитории на сервере расписания.'
-      };
     }
 
     const I = {
@@ -754,7 +842,26 @@ class Component extends DCLogic {
       ['Дневник «Моя школа»', I.book, K], ['Учебные материалы', I.book, 'https://kitis.ru/students/educational-materials/'],
       ['ГИА', I.cap, 'https://kitis.ru/students/gia/'], ['Графики аттестаций', I.chart, 'https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/']
     ].map((x, i) => ({ l: x[0], d: x[1], h: x[2], delay: delay(i) }));
-    const teacherWeek = flat.filter((l) => l.teacher === 'Громов Р. И.').map((l) => ({ day: dayShort[l.d] + ', ' + (9 + l.d), n: l.n, time: timesFor(l.d)[l.n - 1].join(' – '), bg: isNow(l) ? '#FFF4EA' : '#F7F8FA' }));
+
+    /* кабинет студента и преподавателя — демо на ИСр24-1 и Громове Р. И. */
+    const stu = st.mode === 'now'
+      ? { line: 'Сейчас ' + L0.n + ' пара' + (L0.room ? ' · ' + fmtRoom(L0.room) : ''), subject: L0.subject, timer: M.fmtTimer(st.left), live: true }
+      : (L0 ? { line: (st.mode === 'break' || st.mode === 'before' ? 'Сегодня ' : cap(M.whenLabel(L0.date)) + ' · ') + L0.n + ' пара в ' + L0.start + (L0.room ? ' · ' + fmtRoom(L0.room) : ''), subject: L0.subject, timer: st.mode === 'break' || st.mode === 'before' ? M.fmtTimer(st.left) : '', live: st.mode === 'break' || st.mode === 'before' }
+        : { line: 'Пар не найдено', subject: 'Расписание ещё не опубликовано', timer: '', live: false });
+    stu.dot = stu.live ? '#FF8A3D' : '#5B6270';
+    stu.anim = stu.live ? 'kPulse 1.8s ease-out infinite' : 'none';
+    const TC = 'Громов Р. И.';
+    const tci = M.teacherIndex(TC);
+    const tcs = M.status('t', tci);
+    const tc = tcs.mode === 'now'
+      ? { badge: 'Вы ведёте · ' + tcs.lesson.n + ' пара', title: tcs.lesson.group + (tcs.lesson.room ? ' · ' + fmtRoom(tcs.lesson.room) : ''), line: 'До конца пары ' + M.fmtTimer(tcs.left) + (tcs.next ? ' · далее ' + tcs.next.n + ' пара в ' + tcs.next.start : ' · последняя пара') }
+      : (tcs.lesson ? { badge: tcs.mode === 'break' || tcs.mode === 'before' ? 'Скоро пара' : 'Следующая пара', title: tcs.lesson.group + (tcs.lesson.room ? ' · ' + fmtRoom(tcs.lesson.room) : ''), line: (tcs.mode === 'break' || tcs.mode === 'before' ? 'Через ' + M.fmtTimer(tcs.left) : cap(M.whenLabel(tcs.lesson.date))) + ' · ' + tcs.lesson.n + ' пара в ' + tcs.lesson.start }
+        : { badge: 'Пар не найдено', title: '—', line: 'Расписание ещё не опубликовано' });
+    const tcWeekInfo = M.weekInfo(0);
+    const teacherWeek = [];
+    M.week('t', tci, tcWeekInfo.monday).forEach((d) => d.lessons.forEach((l) => teacherWeek.push({
+      day: d.short + ', ' + d.num, n: l.n, time: l.time, group: l.group, bg: d.iso === clk.iso && nowOf(tcs, l) ? '#FFF4EA' : '#F7F8FA'
+    })));
     const teacherLinks = [['Методические материалы', 'https://kitis.ru/teachers/docs/'], ['Аттестации', 'https://kitis.ru/teachers/attestation/'], ['Учебно-методическая работа', 'https://kitis.ru/teachers/educational-methodical-work/'], ['Воспитательная работа', 'https://kitis.ru/teachers/educational-work/'], ['Объявления', 'https://kitis.ru/teachers/announcing/'], ['Снижение бюрократической нагрузки', 'https://kitis.ru/teachers/snizheniye-byurokraticheskoy-nagruzki/']].map((x, i, arr) => ({ l: x[0], h: x[1], line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' }));
     const roleDefs = [['student', 'Студент', 'Аккаунт подтвердит куратор группы (у ИСр24-1 — Шевченко П. С.).', 'student'], ['teacher', 'Преподаватель', 'ФИО сверят со списком преподавателей в расписании, учётную запись подтвердит учебная часть.', 'teacher'], ['abitur', 'Абитуриент', 'Подтверждение не нужно: придёт письмо, а новости приёма будут на почте.', 'abitur']];
     let roleNote = roleDefs[0][2], roleTarget = 'student';
@@ -763,34 +870,47 @@ class Component extends DCLogic {
       if (on) { roleNote = x[2]; roleTarget = x[3]; }
       return { label: x[1], checked: on ? 'true' : 'false', border: on ? '2px solid ' + accent : '1px solid #DCE0E6', bg: on ? accentSoft : '#FFFFFF', pick: set({ role: x[0] }) };
     });
-    const groupOptions = GROUPS.map((g) => ({ code: g, selected: g === 'ИСр24-1' }));
+    const groupOptions = GL.map((g) => ({ code: g.name, selected: g.name === 'ИСр24-1' }));
 
-    const pageTitles = { home: ['Главная колледжа', 'kitis.ru'], abitur: ['Абитуриентам', 'Приём 2026'], student: ['Кабинет студента', 'ИСр24-1'], teacher: ['Кабинет преподавателя', 'Громов Р. И.'], login: ['Вход', 'Личный кабинет'], register: ['Регистрация', 'Личный кабинет'] };
-    const tabTitles = { schedule: ['Расписание', group + ' · чт, 12 ноября'], groups: ['Группы', GROUPS.length + ' групп'], teachers: ['Преподаватели', TEACHERS.length + ' преподавателей'], rooms: ['Аудитории', ROOMS.length + ' аудиторий'], menu: ['Меню', 'Всё, что не про расписание'] };
+    const todayLabel = M.DAY_SHORT[clk.wd].toLowerCase() + ', ' + M.dayLabel(clk.iso);
+    const pageTitles = { home: ['Главная колледжа', 'kitis.ru'], abitur: ['Абитуриентам', 'Приём 2026'], student: ['Кабинет студента', 'ИСр24-1'], teacher: ['Кабинет преподавателя', TC], login: ['Вход', 'Личный кабинет'], register: ['Регистрация', 'Личный кабинет'] };
+    const tabTitles = { schedule: ['Расписание', group + ' · ' + todayLabel], groups: ['Группы', GL.length + ' групп'], teachers: ['Преподаватели', TL.length + ' преподавателей'], rooms: ['Аудитории', RL.length + ' аудиторий'], menu: ['Меню', 'Всё, что не про расписание'] };
     const tt = page ? pageTitles[page] : tabTitles[tab];
+    const upd = M.updatedLabel();
 
     return {
-      accent: accent, accentSoft: accentSoft, timer: timer, progress: progress, group: group, hasData: hasData, noData: !hasData,
-      groupCaption: hasData ? 'Группа · куратор Шевченко П. С.' : 'Группа · пары подтянутся с сервера',
+      accent: accent, accentSoft: accentSoft, plaque: plaque, group: group, hasData: true, noData: false,
+      groupCaption: CURATORS[group] ? 'Группа · куратор ' + CURATORS[group] : 'Группа',
       title: tt[0], subtitle: tt[1], hasPage: !!page, noPage: !page,
       isScheduleTab: !page && tab === 'schedule',
       isPairs: !page && tab === 'schedule' && sub === 'pairs',
       isBellsSub: !page && tab === 'schedule' && sub === 'bells',
       isResultsSub: !page && tab === 'schedule' && sub === 'results',
-      isGroupsTab: !page && tab === 'groups', isTeachersTab: !page && tab === 'teachers', isRoomsTab: !page && tab === 'rooms', isMenuTab: !page && tab === 'menu',
+      isGroupsTab: isGroupsTab, isTeachersTab: isTeachersTab, isRoomsTab: isRoomsTab, isMenuTab: !page && tab === 'menu',
       isHome: page === 'home', isAbitur: page === 'abitur', isStudent: page === 'student', isTeacher: page === 'teacher', isLogin: page === 'login', isRegister: page === 'register',
-      subs: subs, dayPills: dayPills, dayLessons: dayLessons,
-      dayTitle: dayNames[day] + ', ' + (9 + day) + ' ноября', dayCount: dc ? dc + ' ' + pl(dc, 'пара', 'пары', 'пар') : '',
-      dayNote: hasData && day === 0, dayEmpty: dc === 0, dayEmptyText: hasData ? 'В этот день пар нет' : 'Расписание группы подтянется с сервера',
-      bells: bells, bellTabs: bellTabs, bellNote: bellDay === 'mon' ? 'Кураторский день · пара 1 ч 20 мин' : 'Вторник – суббота · пара 1 ч 30 мин',
-      stats: stats, bySubj: bySubj,
-      prefixChips: prefixChips, groupSections: groupSections, noGroups: shownGroups === 0,
-      letterChips: letterChips, teacherList: teacherList, noTeachers: teacherList.length === 0,
-      teacherCount: teacherList.length + ' ' + pl(teacherList.length, 'преподаватель', 'преподавателя', 'преподавателей') + ' · ещё 2 строки «Вакансия» скрыты',
-      roomSections: roomSections, roomsTotal: ROOMS.length, skeleton: skeleton,
+      subs: [['pairs', 'Пары'], ['bells', 'Звонки'], ['results', 'Итоги']].map((x) => {
+        const on = x[0] === sub;
+        return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', weight: on ? 700 : 500, shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.12)' : 'none', pick: set({ sub: x[0] }) };
+      }),
+      weekShort: wi.shortLabel, weekSub: wi.sub, sourceNote: wi.sourceNote, nextBadge: w === 0 && b.nextPublished,
+      prevNav: navBtn(canPrev), nextNav: navBtn(canNext),
+      prevWeek: set({ w: canPrev ? w - 1 : w, day: null }), nextWeek: set({ w: canNext ? w + 1 : w, day: null }),
+      dayPills: dayPills, dayLessons: dayLessons, dayCols: 'repeat(' + showDays.length + ', minmax(0, 1fr))',
+      dayTitle: dSel.name + ', ' + dSel.label, dayCount: dc ? pairs(dc) : '',
+      dayNote: dSel.wd === 0 && dc > 0, dayEmpty: dc === 0,
+      dayEmptyText: wi.hasData ? 'В этот день пар нет' : (w > 0 ? 'Расписание ещё не опубликовано на сервере' : 'За эту неделю данных на сервере нет'),
+      bells: bells, bellTabs: bellTabs, bellProgress: bellProgress,
+      bellNote: (bellDay === 'mon' ? 'Кураторский день · пара 1 ч 20 мин' : 'Вторник – суббота · пара 1 ч 30 мин') + ' · время 7-й пары на kitis.ru не указано',
+      stats: stats, bySubj: bySubj, hasStats: flat.length > 0, noStats: flat.length === 0,
+      loadRows: loadRows, loadStats: loadStats, hasLoad: loadRows.length > 0, updLine: upd ? 'данные на ' + upd : '',
+      prefixChips: prefixChips, groupSections: groupSections, noGroups: isGroupsTab && shownGroups === 0,
+      letterChips: letterChips, teacherList: teacherList, noTeachers: isTeachersTab && teacherList.length === 0,
+      teacherCount: TL.length + ' ' + pl(TL.length, 'преподаватель', 'преподавателя', 'преподавателей') + ' · ещё 2 строки «Вакансия» скрыты',
+      roomSections: roomSections, roomsTotal: RL.length, skeleton: skeleton,
       sheetOpen: !!sheet && !!sheetData.title, sheet: sheetData, closeSheet: set({ sheet: null }),
       bottom: bottom, menuPages: menuPages, menuLinks: menuLinks,
-      news: news, steps: steps, specs: specs, studentLinks: studentLinks, teacherWeek: teacherWeek, teacherLinks: teacherLinks,
+      news: news, steps: steps, specs: specs, studentLinks: studentLinks, stu: stu, tc: tc, teacherWeek: teacherWeek, teacherLinks: teacherLinks,
+      noTeacherWeek: teacherWeek.length === 0, tcWeek: tcWeekInfo.shortLabel,
       roles: roles, roleNote: roleNote, roleStudent: role === 'student', roleAbitur: role === 'abitur', groupOptions: groupOptions,
       goBack: set({ page: page === 'register' ? 'login' : '', tab: 'menu' }),
       goGroups: set({ tab: 'groups', page: '', sheet: null }),

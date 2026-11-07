@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <title>КИТиС · Кабинет преподавателя</title>
 
+<script src="data/kitis-data.js"></script>
+<script src="kitis-model.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Кабинет преподавателя.">
 <style>
@@ -31,6 +33,7 @@ html.phone-full body{background:#F4F5F7}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
+@keyframes kPulse{0%{box-shadow:0 0 0 0 rgba(255,138,61,.6)}70%{box-shadow:0 0 0 9px rgba(255,138,61,0)}100%{box-shadow:0 0 0 0 rgba(255,138,61,0)}}
 body{margin:0;background:#F4F5F7}
 a{color:#2D5BE3}a:hover{color:#1E3FA8}
 button,input{font-family:inherit}
@@ -61,7 +64,7 @@ button,input{font-family:inherit}
 <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Добрый день!</h1>
-<p style="margin: 0; color: #5B6270;">Громов Р. И. · кабинет преподавателя · четверг, 12 ноября</p>
+<p style="margin: 0; color: #5B6270;">Громов Р. И. · кабинет преподавателя · {{todayLong}}</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
 <button type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>Сообщить в учебную часть</button>
@@ -73,23 +76,23 @@ button,input{font-family:inherit}
 <div style="flex: 999 1 620px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
 <section aria-label="Текущая пара" style="background: #15171C; color: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px;">
 <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 6px;">
-<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D;"></span>Вы ведёте · 2 пара</span>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 60px; font-weight: 700; line-height: 0.95; letter-spacing: -0.04em;">38:12</span>
-<span style="font-size: 13.5px; color: #B9BEC8;">до конца пары · 10:10 – 11:40</span>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.06em;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{pq.dot}}; animation: {{pq.anim}};"></span>{{pq.badge}}</span>
+<span style="font-family: {{pq.font}}; font-size: {{pq.size}}; font-weight: 700; line-height: 0.95; letter-spacing: -0.03em;">{{pq.big}}</span>
+<span style="font-size: 13.5px; color: #B9BEC8;">{{pq.note}}</span>
 </div>
 <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
-<div aria-hidden="true" style="height: 6px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: 57.6%; background: #FF8A3D; border-radius: 3px;"></div></div>
-<span style="font-size: 26px; font-weight: 700; line-height: 1.2;">ИСр24-1 · ауд. 403</span>
-<span style="font-size: 15px; color: #FFFFFF;">Проектирование и разработка веб-приложений</span>
-<span style="font-size: 14px; color: #B9BEC8;">Следующая: 3 пара в 12:10 · ИСр24-1 · ауд. 403</span>
+<sc-if value="{{pq.hasProgress}}" hint-placeholder-val="{{ true }}"><div aria-hidden="true" style="height: 6px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{pq.progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div></sc-if>
+<sc-if value="{{pq.hasTitle}}" hint-placeholder-val="{{ true }}"><span style="font-size: 26px; font-weight: 700; line-height: 1.2;">{{pq.title}}</span></sc-if>
+<sc-if value="{{pq.hasSubject}}" hint-placeholder-val="{{ true }}"><span style="font-size: 15px; color: #FFFFFF;">{{pq.subject}}</span></sc-if>
+<sc-if value="{{pq.hasMeta}}" hint-placeholder-val="{{ true }}"><span style="font-size: 14px; color: #B9BEC8;">{{pq.meta}}</span></sc-if>
 </div>
 </section>
 
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
 <div style="display: flex; flex-direction: column; gap: 2px;">
-<h2 style="margin: 0; font-size: 18px; font-weight: 700;">Моя неделя · 9 – 14 ноября</h2>
-<span style="font-size: 13px; color: #5B6270;">{{pairsLabel}} с ИСр24-1 · пары в других группах подтянутся из расписания преподавателя</span>
+<h2 style="margin: 0; font-size: 18px; font-weight: 700;">Моя неделя · {{weekShort}}</h2>
+<span style="font-size: 13px; color: #5B6270;">{{pairsLabel}} · все группы · {{sourceNote}}</span>
 </div>
 <div style="display: flex; gap: 6px;">
 <button type="button" aria-label="Прошлая неделя" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button>
@@ -125,11 +128,12 @@ button,input{font-family:inherit}
 
 <aside style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
-<h2 style="margin: 0; font-size: 18px; font-weight: 700;">Сегодня</h2>
+<h2 style="margin: 0; font-size: 18px; font-weight: 700;">{{listTitle}}</h2>
+<sc-if value="{{noToday}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; color: #5B6270;">Ближайших пар нет в источнике</span></sc-if>
 <sc-for list="{{today}}" as="t" hint-placeholder-count="3">
 <div style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: {{t.bg}};">
 <span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{t.numBg}}; color: {{t.numFg}}; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">{{t.n}}</span>
-<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-weight: 600; font-size: 14.5px;">ИСр24-1 · ауд. 403</span><span style="font-size: 12.5px; color: #5B6270;">{{t.time}}</span></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-weight: 600; font-size: 14.5px;">{{t.title}}</span><span style="font-size: 12.5px; color: #5B6270;">{{t.time}}</span></span>
 <span style="flex: none; font-size: 12px; font-weight: 600; color: {{t.stateFg}};">{{t.state}}</span>
 </div>
 </sc-for>
@@ -151,12 +155,14 @@ button,input{font-family:inherit}
 <section style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
 <h2 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Мои группы</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+<sc-for list="{{myGroups}}" as="g" hint-placeholder-count="2">
 <div style="display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB;">
-<span style="font-weight: 700; font-size: 20px;">ИСр24-1</span>
-<span style="font-size: 13.5px; color: #5B6270;">Куратор — Шевченко П. С.</span>
-<span style="font-size: 14px;">Проектирование и разработка веб-приложений · {{pairsLabel}} на неделе</span>
+<span style="font-weight: 700; font-size: 20px;">{{g.name}}</span>
+<span style="font-size: 13.5px; color: #5B6270;">{{g.note}}</span>
+<span style="font-size: 14px;">{{g.subjects}}</span>
 <a href="desktop.html" style="display: inline-flex; align-items: center; justify-content: center; height: 42px; border-radius: 11px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">Расписание группы</a>
 </div>
+</sc-for>
 <div style="display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 18px; border-radius: 16px; border: 1.5px dashed #C9CED6; color: #5B6270; font-size: 14px;">
 <span style="font-weight: 600; color: #15171C;">Другие группы</span>
 <span>Появятся автоматически из расписания преподавателя на 94.72.18.202:8083</span>
@@ -187,42 +193,105 @@ button,input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1600}}'>
 class Component extends DCLogic {
+  componentDidMount() {
+    this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._timer);
+  }
   renderVals() {
     const accent = this.props.accent ?? '#2D5BE3';
     const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
     const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
     const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
-    const pl = (n, one, few, many) => {
-      const a = Math.abs(n) % 100, b = a % 10;
-      if (a > 10 && a < 20) return many;
-      if (b === 1) return one;
-      if (b >= 2 && b <= 4) return few;
-      return many;
+
+    const M = window.KitisModel;
+    const clk = M.clock();
+    const pl = M.plural;
+    const cap = (x) => x ? x.charAt(0).toUpperCase() + x.slice(1) : x;
+    const fmtRoom = (x) => !x ? '' : (/^\d/.test(x) ? 'ауд. ' + x : x);
+    const pairs = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
+    const LONG = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
+    const todayLong = LONG[clk.wd] + ', ' + M.dayLabel(clk.iso);
+    const inLabel = (secs) => { const mm = Math.round(secs / 60); return mm >= 60 ? 'Через ' + Math.floor(mm / 60) + ' ч ' + (mm % 60) + ' мин' : 'Через ' + mm + ' мин'; };
+    const plaqueOf = (st, titleFn) => {
+      const L = st.lesson;
+      if (st.mode === 'now') return { live: true, badge: titleFn.nowBadge + ' · ' + L.n + ' пара', big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до конца пары · ' + L.time,
+        progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true, title: titleFn.title(L), subject: L.subject,
+        meta: st.next ? 'Следующая: ' + st.next.n + ' пара в ' + st.next.start + (st.next.room ? ' · ' + fmtRoom(st.next.room) : '') : 'Это последняя пара сегодня' };
+      if (st.mode === 'break' || st.mode === 'before') return { live: true, badge: st.mode === 'break' ? 'Перемена' : 'Скоро занятия', big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до начала ' + L.n + ' пары · ' + L.time,
+        progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: 'Начало в ' + L.start };
+      if (L) return { live: false, badge: st.mode === 'after' ? 'На сегодня пары закончились' : (clk.wd === 6 ? 'Сегодня выходной' : 'Сегодня пар нет'), big: cap(M.whenLabel(L.date)), mono: false, size: '40px',
+        note: 'следующая пара · ' + L.n + ' пара · ' + L.time, progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: '' };
+      return { live: false, badge: 'Пар не найдено', big: '—', mono: false, size: '40px', note: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, title: '', subject: '', meta: '' };
     };
-    const times = ['08:30 – 10:00', '10:10 – 11:40', '12:10 – 13:40', '13:50 – 15:20', '15:30 – 17:00', '17:10 – 18:40'];
-    const dayLabels = ['Пн, 9', 'Вт, 10', 'Ср, 11', 'Чт, 12 · сегодня', 'Пт, 13', 'Сб, 14'];
-    const lessons = { '3-1': 1, '3-2': 1, '3-3': 1, '4-4': 1, '4-5': 1, '4-6': 1 };
-    let count = 0;
-    const heads = dayLabels.map((l, d) => ({ label: l, bg: d === 3 ? accent : '#F7F8FA', fg: d === 3 ? '#FFFFFF' : '#15171C' }));
-    const grid = times.map((t, p) => ({
-      n: (p + 1) + ' пара', time: t,
-      cells: [0, 1, 2, 3, 4, 5].map((d) => {
-        const has = !!lessons[d + '-' + (p + 1)];
-        const now = d === 3 && p === 1;
-        if (has) count += 1;
-        return {
-          has: has, group: 'ИСр24-1', room: 'ауд. 403',
-          bg: now ? '#FFF4EA' : (has ? accentSoft : '#FAFBFC'),
-          border: now ? '#F5C9A6' : (has ? 'transparent' : '#EEF0F3'),
-          fg: now ? '#9A4410' : '#15171C', sub: now ? '#9A4410' : '#3A404C'
-        };
-      })
-    }));
-    const today = [
-      [1, '08:30 – 10:00', 'Прошла', '#5B6270', '#F7F8FA', '#F1F3F6', '#5B6270'],
-      [2, '10:10 – 11:40', 'Идёт', '#9A4410', '#FFF4EA', '#B4530F', '#FFFFFF'],
-      [3, '12:10 – 13:40', 'Через 1 ч 8 мин', accent, '#FFFFFF', accentSoft, accent]
-    ].map((x) => ({ n: x[0], time: x[1], state: x[2], stateFg: x[3], bg: x[4], numBg: x[5], numFg: x[6] }));
+    const finishPlaque = (pq) => Object.assign(pq, {
+      dot: pq.live ? '#FF8A3D' : '#5B6270', anim: pq.live ? 'kPulse 1.8s ease-out infinite' : 'none',
+      font: pq.mono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif", hasTitle: !!pq.title, hasSubject: !!pq.subject, hasMeta: !!pq.meta
+    });
+    const dayList = (kind, idx) => {
+      let lessons = M.lessonsOn(kind, idx, clk.iso);
+      let title = 'Сегодня', isToday = true;
+      if (!lessons.length) {
+        for (let d = 1; d <= 14; d++) {
+          const iso = M.addDays(clk.iso, d);
+          const ls = M.lessonsOn(kind, idx, iso);
+          if (ls.length) { lessons = ls; title = cap(M.whenLabel(iso)); isToday = false; break; }
+        }
+      }
+      return { title: lessons.length ? title : 'Сегодня', isToday: isToday, lessons: lessons };
+    };
+    const stateOf = (l, isToday) => {
+      if (!isToday || !l.hasTime) return { label: l.hasTime ? 'по расписанию' : 'время не указано', kind: 'next' };
+      const a = M.toSec(l.start), e = M.toSec(l.end);
+      if (clk.secs >= e) return { label: 'Прошла', kind: 'done' };
+      if (clk.secs >= a) return { label: 'Идёт · ' + Math.ceil((e - clk.secs) / 60) + ' мин', kind: 'now' };
+      return { label: inLabel(a - clk.secs), kind: 'next' };
+    };
+
+    const TC = 'Громов Р. И.';
+    const ti = M.teacherIndex(TC);
+    const tst = M.status('t', ti);
+    const pq = finishPlaque(plaqueOf(tst, { nowBadge: 'Вы ведёте', title: (L) => L.group + (L.subLabel ? ' (' + L.subLabel + ')' : '') + (L.room ? ' · ' + fmtRoom(L.room) : '') }));
+    const wi = M.weekInfo(0);
+    const wk = M.week('t', ti, wi.monday).slice(0, 6);
+    let count = 0, maxPair = 6;
+    wk.forEach((d) => d.lessons.forEach((l) => { count += 1; if (l.n > maxPair) maxPair = l.n; }));
+    const heads = wk.map((d) => {
+      const on = d.iso === clk.iso;
+      return { label: d.short + ', ' + d.num + (on ? ' · сегодня' : ''), bg: on ? accent : '#F7F8FA', fg: on ? '#FFFFFF' : '#15171C' };
+    });
+    const grid = [];
+    for (let p = 1; p <= maxPair; p++) {
+      const pt = M.pairTime(1, p);
+      grid.push({
+        n: p + ' пара', time: pt ? pt[0] + ' – ' + pt[1] : 'время не указано',
+        cells: wk.map((d) => {
+          const ls = d.lessons.filter((l) => l.n === p);
+          const has = ls.length > 0;
+          const now = has && tst.mode === 'now' && d.iso === clk.iso && tst.lesson.n === p;
+          return {
+            has: has, group: ls.map((l) => l.group + (l.sub ? ' · ' + l.sub + ' п/г' : '')).join(', '), room: has ? (ls[0].room ? fmtRoom(ls[0].room) : 'ауд. не указана') : '',
+            bg: now ? '#FFF4EA' : (has ? accentSoft : '#FAFBFC'), border: now ? '#F5C9A6' : (has ? 'transparent' : '#EEF0F3'),
+            fg: now ? '#9A4410' : '#15171C', sub: now ? '#9A4410' : '#3A404C'
+          };
+        })
+      });
+    }
+    const dl = dayList('t', ti);
+    const today = dl.lessons.map((l) => {
+      const s2 = stateOf(l, dl.isToday);
+      const c = s2.kind === 'done' ? ['#5B6270', '#F7F8FA', '#F1F3F6', '#5B6270'] : (s2.kind === 'now' ? ['#9A4410', '#FFF4EA', '#B4530F', '#FFFFFF'] : [accent, '#FFFFFF', accentSoft, accent]);
+      return { n: l.n, time: l.time, title: l.group + (l.room ? ' · ' + fmtRoom(l.room) : ''), state: s2.label, stateFg: c[0], bg: c[1], numBg: c[2], numFg: c[3] };
+    });
+    const ld = M.teacherLoad(ti);
+    const CUR = { 'ИСр24-1': 'Куратор — Шевченко П. С.' };
+    const myGroups = ld.groups.map((g) => {
+      const gIdx = M.groupIndex(g);
+      const subs = M.load(gIdx).filter((x) => x.t === ti).map((x) => x.subject).filter((x, k, arr) => arr.indexOf(x) === k);
+      const n = wk.reduce((acc, d) => acc + d.lessons.filter((l) => l.group === g).length, 0);
+      return { name: g, note: CUR[g] || 'Группа', subjects: subs.join(', ') + ' · ' + (n ? pairs(n) : 'нет пар') + ' на неделе' };
+    });
     const links = [
       ['Методические материалы', 'M2 6h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 6h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z', 'https://kitis.ru/teachers/docs/'],
       ['Аттестации', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'https://kitis.ru/teachers/attestation/'],
@@ -233,8 +302,9 @@ class Component extends DCLogic {
     ].map((x) => ({ l: x[0], d: x[1], h: x[2], bg: accentSoft, fg: accent }));
     return {
       accent: accent, accentSoft: accentSoft,
-      heads: heads, grid: grid, today: today, links: links,
-      pairsLabel: count + ' ' + pl(count, 'пара', 'пары', 'пар')
+      heads: heads, grid: grid, today: today, links: links, pq: pq, todayLong: todayLong, myGroups: myGroups,
+      listTitle: dl.title, noToday: today.length === 0, weekShort: wi.shortLabel, sourceNote: wi.sourceNote,
+      pairsLabel: pairs(count)
     };
   }
 }

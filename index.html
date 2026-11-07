@@ -22,7 +22,7 @@ header.top .wrap{display:flex;align-items:center;justify-content:space-between;g
 .logo span{display:flex;flex-direction:column;line-height:1.15}
 .logo strong{font-size:20px;letter-spacing:-.01em}
 .logo small{font-size:12px;color:var(--muted)}
-.chip{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);text-align:center}
 .hero{padding:48px 0 28px;display:flex;flex-direction:column;gap:14px;animation:up .5s ease both}
 .eyebrow{font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
 h1{margin:0;font-size:clamp(32px,5vw,56px);line-height:1.04;letter-spacing:-.025em;max-width:820px}
@@ -62,12 +62,13 @@ section.block h3{margin:0 0 14px;font-size:24px;letter-spacing:-.01em}
 .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
 .note{padding:18px 20px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-size:14.5px;color:var(--ink-2)}
 .note h4{margin:0 0 6px;font-size:16px;color:var(--ink)}
+.note code{font-size:13px;background:var(--bg);padding:1px 5px;border-radius:5px}
 footer{margin-top:48px;background:var(--ink);color:#C5CAD3;font-size:13.5px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:24px clamp(16px,4vw,40px)}
 footer a{color:#fff}
 @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-width:520px){.phone-row{flex-direction:column;align-items:flex-start}.hero{padding-top:32px}}
+@media (max-width:520px){.phone-row{flex-direction:column;align-items:flex-start}.hero{padding-top:32px}header.top .wrap{flex-wrap:wrap;padding-top:10px;padding-bottom:10px}}
 </style>
 </head>
 <body>
@@ -76,7 +77,7 @@ footer a{color:#fff}
 <header class="top">
 <div class="wrap">
 <a class="logo" href="index.html"><b aria-hidden="true">К</b><span><strong>КИТиС</strong><small>Новый сайт расписания · эскиз</small></span></a>
-<span class="chip">Неделя 9 – 14 ноября 2026</span>
+<span class="chip" id="upd">Данные сервера на 6 ноября 2026, 16:20</span>
 </div>
 </header>
 
@@ -84,7 +85,7 @@ footer a{color:#fff}
 <section class="hero">
 <span class="eyebrow">Учебный проект</span>
 <h1>Новый сайт расписания КИТиС</h1>
-<p class="lead">Расписание, группы, преподаватели, аудитории, звонки и итоги — всегда на виду. Всё остальное с kitis.ru собрано во вкладке «Меню». Есть версия для компьютера и для телефона.</p>
+<p class="lead">Расписание, группы, преподаватели, аудитории, звонки и итоги — всегда на виду. Всё остальное с kitis.ru собрано во вкладке «Меню». Пары всех групп берутся с сервера расписания колледжа: прошлые недели — из итогов, текущая и следующая — из актуального расписания.</p>
 <span class="meta">Автор: [ФИО, группа] · Руководитель: [ФИО преподавателя]</span>
 </section>
 
@@ -94,6 +95,7 @@ footer a{color:#fff}
 <h2>Версия для компьютера</h2>
 <p>Главный экран: расписание группы ИСр24-1 с таймером до конца пары.</p>
 <ul>
+<li>Таймер до конца пары по настоящему времени (Калининград)</li>
 <li>Вкладки в шапке: Расписание, Группы, Преподаватели, Аудитории, Звонки, Итоги</li>
 <li>Нажмите на преподавателя или аудиторию — откроется их неделя</li>
 <li>Кнопка «Меню» справа — всё остальное с kitis.ru</li>
@@ -118,11 +120,20 @@ footer a{color:#fff}
 <section class="block">
 <h3>Что уже внутри</h3>
 <div class="facts">
-<div class="fact"><b>60</b><span>групп</span></div>
-<div class="fact"><b>77</b><span>преподавателей</span></div>
-<div class="fact"><b>46</b><span>аудиторий</span></div>
-<div class="fact"><b>21</b><span>пара у ИСр24-1 за неделю</span></div>
-<div class="fact"><b>10</b><span>экранов</span></div>
+<div class="fact"><b id="f-groups">60</b><span>групп</span></div>
+<div class="fact"><b id="f-teachers">77</b><span>преподавателей</span></div>
+<div class="fact"><b id="f-rooms">46</b><span>аудиторий</span></div>
+<div class="fact"><b id="f-pairs">8412</b><span id="f-pairs-l">пар в расписании</span></div>
+<div class="fact"><b id="f-weeks">11</b><span id="f-weeks-l">недель с 31 августа</span></div>
+</div>
+</section>
+
+<section class="block">
+<h3>Как это выглядит во время пары</h3>
+<p class="meta" style="margin:0 0 12px">Сайт показывает настоящее время. Чтобы увидеть таймер в учебный день, откройте демо: четверг, 12 ноября, 10:30 — у ИСр24-1 идёт 2 пара.</p>
+<div class="grid">
+<a class="tile" href="desktop.html?now=2026-11-12T10:30"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Компьютер · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
+<a class="tile" href="phone.html?now=2026-11-12T10:30"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Телефон · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
 </div>
 </section>
 
@@ -143,7 +154,8 @@ footer a{color:#fff}
 <section class="block">
 <h3>Откуда данные</h3>
 <div class="notes">
-<div class="note"><h4>Расписание</h4>Группы, преподаватели, аудитории и пары ИСр24-1 на 9 – 14 ноября — с сервера расписания колледжа <a href="http://94.72.18.202:8083">94.72.18.202:8083</a>. Недели остальных групп заполнит парсер со страниц этого сервера.</div>
+<div class="note"><h4>Расписание</h4>Парсер обходит сервер <a href="http://94.72.18.202:8083">94.72.18.202:8083</a>: списки групп, преподавателей и аудиторий, «Неделю» каждой группы, «Итоги» и все журналы занятий. Прошлые недели собраны из журналов, неделя со страницы «Неделя» показана как текущая или следующая — по сегодняшней дате.</div>
+<div class="note"><h4>Обновление</h4>На GitHub данные обновляет задание GitHub Actions каждые 2 часа (пн–сб). Вручную — командой <code>node parser/update.mjs</code> или скриптом <code>parser/browser-update.js</code> в консоли браузера.</div>
 <div class="note"><h4>Остальное</h4>Звонки, специальности, памятка абитуриента 2026, должности преподавателей, новости и контакты — с <a href="https://kitis.ru/">kitis.ru</a>. Контактов преподавателей на kitis.ru нет, поэтому их на сайте тоже нет.</div>
 <div class="note"><h4>Это эскиз</h4>Вход и регистрация показаны для наглядности: поля никуда не отправляются, аккаунты не создаются.</div>
 </div>
@@ -157,6 +169,22 @@ footer a{color:#fff}
 </div>
 </footer>
 
+<script src="data/kitis-data.js"></script>
+<script>
+(function () {
+  var D = window.KITIS_DATA;
+  if (!D) return;
+  var M = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+  var pl = function (n, a, b, c) { var x = n % 100, y = x % 10; return x > 10 && x < 20 ? c : y === 1 ? a : y >= 2 && y <= 4 ? b : c; };
+  if (D.updated) set('upd', 'Данные сервера на ' + parseInt(D.updated.slice(8, 10), 10) + ' ' + M[parseInt(D.updated.slice(5, 7), 10) - 1] + ' ' + D.updated.slice(0, 4) + ', ' + D.updated.slice(11, 16));
+  var teachers = D.teachers.filter(function (n) { return !/ваканс/i.test(n); }).length;
+  set('f-groups', D.groups.length); set('f-teachers', teachers); set('f-rooms', D.rooms.length);
+  set('f-pairs', D.lessons.length); set('f-pairs-l', pl(D.lessons.length, 'пара', 'пары', 'пар') + ' в расписании');
+  var last = D.scheduleWeek ? Math.round((Date.parse(D.scheduleWeek) - Date.parse(D.base)) / 604800000) + 1 : 0;
+  if (last) { set('f-weeks', last); set('f-weeks-l', pl(last, 'неделя', 'недели', 'недель') + ' с ' + parseInt(D.base.slice(8, 10), 10) + ' ' + M[parseInt(D.base.slice(5, 7), 10) - 1]); }
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 (function () {
