@@ -94,6 +94,7 @@ PAGES = [
 SVEDEN_ROOT = '/sveden/'
 SVEDEN_FALLBACK = ['common', 'struct', 'document', 'education', 'eduStandarts', 'managers', 'employees',
                    'objects', 'grants', 'paid_edu', 'budget', 'vacant', 'inter', 'catering', 'ovz']
+DEBUG_PATHS = {'/sveden/common/'}   # для этих страниц отчёт всегда содержит схему разметки
 NO_PHOTO_PATH = re.compile(r'/sveden/|employee|manager|rukovod|sotrudnik|pedagog|staff|teachers-list|doska|pochet', re.I)
 # ленты, из которых берутся фотоальбомы: сначала медиацентр колледжа, потом новости для абитуриентов
 MEDIA_KINDS = [
@@ -587,7 +588,7 @@ class Builder:
         a, b = kids
         if a.name not in ('div', 'span', 'dt', 'td', 'th', 'strong', 'b', 'label') or b.name not in ('div', 'span', 'dd', 'td', 'p', 'a'):
             return False
-        if a.find(['div', 'p', 'ul', 'ol', 'table', 'img']) or b.find(['ul', 'ol', 'table', 'img', 'h2', 'h3']):
+        if a.find(['ul', 'ol', 'table', 'img']) or len(a.find_all(['p', 'div'])) > 2 or b.find(['ul', 'ol', 'table', 'img', 'h2', 'h3']):
             return False
         la, lb = short(a.get_text(' '), 200), short(b.get_text(' '), 1500)
         if not (2 <= len(la) <= 150) or not lb or la.endswith('.'):
@@ -716,9 +717,42 @@ def extract(url, title, link_map, allow_photos, skip_urls=()):
     has_form = bool(raw_main and any(len(f.find_all(['input', 'textarea', 'select'])) >= 3 for f in raw_main.find_all('form')))
     if has_form:
         b.add({'t': 'links', 'items': [['Заполнить форму на сайте колледжа', url, 'Форма отправляется на kitis.ru']]})
-    report['pages'].append({'url': url, 'title': t, 'container': describe(box), 'blocks': len(b.blocks),
-                            'photos': len(b.photos), 'children': len(b.children), 'form': has_form})
+    entry = {'url': url, 'title': t, 'container': describe(box), 'blocks': len(b.blocks),
+             'photos': len(b.photos), 'children': len(b.children), 'form': has_form}
+    if (len(b.blocks) <= 2 or path_of(url) in DEBUG_PATHS) and raw_main is not None:
+        entry['outline'] = outline(raw_main)
+        gone = []
+        for el in raw_main.find_all(True):
+            cls = ' '.join(el.get('class') or []) + ' ' + (el.get('id') or '')
+            if (cls.strip() and NEG.search(cls)) or el.name in SKIP_TAGS:
+                n = len(clean(el.get_text(' ')))
+                if n > 40:
+                    gone.append('%s.%s [текст %d]' % (el.name, '.'.join((el.get('class') or [])[:3]), n))
+        entry['removed'] = gone[:30]
+    report['pages'].append(entry)
     return {'title': t, 'blocks': b.blocks, 'photos': b.photos, 'children': b.children, 'final': rec['final']}
+
+
+def outline(el, depth=0, out=None):
+    """Схема разметки для отчёта (теги, классы, длина текста) — чтобы понять, почему страница вышла пустой."""
+    out = [] if out is None else out
+    if len(out) >= 90 or depth > 7 or not isinstance(el, Tag):
+        return out
+    kids = [c for c in el.children if isinstance(c, Tag)]
+    cls = '.'.join((el.get('class') or [])[:3])
+    txt = len(clean(el.get_text(' ')))
+    links = len(el.find_all('a', href=True))
+    extra = ''
+    if el.name == 'a':
+        extra = ' href=' + str(el.get('href'))[:60]
+    if el.get('data-src') or el.get('data-url') or el.get('data-ajax'):
+        extra += ' data=' + str(el.get('data-src') or el.get('data-url') or el.get('data-ajax'))[:60]
+    out.append('  ' * depth + el.name + ('#' + el.get('id') if el.get('id') else '') + ('.' + cls if cls else '')
+               + ' [текст %d, ссылок %d]' % (txt, links) + extra)
+    if txt or el.find('img') or el.name in ('main', 'section', 'div'):
+        for c in kids[:12]:
+            outline(c, depth + 1, out)
+    return out
 
 
 def describe(el):
