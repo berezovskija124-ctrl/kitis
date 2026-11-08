@@ -1,0 +1,37 @@
+# Снимает схему страниц «Итоги» с сервера расписания (parser/server-report.json).
+# Запускается вручную и после изменения parser/server-probe.mjs.
+name: Схема страниц сервера расписания
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'parser/server-probe.mjs'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: server-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node parser/server-probe.mjs
+      - name: Сохранить отчёт
+        run: |
+          git add parser/server-report.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Схема страниц сервера расписания"
+          for i in 1 2 3; do if git pull --rebase origin main && git push; then exit 0; fi; sleep 5; done
+          exit 1
