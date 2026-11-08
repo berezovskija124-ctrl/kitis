@@ -1,0 +1,906 @@
+{
+ "source": "https://kitis.ru",
+ "pages": [
+  {
+   "url": "https://kitis.ru/sveden/common/",
+   "title": "Основные сведения",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 33,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/struct/",
+   "title": "Структура и органы управления образовательной организацией",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 31,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/document/",
+   "title": "Документы",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 14,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/education/",
+   "title": "Образование. Образовательные программы",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/eduStandarts/",
+   "title": "Образовательные стандарты и требования",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 7,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/managers/",
+   "title": "Руководство",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 7,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/employees/",
+   "title": "Педагогический состав",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/objects/",
+   "title": "Материально-техническое обеспечение и оснащённость образовательного процесса. Доступная среда",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 30,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/grants/",
+   "title": "Стипендии и меры поддержки обучающихся",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/paid_edu/",
+   "title": "Платные образовательные услуги",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/budget/",
+   "title": "Финансово-хозяйственная деятельность",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 23,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/vacant/",
+   "title": "Вакантные места для приёма (перевода) обучающихся",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 1,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/inter/",
+   "title": "Международное сотрудничество (договора)",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 2,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/sveden/catering/",
+   "title": "Организация питания в образовательной организации",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 7,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/forms/",
+   "title": "Формы обращений",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 0,
+   "children": 3
+  },
+  {
+   "url": "https://kitis.ru/forms/meet/",
+   "title": "Личный приём",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/forms/reception/",
+   "title": "Электронные обращения",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 18,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/forms/message/",
+   "title": "Письменное обращение",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 2,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/",
+   "title": "Противодействие коррупции",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/security/",
+   "title": "Комплексная безопасность",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/antiterrorist/",
+   "title": "Антитеррористическая защищенность",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 49,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/information-security/",
+   "title": "Информационная безопасность",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/BPOO/",
+   "title": "БПОО",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 5,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/tenders/",
+   "title": "Закупки",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 2,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/obr-kredit/",
+   "title": "Образовательный кредит в СПО",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 5,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/students/training-part/",
+   "title": "Учебная часть",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/students/educational-materials/",
+   "title": "Учебные материалы",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/students/gia/",
+   "title": "Государственная итоговая аттестация",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 5,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/",
+   "title": "Графики проведения прошедших академических аттестаций",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/students/hostel/",
+   "title": "Общежитие ГБУ КО ПОО «Колледж информационных технологий и строительства»",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 28,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/students/olimpiady/",
+   "title": "Олимпиады и конкурсы",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/docs/",
+   "title": "Методические материалы",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/attestation/",
+   "title": "Аттестации",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 33,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/educational-methodical-work/",
+   "title": "Учебно-методическая работа",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 18,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/educational-work/",
+   "title": "Воспитательная работа",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/announcing/",
+   "title": "Объявления",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 16,
+   "photos": 0,
+   "children": 3
+  },
+  {
+   "url": "https://kitis.ru/teachers/announcing/avtoshkola/",
+   "title": "Автошкола",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 14,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/announcing/obrazovatelnyy-kredit-s-gospodderzhkoy-/",
+   "title": "Образовательный кредит с господдержкой",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/announcing/den-uchitelya-2023/",
+   "title": "5 октября - в четверг - в актовом зале колледжа будет проходить концерт, посвящённый Всемирному Дню Учителя. Приглашаем всех преподавателей принять поздравления от благодарных студентов и хорошо провести этот день!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/teachers/snizheniye-byurokraticheskoy-nagruzki/",
+   "title": "Снижение бюрократической нагрузки",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 21,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/hostel/",
+   "title": "Заселение в общежитие",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/obrazovatelnyy-kredit/",
+   "title": "Образовательный кредит",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 1,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/tselevoe-obuchenie/",
+   "title": "Целевое обучение",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/faq-abitur/",
+   "title": "Часто задаваемые вопросы",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 29,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/announce/avtoshkola/",
+   "title": "Автошкола",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 14,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/announce/kursy-raboty-na-stankakh-s-chpu/",
+   "title": "Курсы работы на станках с ЧПУ",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 13,
+   "photos": 2,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/announce/obrazovatelnyy-kredit-s-gospodderzhkoy-/",
+   "title": "Образовательный кредит с господдержкой",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/announce/obrazovatelnyy-kredit/",
+   "title": "Образовательный кредит",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 0,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-2026-2/",
+   "title": "День открытых дверей!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kitise-17-oktyabrya/",
+   "title": "День открытых дверей в КИТиСе 17 октября",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 7,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka-1-sentyabrya/",
+   "title": "Торжественная линейка 1 сентября!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 8,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/pozdravlyaem-s-dnyem-znaniy/",
+   "title": "Поздравляем с Днём знаний!",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/novaya-platforma-uprostila-protsess-zaseleniya-v-obshchezhitie/",
+   "title": "Новая платформа упростила процесс заселения в общежитие",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 3,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka-2026/",
+   "title": "Торжественная линейка 2026!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 2,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/vsye-o-studencheskom-obshchezhitii-kolledzha/",
+   "title": "Всё о студенческом общежитии колледжа",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/15-avgusta-posledniy-den-podachi-zayavleniy/",
+   "title": "15 августа - последний день подачи заявлений!",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 3,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/priyemnaya-komissiya-otkryta/",
+   "title": "Приёмная комиссия открыта!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 20,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/sokhranyay-balans/",
+   "title": "Сохраняй баланс!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 7,
+   "photos": 2,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/edinyy-den-otkrytykh-dverey-2026/",
+   "title": "Единый день открытых дверей!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 7,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/master-klass-dlya-abiturientov-v-ramkakh-proekta-professionaliteta/",
+   "title": "Мастер класс для абитуриентов в рамках проекта Профессионалитета!",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 7,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/vazhnaya-informatsiya/",
+   "title": "Важная информация!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/obsuzhdenie-kontseptsii-novogo-kampusa-dlya-studentov-kitisa/",
+   "title": "Обсуждение концепции нового кампуса для студентов КИТиСа!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 3,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/dni-otkrytykh-dverey-2026/",
+   "title": "День открытых дверей!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 7,
+   "photos": 2,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/edinyy-den-otkrytykh-dverey-18-10-25/",
+   "title": "Единый День открытых дверей!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 7,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka-otkryla-dveri-v-novyy-uchebnyy-god/",
+   "title": "Торжественная линейка открыла двери в новый учебный год!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 7,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka/",
+   "title": "Торжественная линейка ко Дню знаний!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 2,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/nachalo-priema-abiturientov-s-20-iyunya-/",
+   "title": "Начало приёма абитуриентов с 20 июня!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 8,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/edinyy-den-otkrytykh-dverey-federalnogo-proekta-professionalitet-proshel-12-aprelya-2025-goda-v-koll/",
+   "title": "Единый день открытых дверей федерального проекта «Профессионалитет»",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 4,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/onlayn-translyatsiya-roditelskogo-sobraniya-v-ramkakh-edod-profissionalitet-2025/",
+   "title": "Онлайн родительское собрание в рамках ЕДОД \"Профессионалитет\" 2025",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-12-aprelya/",
+   "title": "День открытых дверей 12 апреля!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kolledzhe-gbu-ko-poo-kitis-/",
+   "title": "День открытых дверей в ГБУ КО ПОО \"КИТиС\"!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-abiturienta-2025-v-kgtu/",
+   "title": "День абитуриента - 2025 в КГТУ!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 12,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-1s-karery/",
+   "title": "\"День 1С:Карьеры\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 2,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-1s-karery-6-dekabrya/",
+   "title": "\"День 1С:Карьеры\" 6 декабря!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 2,
+   "children": 1
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-karery/",
+   "title": "День карьеры!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 8,
+   "photos": 4,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/posvyashchenie-v-studenty/",
+   "title": "Посвящение в студенты!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 12,
+   "photos": 9,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kgtu/",
+   "title": "День открытых дверей в КГТУ!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 12,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kitis/",
+   "title": "\"День открытых дверей\" в КИТиС",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 3,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/khakaton-tsifrovoy-proryv-sezon-iskusstvennyy-intelekt/",
+   "title": "Хакатон \"Цифровой прорыв.Сезон:Искусственный интелект\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 6,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/donabor-po-sostoyaniyu-na-21-10-24/",
+   "title": "Донабор (по состоянию на 21-10-24)",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/donabor-po-sostoyaniyu-na-26-09-24/",
+   "title": "Донабор (по состоянию на 26-09-24)",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 8,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/den-znaniy-v-kitis/",
+   "title": "День Знаний в КИТиС",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 8,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/grafik-zaklyucheniya-dogovorov-2024/",
+   "title": "График заключения договоров 2024",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/v-kitis-startovala-priemnaya-komissiya-2024-/",
+   "title": "В КИТиС стартовала приемная комиссия 2024!!!",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 15,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/vrucheno-svidetelstvo-ob-akkreditatsii/",
+   "title": "Вручено свидетельство об аккредитации",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 8,
+   "photos": 4,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/6-aprelya-proshel-den-otkrytykh-dverey/",
+   "title": "6 апреля прошел \"День открытых дверей\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 6,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/otkryt-sbor-sredstv/",
+   "title": "Открыт сбор средств.",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 16,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/news/beseda-direktora-kitis-pashkovskogo-m-a-i-komandy-kvn-bez-nazvaniya-/",
+   "title": "Беседа директора КИТиС Пашковского М.А. и команды КВН \"Без названия\".",
+   "container": "body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 1,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/photo/life/",
+   "title": "Жизнь",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 8,
+   "photos": 8,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/photo/sport-life/",
+   "title": "Спортивная жизнь",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 12,
+   "photos": 12,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/photo/diplomy-i-nagrady/",
+   "title": "Дипломы и награды",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 4,
+   "children": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/photo/dni-otkrytykh-dverey/",
+   "title": "Дни открытых дверей",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 16,
+   "photos": 16,
+   "children": 0
+  }
+ ],
+ "lists": [
+  {
+   "kind": "announce",
+   "url": "https://kitis.ru/abitur/announce/"
+  },
+  {
+   "kind": "news",
+   "url": "https://kitis.ru/abitur/news/"
+  },
+  {
+   "kind": "events",
+   "url": "https://kitis.ru/antiterrorist/Мероприятия/"
+  },
+  {
+   "kind": "gallery",
+   "url": "https://kitis.ru/press-center/photo/"
+  }
+ ],
+ "errors": [
+  {
+   "url": "https://kitis.ru/antiterrorist/Мероприятия/",
+   "error": "'ascii' codec can't encode characters in position 19-29: ordinal not in range(128)"
+  },
+  {
+   "url": "https://kitis.ru/upload/medialibrary/730/g12lel34d2qfxtwv0csomcjflomj6puj/QR_snijenie_nagruzki.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/1d9/udhchq6mtcq3wat2zs1smo4gniwirr6s/i (1).jpg",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/1d9/udhchq6mtcq3wat2zs1smo4gniwirr6s/i (1).jpg' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/medialibrary/d54/i6aow1sk9iu4p538t5ehi1n3zfyrezvv/Рисунок1.png",
+   "error": "фото: 'ascii' codec can't encode characters in position 62-68: ordinal not in range(128)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/96a/hbwszgaw60vjc29wg0yjkvih7p3jhsbe/1920_1080_0/image-03-09-24-10-50_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/resize_cache/iblock/96a/hbwszgaw60vjc29wg0yjkvih7p3jhsbe/1920_1080_0/image-03-09-24-10-50_новый размер.png' (foun"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/908/8pwuntdxz85d7vle7vvnx4ss472wzayf/image-03-09-24-10-50-1_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/908/8pwuntdxz85d7vle7vvnx4ss472wzayf/image-03-09-24-10-50-1_новый размер.png' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/3ea/fnol2z3qng634dje0rr8zsz2qtuew120/image-03-09-24-10-50-2_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/3ea/fnol2z3qng634dje0rr8zsz2qtuew120/image-03-09-24-10-50-2_новый размер.png' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/34d/o08vkbf78t97grli0vljdhn6lce08a71/image-03-09-24-10-50-3_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/34d/o08vkbf78t97grli0vljdhn6lce08a71/image-03-09-24-10-50-3_новый размер.png' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/118/j89mgins36xmn96t8xzv38gsru7n72ty/image-03-09-24-10-50-4_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/118/j89mgins36xmn96t8xzv38gsru7n72ty/image-03-09-24-10-50-4_новый размер.png' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/62d/m9yvxc71pp7ltzm2kj08yy3ddzog74o0/image-03-09-24-10-50-5_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/62d/m9yvxc71pp7ltzm2kj08yy3ddzog74o0/image-03-09-24-10-50-5_новый размер.png' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/iblock/0af/vujzpgxlzrgf0jtyg8zls70dz7ve556s/image-03-09-24-10-50-6_новый размер.png",
+   "error": "фото: URL can't contain control characters. '/upload/iblock/0af/vujzpgxlzrgf0jtyg8zls70dz7ve556s/image-03-09-24-10-50-6_новый размер.png' (found at least ' ')"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/137/k8p64idl629wcc2jphvrv0sff027d9z0/1920_1080_0/IMG_1812_новый размер.JPG",
+   "error": "фото: URL can't contain control characters. '/upload/resize_cache/iblock/137/k8p64idl629wcc2jphvrv0sff027d9z0/1920_1080_0/IMG_1812_новый размер.JPG' (found at least '"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/d7a/8yol3u1n0zbng324k7oqvubx0fww00vu/1920_1080_0/IMG_1813_новый размер.JPG",
+   "error": "фото: URL can't contain control characters. '/upload/resize_cache/iblock/d7a/8yol3u1n0zbng324k7oqvubx0fww00vu/1920_1080_0/IMG_1813_новый размер.JPG' (found at least '"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/579/mmx2ak3jcpb9adlw2rwo07wd08bjtnvk/1920_1080_0/IMG_1816_новый размер.JPG",
+   "error": "фото: URL can't contain control characters. '/upload/resize_cache/iblock/579/mmx2ak3jcpb9adlw2rwo07wd08bjtnvk/1920_1080_0/IMG_1816_новый размер.JPG' (found at least '"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/592/qlez9xztn65almo2o0dip3jwm5bsp0wb/1000_100_0/7.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/abe/yhxf0xp6pfpflioidj5jcb2fbfozak84/1000_100_0/1.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/e25/jiocmo6d2505401v0p9vhne068maak3i/1000_100_0/7.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/3a2/u3ms0nu4ke0a2zr4kx8ye51f3n0odiqu/1000_100_0/6.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/253/1uhlp4s42tqvfr3uwvl6mchzhn7z51ok/1000_100_0/4.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/673/cx3iq3afauppsfs37g210jmeyviwsy5i/1000_100_0/1.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/e66/d7bee8v93xe6j7mbz7pml3tr9246zlog/1000_100_0/1.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/69b/ia9ebu4wmefx37grx08093x8a76gyirl/1000_100_0/3.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/a38/3wjywwt19fn3aw78j8vbjocjhigtp08v/1000_100_0/1.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/c00/ea1hdz6oxzeagb5jtare27w1bgjas67c/1000_100_0/3.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/388/gfrjpz9mdomab8r74rxawf3nerbqrwq0/1000_100_0/1.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/732/e5jy7ii4zbmxrdlnqevim8yi5zzh6ngr/1000_100_0/1.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/3ba/0jag90q06c18p02rl7psah6vg1x8xeey/1000_100_0/_DSC2646.JPG",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/f56/bg9r93x1aak7ldqesoiao1j9tjjygx20/1000_100_0/_DSC2681.JPG",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/94d/ai8h09mirrm3d2897qhzxywexy3onmai/1000_100_0/photo_2025-04-17_15-42-26.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/3e7/9ke9pvkefdl0t938qcygon49whn9c8nz/1000_100_0/_DSC2607.JPG",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/133/zn0m05ohff1kj6aio1isw8fnamiej1f8/1000_100_0/_DSC2645.JPG",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/535/ow4f9dpa1ceykehwz5on7yjephjpa3c2/1000_100_0/_DSC2647.JPG",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/2a7/a4v3p9m7tslcwnt1ul522kwjphkhgcsk/1000_100_0/photo_2025-04-17_15-42-22.jpg",
+   "error": "фото: маленькая картинка (значок)"
+  },
+  {
+   "url": "https://kitis.ru/upload/resize_cache/iblock/684/jtbqqxyjrc137r1z0oivfdbbo13p0ln9/1000_100_0/_DSC2590.JPG",
+   "error": "фото: маленькая картинка (значок)"
+  }
+ ],
+ "counts": {
+  "boilerplate_links": 155,
+  "boilerplate_texts": 144,
+  "requests": 287,
+  "sections": 38,
+  "sections_ok": 38,
+  "albums": 47,
+  "photos": 127
+ }
+}
