@@ -1,14 +1,13 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-switch="entry">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/guard.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>КИТиС · Расписание</title>
 <meta name="description" content="Расписание КИТиС: группы, преподаватели, аудитории, звонки и итоги. Учебный проект.">
-<script>
-  // Одна ссылка для всех: телефон получает мобильный вид, компьютер — полный
-  location.replace((Math.min(window.innerWidth, screen.width || 9999) < 760 ? 'phone.html' : 'desktop.html') + location.search + location.hash);
-</script>
 </head>
 <body style="font-family: system-ui, sans-serif; padding: 24px;">
 <p><a href="desktop.html">Открыть расписание КИТиС</a> · <a href="about.html">О проекте</a></p>

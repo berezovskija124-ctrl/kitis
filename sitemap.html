@@ -2,6 +2,10 @@
 <html lang="ru" data-fit="fixed" data-w="1400" data-h="1200">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/guard.js"></script>
+
 <title>КИТиС · Новая структура сайта</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -18,11 +22,44 @@ html[data-fit] #app>div{margin:0 auto;flex:none}
 html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
 html[data-fit=phone] #app{padding:34px 16px}
 html.phone-full #app{padding:0}
-html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
+html.phone-full #app>div{width:100%!important;height:calc(100dvh - var(--kb-h,0px));border-radius:0!important;box-shadow:none!important}
 html.phone-full body{background:#F4F5F7}
 body{padding-bottom:env(safe-area-inset-bottom,0px)}
 html.phone-full body{padding-bottom:0}
 @media (max-width:520px){.kb .kb-x{display:none}}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-variant-numeric:tabular-nums}
+html[data-framed] body>*{display:none!important}
+/* телефон: страница прокручивается целиком, шапка и нижнее меню прилипают — ничего не прыгает */
+html.phone-full #app>div.m-root{height:auto!important;min-height:calc(100dvh - var(--kb-h,0px));overflow:visible!important}
+html.phone-full .m-head{position:sticky;top:0;z-index:30}
+html.phone-full .m-scroll{flex:1 0 auto!important;overflow:visible!important}
+html.phone-full .m-nav{position:sticky;bottom:0;z-index:30}
+html.phone-full .m-sheet{position:fixed!important;z-index:60!important}
+html.phone-full:has(.m-sheet),html.phone-full:has(.m-sheet) body{overflow:hidden}
+html:has([data-scroll-lock]),html:has([data-scroll-lock]) body{overflow:hidden}
+/* живые кнопки: отклик на наведение, нажатие и фокус */
+button,a,[role=button],[role=tab],select,summary,label{-webkit-tap-highlight-color:transparent}
+button:not(:disabled),a[href],select,summary{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,filter .2s ease,opacity .2s ease}
+button{position:relative}
+button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:0;pointer-events:none;transition:opacity .18s ease}
+a.tap{position:relative}
+@media (hover:hover) and (pointer:fine){
+button:not(:disabled):hover::after,a.tap:hover::after{opacity:.07}
+a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
+}
+button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
+button:not(:disabled):active::after,a.tap:active::after{opacity:.12}
+:focus-visible{outline:3px solid #2D5BE3!important;outline-offset:2px}
+button:disabled{cursor:not-allowed}
+@media (prefers-reduced-motion:reduce){button,a{transition:none!important}}
+/* версия для слабовидящих */
+html.a11y .a11y-off,html:not(.a11y) .a11y-on{display:none}
+html.a11y body{zoom:1.18}
+html.a11y{filter:contrast(1.12)}
+html.a11y #app a{text-decoration:underline!important;text-underline-offset:3px}
+html.a11y :focus-visible{outline-width:4px!important}
+@media print{.kb,nav,.no-print{display:none!important}body{background:#fff!important}}
 </style>
 </head>
 <body>
@@ -83,29 +120,8 @@ a{color:#2D5BE3}a:hover{color:#1E3FA8}
 </section>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1400,"height":1200}}'>
-class Component extends DCLogic {
-  renderVals() {
-    const accent = this.props.accent ?? '#2D5BE3';
-    const delay = (i) => (i * 0.06).toFixed(2) + 's';
-    const primary = [
-      ['Расписание', 'Неделя группы, таймер до конца пары', 'M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM16 2v4M8 2v4M3 10h18'],
-      ['Группы', 'Все группы, поиск, избранное', 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2'],
-      ['Преподаватели', 'Пары и должность каждого', 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6'],
-      ['Аудитории', 'Где пара и занята ли сейчас', 'M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01'],
-      ['Звонки', 'Понедельник и вт – сб', 'M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10.3 21a1.9 1.9 0 0 0 3.4 0'],
-      ['Итоги', 'Сколько пар по предметам', 'M3 3v18h18M8 16v-5M13 16V8M18 16V9']
-    ].map((x, i) => ({ l: x[0], s: x[1], d: x[2], h: 'desktop.html', delay: delay(i) }));
-    const K = 'https://kitis.ru/';
-    const cols = [
-      { title: 'Разделы сайта', strong: true, items: [['Главная колледжа', 'home.html'], ['Абитуриентам', 'abitur.html'], ['Студентам', 'student.html'], ['Преподавателям', 'teacher.html'], ['Вход и регистрация', 'login.html']] },
-      { title: 'О колледже', strong: false, items: [['История', 'https://kitis.ru/life/history/'], ['Медиацентр', K], ['Выпускникам и Центр карьеры', K], ['Профессионалитет', K], ['УПК', K], ['БЦК', K], ['Дистанционное обучение', 'https://kitis.ru/distance/'], ['Курсы', K], ['Профессиональные конкурсы', K]] },
-      { title: 'Официально', strong: false, items: [['Сведения об образовательной организации', 'https://kitis.ru/sveden/'], ['Обращения', K], ['Противодействие коррупции', K], ['Комплексная безопасность', K], ['Антитеррористическая защищённость', K], ['Информационная безопасность', K], ['БПОО', K], ['Закупки', K], ['Образовательный кредит в СПО', K]] }
-    ].map((c, i) => ({ title: c.title, delay: delay(i + 6), items: c.items.map((x) => ({ l: x[0], h: x[1], weight: c.strong ? 600 : 500 })) }));
-    return { accent: accent, primary: primary, cols: cols, oldCount: 22 };
-  }
-}
-</script>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1400,"height":1200}}'></script>
 <script src="dc-runtime.js"></script>
+<script src="js/page-sitemap.js"></script>
 </body>
 </html>

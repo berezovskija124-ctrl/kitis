@@ -262,18 +262,23 @@
     D.rooms.forEach(function (n, i) { roomIdx.push(i); });
   }
 
+  // Из адреса берём только известные ключи, по 120 символов; битая кодировка не ломает страницу
+  var HASH_KEYS = { tab: 1, group: 1, teacher: 1, room: 1, w: 1, page: 1, p: 1, q: 1, i: 1 };
   function readHash() {
     var out = {};
-    try {
-      var h = (root.location && root.location.hash || '').replace(/^#/, '');
-      h.split('&').forEach(function (part) {
-        if (!part) return;
-        var i = part.indexOf('=');
-        var k = decodeURIComponent(i < 0 ? part : part.slice(0, i));
-        var v = i < 0 ? '' : decodeURIComponent(part.slice(i + 1).replace(/\+/g, ' '));
-        out[k] = v;
-      });
-    } catch (e) { /* пустой адрес */ }
+    var h = '';
+    try { h = (root.location && root.location.hash || '').replace(/^#/, '').slice(0, 2000); } catch (e) { return out; }
+    h.split('&').forEach(function (part) {
+      if (!part) return;
+      var i = part.indexOf('=');
+      var k, v;
+      try {
+        k = decodeURIComponent(i < 0 ? part : part.slice(0, i));
+        v = i < 0 ? '' : decodeURIComponent(part.slice(i + 1).replace(/\+/g, ' '));
+      } catch (e) { return; }
+      if (!Object.prototype.hasOwnProperty.call(HASH_KEYS, k)) return;
+      out[k] = String(v).replace(/[\u0000-\u001f<>]/g, '').slice(0, 120);
+    });
     return out;
   }
   function hashOf(obj) {
@@ -293,8 +298,15 @@
   function changes() { return D && D.changes ? D.changes.slice() : []; }
 
   var RECENT_KEY = 'kitis.recent.v1';
+  // Недавние: проверяем каждую запись — подменённое хранилище не должно ломать страницу
   function recent() {
-    try { return JSON.parse(root.localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; }
+    var list;
+    try { list = JSON.parse(root.localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; }
+    if (!Array.isArray(list)) return [];
+    return list.filter(function (x) {
+      return x && typeof x === 'object' && (x.kind === 'g' || x.kind === 't' || x.kind === 'r' || x.kind === 'group' || x.kind === 'teacher' || x.kind === 'room') &&
+        typeof x.name === 'string' && x.name.length > 0 && x.name.length <= 80 && !/[<>]/.test(x.name);
+    }).slice(0, 6).map(function (x) { return { kind: x.kind, name: x.name }; });
   }
   function remember(kind, name) {
     if (!name) return;

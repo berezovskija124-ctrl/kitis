@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/guard.js"></script>
+
+<title>КИТиС · О колледже</title>
+
+<script src="data/kitis-data.js"></script>
+<script src="kitis-model.js"></script>
+<script src="data/kitis-college.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Учебный проект: новый сайт расписания КИТиС — О колледже.">
+<style>
+x-dc{display:none}
+html,body{margin:0}
+body{background:#F4F5F7}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font:500 12.5px/1.4 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;border-bottom:1px solid #EFDCA0}
+.kb a{color:#4D3A00;font-weight:700}
+html[data-fit] body{background:#E6E9ED}
+html[data-fit] #app{padding:24px 16px}
+html[data-fit] #app>div{margin:0 auto;flex:none}
+html[data-fit=phone] #app>div{border-radius:38px;box-shadow:0 0 0 10px #15171C,0 30px 80px rgba(21,23,28,.28)}
+html[data-fit=phone] #app{padding:34px 16px}
+html.phone-full #app{padding:0}
+html.phone-full #app>div{width:100%!important;height:calc(100dvh - var(--kb-h,0px));border-radius:0!important;box-shadow:none!important}
+html.phone-full body{background:#F4F5F7}
+body{padding-bottom:env(safe-area-inset-bottom,0px)}
+html.phone-full body{padding-bottom:0}
+@media (max-width:520px){.kb .kb-x{display:none}}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-variant-numeric:tabular-nums}
+html[data-framed] body>*{display:none!important}
+/* телефон: страница прокручивается целиком, шапка и нижнее меню прилипают — ничего не прыгает */
+html.phone-full #app>div.m-root{height:auto!important;min-height:calc(100dvh - var(--kb-h,0px));overflow:visible!important}
+html.phone-full .m-head{position:sticky;top:0;z-index:30}
+html.phone-full .m-scroll{flex:1 0 auto!important;overflow:visible!important}
+html.phone-full .m-nav{position:sticky;bottom:0;z-index:30}
+html.phone-full .m-sheet{position:fixed!important;z-index:60!important}
+html.phone-full:has(.m-sheet),html.phone-full:has(.m-sheet) body{overflow:hidden}
+html:has([data-scroll-lock]),html:has([data-scroll-lock]) body{overflow:hidden}
+/* живые кнопки: отклик на наведение, нажатие и фокус */
+button,a,[role=button],[role=tab],select,summary,label{-webkit-tap-highlight-color:transparent}
+button:not(:disabled),a[href],select,summary{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,filter .2s ease,opacity .2s ease}
+button{position:relative}
+button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:0;pointer-events:none;transition:opacity .18s ease}
+a.tap{position:relative}
+@media (hover:hover) and (pointer:fine){
+button:not(:disabled):hover::after,a.tap:hover::after{opacity:.07}
+a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
+}
+button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
+button:not(:disabled):active::after,a.tap:active::after{opacity:.12}
+:focus-visible{outline:3px solid #2D5BE3!important;outline-offset:2px}
+button:disabled{cursor:not-allowed}
+@media (prefers-reduced-motion:reduce){button,a{transition:none!important}}
+/* версия для слабовидящих */
+html.a11y .a11y-off,html:not(.a11y) .a11y-on{display:none}
+html.a11y body{zoom:1.18}
+html.a11y{filter:contrast(1.12)}
+html.a11y #app a{text-decoration:underline!important;text-underline-offset:3px}
+html.a11y :focus-visible{outline-width:4px!important}
+@media print{.kb,nav,.no-print{display:none!important}body{background:#fff!important}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="about.html">О проекте</a></div>
+<div id="app"></div>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F7}
+a{color:#2D5BE3}a:hover{color:#1E3FA8}
+button,input{font-family:inherit}
+.cl-head{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid #E3E6EB}
+.cl-wrap{max-width:1240px;margin:0 auto;box-sizing:border-box;padding:24px clamp(16px,3vw,32px) 64px;display:grid;grid-template-columns:272px minmax(0,1fr);gap:28px;align-items:start}
+.cl-nav{position:sticky;top:88px;max-height:calc(100vh - 104px);overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:16px;padding-right:4px}
+.cl-chips{display:none}
+.cl-msearch{display:none}
+.cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.cl-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.cl-tbl{overflow-x:auto;border:1px solid #E3E6EB;border-radius:14px;background:#FFFFFF}
+.cl-tbl table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+.cl-tbl th{position:sticky;top:0;background:#F7F8FA;font-weight:600;font-size:12.5px;color:#5B6270;text-align:left;padding:10px 12px;border-bottom:1px solid #E3E6EB;vertical-align:bottom}
+.cl-tbl td{padding:9px 12px;border-bottom:1px solid #EEF0F3;vertical-align:top}
+.cl-tbl tr:last-child td{border-bottom:0}
+.inp{width:100%;height:46px;box-sizing:border-box;padding:0 14px 0 40px;border:1px solid #C9CED6;border-radius:12px;font-size:15px;background:#FFFFFF;color:#15171C;outline:none;transition:border-color .2s ease,box-shadow .2s ease}
+.inp:focus{border-color:#2D5BE3;box-shadow:0 0 0 3px rgba(45,91,227,.15)}
+.tap{transition:transform .12s ease,background-color .2s ease}
+@keyframes kFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes kOpen{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media (max-width:900px){
+.cl-wrap{grid-template-columns:minmax(0,1fr);padding-top:12px;gap:16px}
+.cl-nav{display:none}
+.cl-chips{display:flex;position:sticky;top:64px;z-index:15;gap:6px;overflow-x:auto;padding:10px clamp(16px,3vw,32px);background:rgba(244,245,247,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid #E3E6EB;scrollbar-width:none}
+.cl-chips::-webkit-scrollbar{display:none}
+.cl-hide-sm{display:none!important}
+.cl-msearch{display:block}
+}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F4F5F7; color: #15171C; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.5;">
+
+<header class="cl-head">
+<div style="max-width: 1240px; margin: 0 auto; box-sizing: border-box; height: 64px; padding: 0 clamp(16px, 3vw, 32px); display: flex; align-items: center; gap: 12px;">
+<a href="home.html" style="display: flex; align-items: center; gap: 10px; color: #15171C; text-decoration: none; min-width: 0;">
+<span style="flex: none; width: 40px; height: 40px; border-radius: 11px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px;">К</span>
+<span style="display: flex; flex-direction: column; line-height: 1.15; min-width: 0;"><span style="font-weight: 700; font-size: 17px;">КИТиС</span><span style="font-size: 12.5px; color: #5B6270; white-space: nowrap;">О колледже</span></span>
+</a>
+<span style="flex: 1;"></span>
+<button type="button" class="tap cl-hide-sm" onClick="{{toggleA11y}}" aria-pressed="{{a11yPressed}}" style="height: 40px; padding: 0 14px; border-radius: 11px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 13.5px; cursor: pointer;">{{a11yLabel}}</button>
+<a href="home.html" class="tap cl-hide-sm" style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 11px; background: #F1F3F6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">Главная</a>
+<a href="desktop.html" class="tap" style="display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 11px; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v15H3zM16 3v4M8 3v4M3 10h18"></path></svg>Расписание</a>
+</div>
+</header>
+
+<nav class="cl-chips" aria-label="Разделы">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="6">
+<button type="button" class="tap" onClick="{{c.pick}}" aria-current="{{c.current}}" style="flex: none; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-weight: 600; font-size: 13.5px; white-space: nowrap; cursor: pointer;">{{c.title}}</button>
+</sc-for>
+</nav>
+
+<div class="cl-wrap">
+<aside class="cl-nav" aria-label="Разделы о колледже">
+<label style="position: relative; display: block;">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">Поиск по разделу «О колледже»</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 13px; top: 14px;"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input class="inp" type="search" placeholder="Поиск: общежитие, ИНН, курсы…" value="{{q}}" onChange="{{onQ}}" maxlength="60">
+</label>
+<sc-for list="{{nav}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 12px; font-weight: 600; color: #5B6270; text-transform: uppercase; letter-spacing: 0.06em; padding: 0 10px 4px;">{{g.title}}</span>
+<sc-for list="{{g.items}}" as="n" hint-placeholder-count="4">
+<button type="button" class="tap" onClick="{{n.pick}}" aria-current="{{n.current}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; border-radius: 11px; border: 0; background: {{n.bg}}; color: {{n.fg}}; text-align: left; cursor: pointer;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path data-dc-d="{{n.d}}"></path></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.25; min-width: 0;"><span style="font-weight: {{n.weight}}; font-size: 14.5px;">{{n.title}}</span><span style="font-size: 12px; color: #5B6270;">{{n.sub}}</span></span>
+</button>
+</sc-for>
+</div>
+</sc-for>
+</aside>
+
+<main style="min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+
+<div class="cl-msearch">
+<label style="position: relative; display: block;">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">Поиск</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 13px; top: 14px;"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input class="inp" type="search" placeholder="Поиск по разделу" value="{{q}}" onChange="{{onQ}}" maxlength="60">
+</label>
+</div>
+
+<sc-if value="{{isSearch}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 6px; animation: kFadeUp .3s ease both;">
+<h1 style="margin: 0 0 6px; font-size: 24px; font-weight: 700;">{{searchTitle}}</h1>
+<sc-for list="{{results}}" as="r" hint-placeholder-count="4">
+<button type="button" class="tap" onClick="{{r.pick}}" style="display: flex; flex-direction: column; gap: 3px; padding: 12px 14px; border-radius: 12px; border: 1px solid #EEF0F3; background: #FFFFFF; color: #15171C; text-align: left; cursor: pointer;">
+<span style="font-size: 12px; font-weight: 600; color: {{accent}};">{{r.section}}</span>
+<span style="font-weight: 600; font-size: 15px;">{{r.title}}</span>
+<span style="font-size: 13.5px; color: #3A404C;">{{r.pre}}<mark style="background: #FFF1B8; color: #15171C; border-radius: 3px; padding: 0 1px;">{{r.hit}}</mark>{{r.post}}</span>
+</button>
+</sc-for>
+<sc-if value="{{noResults}}" hint-placeholder-val="{{ false }}"><span style="color: #5B6270;">Ничего не нашлось. Попробуйте другое слово — например, «общежитие» или «стипендия».</span></sc-if>
+<button type="button" class="tap" onClick="{{clearQ}}" style="align-self: flex-start; margin-top: 8px; height: 40px; padding: 0 16px; border-radius: 11px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 600; cursor: pointer;">Сбросить поиск</button>
+</section>
+</sc-if>
+
+<sc-if value="{{notSearch}}" hint-placeholder-val="{{ true }}">
+<article style="display: flex; flex-direction: column; gap: 16px;">
+<header style="display: flex; flex-direction: column; gap: 8px; animation: kFadeUp .3s ease both;">
+<span style="font-size: 13px; font-weight: 600; color: {{accent}};">{{groupTitle}}</span>
+<h1 style="margin: 0; font-size: clamp(26px, 4vw, 36px); line-height: 1.12; font-weight: 700; letter-spacing: -0.015em;">{{title}}</h1>
+<p style="margin: 0; font-size: 17px; color: #3A404C; max-width: 760px;">{{lead}}</p>
+</header>
+
+<sc-for list="{{blocks}}" as="b" hint-placeholder-count="4">
+<sc-if value="{{b.isH}}" hint-placeholder-val="{{ false }}"><h2 style="margin: 10px 0 0; font-size: 20px; font-weight: 700;">{{b.text}}</h2></sc-if>
+<sc-if value="{{b.isP}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 16px; max-width: 780px;">{{b.text}}</p></sc-if>
+<sc-if value="{{b.isNote}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; padding: 10px 14px; border-radius: 12px; background: #EEF0F3; color: #3A404C; font-size: 13.5px;">{{b.text}}</p></sc-if>
+
+<sc-if value="{{b.isStats}}" hint-placeholder-val="{{ false }}">
+<div class="cl-stats">
+<sc-for list="{{b.items}}" as="x" hint-placeholder-count="4">
+<div style="padding: 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; display: flex; flex-direction: column; gap: 2px; animation: kFadeUp .35s ease both;"><span style="font-size: 28px; font-weight: 700; color: {{accent}}; line-height: 1.1;">{{x.v}}</span><span style="font-size: 13.5px; color: #5B6270;">{{x.l}}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isFacts}}" hint-placeholder-val="{{ false }}">
+<dl style="margin: 0; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; overflow: hidden;">
+<sc-for list="{{b.items}}" as="f" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: minmax(130px, 34%) minmax(0, 1fr); gap: 4px 16px; padding: 11px 16px; border-bottom: 1px solid #EEF0F3;">
+<dt style="font-size: 13.5px; color: #5B6270;">{{f.l}}</dt>
+<dd style="margin: 0; font-size: 15px; font-weight: 500; overflow-wrap: anywhere;"><sc-if value="{{f.hasHref}}" hint-placeholder-val="{{ false }}"><a href="{{f.href}}">{{f.v}}</a></sc-if><sc-if value="{{f.noHref}}" hint-placeholder-val="{{ true }}">{{f.v}}</sc-if></dd>
+</div>
+</sc-for>
+</dl>
+</sc-if>
+
+<sc-if value="{{b.isContact}}" hint-placeholder-val="{{ false }}">
+<div class="cl-grid">
+<sc-for list="{{b.items}}" as="c" hint-placeholder-count="3">
+<a href="{{c.href}}" target="{{c.target}}" rel="noopener noreferrer" style="display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="font-size: 13px; color: #5B6270;">{{c.l}}</span>
+<span style="font-weight: 600; font-size: 16px; overflow-wrap: anywhere;">{{c.v}}</span>
+<span style="font-size: 13.5px; font-weight: 600; color: {{accent}};">{{c.action}} →</span>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isTimeline}}" hint-placeholder-val="{{ false }}">
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
+<sc-for list="{{b.items}}" as="t" hint-placeholder-count="5">
+<li style="display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; animation: kFadeUp .35s ease both; animation-delay: {{t.delay}};">
+<span style="font-weight: 700; font-size: 16px; color: {{accent}}; padding-top: 14px; text-align: right;">{{t.year}}</span>
+<div style="position: relative; padding: 14px 0 14px 22px; border-left: 2px solid {{t.line}};">
+<span aria-hidden="true" style="position: absolute; left: -7px; top: 19px; width: 12px; height: 12px; border-radius: 50%; background: #FFFFFF; border: 2px solid {{accent}};"></span>
+<div style="font-weight: 700; font-size: 16px;">{{t.title}}</div>
+<div style="font-size: 15px; color: #3A404C;">{{t.text}}</div>
+</div>
+</li>
+</sc-for>
+</ol>
+</sc-if>
+
+<sc-if value="{{b.isCards}}" hint-placeholder-val="{{ false }}">
+<div class="cl-grid">
+<sc-for list="{{b.items}}" as="k" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 18px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB;">
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: {{accentSoft}}; color: {{accent}}; font-size: 12px; font-weight: 600;">{{k.tag}}</span>
+<span style="font-weight: 700; font-size: 17px;">{{k.title}}</span>
+<span style="font-size: 14.5px; color: #3A404C;">{{k.text}}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isAcc}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<sc-for list="{{b.items}}" as="a" hint-placeholder-count="4">
+<div style="border-radius: 16px; background: #FFFFFF; border: 1px solid {{a.border}}; overflow: hidden;">
+<button type="button" onClick="{{a.toggle}}" aria-expanded="{{a.expanded}}" style="width: 100%; display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 0; border-radius: 0; background: transparent; color: #15171C; text-align: left; cursor: pointer;">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+<sc-if value="{{a.hasMeta}}" hint-placeholder-val="{{ true }}"><span style="font-size: 12.5px; color: #5B6270;">{{a.meta}}</span></sc-if>
+<span style="font-weight: 600; font-size: 15.5px;">{{a.title}}</span>
+</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px; transform: {{a.rot}}; transition: transform .2s ease;"><path d="m6 9 6 6 6-6"></path></svg>
+</button>
+<sc-if value="{{a.open}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 16px 16px; display: flex; flex-direction: column; gap: 8px; animation: kOpen .2s ease both;">
+<sc-for list="{{a.paras}}" as="pp" hint-placeholder-count="2"><p style="margin: 0; font-size: 15px; color: #3A404C;">{{pp.text}}</p></sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isTable}}" hint-placeholder-val="{{ false }}">
+<div class="cl-tbl">
+<table>
+<thead><tr><sc-for list="{{b.head}}" as="h" hint-placeholder-count="3"><th scope="col" style="text-align: {{h.align}};">{{h.h}}</th></sc-for></tr></thead>
+<tbody>
+<sc-for list="{{b.rows}}" as="r" hint-placeholder-count="4">
+<tr style="background: {{r.bg}};"><sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3"><td style="font-weight: {{c.weight}}; text-align: {{c.align}}; white-space: {{c.ws}};">{{c.c}}</td></sc-for></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isDocs}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<sc-for list="{{b.items}}" as="d" hint-placeholder-count="3">
+<a href="{{d.href}}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="flex: none; width: 42px; height: 42px; border-radius: 11px; background: #FDECEC; color: #A1261B; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;">{{d.ext}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600; font-size: 15px;">{{d.title}}</span><span style="font-size: 12.5px; color: #5B6270;">{{d.type}} · открывается файлом</span></span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path d="M12 4v12M6 10l6 6 6-6M4 20h16"></path></svg>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isLinks}}" hint-placeholder-val="{{ false }}">
+<div class="cl-grid">
+<sc-for list="{{b.items}}" as="l" hint-placeholder-count="3">
+<a href="{{l.href}}" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><span style="font-weight: 600; font-size: 15px;">{{l.title}}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"></path></svg></span>
+<span style="font-size: 13.5px; color: #5B6270;">{{l.desc}}</span>
+<span style="font-size: 12px; color: {{accent}};">{{l.host}}</span>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isList}}" hint-placeholder-val="{{ false }}">
+<ul style="margin: 0; padding: 4px 0; list-style: none; display: flex; flex-direction: column; gap: 8px;">
+<sc-for list="{{b.items}}" as="li" hint-placeholder-count="3"><li style="display: flex; gap: 10px; font-size: 15.5px;"><span aria-hidden="true" style="flex: none; width: 7px; height: 7px; margin-top: 9px; border-radius: 50%; background: {{accent}};"></span><span>{{li.text}}</span></li></sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{b.isGo}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{b.items}}" as="g" hint-placeholder-count="3"><a href="{{g.href}}" onClick="{{g.go}}" class="tap" style="display: inline-flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border-radius: 12px; background: {{accentSoft}}; color: {{accent}}; font-weight: 600; font-size: 14px; text-decoration: none;">{{g.label}} →</a></sc-for>
+</div>
+</sc-if>
+</sc-for>
+
+<nav aria-label="Соседние разделы" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 10px;">
+<sc-if value="{{hasPrev}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{goPrev}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 16px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: left; cursor: pointer;"><span style="font-size: 12.5px; color: #5B6270;">← Назад</span><span style="font-weight: 600;">{{prevTitle}}</span></button></sc-if>
+<sc-if value="{{hasNext}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{goNext}}" style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; padding: 14px 16px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: right; cursor: pointer;"><span style="font-size: 12.5px; color: #5B6270;">Дальше →</span><span style="font-weight: 600;">{{nextTitle}}</span></button></sc-if>
+</nav>
+<p style="margin: 0; font-size: 12.5px; color: #5B6270;">Материалы взяты с сайта колледжа kitis.ru {{updLabel}} и пересказаны. Документы открываются файлами с сайта колледжа.</p>
+</article>
+</sc-if>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1400}}'></script>
+<script src="dc-runtime.js"></script>
+<script src="js/page-college.js"></script>
+</body>
+</html>

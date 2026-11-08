@@ -139,9 +139,30 @@
 
   /* ---------- обновление настоящего DOM ---------- */
 
+  // Ссылки и адреса картинок проверяются: javascript:, vbscript: и data: (кроме картинок) не пропускаются,
+  // даже если такое значение попадёт в данные или в хранилище браузера.
+  var URL_ATTRS = { href: 1, src: 1, action: 1, formaction: 1, poster: 1, 'xlink:href': 1, srcset: 1 };
+  var IMG_DATA = /^data:image\/(png|jpe?g|gif|webp);base64,[a-z0-9+\/=\s]+$/i;
+  function safeUrl(name, el, v) {
+    var s = String(v).replace(/[\u0000- \u007f-\u009f]+/g, '');
+    var m = /^([a-z][a-z0-9+.\-]*):/i.exec(s);
+    if (!m) return String(v);
+    var scheme = m[1].toLowerCase();
+    if (scheme === 'http' || scheme === 'https' || scheme === 'mailto' || scheme === 'tel') return String(v);
+    if (scheme === 'data' && name === 'src' && el.localName === 'img' && IMG_DATA.test(String(v))) return String(v);
+    if (scheme === 'blob' && name === 'src') return String(v);
+    return null;
+  }
+
   function setAttr(el, name, val) {
-    if (val == null || val === false) el.removeAttribute(name);
-    else el.setAttribute(name, val === true ? '' : String(val));
+    if (val == null || val === false) { el.removeAttribute(name); return; }
+    var s = val === true ? '' : String(val);
+    if (URL_ATTRS[name] && s) {
+      s = safeUrl(name, el, s);
+      if (s == null) { el.removeAttribute(name); return; }
+    }
+    if (/^on/i.test(name)) return;
+    el.setAttribute(name, s);
   }
 
   function bindEvents(el, events) {
@@ -288,7 +309,9 @@
       }
     } catch (e) { /* без настроек */ }
 
-    var Component = new Function('DCLogic', script.textContent + '\n;return Component;')(DCLogic);
+    // Код страницы лежит в отдельном файле js/page-*.js (без eval — так работает строгая CSP)
+    if (typeof window.__dcDefine !== 'function') { console.error('[макет] нет кода страницы'); return; }
+    var Component = window.__dcDefine(DCLogic);
     var inst = new Component(props);
 
     var pending = false;
