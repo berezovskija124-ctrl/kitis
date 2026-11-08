@@ -658,8 +658,8 @@ class Builder:
         rows = [tr for tr in t.find_all('tr') if tr.find_parent('table') is t]
         cells_all = [[c for c in tr.find_all(['td', 'th']) if c.find_parent('tr') is tr] for tr in rows]
         # таблица для вёрстки (большие ячейки с абзацами) — разбираем как обычный текст
-        if any(c.find(['p', 'ul', 'ol', 'table', 'h2', 'h3', 'img', 'div']) for r in cells_all for c in r) and \
-                max((len(r) for r in cells_all), default=0) <= 2:
+        if any(c.find(['ul', 'ol', 'table', 'h2', 'h3', 'img']) or len(c.find_all('p')) > 1 or len(clean(c.get_text(' '))) > 900
+               for r in cells_all for c in r) and max((len(r) for r in cells_all), default=0) <= 2:
             for r in cells_all:
                 for c in r:
                     self.walk(c)
@@ -694,7 +694,14 @@ class Builder:
         if not out:
             return
         width = max(max(len(r) for r in out), len(head))
-        if width == 1 and not head:
+        if width == 2 and not head and all(len(r) == 2 and isinstance(r[0], str) and 1 < len(r[0]) <= 150 for r in out):
+            # «Полное наименование | ГБУ КО …» — таблица фактов
+            items = []
+            for r in out[:300]:
+                v = r[1]
+                items.append([r[0].rstrip(':'), v] if isinstance(v, str) else [r[0].rstrip(':'), v[0], v[1]])
+            self.add({'t': 'facts', 'items': items})
+        elif width == 1 and not head:
             self.add({'t': 'list', 'items': [r[0] if isinstance(r[0], str) else r[0][0] for r in out][:300]})
         else:
             width = min(width, 12)
@@ -703,6 +710,51 @@ class Builder:
             self.add({'t': 'table', 'plain': True, 'head': head, 'rows': out})
         for href, x in docs:
             self.add_link(href, x)
+
+
+JS_KEY = re.compile(r'''["']?\b(text|href)["']?\s*:\s*(["'])((?:\\.|(?!\2).)*?)\2''', re.S)
+
+
+def js_unescape(v):
+    v = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m.group(1), 16)), v)
+    return re.sub(r'\\(.)', r'\1', v)
+
+
+def script_tree(main, url, builder):
+    """Документы из дерева, которое kitis.ru строит скриптом (treeview): пары text/href по порядку."""
+    found = 0
+    for sc in main.find_all('script'):
+        code = sc.string or sc.get_text() or ''
+        if 'text' not in code or len(code) < 80:
+            continue
+        pairs = [(m.group(1), js_unescape(m.group(3))) for m in JS_KEY.finditer(code)]
+        if sum(1 for k, _ in pairs if k == 'text') < 2:
+            continue
+        i = 0
+        while i < len(pairs):
+            k, v = pairs[i]
+            if k != 'text':
+                i += 1
+                continue
+            text = clean(BeautifulSoup(v, 'lxml').get_text(' ')) if '<' in v else clean(v)
+            href = ''
+            if i + 1 < len(pairs) and pairs[i + 1][0] == 'href':
+                href = canon(pairs[i + 1][1], url)
+                i += 1
+            elif '<a' in v:
+                a = BeautifulSoup(v, 'lxml').find('a', href=True)
+                href = canon(a.get('href'), url) if a else ''
+            i += 1
+            if not text:
+                continue
+            found += 1
+            if href:
+                builder.add_link(href, text)
+            elif len(text) <= 200:
+                builder.add({'t': 'h', 'text': text})
+            else:
+                builder.add({'t': 'p', 'text': short(text)})
+    return found
 
 
 def extract(url, title, link_map, allow_photos, skip_urls=()):
@@ -723,11 +775,12 @@ def extract(url, title, link_map, allow_photos, skip_urls=()):
         b.walk(box)
         b.flush()
     raw_main = rec['soup'].find('main') or rec['soup'].body
+    tree = script_tree(raw_main, url, b) if raw_main is not None else 0
     has_form = bool(raw_main and any(len(f.find_all(['input', 'textarea', 'select'])) >= 3 for f in raw_main.find_all('form')))
     if has_form:
         b.add({'t': 'links', 'items': [['Заполнить форму на сайте колледжа', url, 'Форма отправляется на kitis.ru']]})
     entry = {'url': url, 'title': t, 'container': describe(box), 'blocks': len(b.blocks),
-             'photos': len(b.photos), 'children': len(b.children), 'form': has_form}
+             'photos': len(b.photos), 'children': len(b.children), 'form': has_form, 'tree': tree}
     if (len(b.blocks) <= 2 or path_of(url) in DEBUG_PATHS) and raw_main is not None:
         entry['outline'] = outline(raw_main)
         gone = []
