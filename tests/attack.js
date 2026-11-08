@@ -1,6 +1,4 @@
-// Проверка сайта на взлом: XSS через адрес, подмена хранилища и данных, кликджекинг, перебор пароля, загрузка файлов.
-// Запуск: из папки сайта поднять сервер  python3 -m http.server 8765 --bind 127.0.0.1
-// и в другом окне  npm i playwright && npx playwright install chromium && node tests/attack.js
+// «Атака» на копию сайта: XSS, подмена хранилища и данных, кликджекинг, перебор пароля, загрузка файлов
 const { chromium, devices } = require('playwright');
 const crypto = require('crypto');
 const fs = require('fs');
@@ -138,6 +136,29 @@ const brief = r => `pwn=${r.pwn} alert=${r.dialogs} inj=${r.imgx} js-ссыло�
     }
   }
 
+  // 4б. Подмена материалов с kitis.ru (если на сайт колледжа попадёт вредный HTML или ссылки)
+  {
+    const sec = { id: 'evil', group: 'official', title: XSS, short: XSS, icon: XSS, url: JSU, ok: true, blocks: [
+      { t: 'h', text: XSS }, { t: 'p', text: XSS }, { t: 'list', items: [XSS] },
+      { t: 'docs', items: [[XSS, JSU, XSS]] }, { t: 'links', items: [[XSS, JSU, XSS], [XSS, 'data:text/html,<script>window.__pwn=1</script>', '']] },
+      { t: 'go', items: [[XSS, 'javascript:window.__pwn=1//.html']] },
+      { t: 'table', plain: true, head: [XSS], rows: [[[XSS, JSU]], [XSS]] },
+      { t: 'photos', items: [[JSU, JSU, XSS, XSS, XSS], ['x" onerror="window.__pwn=1', 'data:text/html,1', 4, 3, XSS]] }] };
+    const off = 'window.KITIS_OFFICIAL = ' + JSON.stringify({ updated: XSS, groups: [{ key: 'official', title: XSS, ids: ['evil', '__proto__'] }], sections: [sec, { id: '__proto__', blocks: [] }] }) + ';';
+    const ph = 'window.KITIS_PHOTOS = ' + JSON.stringify({ updated: XSS, albums: [{ kind: XSS, d: XSS, t: 'Гордимся: награды талантливым студенткам КИТиСа', u: JSU, lead: XSS, p: [[JSU, JSU, XSS, XSS, XSS]] }] }) + ';';
+    const route = { pattern: /data\/kitis-(official|photos)\.js/, handler: rt => rt.fulfill({ body: /official/.test(rt.request().url()) ? off : ph, contentType: 'application/javascript' }) };
+    const res = [];
+    for (const [mode, opts] of [['desk', desk], ['phone', phone]]) {
+      const ctx = await b.newContext(opts);
+      for (const h of ['#p=evil', '#p=official', '#p=photos', '#p=news&i=0']) {
+        const r = await visit(ctx, B + 'college.html' + h, { route, act: async (p) => { const btn = await p.$('.cl-ph'); if (btn) await btn.click(); } });
+        if (bad(r) || r.errs.length) res.push(mode + ' ' + h + ': ' + brief(r));
+      }
+      await ctx.close();
+    }
+    log(!res.length, 'отравленные материалы и фото с kitis.ru', res.join(' ; '));
+  }
+
   // 5. Кликджекинг: чужой сайт встраивает наш в iframe
   {
     const ctx = await b.newContext(desk);
@@ -237,11 +258,13 @@ const brief = r => `pwn=${r.pwn} alert=${r.dialogs} inj=${r.imgx} js-ссыло�
     log(!ext.length, 'внешние скрипты без проверки целостности', ext.join(' ; '));
     const rt = fs.readFileSync(path.join(dir, 'dc-runtime.js'), 'utf8');
     log(!/new Function|eval\(/.test(rt), 'выполнение кода из строки (new Function)', /new Function/.test(rt) ? 'движок собирает компоненты через new Function — мешает строгой CSP' : '');
-    const wf = fs.readFileSync(path.join(dir, '.github/workflows/update-schedule.yml'), 'utf8');
-    log(/permissions:/.test(wf) && /concurrency:/.test(wf), 'GitHub Actions: права и одновременные запуски', (/permissions:/.test(wf) ? '' : 'нет блока permissions; ') + (/concurrency:/.test(wf) ? '' : 'нет concurrency'));
+    const wfDir = path.join(dir, '.github/workflows');
+    const wfBad = fs.readdirSync(wfDir).filter(f => /\.ya?ml$/.test(f)).map(f => [f, fs.readFileSync(path.join(wfDir, f), 'utf8')])
+      .filter(([, wf]) => !/permissions:/.test(wf) || !/concurrency:/.test(wf) || /permissions:\s*write-all/.test(wf)).map(([f]) => f);
+    log(!wfBad.length, 'GitHub Actions: права и одновременные запуски у всех роботов', wfBad.length ? 'нет permissions или concurrency: ' + wfBad.join(', ') : '');
   }
 
-  
+  fs.writeFileSync(path.join(require('os').tmpdir(), 'kitis-attack-result.json'), JSON.stringify(OUT, null, 1));
   console.log('\nИТОГО: уязвимо ' + OUT.filter(x => !x.ok).length + ' из ' + OUT.length);
   await b.close();
 })();

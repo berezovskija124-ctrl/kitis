@@ -11,6 +11,7 @@
 <script src="data/kitis-data.js"></script>
 <script src="kitis-model.js?v=7d5f5ab40e"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
+<script src="data/kitis-photos.js"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Главная колледжа.">
@@ -88,7 +89,7 @@ button,input{font-family:inherit}
 <span>Калининград, ул. Горького, 166 · <a href="tel:+74012916106" style="color: #FFFFFF; text-decoration: none;">+7 (4012) 91-61-06</a></span>
 <nav aria-label="Служебные ссылки" style="display: flex; flex-wrap: wrap; gap: 4px 20px;">
 <a href="#a11y" onClick="{{toggleA11y}}" role="button" aria-pressed="{{a11yPressed}}" style="display: inline-flex; align-items: center; gap: 6px; color: #FFFFFF; text-decoration: none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>{{a11yLabel}}</a>
-<a href="https://kitis.ru/sveden/" style="color: #FFFFFF; text-decoration: none;">Сведения об образовательной организации</a>
+<a href="college.html#p=sveden" style="color: #FFFFFF; text-decoration: none;">Сведения об образовательной организации</a>
 <a href="https://vk.com/kitis39" style="color: #FFFFFF; text-decoration: none;">ВКонтакте</a>
 </nav>
 </div>
@@ -203,12 +204,13 @@ button,input{font-family:inherit}
 <div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
 <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">
 <h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Новости</h2>
-<a href="college.html#p=news" style="font-weight: 600; font-size: 14px; color: {{accent}}; text-decoration: none;">Все новости</a>
+<span style="display: flex; gap: 16px;"><sc-if value="{{hasGallery}}" hint-placeholder-val="{{ true }}"><a href="college.html#p=photos" style="font-weight: 600; font-size: 14px; color: {{accent}}; text-decoration: none;">Фотографии</a></sc-if><a href="college.html#p=news" style="font-weight: 600; font-size: 14px; color: {{accent}}; text-decoration: none;">Все новости</a></span>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
 <sc-for list="{{news}}" as="n" hint-placeholder-count="4">
 <a href="{{n.href}}" style="display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none;">
-<span style="aspect-ratio: 16 / 9; background: #E6E9ED; color: #5B6270; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.5"></circle><path d="m21 16-5-5-9 8"></path></svg>Фото новости</span>
+<sc-if value="{{n.hasPhoto}}" hint-placeholder-val="{{ false }}"><span style="display: block; aspect-ratio: 16 / 9; background: #E6E9ED; overflow: hidden;"><img data-dc-src="{{n.photo}}" alt="{{n.photoAlt}}" width="560" height="315" loading="lazy" decoding="async" style="display: block; width: 100%; height: 100%; object-fit: cover;"></span></sc-if>
+<sc-if value="{{n.noPhoto}}" hint-placeholder-val="{{ true }}"><span style="aspect-ratio: 16 / 9; background: #E6E9ED; color: #5B6270; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.5"></circle><path d="m21 16-5-5-9 8"></path></svg>Без фото</span></sc-if>
 <span style="padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 6px;">
 <span style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #5B6270;"><span style="font-weight: 600; color: {{n.tagFg}};">{{n.tag}}</span>·<span>{{n.date}}</span></span>
 <span style="font-weight: 600; font-size: 16px; line-height: 1.3;">{{n.title}}</span>
@@ -309,6 +311,6 @@ button,input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":2900}}'></script>
 <script src="dc-runtime.js?v=cede6a8e71"></script>
-<script src="js/page-home.js?v=baefffb8fd"></script>
+<script src="js/page-home.js?v=6e7752e281"></script>
 </body>
 </html>

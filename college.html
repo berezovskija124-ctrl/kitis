@@ -11,6 +11,8 @@
 <script src="data/kitis-data.js"></script>
 <script src="kitis-model.js?v=7d5f5ab40e"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
+<script src="data/kitis-official.js"></script>
+<script src="data/kitis-photos.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — О колледже.">
 <style>
@@ -91,15 +93,33 @@ button,input{font-family:inherit}
 .inp{width:100%;height:46px;box-sizing:border-box;padding:0 14px 0 40px;border:1px solid #C9CED6;border-radius:12px;font-size:15px;background:#FFFFFF;color:#15171C;outline:none;transition:border-color .2s ease,box-shadow .2s ease}
 .inp:focus{border-color:#2D5BE3;box-shadow:0 0 0 3px rgba(45,91,227,.15)}
 .tap{transition:transform .12s ease,background-color .2s ease}
+main article{overflow-wrap:anywhere}
+.cl-tbl td,.cl-tbl th{overflow-wrap:break-word}
+.cl-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.cl-ph{position:relative;display:block;width:100%;padding:0;border:0;border-radius:12px;overflow:hidden;aspect-ratio:4/3;background:#E3E6EB;cursor:zoom-in}
+.cl-ph img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.cl-ph:hover img{transform:scale(1.04)}
+.cl-ph:focus-visible{outline:3px solid #2D5BE3;outline-offset:2px}
+.cl-lb{position:fixed;inset:0;z-index:100;background:rgba(10,12,16,.97);display:flex;align-items:center;justify-content:center;padding:64px 12px 64px;box-sizing:border-box;animation:kFade .18s ease both;touch-action:pan-y}
+.cl-lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:8px;background:#1d2026;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.cl-lb-btn{position:absolute;width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.cl-lb-btn:hover{background:rgba(255,255,255,.28)}
+.cl-lb-btn:focus-visible{outline:3px solid #FFFFFF;outline-offset:2px}
+.cl-chiprow{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:0 clamp(16px,3vw,32px)}
+.cl-chiprow::-webkit-scrollbar{display:none}
 @keyframes kFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes kOpen{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes kFade{from{opacity:0}to{opacity:1}}
 @media (max-width:900px){
 .cl-wrap{grid-template-columns:minmax(0,1fr);padding-top:12px;gap:16px}
 .cl-nav{display:none}
-.cl-chips{display:flex;position:sticky;top:64px;z-index:15;gap:6px;overflow-x:auto;padding:10px clamp(16px,3vw,32px);background:rgba(244,245,247,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid #E3E6EB;scrollbar-width:none}
-.cl-chips::-webkit-scrollbar{display:none}
+.cl-chips{display:flex;flex-direction:column;gap:8px;position:sticky;top:64px;z-index:15;padding:10px 0;background:rgba(244,245,247,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid #E3E6EB}
 .cl-hide-sm{display:none!important}
 .cl-msearch{display:block}
+.cl-photos{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:6px}
+.cl-lb{padding:56px 0 72px}
+.cl-lb img{border-radius:0}
+.cl-lb-side{top:auto!important;bottom:12px;transform:none!important}
 }
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
@@ -120,9 +140,16 @@ button,input{font-family:inherit}
 </header>
 
 <nav class="cl-chips" aria-label="Разделы">
+<div class="cl-chiprow">
+<sc-for list="{{groupChips}}" as="c" hint-placeholder-count="5">
+<button type="button" class="tap" onClick="{{c.pick}}" aria-current="{{c.current}}" style="flex: none; height: 32px; padding: 0 12px; border-radius: 9px; border: 0; background: {{c.bg}}; color: {{c.fg}}; font-weight: 700; font-size: 12.5px; white-space: nowrap; cursor: pointer;">{{c.title}}</button>
+</sc-for>
+</div>
+<div class="cl-chiprow">
 <sc-for list="{{chips}}" as="c" hint-placeholder-count="6">
 <button type="button" class="tap" onClick="{{c.pick}}" aria-current="{{c.current}}" style="flex: none; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-weight: 600; font-size: 13.5px; white-space: nowrap; cursor: pointer;">{{c.title}}</button>
 </sc-for>
+</div>
 </nav>
 
 <div class="cl-wrap">
@@ -134,7 +161,7 @@ button,input{font-family:inherit}
 </label>
 <sc-for list="{{nav}}" as="g" hint-placeholder-count="3">
 <div style="display: flex; flex-direction: column; gap: 2px;">
-<span style="font-size: 12px; font-weight: 600; color: #5B6270; text-transform: uppercase; letter-spacing: 0.06em; padding: 0 10px 4px;">{{g.title}}</span>
+<button type="button" onClick="{{g.pick}}" aria-expanded="{{g.expanded}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 10px; border: 0; border-radius: 8px; background: transparent; color: {{g.fg}}; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; cursor: pointer;"><span>{{g.title}}</span><span style="display: inline-flex; align-items: center; gap: 4px; font-weight: 600; letter-spacing: 0;">{{g.count}}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{g.rot}}; transition: transform .2s ease;"><path d="m6 9 6 6 6-6"></path></svg></span></button>
 <sc-for list="{{g.items}}" as="n" hint-placeholder-count="4">
 <button type="button" class="tap" onClick="{{n.pick}}" aria-current="{{n.current}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; border-radius: 11px; border: 0; background: {{n.bg}}; color: {{n.fg}}; text-align: left; cursor: pointer;">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path data-dc-d="{{n.d}}"></path></svg>
@@ -175,7 +202,7 @@ button,input{font-family:inherit}
 <header style="display: flex; flex-direction: column; gap: 8px; animation: kFadeUp .3s ease both;">
 <span style="font-size: 13px; font-weight: 600; color: {{accent}};">{{groupTitle}}</span>
 <h1 style="margin: 0; font-size: clamp(26px, 4vw, 36px); line-height: 1.12; font-weight: 700; letter-spacing: -0.015em;">{{title}}</h1>
-<p style="margin: 0; font-size: 17px; color: #3A404C; max-width: 760px;">{{lead}}</p>
+<sc-if value="{{hasLead}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 17px; color: #3A404C; max-width: 760px;">{{lead}}</p></sc-if>
 </header>
 
 <sc-for list="{{blocks}}" as="b" hint-placeholder-count="4">
@@ -250,11 +277,17 @@ button,input{font-family:inherit}
 <sc-if value="{{a.hasMeta}}" hint-placeholder-val="{{ true }}"><span style="font-size: 12.5px; color: #5B6270;">{{a.meta}}</span></sc-if>
 <span style="font-weight: 600; font-size: 15.5px;">{{a.title}}</span>
 </span>
+<sc-if value="{{a.hasThumb}}" hint-placeholder-val="{{ false }}"><img data-dc-src="{{a.thumb}}" alt="" width="72" height="54" loading="lazy" decoding="async" style="flex: none; width: 72px; height: 54px; object-fit: cover; border-radius: 10px; background: #E3E6EB;"></sc-if>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px; transform: {{a.rot}}; transition: transform .2s ease;"><path d="m6 9 6 6 6-6"></path></svg>
 </button>
 <sc-if value="{{a.open}}" hint-placeholder-val="{{ false }}">
 <div style="padding: 0 16px 16px; display: flex; flex-direction: column; gap: 8px; animation: kOpen .2s ease both;">
 <sc-for list="{{a.paras}}" as="pp" hint-placeholder-count="2"><p style="margin: 0; font-size: 15px; color: #3A404C;">{{pp.text}}</p></sc-for>
+<sc-if value="{{a.hasPhotos}}" hint-placeholder-val="{{ false }}">
+<div class="cl-photos" style="margin-top: 4px;">
+<sc-for list="{{a.photos}}" as="ph" hint-placeholder-count="4"><button type="button" class="cl-ph" onClick="{{ph.open}}" aria-label="{{ph.label}}"><img data-dc-src="{{ph.s}}" alt="{{ph.alt}}" width="{{ph.w}}" height="{{ph.h}}" loading="lazy" decoding="async"></button></sc-for>
+</div>
+</sc-if>
 </div>
 </sc-if>
 </div>
@@ -265,10 +298,10 @@ button,input{font-family:inherit}
 <sc-if value="{{b.isTable}}" hint-placeholder-val="{{ false }}">
 <div class="cl-tbl">
 <table>
-<thead><tr><sc-for list="{{b.head}}" as="h" hint-placeholder-count="3"><th scope="col" style="text-align: {{h.align}};">{{h.h}}</th></sc-for></tr></thead>
+<sc-if value="{{b.hasHead}}" hint-placeholder-val="{{ true }}"><thead><tr><sc-for list="{{b.head}}" as="h" hint-placeholder-count="3"><th scope="col" style="text-align: {{h.align}};">{{h.h}}</th></sc-for></tr></thead></sc-if>
 <tbody>
 <sc-for list="{{b.rows}}" as="r" hint-placeholder-count="4">
-<tr style="background: {{r.bg}};"><sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3"><td style="font-weight: {{c.weight}}; text-align: {{c.align}}; white-space: {{c.ws}};">{{c.c}}</td></sc-for></tr>
+<tr style="background: {{r.bg}};"><sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3"><td style="font-weight: {{c.weight}}; text-align: {{c.align}}; white-space: {{c.ws}};"><sc-if value="{{c.hasHref}}" hint-placeholder-val="{{ false }}"><a href="{{c.href}}" target="_blank" rel="noopener noreferrer">{{c.c}}</a></sc-if><sc-if value="{{c.noHref}}" hint-placeholder-val="{{ true }}">{{c.c}}</sc-if></td></sc-for></tr>
 </sc-for>
 </tbody>
 </table>
@@ -307,8 +340,28 @@ button,input{font-family:inherit}
 
 <sc-if value="{{b.isGo}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-<sc-for list="{{b.items}}" as="g" hint-placeholder-count="3"><a href="{{g.href}}" onClick="{{g.go}}" class="tap" style="display: inline-flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border-radius: 12px; background: {{accentSoft}}; color: {{accent}}; font-weight: 600; font-size: 14px; text-decoration: none;">{{g.label}} →</a></sc-for>
+<sc-for list="{{b.items}}" as="g" hint-placeholder-count="3"><a href="{{g.href}}" onClick="{{g.go}}" class="tap" style="display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 16px; border-radius: 12px; background: {{accentSoft}}; color: {{accent}}; font-weight: 600; font-size: 14px; text-decoration: none;">{{g.label}} →</a></sc-for>
 </div>
+</sc-if>
+
+<sc-if value="{{b.isPhotos}}" hint-placeholder-val="{{ false }}">
+<div class="cl-photos">
+<sc-for list="{{b.items}}" as="ph" hint-placeholder-count="4"><button type="button" class="cl-ph" onClick="{{ph.open}}" aria-label="{{ph.label}}"><img data-dc-src="{{ph.s}}" alt="{{ph.alt}}" width="{{ph.w}}" height="{{ph.h}}" loading="lazy" decoding="async"></button></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{b.isAlbum}}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; animation: kFadeUp .35s ease both;">
+<span style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 12.5px; color: #5B6270;">{{b.meta}}</span><span style="font-weight: 700; font-size: 17px;">{{b.title}}</span></span>
+<sc-if value="{{b.hasLead}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14.5px; color: #3A404C;">{{b.lead}}</p></sc-if>
+<div class="cl-photos">
+<sc-for list="{{b.items}}" as="ph" hint-placeholder-count="4"><button type="button" class="cl-ph" onClick="{{ph.open}}" aria-label="{{ph.label}}"><img data-dc-src="{{ph.s}}" alt="{{ph.alt}}" width="{{ph.w}}" height="{{ph.h}}" loading="lazy" decoding="async"></button></sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{b.isMore}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="tap" onClick="{{b.more}}" style="align-self: center; height: 46px; padding: 0 22px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14.5px; cursor: pointer;">{{b.text}}</button>
 </sc-if>
 </sc-for>
 
@@ -316,15 +369,27 @@ button,input{font-family:inherit}
 <sc-if value="{{hasPrev}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{goPrev}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 16px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: left; cursor: pointer;"><span style="font-size: 12.5px; color: #5B6270;">← Назад</span><span style="font-weight: 600;">{{prevTitle}}</span></button></sc-if>
 <sc-if value="{{hasNext}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{goNext}}" style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; padding: 14px 16px; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: right; cursor: pointer;"><span style="font-size: 12.5px; color: #5B6270;">Дальше →</span><span style="font-weight: 600;">{{nextTitle}}</span></button></sc-if>
 </nav>
-<p style="margin: 0; font-size: 12.5px; color: #5B6270;">Материалы взяты с сайта колледжа kitis.ru {{updLabel}} и пересказаны. Документы открываются файлами с сайта колледжа.</p>
+<p style="margin: 0; font-size: 12.5px; color: #5B6270;">{{srcNote}} <sc-if value="{{hasSrc}}" hint-placeholder-val="{{ false }}"><a href="{{srcUrl}}" target="_blank" rel="noopener noreferrer" style="color: #5B6270;">Источник на kitis.ru</a></sc-if></p>
 </article>
 </sc-if>
 </main>
 </div>
+
+<sc-if value="{{lbOpen}}" hint-placeholder-val="{{ false }}">
+<div class="cl-lb" data-scroll-lock role="dialog" aria-modal="true" aria-label="{{lbCaption}}" onClick="{{lbBackdrop}}" ontouchstart="{{lbTouchStart}}" ontouchend="{{lbTouchEnd}}">
+<img data-dc-src="{{lbSrc}}" alt="{{lbAlt}}" width="{{lbW}}" height="{{lbH}}">
+<div style="position: absolute; top: 14px; left: 16px; right: 76px; display: flex; flex-direction: column; gap: 2px; color: #FFFFFF; pointer-events: none;"><span style="font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{lbCaption}}</span><span style="font-size: 12.5px; opacity: .75;">{{lbCount}}</span></div>
+<button type="button" class="cl-lb-btn" data-lb-close onClick="{{lbClose}}" aria-label="Закрыть" style="top: 8px; right: 12px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+<sc-if value="{{lbMulti}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="cl-lb-btn cl-lb-side" onClick="{{lbPrev}}" aria-label="Предыдущее фото" style="left: 12px; top: 50%; transform: translateY(-50%);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"></path></svg></button>
+<button type="button" class="cl-lb-btn cl-lb-side" onClick="{{lbNext}}" aria-label="Следующее фото" style="right: 12px; top: 50%; transform: translateY(-50%);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></button>
+</sc-if>
+</div>
+</sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1400}}'></script>
 <script src="dc-runtime.js?v=cede6a8e71"></script>
-<script src="js/page-college.js?v=853e778c07"></script>
+<script src="js/page-college.js?v=f43467ee72"></script>
 </body>
 </html>

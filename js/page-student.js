@@ -119,11 +119,11 @@ class Component extends DCLogic {
       ['Заказ справки в учебной части', 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6', '#spravka'],
       ['Дистанционное обучение', 'M4 5h16v11H4zM2 20h20', 'college.html#p=distance'],
       ['Дневник «Моя школа»', 'M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h11', 'home.html'],
-      ['Учебные материалы', 'M2 6h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 6h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z', 'https://kitis.ru/students/educational-materials/'],
-      ['Государственная итоговая аттестация', 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5', 'https://kitis.ru/students/gia/'],
-      ['Графики академических аттестаций', 'M3 3v18h18M7 15l4-4 3 3 5-6', 'https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/'],
-      ['Общежитие', 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', 'https://kitis.ru/students/hostel/'],
-      ['Олимпиады и конкурсы', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'https://kitis.ru/students/olimpiady/']
+      ['Учебные материалы', 'M2 6h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 6h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z', 'college.html#p=st-materials'],
+      ['Государственная итоговая аттестация', 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5', 'college.html#p=st-gia'],
+      ['Графики академических аттестаций', 'M3 3v18h18M7 15l4-4 3 3 5-6', 'college.html#p=st-attestation'],
+      ['Общежитие', 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', 'college.html#p=st-hostel'],
+      ['Олимпиады и конкурсы', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'college.html#p=st-olympiads']
     ].map((x) => ({ l: x[0], d: x[1], h: x[2], bg: accentSoft, fg: accent, go: x[2] === '#spravka' ? openSpravka : undefined }));
     return Object.assign({ accent: accent, accentSoft: accentSoft, today: today, services: services, pq: pq, todayLong: todayLong, listTitle: myGroup ? dl.title : 'Пары', noToday: today.length === 0,
       stuName: me ? me.first || me.shortName : 'гость', stuLine: myGroup ? 'Студент · ' + myGroup + (myGroup === 'ИСр24-1' ? ' · куратор Шевченко П. С.' : '') : 'Вы не вошли — войдите, чтобы видеть свою группу',

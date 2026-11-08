@@ -421,12 +421,34 @@ class Component extends DCLogic {
     const K = 'https://kitis.ru/';
     const menuLinks = [
       { title: 'О колледже', items: [['О колледже', 'college.html#p=about'], ['История', 'college.html#p=history'], ['Новости', 'college.html#p=news'], ['Объявления и мероприятия', 'college.html#p=announce'], ['Выпускникам и Центр карьеры', 'college.html#p=career'], ['Профессионалитет', 'college.html#p=professionalitet'], ['УПК', 'college.html#p=upk'], ['БЦК', 'college.html#p=bck'], ['Дистанционное обучение', 'college.html#p=distance'], ['Курсы', 'college.html#p=courses'], ['Профессиональные конкурсы', 'college.html#p=contests'], ['Вакансии', 'college.html#p=vacancy'], ['Вопрос-ответ', 'college.html#p=faq'], ['Контакты и реквизиты', 'college.html#p=contacts']] },
-      { title: 'Официально · на kitis.ru', items: [['Сведения об образовательной организации', 'https://kitis.ru/sveden/'], ['Обращения', 'https://kitis.ru/forms/'], ['Противодействие коррупции', 'https://kitis.ru/anti-corruption/'], ['Комплексная безопасность', 'https://kitis.ru/security/'], ['Антитеррористическая защищённость', 'https://kitis.ru/antiterrorist/'], ['Информационная безопасность', 'https://kitis.ru/information-security/'], ['БПОО', 'https://kitis.ru/BPOO/'], ['Закупки', 'https://kitis.ru/tenders/'], ['Образовательный кредит в СПО', 'https://kitis.ru/obr-kredit/']] }
+      { title: 'Официально', items: [['Сведения об образовательной организации', 'college.html#p=sveden'], ['Обращения', 'college.html#p=forms'], ['Противодействие коррупции', 'college.html#p=anti-corruption'], ['Комплексная безопасность', 'college.html#p=security'], ['Антитеррористическая защищённость', 'college.html#p=antiterrorist'], ['Информационная безопасность', 'college.html#p=information-security'], ['БПОО', 'college.html#p=bpoo'], ['Закупки', 'college.html#p=tenders'], ['Образовательный кредит в СПО', 'college.html#p=obr-kredit']] }
     ].map((sec) => ({ title: sec.title, items: sec.items.map((x) => ({ l: x[0], h: x[1] })) }));
 
     const CN = window.KITIS_COLLEGE && window.KITIS_COLLEGE.sections.filter((x) => x.id === 'news')[0];
     const newsSrc = CN ? CN.blocks[0].items.slice(0, 4).map((x) => [x[0].slice(8, 10) + '.' + x[0].slice(5, 7) + '.' + x[0].slice(0, 4), x[2]]) : [['03.11.2026', 'Гордимся: награды талантливым студенткам КИТиСа'], ['02.11.2026', 'Разговоры о важном ко Дню народного единства'], ['02.11.2026', 'Лекция «Образ будущего России» в КИТиСе'], ['31.10.2026', 'Волейболистки КИТиСа на областных соревнованиях']];
-    const news = newsSrc.map((x, i) => ({ date: x[0], title: x[1], delay: delay(i), href: 'college.html#p=news&i=' + i }));
+    // фото к новостям — из альбомов, которые робот переносит с kitis.ru
+    const PH = window.KITIS_PHOTOS && Array.isArray(window.KITIS_PHOTOS.albums) ? window.KITIS_PHOTOS.albums.filter((a) => a && Array.isArray(a.p) && a.p.length && Array.isArray(a.p[0]) && typeof a.p[0][1] === 'string') : [];
+    const words = (t) => String(t || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim().split(' ').filter((w) => w.length >= 3);
+    const findAlbum = (iso, title) => {
+      const a = words(title);
+      if (!a.length) return null;
+      const set = {};
+      a.forEach((w) => { set[w] = 1; });
+      let best = null, bs = 0;
+      PH.forEach((al) => {
+        const b = words(al.t);
+        if (!b.length) return;
+        let inter = 0;
+        b.forEach((w) => { if (set[w]) inter++; });
+        const sc = inter / (a.length + b.length - inter) + (al.d && al.d === iso ? 0.3 : 0);
+        if (sc > bs) { bs = sc; best = al; }
+      });
+      return bs >= 0.55 ? best : null;
+    };
+    const news = newsSrc.map((x, i) => {
+      const al = findAlbum(/^\d{2}\.\d{2}\.\d{4}$/.test(x[0]) ? x[0].slice(6, 10) + '-' + x[0].slice(3, 5) + '-' + x[0].slice(0, 2) : '', x[1]);
+      return { date: x[0], title: x[1], delay: delay(i), href: 'college.html#p=news&i=' + i, hasPhoto: !!al, photo: al ? al.p[0][1] : '' };
+    });
     const steps = [
       ['Выберите программы', '', 'После 9 класса — до трёх, после 11 — до пяти'],
       ['Подайте заявление', '20.06–15.08', 'Лично, почтой или через Госуслуги'],
@@ -444,9 +466,9 @@ class Component extends DCLogic {
       return { code: x[0], name: x[1], kind: prof ? 'Профессия' : 'Специальность', fg: prof ? '#1C6B47' : '#1F46B8', line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' };
     });
     const studentLinks = [
-      ['Заказ справки', I.doc, 'https://kitis.ru/students/training-part/'], ['Дистанционное обучение', I.laptop, 'https://kitis.ru/students/distance-learning/'],
-      ['Дневник «Моя школа»', I.book, K], ['Учебные материалы', I.book, 'https://kitis.ru/students/educational-materials/'],
-      ['ГИА', I.cap, 'https://kitis.ru/students/gia/'], ['Графики аттестаций', I.chart, 'https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/']
+      ['Заказ справки', I.doc, 'student.html#spravka'], ['Дистанционное обучение', I.laptop, 'college.html#p=distance'],
+      ['Дневник «Моя школа»', I.book, K], ['Учебные материалы', I.book, 'college.html#p=st-materials'],
+      ['ГИА', I.cap, 'college.html#p=st-gia'], ['Графики аттестаций', I.chart, 'college.html#p=st-attestation']
     ].map((x, i) => ({ l: x[0], d: x[1], h: x[2], delay: delay(i) }));
 
     /* ---------- кабинеты ---------- */
@@ -477,7 +499,7 @@ class Component extends DCLogic {
     if (tci >= 0) M.week('t', tci, tcWeekInfo.monday).forEach((d) => d.lessons.forEach((l) => teacherWeek.push({
       day: d.short + ', ' + d.num, n: l.label, time: l.time, group: l.group, bg: d.iso === clk.iso && nowOf(tcs, l) ? '#FFF4EA' : '#F7F8FA'
     })));
-    const teacherLinks = [['Методические материалы', 'https://kitis.ru/teachers/docs/'], ['Аттестации', 'https://kitis.ru/teachers/attestation/'], ['Учебно-методическая работа', 'https://kitis.ru/teachers/educational-methodical-work/'], ['Воспитательная работа', 'https://kitis.ru/teachers/educational-work/'], ['Объявления', 'https://kitis.ru/teachers/announcing/'], ['Снижение бюрократической нагрузки', 'https://kitis.ru/teachers/snizheniye-byurokraticheskoy-nagruzki/']].map((x, i, arr) => ({ l: x[0], h: x[1], line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' }));
+    const teacherLinks = [['Методические материалы', 'college.html#p=tc-docs'], ['Аттестации', 'college.html#p=tc-attestation'], ['Учебно-методическая работа', 'college.html#p=tc-method'], ['Воспитательная работа', 'college.html#p=tc-upbringing'], ['Объявления', 'college.html#p=tc-announce'], ['Снижение бюрократической нагрузки', 'college.html#p=tc-bureaucracy']].map((x, i, arr) => ({ l: x[0], h: x[1], line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' }));
     const roleDefs = [['student', 'Студент', 'Аккаунт подтвердит куратор группы.', 'student'], ['teacher', 'Преподаватель', 'ФИО сверят со списком преподавателей в расписании.', 'teacher'], ['abitur', 'Абитуриент', 'Подтверждение не нужно.', 'abitur']];
     let roleNote = roleDefs[0][2];
     const roles = roleDefs.map((x) => {

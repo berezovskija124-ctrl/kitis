@@ -12,6 +12,7 @@
 <script src="kitis-model.js?v=7d5f5ab40e"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
+<script src="data/kitis-photos.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Расписание — телефон.">
 <style>
@@ -395,7 +396,7 @@ button,input,select{font-family:inherit}
 </section>
 <h2 style="margin: 4px 2px 0; font-size: 17px; font-weight: 700;">Новости</h2>
 <sc-for list="{{news}}" as="n" hint-placeholder-count="4">
-<a href="{{n.href}}" style="display: flex; flex-direction: column; gap: 3px; padding: 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; animation: kFadeUp .35s ease both; animation-delay: {{n.delay}};"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{n.date}}</span><span style="font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{n.title}}</span></a>
+<a href="{{n.href}}" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; animation: kFadeUp .35s ease both; animation-delay: {{n.delay}};"><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{n.date}}</span><span style="font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{n.title}}</span></span><sc-if value="{{n.hasPhoto}}" hint-placeholder-val="{{ false }}"><img data-dc-src="{{n.photo}}" alt="" width="76" height="57" loading="lazy" decoding="async" style="flex: none; width: 76px; height: 57px; object-fit: cover; border-radius: 10px; background: #E6E9ED;"></sc-if></a>
 </sc-for>
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px; font-size: 14px;">
 <h2 style="margin: 0 0 4px; font-size: 16px; font-weight: 700;">Контакты</h2>
@@ -425,7 +426,7 @@ button,input,select{font-family:inherit}
 <h2 style="margin: 4px 2px 0; font-size: 17px; font-weight: 700;">Специальности и профессии</h2>
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 4px 14px;">
 <sc-for list="{{specs}}" as="sp" hint-placeholder-count="10">
-<a href="https://kitis.ru/abitur/specialties/" style="display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid {{sp.line}}; color: #15171C; text-decoration: none;">
+<a href="abitur.html#catalog" style="display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid {{sp.line}}; color: #15171C; text-decoration: none;">
 <span style="flex: none; width: 62px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #3A404C;">{{sp.code}}</span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 14px; font-weight: 600;">{{sp.name}}</span><span style="font-size: 12px; color: {{sp.fg}};">{{sp.kind}}</span></span>
 </a>
@@ -585,6 +586,6 @@ button,input,select{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":390,"height":844}}'></script>
 <script src="dc-runtime.js?v=cede6a8e71"></script>
-<script src="js/page-phone.js?v=1f9061c4cd"></script>
+<script src="js/page-phone.js?v=ded22b7774"></script>
 </body>
 </html>

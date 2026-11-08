@@ -74,7 +74,31 @@ class Component extends DCLogic {
       ['02.11.2026', 'Лекция «Образ будущего России» в КИТиСе', 'События'],
       ['31.10.2026', 'Волейболистки КИТиСа на областных соревнованиях', 'Спорт']
     ];
-    const news = newsItems.map((x, i) => ({ date: x[0], title: x[1], tag: x[2], tagFg: tagColors[x[2]] || accent, href: 'college.html#p=news&i=' + i }));
+    // фото к новостям — из альбомов, которые робот переносит с kitis.ru (та же дата и похожий заголовок)
+    const PH = window.KITIS_PHOTOS && Array.isArray(window.KITIS_PHOTOS.albums) ? window.KITIS_PHOTOS.albums.filter((a) => a && Array.isArray(a.p) && a.p.length && Array.isArray(a.p[0]) && typeof a.p[0][1] === 'string') : [];
+    const words = (t) => String(t || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim().split(' ').filter((w) => w.length >= 3);
+    const findAlbum = (iso, title) => {
+      const a = words(title);
+      if (!a.length) return null;
+      const set = {};
+      a.forEach((w) => { set[w] = 1; });
+      let best = null, bs = 0;
+      PH.forEach((al) => {
+        const b = words(al.t);
+        if (!b.length) return;
+        let inter = 0;
+        b.forEach((w) => { if (set[w]) inter++; });
+        const sc = inter / (a.length + b.length - inter) + (al.d && al.d === iso ? 0.3 : 0);
+        if (sc > bs) { bs = sc; best = al; }
+      });
+      return bs >= 0.55 ? best : null;
+    };
+    const isoOf = (d) => /^\d{2}\.\d{2}\.\d{4}$/.test(d) ? d.slice(6, 10) + '-' + d.slice(3, 5) + '-' + d.slice(0, 2) : '';
+    const news = newsItems.map((x, i) => {
+      const al = findAlbum(isoOf(x[0]), x[1]);
+      return { date: x[0], title: x[1], tag: x[2], tagFg: tagColors[x[2]] || accent, href: 'college.html#p=news&i=' + i,
+        hasPhoto: !!al, noPhoto: !al, photo: al ? al.p[0][1] : '', photoAlt: al ? (al.p[0][4] || x[1]) : '' };
+    });
     const mainList = [
       ['19.10.2026', 'День открытых дверей!'],
       ['23.09.2026', 'Праздничные мероприятия ко Дню среднего профессионального образования'],
@@ -110,7 +134,7 @@ class Component extends DCLogic {
     const a11yOn = !!(window.KitisA11y && window.KitisA11y.on());
     return { a11yLabel: a11yOn ? 'Обычная версия' : 'Версия для слабовидящих', a11yPressed: a11yOn ? 'true' : 'false',
       toggleA11y: (e) => { if (e && e.preventDefault) e.preventDefault(); if (window.KitisA11y) window.KitisA11y.toggle(); this.setState({ a11y: Date.now() }); },
-      accent: accent, accentSoft: accentSoft, scopes: scopes, ph: ph, roles: roles, services: services, news: news, main: mainList, hw: hw,
+      accent: accent, accentSoft: accentSoft, scopes: scopes, ph: ph, roles: roles, services: services, news: news, hasGallery: PH.length > 0, main: mainList, hw: hw,
       q: s.q || '', onQ: (e) => this.setState({ q: e && e.target ? e.target.value : '' }), results: results, hasResults: results.length > 0, noResults: !!q && results.length === 0,
       recent: recent, hasRecent: recent.length > 0 };
   }

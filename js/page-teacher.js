@@ -120,12 +120,12 @@ class Component extends DCLogic {
       return { name: g, note: CUR[g] || 'Группа', subjects: subs.join(', ') + ' · ' + (n ? pairs(n) : 'нет пар') + ' на неделе' };
     });
     const links = [
-      ['Методические материалы', 'M2 6h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 6h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z', 'https://kitis.ru/teachers/docs/'],
-      ['Аттестации', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'https://kitis.ru/teachers/attestation/'],
-      ['Учебно-методическая работа', 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6', 'https://kitis.ru/teachers/educational-methodical-work/'],
-      ['Воспитательная работа', 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2', 'https://kitis.ru/teachers/educational-work/'],
-      ['Объявления', 'M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1zM16 9a4 4 0 0 1 0 6', 'https://kitis.ru/teachers/announcing/'],
-      ['Снижение бюрократической нагрузки', 'M20 6 9 17l-5-5', 'https://kitis.ru/teachers/snizheniye-byurokraticheskoy-nagruzki/']
+      ['Методические материалы', 'M2 6h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 6h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z', 'college.html#p=tc-docs'],
+      ['Аттестации', 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8', 'college.html#p=tc-attestation'],
+      ['Учебно-методическая работа', 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h6', 'college.html#p=tc-method'],
+      ['Воспитательная работа', 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2', 'college.html#p=tc-upbringing'],
+      ['Объявления', 'M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1zM16 9a4 4 0 0 1 0 6', 'college.html#p=tc-announce'],
+      ['Снижение бюрократической нагрузки', 'M20 6 9 17l-5-5', 'college.html#p=tc-bureaucracy']
     ].map((x) => ({ l: x[0], d: x[1], h: x[2], bg: accentSoft, fg: accent }));
     return {
       accent: accent, accentSoft: accentSoft,
