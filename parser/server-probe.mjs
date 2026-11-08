@@ -16,23 +16,23 @@ const dec = new TextDecoder('windows-1251');
 const get = async (p) => { const r = await fetch(BASE + p, { signal: AbortSignal.timeout(20000) }); return { status: r.status, html: dec.decode(await r.arrayBuffer()) }; };
 
 function tables(html) {
-  return html.split(/<table\b/i).slice(1).map((t) => {
-    const rows = t.split(/<\/table>/i)[0].split(/<tr\b[^>]*>/i).slice(1).map((r) => {
-      const out = [];
-      const re = /<t([dh])\b([^>]*)>([\s\S]*?)(?=<t[dh]\b|<\/tr>|$)/gi;
-      let m;
-      while ((m = re.exec(r))) {
-        const hrefs = [...m[3].matchAll(/href\s*=\s*"?([^"\s>]+)/gi)].map((x) => x[1]).slice(0, 3);
-        const cls = (/class\s*=\s*"?([\w-]+)/i.exec(m[2]) || [])[1] || '';
-        const span = (/colspan\s*=\s*"?(\d+)/i.exec(m[2]) || [])[1] || '';
-        const rs = (/rowspan\s*=\s*"?(\d+)/i.exec(m[2]) || [])[1] || '';
-        const img = (/<img[^>]*alt\s*=\s*"?([^">]*)/i.exec(m[3]) || [])[1];
-        out.push(m[1] + (cls ? '.' + cls : '') + (span ? ' cs' + span : '') + (rs ? ' rs' + rs : '') + ' «' + P.text(m[3]).slice(0, 50) + '»' + (hrefs.length ? ' →' + hrefs.join(',') : '') + (img != null ? ' img:' + img : ''));
-      }
-      return out;
-    }).filter((r) => r.length);
-    return { rows: rows.length, head: rows.slice(0, 4), tail: rows.slice(-2) };
-  });
+  // все строки страницы с ячейками (таблицы на сервере вложены друг в друга)
+  const rows = html.split(/<tr\b[^>]*>/i).slice(1).map((r) => {
+    const out = [];
+    const re = /<t([dh])\b([^>]*)>([\s\S]*?)(?=<t[dh]\b|<\/tr>|<tr\b|$)/gi;
+    let m;
+    while ((m = re.exec(r))) {
+      const body = m[3].split(/<table\b/i)[0];
+      const hrefs = [...body.matchAll(/href\s*=\s*"?([^"\s>]+)/gi)].map((x) => x[1]).slice(0, 3);
+      const cls = (/class\s*=\s*"?([\w-]+)/i.exec(m[2]) || [])[1] || '';
+      const span = (/colspan\s*=\s*"?(\d+)/i.exec(m[2]) || [])[1] || '';
+      const rs = (/rowspan\s*=\s*"?(\d+)/i.exec(m[2]) || [])[1] || '';
+      const img = (/<img[^>]*alt\s*=\s*"?([^">]*)/i.exec(body) || [])[1];
+      out.push(m[1] + (cls ? '.' + cls : '') + (span ? ' cs' + span : '') + (rs ? ' rs' + rs : '') + ' «' + P.text(body).slice(0, 48) + '»' + (hrefs.length ? ' →' + hrefs.join(',') : '') + (img != null ? ' img:' + img : ''));
+    }
+    return out;
+  }).filter((r) => r.length >= 3);
+  return [{ rows: rows.length, head: rows.slice(0, 9), tail: rows.slice(-3) }];
 }
 
 const report = { at: new Date().toISOString(), pages: {} };
