@@ -29,7 +29,7 @@ import time
 import unicodedata
 from collections import Counter, OrderedDict
 from pathlib import Path
-from urllib.parse import urljoin, urlparse, urlunparse, unquote
+from urllib.parse import quote, urljoin, urlparse, urlsplit, urlunparse, urlunsplit, unquote
 from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup, Comment, NavigableString, Tag
@@ -45,15 +45,15 @@ BASE = os.environ.get('KITIS_BASE', 'https://kitis.ru').rstrip('/')
 PUBLIC = 'https://kitis.ru'          # так ссылки показываются на сайте
 UA = ('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 '
       'KITiS-study-site-sync/1.0 (+https://github.com/berezovskija124-ctrl/kitis)')
-DELAY = float(os.environ.get('KITIS_DELAY', '0.35'))
+DELAY = float(os.environ.get('KITIS_DELAY', '0.2'))
 MAX_PAGE_BYTES = 4_000_000
 MAX_IMG_BYTES = 25_000_000
-MAX_REQUESTS = 900
+MAX_REQUESTS = 1500
 MAX_CHILDREN = 25
-MAX_PHOTOS = 380
+MAX_PHOTOS = 600
 MAX_PER_ALBUM = 24
 MAX_LIST_PAGES = 4
-LIMIT_ALBUMS = {'news': 48, 'announce': 16, 'events': 16, 'gallery': 40}
+LIMIT_ALBUMS = {'news': 60, 'announce': 20, 'events': 20, 'gallery': 40, 'abitur': 40}
 FULL_PX, THUMB_PX = 1200, 560
 Image.MAX_IMAGE_PIXELS = 60_000_000
 
@@ -95,11 +95,13 @@ SVEDEN_ROOT = '/sveden/'
 SVEDEN_FALLBACK = ['common', 'struct', 'document', 'education', 'eduStandarts', 'managers', 'employees',
                    'objects', 'grants', 'paid_edu', 'budget', 'vacant', 'inter', 'catering', 'ovz']
 NO_PHOTO_PATH = re.compile(r'/sveden/|employee|manager|rukovod|sotrudnik|pedagog|staff|teachers-list|doska|pochet', re.I)
+# ленты, из которых берутся фотоальбомы: сначала медиацентр колледжа, потом новости для абитуриентов
 MEDIA_KINDS = [
-    ('news', re.compile(r'^(все\s+)?новости', re.I), ['/news/', '/press-center/news/', '/media/news/']),
-    ('announce', re.compile(r'^(все\s+)?объявлени', re.I), ['/announcements/', '/press-center/announcements/']),
-    ('events', re.compile(r'^(все\s+)?мероприяти', re.I), ['/events/', '/press-center/events/']),
-    ('gallery', re.compile(r'фото|галере', re.I), ['/gallery/', '/photo/', '/press-center/photo/']),
+    ('news', re.compile(r'^(все\s+)?новости', re.I), ['/press-center/news/', '/news/']),
+    ('announce', re.compile(r'^(все\s+)?объявлени', re.I), ['/press-center/announcements/', '/press-center/announce/', '/press-center/ads/']),
+    ('events', re.compile(r'^(все\s+)?мероприяти', re.I), ['/press-center/events/', '/press-center/meropriyatiya/']),
+    ('gallery', re.compile(r'фото|галере', re.I), ['/press-center/photo/', '/press-center/gallery/']),
+    ('abitur', re.compile(r'^$'), ['/abitur/news/']),
 ]
 
 DOC_EXT = {'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'rtf', 'odt', 'ods', 'odp', 'zip', 'rar', '7z', 'txt', 'csv', 'sig'}
@@ -136,7 +138,7 @@ def fetch(url, limit=MAX_PAGE_BYTES):
         requests_made += 1
         try:
             time.sleep(DELAY * (1 + attempt))
-            req = Request(url, headers={'User-Agent': UA, 'Accept-Language': 'ru,en;q=0.5',
+            req = Request(iri(url), headers={'User-Agent': UA, 'Accept-Language': 'ru,en;q=0.5',
                                         'Accept': 'text/html,application/xhtml+xml,image/*;q=0.9,*/*;q=0.8'})
             with urlopen(req, timeout=45) as r:
                 data = r.read(limit + 1)
@@ -146,6 +148,18 @@ def fetch(url, limit=MAX_PAGE_BYTES):
         except Exception as e:  # noqa: BLE001 — любая сетевая ошибка: пробуем ещё раз
             last = e
     raise last
+
+
+def iri(u):
+    """Адрес с русскими буквами и пробелами → допустимый для HTTP (уже закодированное не трогаем)."""
+    p = urlsplit(u)
+    host = p.netloc
+    try:
+        host.encode('ascii')
+    except UnicodeEncodeError:
+        host = host.encode('idna').decode('ascii')
+    return urlunsplit((p.scheme, host, quote(p.path, safe="/%:@!$&'()*+,;=-._~"),
+                       quote(p.query, safe="=&%:@!$'()*+,;/?-._~"), ''))
 
 
 def to_fetch_url(u):
@@ -178,7 +192,7 @@ def canon(href, base_url):
         return ''
     if is_kitis_host(p.netloc):
         path = re.sub(r'/index\.php$', '/', p.path or '/')
-        return urlunparse(('https', 'kitis.ru', path, '', p.query, ''))
+        return iri(urlunparse(('https', 'kitis.ru', path, '', p.query, '')))
     return urlunparse((p.scheme, p.netloc.lower(), p.path, '', p.query, ''))
 
 
@@ -356,6 +370,8 @@ def strip_page(soup, url):
             el.decompose()
         # скрытые блоки не трогаем: в свёрнутых вкладках и аккордеонах тоже содержимое страницы
     seg = urlparse(url).path.strip('/').split('/')[0]
+    own = path_of(url)
+    main_el = h1.find_parent('main') if h1 is not None else None
     for el in list(body.find_all(['ul', 'ol', 'div', 'section', 'table', 'p', 'span'])):
         if el.decomposed or id(el) in keep:
             continue
@@ -363,13 +379,15 @@ def strip_page(soup, url):
         text = clean(el.get_text(' '))
         if len(links) >= 3:
             hrefs = [canon(a.get('href'), url) for a in links]
-            nb = sum(1 for h in hrefs if not h or boiler.is_link(h, seg))
+            # подразделы самой страницы — это её содержание, даже если они есть в меню сайта
+            nb = sum(1 for h in hrefs if not h or (boiler.is_link(h, seg) and not (path_of(h).startswith(own) and path_of(h) != own)))
             if nb / len(links) >= 0.7:
                 link_text = sum(len(clean(a.get_text(' '))) for a in links)
                 if len(text) - link_text <= 40 + 0.25 * len(text):
                     el.decompose()
                     continue
-        if text in boiler.texts and not el.find(['img', 'table']):
+        inside_main = main_el is not None and el.find_parent('main') is main_el
+        if text in boiler.texts and not inside_main and not el.find(['img', 'table']):
             el.decompose()
     # контейнер: ближайший предок заголовка, в котором уже есть содержимое страницы
     if h1 is None:
@@ -382,7 +400,7 @@ def strip_page(soup, url):
     node = h1
     while node.parent is not None and node.parent.name not in ('body', 'html', '[document]'):
         node = node.parent
-        if weight(node) - base >= 150:
+        if weight(node) - base >= 150 or node is main_el:
             return node, h1
     return body, h1
 
@@ -430,6 +448,8 @@ class Builder:
         if is_kitis_page(href):
             path = path_of(href)
             sid = self.link_map.get(path)
+            if sid and path == path_of(self.url):
+                return
             if sid:
                 self.add({'t': 'go', 'items': [[short(text or 'Перейти', 120), sid]]})
                 return
@@ -552,10 +572,36 @@ class Builder:
                 continue
             if name in BLOCK_TAGS:
                 self.flush()
-                self.walk(ch)
+                if not self.pair(ch):
+                    self.walk(ch)
                 self.flush()
                 continue
             self.walk(ch)
+
+    def pair(self, el):
+        """Строка вида «Подпись | значение» (как в «Сведениях об организации») → пункт блока facts."""
+        kids = [c for c in el.children if isinstance(c, Tag) and not c.decomposed]
+        loose = clean(''.join(str(c) for c in el.children if isinstance(c, NavigableString) and not isinstance(c, Comment)))
+        if len(kids) != 2 or loose or el.name not in ('div', 'tr', 'dl', 'p', 'li'):
+            return False
+        a, b = kids
+        if a.name not in ('div', 'span', 'dt', 'td', 'th', 'strong', 'b', 'label') or b.name not in ('div', 'span', 'dd', 'td', 'p', 'a'):
+            return False
+        if a.find(['div', 'p', 'ul', 'ol', 'table', 'img']) or b.find(['ul', 'ol', 'table', 'img', 'h2', 'h3']):
+            return False
+        la, lb = short(a.get_text(' '), 200), short(b.get_text(' '), 1500)
+        if not (2 <= len(la) <= 150) or not lb or la.endswith('.'):
+            return False
+        links = [canon(x.get('href'), self.url) for x in ([b] if b.name == 'a' else b.find_all('a', href=True)) if x.get('href')]
+        links = [h for h in links if h]
+        item = [la.rstrip(':'), lb] + ([links[0]] if len(links) == 1 else [])
+        if self.blocks and self.blocks[-1]['t'] == 'facts':
+            self.blocks[-1]['items'].append(item)
+        else:
+            self.blocks.append({'t': 'facts', 'items': [item]})
+        for h in links[1:] if len(links) > 1 else []:
+            self.add_link(h, '')
+        return True
 
     def image(self, img, full):
         src = full or img.get('data-src') or img.get('data-original') or img.get('data-lazy') or img.get('src') or ''
@@ -666,8 +712,12 @@ def extract(url, title, link_map, allow_photos, skip_urls=()):
         b.started = True
         b.walk(box)
         b.flush()
+    raw_main = rec['soup'].find('main') or rec['soup'].body
+    has_form = bool(raw_main and any(len(f.find_all(['input', 'textarea', 'select'])) >= 3 for f in raw_main.find_all('form')))
+    if has_form:
+        b.add({'t': 'links', 'items': [['Заполнить форму на сайте колледжа', url, 'Форма отправляется на kitis.ru']]})
     report['pages'].append({'url': url, 'title': t, 'container': describe(box), 'blocks': len(b.blocks),
-                            'photos': len(b.photos), 'children': len(b.children)})
+                            'photos': len(b.photos), 'children': len(b.children), 'form': has_form})
     return {'title': t, 'blocks': b.blocks, 'photos': b.photos, 'children': b.children, 'final': rec['final']}
 
 
@@ -826,30 +876,40 @@ def discover_sveden():
 # ---------- новости и альбомы ----------
 
 def discover_lists():
-    home = get_page(PUBLIC + '/')
-    lists = {}
-    if home['soup'] is not None:
-        for a in home['soup'].find_all('a', href=True):
+    """Ленты медиацентра: ищем ссылки на главной и на странице медиацентра, иначе пробуем известные адреса."""
+    cands = {k: [] for k, _, _ in MEDIA_KINDS}
+    for start in ('/', '/press-center/'):
+        r = get_page(PUBLIC + start)
+        if r['soup'] is None:
+            continue
+        for a in r['soup'].find_all('a', href=True):
             t = clean(a.get_text(' '))
-            h = canon(a.get('href'), home['final'])
-            if not h or not is_kitis_page(h) or path_of(h) == '/' or '/teachers/' in h:
+            h = canon(a.get('href'), r['final'])
+            if not h or not is_kitis_page(h) or path_of(h) == '/' or len(t) > 40:
                 continue
             for kind, rx, _ in MEDIA_KINDS:
-                if kind not in lists and rx.search(t) and len(t) < 40:
-                    lists[kind] = h.split('?')[0]
+                if rx.pattern != '^$' and rx.search(t) and '/press-center/' in h:
+                    u = PUBLIC + path_of(h)
+                    if u not in cands[kind]:
+                        cands[kind].append(u)
+    lists = []
     for kind, _, guesses in MEDIA_KINDS:
-        if kind in lists:
-            continue
-        for g in guesses:
-            r = get_page(PUBLIC + g)
+        for u in cands[kind] + [PUBLIC + g for g in guesses]:
+            if any(x[1] == u for x in lists):
+                continue
+            r = get_page(u)
             if r['soup'] is not None and page_title(r['soup']):
-                lists[kind] = PUBLIC + g
+                lists.append((kind, u))
                 break
-    report['lists'] = [{'kind': k, 'url': v} for k, v in lists.items()]
+    report['lists'] = [{'kind': k, 'url': v} for k, v in lists]
     return lists
 
 
+list_dates = {}
+
+
 def list_items(list_url, limit):
+    """Адреса материалов ленты (с переходом по страницам) и даты, указанные рядом с ними."""
     found, queue, seen_pages = [], [list_url], set()
     base_path = path_of(list_url)
     seg = base_path.strip('/').split('/')[0]
@@ -874,7 +934,17 @@ def list_items(list_url, limit):
                 continue
             if not path_of(h).startswith(base_path) or (path_of(h) == base_path and not p.query):
                 continue
-            if boiler.is_link(h, seg) or h in found:
+            if boiler.is_link(h, seg):
+                continue
+            if h not in list_dates:
+                box = a
+                for _ in range(4):
+                    box = box.parent if box.parent is not None else box
+                    d = parse_date(box.get_text(' '))
+                    if d:
+                        list_dates[h] = d
+                        break
+            if h in found:
                 continue
             found.append(h)
             if len(found) >= limit:
@@ -895,7 +965,7 @@ def album_from(url, kind):
             break
     if not date:
         texts = ' '.join(b.get('text', '') for b in res['blocks'][:6] if b['t'] in ('p', 'h'))
-        date = parse_date(texts)
+        date = parse_date(texts) or list_dates.get(url, '')
     items = []
     for src in res['photos'][:MAX_PER_ALBUM]:
         p = photo(src, res['title'])
@@ -929,8 +999,8 @@ def main():
         get_page(PUBLIC + SVEDEN_ROOT + sid + '/')
     for p in PAGES:
         get_page(PUBLIC + p[5])
-    media_urls = {k: list_items(u, LIMIT_ALBUMS[k]) for k, u in lists.items()}
-    for k, urls in media_urls.items():
+    media_urls = [(k, list_items(u, LIMIT_ALBUMS[k])) for k, u in lists]
+    for k, urls in media_urls:
         for u in urls[:12]:
             get_page(u)
     boiler.build()
@@ -954,8 +1024,12 @@ def main():
 
     albums = []
     prev_albums = {a['u']: a for a in prev_ph.get('albums', [])}
-    for kind, urls in media_urls.items():
+    seen_albums = set()
+    for kind, urls in media_urls:
         for u in urls:
+            if u in seen_albums:
+                continue
+            seen_albums.add(u)
             a = album_from(u, kind)
             if a is None:
                 a = prev_albums.get(u)
