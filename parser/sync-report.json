@@ -5,10 +5,11 @@
    "url": "https://kitis.ru/sveden/common/",
    "title": "Основные сведения",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 35,
+   "blocks": 19,
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 4039, ссылок 21]",
     "  div [текст 17, ссылок 0]",
@@ -119,16 +120,18 @@
    "blocks": 31,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/document/",
    "title": "Документы",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 15,
+   "blocks": 12,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/education/",
@@ -137,7 +140,8 @@
    "blocks": 9,
    "photos": 0,
    "children": 0,
-   "form": true
+   "form": true,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/eduStandarts/",
@@ -146,7 +150,8 @@
    "blocks": 7,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/managers/",
@@ -155,7 +160,8 @@
    "blocks": 9,
    "photos": 0,
    "children": 0,
-   "form": true
+   "form": true,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/employees/",
@@ -164,7 +170,8 @@
    "blocks": 5,
    "photos": 0,
    "children": 0,
-   "form": true
+   "form": true,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/objects/",
@@ -173,7 +180,8 @@
    "blocks": 30,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/grants/",
@@ -182,7 +190,8 @@
    "blocks": 6,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/paid_edu/",
@@ -191,7 +200,8 @@
    "blocks": 4,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/budget/",
@@ -200,7 +210,8 @@
    "blocks": 23,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/vacant/",
@@ -210,6 +221,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 2517, ссылок 0]",
     "  div [текст 49, ссылок 0]",
@@ -311,7 +323,8 @@
    "blocks": 3,
    "photos": 0,
    "children": 0,
-   "form": true
+   "form": true,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/sveden/catering/",
@@ -320,7 +333,8 @@
    "blocks": 7,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/forms/",
@@ -329,7 +343,8 @@
    "blocks": 6,
    "photos": 0,
    "children": 3,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/forms/meet/",
@@ -338,7 +353,8 @@
    "blocks": 4,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/forms/reception/",
@@ -347,7 +363,8 @@
    "blocks": 19,
    "photos": 0,
    "children": 0,
-   "form": true
+   "form": true,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/forms/message/",
@@ -357,6 +374,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 4394, ссылок 0]",
     "  div [текст 20, ссылок 0]",
@@ -420,8 +438,9 @@
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
    "blocks": 0,
    "photos": 0,
-   "children": 0,
+   "children": 8,
    "form": false,
+   "tree": 8,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 25, ссылок 0]",
     "  div [текст 25, ссылок 0]",
@@ -457,6 +476,373 @@
    ]
   },
   {
+   "url": "https://kitis.ru/anti-corruption/normativnye-pravovye-i-inye-akty-v-sfere-protivodeystviya-korruptsii/",
+   "title": "Нормативные правовые и иные акты в сфере противодействия коррупции",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 2,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0,
+   "outline": [
+    "main.sf-main-area.col-12.col-md-8 [текст 582, ссылок 16]",
+    "  div [текст 66, ссылок 0]",
+    "    section.sf-grid-area [текст 66, ссылок 0]",
+    "      div.container-wrap.mb-4 [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 66, ссылок 0]",
+    "        div [текст 66, ссылок 0]",
+    "          div.row [текст 66, ссылок 0]",
+    "            div.col-12 [текст 66, ссылок 0]",
+    "              div [текст 66, ссылок 0]",
+    "  style [текст 107, ссылок 0]",
+    "  p.mb-3.t-0 [текст 0, ссылок 0]",
+    "  div.mb-4 [текст 448, ссылок 15]",
+    "    div#bx_26999089_2511.col-12.position-relative [текст 153, ссылок 4]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 153, ссылок 4]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 153, ссылок 3]",
+    "          h3.t-0.t-copy.mb-2 [текст 105, ссылок 1]",
+    "            a.sf-pdf-view [текст 105, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 47, ссылок 2]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/medialibrary/68b/fy86i1rfgf2hl7m0xzvw2xy9p4pzutzg/По",
+    "            span.mr-2 [текст 16, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "    div#bx_26999089_2510.col-12.position-relative [текст 105, ссылок 4]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 105, ссылок 4]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 105, ссылок 3]",
+    "          h3.t-0.t-copy.mb-2 [текст 57, ссылок 1]",
+    "            a.sf-pdf-view [текст 57, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 47, ссылок 2]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/medialibrary/ca6/dantftfd1qur2spjrgwmkduirtgsu61a/По",
+    "            span.mr-2 [текст 16, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "    div#bx_26999089_1890.col-12.position-relative [текст 101, ссылок 4]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 101, ссылок 4]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 101, ссылок 3]",
+    "          h3.t-0.t-copy.mb-2 [текст 53, ссылок 1]",
+    "            a.sf-pdf-view [текст 53, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 47, ссылок 2]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/medialibrary/f46/akx78h2azxg108wt0gxh5zsb5ns4yo31/Ан",
+    "            span.mr-2 [текст 16, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "    div#bx_26999089_190.col-12.position-relative [текст 86, ссылок 3]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 86, ссылок 3]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=https://consultant.ru/document/cons_doc_LAW_82959/",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 86, ссылок 2]",
+    "          h3.t-0.t-copy.mb-2 [текст 78, ссылок 1]",
+    "            a [текст 78, ссылок 0] href=https://consultant.ru/document/cons_doc_LAW_82959/",
+    "          div.c-text-secondary.t--2 [текст 7, ссылок 1]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=https://consultant.ru/document/cons_doc_LAW_82959/",
+    "  script [текст 187, ссылок 0]",
+    "  br [текст 0, ссылок 0]",
+    "  a [текст 66, ссылок 0] href=/forms/reception/",
+    "    button.btn.btn-primary.btn-lg [текст 66, ссылок 0]",
+    "  div [текст 0, ссылок 0]",
+    "    section.sf-grid-area [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]"
+   ],
+   "removed": [
+    "style. [текст 107]",
+    "script. [текст 187]",
+    "button.btn.btn-primary.btn-lg [текст 66]"
+   ]
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/antikorruptsionnaya-ekspertiza/",
+   "title": "Антикоррупционная экспертиза",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/metodicheskie-materialy/",
+   "title": "Методические материалы",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 6,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/formy-dokumentov-svyazannye-s-protivodeystviem-korruptsii-dlya-zapolneniya/",
+   "title": "Формы документов, связанные с противодействием коррупции, для заполнения",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 1,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0,
+   "outline": [
+    "main.sf-main-area.col-12.col-md-8 [текст 494, ссылок 15]",
+    "  div [текст 72, ссылок 0]",
+    "    section.sf-grid-area [текст 72, ссылок 0]",
+    "      div.container-wrap.mb-4 [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 72, ссылок 0]",
+    "        div [текст 72, ссылок 0]",
+    "          div.row [текст 72, ссылок 0]",
+    "            div.col-12 [текст 72, ссылок 0]",
+    "              div [текст 72, ссылок 0]",
+    "  style [текст 107, ссылок 0]",
+    "  p.mb-3.t-0 [текст 8, ссылок 0]",
+    "  div.mb-4 [текст 345, ссылок 14]",
+    "    div#bx_26999089_185.col-12.position-relative [текст 205, ссылок 9]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 205, ссылок 9]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 205, ссылок 8]",
+    "          h3.t-0.t-copy.mb-2 [текст 86, ссылок 1]",
+    "            a.sf-pdf-view [текст 86, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 49, ссылок 3]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/iblock/e9b/g73ygpamfobdpsa7f2ky5e7hdako1857.pdf",
+    "            span.mr-2 [текст 14, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "            a.l-underline-none [текст 3, ссылок 0] href=#",
+    "              i.far.fa-edit.c-primary [текст 0, ссылок 0]",
+    "          div [текст 68, ссылок 4]",
+    "            div.hide-show.hidden.mt-2 [текст 68, ссылок 4]",
+    "              a.hide-show-btn.hide [текст 10, ссылок 0] href=#",
+    "              a.hide-show-btn.show [текст 10, ссылок 0] href=#",
+    "              div.hide-show-block.pt-2.pl-4 [текст 46, ссылок 2]",
+    "    div#bx_26999089_186.col-12.position-relative [текст 139, ссылок 5]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 139, ссылок 5]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 139, ссылок 4]",
+    "          h3.t-0.t-copy.mb-2 [текст 89, ссылок 1]",
+    "            a.sf-pdf-view [текст 89, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 49, ссылок 3]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/iblock/e9b/g73ygpamfobdpsa7f2ky5e7hdako1857.pdf",
+    "            span.mr-2 [текст 14, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "            a.l-underline-none [текст 3, ссылок 0] href=#",
+    "              i.far.fa-edit.c-primary [текст 0, ссылок 0]",
+    "  script [текст 187, ссылок 0]",
+    "  br [текст 0, ссылок 0]",
+    "  a [текст 66, ссылок 0] href=/forms/reception/",
+    "    button.btn.btn-primary.btn-lg [текст 66, ссылок 0]",
+    "  div [текст 0, ссылок 0]",
+    "    section.sf-grid-area [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]"
+   ],
+   "removed": [
+    "style. [текст 107]",
+    "script. [текст 187]",
+    "button.btn.btn-primary.btn-lg [текст 66]"
+   ]
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/svedeniya-o-dokhodakh-raskhodakh-ob-imushchestve-i-obyazatelstvakh-imushchestvennogo-kharaktera/",
+   "title": "Сведения о доходах, расходах,об имуществе и обязательствах имущественного характера",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 5,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/komissiya-po-soblyudeniyu-trebovaniy-k-sluzhebnomu-povedeniyu-i-uregulirovaniyu-konflikta-interesov/",
+   "title": "Комиссия по соблюдению требований к служебному поведению и урегулированию конфликта интересов",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0,
+   "outline": [
+    "main.sf-main-area.col-12.col-md-8 [текст 351, ссылок 5]",
+    "  div [текст 93, ссылок 0]",
+    "    section.sf-grid-area [текст 93, ссылок 0]",
+    "      div.container-wrap.mb-4 [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 93, ссылок 0]",
+    "        div [текст 93, ссылок 0]",
+    "          div.row [текст 93, ссылок 0]",
+    "            div.col-12 [текст 93, ссылок 0]",
+    "              div [текст 93, ссылок 0]",
+    "  style [текст 107, ссылок 0]",
+    "  p.mb-3.t-0 [текст 0, ссылок 0]",
+    "  div.mb-4 [текст 190, ссылок 4]",
+    "    div#bx_26999089_183.col-12.position-relative [текст 190, ссылок 4]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 190, ссылок 4]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 190, ссылок 3]",
+    "          h3.t-0.t-copy.mb-2 [текст 143, ссылок 1]",
+    "            a.sf-pdf-view [текст 143, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 46, ссылок 2]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/iblock/ed0/12i9nsorgcxalk7gowc8bxs90eopq7jn.pdf",
+    "            span.mr-2 [текст 15, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "  script [текст 187, ссылок 0]",
+    "  br [текст 0, ссылок 0]",
+    "  a [текст 66, ссылок 0] href=/forms/reception/",
+    "    button.btn.btn-primary.btn-lg [текст 66, ссылок 0]",
+    "  div [текст 0, ссылок 0]",
+    "    section.sf-grid-area [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]"
+   ],
+   "removed": [
+    "style. [текст 107]",
+    "script. [текст 187]",
+    "button.btn.btn-primary.btn-lg [текст 66]"
+   ]
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/obratnaya-svyaz-dlya-soobshcheniy-o-faktakh-korruptsii/",
+   "title": "Обратная связь для сообщений о фактах коррупции",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 17,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/anti-corruption/doklady-otchety-obzory-statisticheskaya-informatsiya/",
+   "title": "Доклады, отчеты, обзоры, статистическая информация",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 0,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0,
+   "outline": [
+    "main.sf-main-area.col-12.col-md-8 [текст 206, ссылок 5]",
+    "  div [текст 50, ссылок 0]",
+    "    section.sf-grid-area [текст 50, ссылок 0]",
+    "      div.container-wrap.mb-4 [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 50, ссылок 0]",
+    "        div [текст 50, ссылок 0]",
+    "          div.row [текст 50, ссылок 0]",
+    "            div.col-12 [текст 50, ссылок 0]",
+    "              div [текст 50, ссылок 0]",
+    "  style [текст 107, ссылок 0]",
+    "  p.mb-3.t-0 [текст 0, ссылок 0]",
+    "  div.mb-4 [текст 88, ссылок 4]",
+    "    div#bx_26999089_184.col-12.position-relative [текст 88, ссылок 4]",
+    "      div.d-flex.flex-row.b-theme-2 [текст 88, ссылок 4]",
+    "        div.mr-3.d-flex.hr-3 [текст 0, ссылок 1]",
+    "          a.align-items-center.hr-2.wr-2 [текст 0, ссылок 0] href=#",
+    "        div.c-text-primary.l-inherit.l-hover-underline-none [текст 88, ссылок 3]",
+    "          h3.t-0.t-copy.mb-2 [текст 42, ссылок 1]",
+    "            a.sf-pdf-view [текст 42, ссылок 0] href=#",
+    "          div.c-text-secondary.t--2 [текст 45, ссылок 2]",
+    "            span.mr-2 [текст 7, ссылок 1]",
+    "              i.far.fa-external-link-alt.c-primary [текст 0, ссылок 0]",
+    "              a.sf-link.sf-link-theme.sf-link-dashed [текст 7, ссылок 0] href=#",
+    "            i.far.fa-download.c-primary [текст 0, ссылок 0]",
+    "            a.mr-1.sf-link.sf-link-theme [текст 7, ссылок 0] href=/upload/iblock/e9b/g73ygpamfobdpsa7f2ky5e7hdako1857.pdf",
+    "            span.mr-2 [текст 14, ссылок 0]",
+    "            i.far.fa-info-circle.c-primary [текст 0, ссылок 0]",
+    "            span.mr-2 [текст 3, ссылок 0]",
+    "  script [текст 187, ссылок 0]",
+    "  br [текст 0, ссылок 0]",
+    "  a [текст 66, ссылок 0] href=/forms/reception/",
+    "    button.btn.btn-primary.btn-lg [текст 66, ссылок 0]",
+    "  div [текст 0, ссылок 0]",
+    "    section.sf-grid-area [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]",
+    "      div.container-wrap [текст 0, ссылок 0]",
+    "        div [текст 0, ссылок 0]",
+    "          div.row [текст 0, ссылок 0]",
+    "            div.col-12 [текст 0, ссылок 0]",
+    "              div [текст 0, ссылок 0]"
+   ],
+   "removed": [
+    "style. [текст 107]",
+    "script. [текст 187]",
+    "button.btn.btn-primary.btn-lg [текст 66]"
+   ]
+  },
+  {
    "url": "https://kitis.ru/security/",
    "title": "Комплексная безопасность",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
@@ -464,6 +850,7 @@
    "photos": 0,
    "children": 6,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 159, ссылок 14]",
     "  div [текст 24, ссылок 0]",
@@ -542,6 +929,7 @@
    "photos": 1,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 411, ссылок 14]",
     "  div [текст 21, ссылок 0]",
@@ -597,6 +985,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 1152, ссылок 20]",
     "  div [текст 12, ссылок 0]",
@@ -642,6 +1031,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 526, ссылок 24]",
     "  div [текст 21, ссылок 0]",
@@ -691,6 +1081,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 171, ссылок 3]",
     "  div [текст 7, ссылок 0]",
@@ -735,7 +1126,8 @@
    "blocks": 113,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/security/internet",
@@ -744,7 +1136,8 @@
    "blocks": 4,
    "photos": 22,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/antiterrorist/",
@@ -753,7 +1146,8 @@
    "blocks": 49,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/information-security/",
@@ -763,6 +1157,7 @@
    "photos": 0,
    "children": 6,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 251, ссылок 12]",
     "  div [текст 27, ссылок 0]",
@@ -836,6 +1231,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 282, ссылок 8]",
     "  div [текст 86, ссылок 0]",
@@ -881,6 +1277,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 448, ссылок 16]",
     "  div [текст 25, ссылок 0]",
@@ -926,6 +1323,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 1075, ссылок 0]",
     "  div [текст 25, ссылок 0]",
@@ -977,7 +1375,8 @@
    "blocks": 125,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/information-security/parents/",
@@ -986,7 +1385,8 @@
    "blocks": 81,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/information-security/child-safe-sites/",
@@ -995,7 +1395,8 @@
    "blocks": 8,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/BPOO/",
@@ -1004,7 +1405,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/tenders/",
@@ -1014,6 +1416,7 @@
    "photos": 0,
    "children": 0,
    "form": true,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 310, ссылок 4]",
     "  div [текст 7, ссылок 0]",
@@ -1106,7 +1509,8 @@
    "blocks": 5,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/students/training-part/",
@@ -1115,7 +1519,8 @@
    "blocks": 4,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/students/educational-materials/",
@@ -1125,6 +1530,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 19, ссылок 0]",
     "  div [текст 17, ссылок 0]",
@@ -1163,7 +1569,8 @@
    "blocks": 5,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/students/grafiki-proshedshih-akademicheskih-attestacij/",
@@ -1172,7 +1579,8 @@
    "blocks": 3,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/students/hostel/",
@@ -1181,7 +1589,8 @@
    "blocks": 28,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/students/olimpiady/",
@@ -1191,6 +1600,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 123, ссылок 4]",
     "  div [текст 20, ссылок 0]",
@@ -1236,6 +1646,7 @@
    "photos": 0,
    "children": 0,
    "form": true,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 32, ссылок 0]",
     "  div [текст 22, ссылок 0]",
@@ -1289,10 +1700,11 @@
    "url": "https://kitis.ru/teachers/attestation/",
    "title": "Аттестации",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 33,
+   "blocks": 28,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/teachers/educational-methodical-work/",
@@ -1301,7 +1713,8 @@
    "blocks": 18,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/teachers/educational-work/",
@@ -1310,7 +1723,8 @@
    "blocks": 4,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/teachers/announcing/",
@@ -1319,7 +1733,8 @@
    "blocks": 16,
    "photos": 0,
    "children": 4,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/teachers/announcing/avtoshkola/",
@@ -1328,7 +1743,8 @@
    "blocks": 13,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/teachers/announcing/obrazovatelnyy-kredit-s-gospodderzhkoy-/",
@@ -1338,6 +1754,7 @@
    "photos": 1,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 187, ссылок 2]",
     "  div [текст 38, ссылок 0]",
@@ -1420,6 +1837,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 580, ссылок 2]",
     "  div [текст 214, ссылок 0]",
@@ -1500,6 +1918,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 211, ссылок 3]",
     "  div [текст 22, ссылок 0]",
@@ -1582,7 +2001,8 @@
    "blocks": 21,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/hostel/",
@@ -1592,6 +2012,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 178, ссылок 8]",
     "  div [текст 21, ссылок 0]",
@@ -1668,6 +2089,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 236, ссылок 6]",
     "  div [текст 22, ссылок 0]",
@@ -1733,7 +2155,8 @@
    "blocks": 6,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/faq-abitur/",
@@ -1742,7 +2165,8 @@
    "blocks": 28,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/for-students/gordimsya-nagrady-talantlivym-studentkam-kitisa/",
@@ -1751,7 +2175,8 @@
    "blocks": 11,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/for-students/",
@@ -1760,7 +2185,8 @@
    "blocks": 30,
    "photos": 0,
    "children": 5,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/razgovory-o-vazhnom-ko-dnyu-narodnogo-edinstva/",
@@ -1769,7 +2195,8 @@
    "blocks": 10,
    "photos": 3,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/",
@@ -1778,7 +2205,8 @@
    "blocks": 25,
    "photos": 0,
    "children": 5,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/for-students/lektsiya-obraz-budushchego-rossii-v-kitise/",
@@ -1787,7 +2215,8 @@
    "blocks": 10,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/sport-life/voleybolistki-kitisa-na-oblastnykh-sorevnovaniyakh/",
@@ -1796,7 +2225,8 @@
    "blocks": 7,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/sport-life/",
@@ -1805,7 +2235,8 @@
    "blocks": 27,
    "photos": 0,
    "children": 5,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/volontery/ekologicheskie-aktsii-proshli-v-kitise/",
@@ -1814,7 +2245,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/volontery/",
@@ -1823,7 +2255,8 @@
    "blocks": 28,
    "photos": 0,
    "children": 5,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/viktorina-k-80-letiyu-kaliningradskoy-oblasti/",
@@ -1832,7 +2265,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/volontery/otryad-kity-pobedil-na-regionalnom-etape/",
@@ -1841,7 +2275,8 @@
    "blocks": 8,
    "photos": 5,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/master-klass-po-reportazhnoy-syemke-v-kitise/",
@@ -1850,7 +2285,8 @@
    "blocks": 10,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/sport-life/sorevnovaniya-po-basketbolu-proshli-v-kitise/",
@@ -1859,7 +2295,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/professionalnye-konkursy/sso-akustika-na-konkurse-profmasterstva/",
@@ -1868,7 +2305,8 @@
    "blocks": 12,
    "photos": 3,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/professionalnye-konkursy/",
@@ -1878,6 +2316,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 157, ссылок 0]",
     "  div [текст 7, ссылок 0]",
@@ -1936,7 +2375,8 @@
    "blocks": 9,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/razgovory-o-vazhnom-chto-znachit-byt-liderom/",
@@ -1945,7 +2385,8 @@
    "blocks": 10,
    "photos": 3,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/sport-life/trenirovochnyy-seminar-po-aykido-v-kitise/",
@@ -1954,7 +2395,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/for-students/vstrecha-s-geroem-rossii-mikhailom-kornienko/",
@@ -1963,7 +2405,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/mezhdunarodnyy-den-shkolnykh-bibliotek-v-kitise/",
@@ -1972,7 +2415,8 @@
    "blocks": 9,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/",
@@ -1981,7 +2425,8 @@
    "blocks": 26,
    "photos": 0,
    "children": 5,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/xvi-aleksandro-nevskie-chteniya-dialog-pokoleniy/",
@@ -1990,7 +2435,8 @@
    "blocks": 13,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/volontery/slyet-studencheskikh-otryadov-280-uchastnikov/",
@@ -1999,7 +2445,8 @@
    "blocks": 9,
    "photos": 6,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/edinstvo-narodov-vperedi-vtoroy-etap-festivalya/",
@@ -2008,7 +2455,8 @@
    "blocks": 13,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/teatralnyy-intensiv-otkrytaya-stsena-v-kitise/",
@@ -2017,7 +2465,8 @@
    "blocks": 10,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/kitis-film-zhirinovskiy-legenda-i-oratory/",
@@ -2026,7 +2475,8 @@
    "blocks": 12,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/priglashaem-molodykh-spetsialistov-na-gosudarstvennuyu-granzhdanskuyu-sluzhbu/",
@@ -2035,7 +2485,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/ekzameny-spravitsya-nelzya-boyatsya/",
@@ -2044,7 +2495,8 @@
    "blocks": 67,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/pamyatki/pamyatka-dlya-obuchayushchegosya/",
@@ -2053,7 +2505,8 @@
    "blocks": 4,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/pamyatki/pamyatka-dlya-abiturienta/",
@@ -2062,7 +2515,8 @@
    "blocks": 4,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/vnimanie-vypuskniki-pogranichnaya-sluzhba-fsb-rossii-vedyet-nabor/",
@@ -2071,7 +2525,8 @@
    "blocks": 12,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/vakansii-v-fku-ik-4-ufsin-rossii-po-kaliningradskoy-oblasti-/",
@@ -2080,7 +2535,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/rzhd-priglashaet/",
@@ -2089,7 +2545,8 @@
    "blocks": 7,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-applicants/avtoshkola/",
@@ -2098,7 +2555,8 @@
    "blocks": 16,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/npo-spetskran/",
@@ -2107,7 +2565,8 @@
    "blocks": 6,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/sluzhba-po-kontraktu/",
@@ -2116,7 +2575,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/den-otkrytykh-dverey-bfu-im-i-kanta/",
@@ -2125,7 +2585,8 @@
    "blocks": 10,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-graduates/umvd-rossii-priglashaet/",
@@ -2134,7 +2595,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/rabota-v-gosudarstvennoy-organizatsii/",
@@ -2143,7 +2605,8 @@
    "blocks": 17,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/upravlenie-vnevedomstvennoy-okhrany-voysk-natsionalnoy-gvardii-rossiyskoy-federatsii-priglashaet-na-/",
@@ -2152,7 +2615,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/kredit-na-obrazovanie-ot-pao-sberbank/",
@@ -2161,7 +2625,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/mendeleevskaya-karta/",
@@ -2170,7 +2635,8 @@
    "blocks": 5,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/kursy-raboty-na-stankakh-s-chpu/",
@@ -2179,7 +2645,8 @@
    "blocks": 15,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-applicants/obrazovatelnyy-kredit-s-gospodderzhkoy-/",
@@ -2188,7 +2655,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/tsentr-zanyatosti-naseleniya/",
@@ -2197,7 +2665,8 @@
    "blocks": 7,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/announce/for-students/podrabotka-na-platforme-dzhem-rabota/",
@@ -2206,7 +2675,8 @@
    "blocks": 5,
    "photos": 0,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/konkursy/zavershenie-priyema-zayavok-vkr-1s-/",
@@ -2215,7 +2685,8 @@
    "blocks": 20,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/konkursy/",
@@ -2224,7 +2695,8 @@
    "blocks": 12,
    "photos": 0,
    "children": 2,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/professionalnye-konkursy/dvenadtsatyy-mezhdunarodnyy-konkurs-vypusknykh-kvalifikatsionnykh-rabot-s-ispolzovaniem-1s/",
@@ -2233,7 +2705,8 @@
    "blocks": 21,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/professionalnye-konkursy/",
@@ -2243,6 +2716,7 @@
    "photos": 0,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 11, ссылок 0]",
     "  div [текст 11, ссылок 0]",
@@ -2279,7 +2753,8 @@
    "blocks": 20,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/dni-otkrytykh-dverey/den-otkrytykh-dverey-12-aprelya/",
@@ -2288,7 +2763,8 @@
    "blocks": 13,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/dni-otkrytykh-dverey/",
@@ -2297,7 +2773,8 @@
    "blocks": 23,
    "photos": 0,
    "children": 4,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/dni-otkrytykh-dverey/den-otkrytykh-dverey-v-kolledzhe-gbu-ko-poo-kitis-/",
@@ -2306,7 +2783,8 @@
    "blocks": 14,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/obshchee/",
@@ -2315,7 +2793,8 @@
    "blocks": 12,
    "photos": 0,
    "children": 1,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/dni-otkrytykh-dverey/den-abiturienta-2025-v-kgtu/",
@@ -2324,7 +2803,8 @@
    "blocks": 16,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/konkursy/konkurs-nauka-territoriya-geroev-/",
@@ -2333,7 +2813,8 @@
    "blocks": 17,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/dni-otkrytykh-dverey/den-otkrytykh-dverey-kgtu/",
@@ -2342,7 +2823,8 @@
    "blocks": 18,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/events/obshchee/rossiya-moi-gorizonty/",
@@ -2351,7 +2833,8 @@
    "blocks": 14,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/photo/life/",
@@ -2360,7 +2843,8 @@
    "blocks": 8,
    "photos": 8,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/photo/sport-life/",
@@ -2369,7 +2853,8 @@
    "blocks": 12,
    "photos": 12,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/photo/diplomy-i-nagrady/",
@@ -2378,7 +2863,8 @@
    "blocks": 4,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/photo/dni-otkrytykh-dverey/",
@@ -2387,7 +2873,8 @@
    "blocks": 16,
    "photos": 16,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-2026-2/",
@@ -2396,7 +2883,8 @@
    "blocks": 8,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kitise-17-oktyabrya/",
@@ -2405,7 +2893,8 @@
    "blocks": 6,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka-1-sentyabrya/",
@@ -2414,7 +2903,8 @@
    "blocks": 8,
    "photos": 8,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/pozdravlyaem-s-dnyem-znaniy/",
@@ -2424,6 +2914,7 @@
    "photos": 1,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 175, ссылок 3]",
     "  div [текст 26, ссылок 0]",
@@ -2515,7 +3006,8 @@
    "blocks": 5,
    "photos": 3,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka-2026/",
@@ -2524,7 +3016,8 @@
    "blocks": 10,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/vsye-o-studencheskom-obshchezhitii-kolledzha/",
@@ -2533,7 +3026,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/15-avgusta-posledniy-den-podachi-zayavleniy/",
@@ -2543,6 +3037,7 @@
    "photos": 1,
    "children": 0,
    "form": false,
+   "tree": 0,
    "outline": [
     "main.sf-main-area.col-12.col-md-8 [текст 193, ссылок 3]",
     "  div [текст 45, ссылок 0]",
@@ -2634,7 +3129,8 @@
    "blocks": 19,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/sokhranyay-balans/",
@@ -2643,7 +3139,8 @@
    "blocks": 6,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/edinyy-den-otkrytykh-dverey-2026/",
@@ -2652,7 +3149,8 @@
    "blocks": 10,
    "photos": 7,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/master-klass-dlya-abiturientov-v-ramkakh-proekta-professionaliteta/",
@@ -2661,7 +3159,8 @@
    "blocks": 3,
    "photos": 7,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/vazhnaya-informatsiya/",
@@ -2670,7 +3169,8 @@
    "blocks": 5,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/obsuzhdenie-kontseptsii-novogo-kampusa-dlya-studentov-kitisa/",
@@ -2679,7 +3179,8 @@
    "blocks": 8,
    "photos": 3,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/dni-otkrytykh-dverey-2026/",
@@ -2688,7 +3189,8 @@
    "blocks": 6,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/edinyy-den-otkrytykh-dverey-18-10-25/",
@@ -2697,7 +3199,8 @@
    "blocks": 5,
    "photos": 7,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka-otkryla-dveri-v-novyy-uchebnyy-god/",
@@ -2706,7 +3209,8 @@
    "blocks": 9,
    "photos": 7,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/torzhestvennaya-lineyka/",
@@ -2715,7 +3219,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/nachalo-priema-abiturientov-s-20-iyunya-/",
@@ -2724,7 +3229,8 @@
    "blocks": 7,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/edinyy-den-otkrytykh-dverey-federalnogo-proekta-professionalitet-proshel-12-aprelya-2025-goda-v-koll/",
@@ -2733,7 +3239,8 @@
    "blocks": 5,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/onlayn-translyatsiya-roditelskogo-sobraniya-v-ramkakh-edod-profissionalitet-2025/",
@@ -2742,7 +3249,8 @@
    "blocks": 3,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-12-aprelya/",
@@ -2751,7 +3259,8 @@
    "blocks": 8,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kolledzhe-gbu-ko-poo-kitis-/",
@@ -2760,7 +3269,8 @@
    "blocks": 9,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-abiturienta-2025-v-kgtu/",
@@ -2769,7 +3279,8 @@
    "blocks": 11,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-1s-karery/",
@@ -2778,7 +3289,8 @@
    "blocks": 10,
    "photos": 2,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-1s-karery-6-dekabrya/",
@@ -2787,7 +3299,8 @@
    "blocks": 9,
    "photos": 2,
    "children": 1,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-karery/",
@@ -2796,7 +3309,8 @@
    "blocks": 7,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/posvyashchenie-v-studenty/",
@@ -2805,7 +3319,8 @@
    "blocks": 11,
    "photos": 9,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kgtu/",
@@ -2814,7 +3329,8 @@
    "blocks": 11,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-otkrytykh-dverey-v-kitis/",
@@ -2823,7 +3339,8 @@
    "blocks": 8,
    "photos": 3,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/khakaton-tsifrovoy-proryv-sezon-iskusstvennyy-intelekt/",
@@ -2832,7 +3349,8 @@
    "blocks": 8,
    "photos": 6,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/donabor-po-sostoyaniyu-na-21-10-24/",
@@ -2841,7 +3359,8 @@
    "blocks": 10,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/donabor-po-sostoyaniyu-na-26-09-24/",
@@ -2850,7 +3369,8 @@
    "blocks": 7,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/den-znaniy-v-kitis/",
@@ -2859,7 +3379,8 @@
    "blocks": 10,
    "photos": 8,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/grafik-zaklyucheniya-dogovorov-2024/",
@@ -2868,7 +3389,8 @@
    "blocks": 3,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/v-kitis-startovala-priemnaya-komissiya-2024-/",
@@ -2877,7 +3399,8 @@
    "blocks": 14,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/vrucheno-svidetelstvo-ob-akkreditatsii/",
@@ -2886,7 +3409,8 @@
    "blocks": 7,
    "photos": 4,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/6-aprelya-proshel-den-otkrytykh-dverey/",
@@ -2895,7 +3419,8 @@
    "blocks": 9,
    "photos": 6,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/otkryt-sbor-sredstv/",
@@ -2904,7 +3429,8 @@
    "blocks": 15,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/abitur/news/beseda-direktora-kitis-pashkovskogo-m-a-i-komandy-kvn-bez-nazvaniya-/",
@@ -2913,7 +3439,8 @@
    "blocks": 3,
    "photos": 1,
    "children": 0,
-   "form": false
+   "form": false,
+   "tree": 0
   }
  ],
  "lists": [
@@ -3035,7 +3562,7 @@
  "counts": {
   "boilerplate_links": 155,
   "boilerplate_texts": 144,
-  "requests": 202,
+  "requests": 210,
   "sections": 38,
   "sections_ok": 38,
   "albums": 85,
