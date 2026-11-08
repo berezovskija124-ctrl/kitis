@@ -1822,6 +1822,106 @@
    "tree": 0
   },
   {
+   "url": "https://kitis.ru/abitur/specialties/43-02-16-turizm-i-gostepriimstvo/",
+   "title": "43.02.16 Туризм и гостеприимство",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/09-02-09-veb-razrabotka/",
+   "title": "09.02.09 Веб-разработка",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/09-02-10-razrabotka-kompyuternykh-igr-dopolnennoy-i-virtualnoy-realnosti/",
+   "title": "09.02.10 Разработка компьютерных игр, дополненной и виртуальной реальности",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 10,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/informatsionnoe-modelirovanie-v-stroitelstve-/",
+   "title": "08.02.15 Информационное моделирование в строительстве",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/44-03-03-setevoe-i-sistemnoe-administrirovanie-/",
+   "title": "09.02.06 «Сетевое и системное администрирование»",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 4,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/080201-stroitelstvo-i-ekspluataciya-zdaniy-i-sooruzheniy/",
+   "title": "08.02.01 \"Строительство и эксплуатация зданий и сооружений\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 17,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/080214-ekspluataciya-i-obsluzhivanie-mnogokvartirnogo-doma/",
+   "title": "08.02.14 \"Эксплуатация и обслуживание многоквартирного дома\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 13,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/15-01-05-svarshchik-ruchnoy-i-chastichno-mekhanizirovannoy-svarki-naplavki-/",
+   "title": "15.01.05 \"Сварщик (ручной и частично механизированной сварки (наплавки)\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/08-01-28-master-otdelochnykh-stroitelnykh-i-dekorativnykh-rabot/",
+   "title": "08.01.28 \"Мастер отделочных строительных и декоративных работ\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 12,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/abitur/specialties/35-01-28-master-stolyarnogo-i-mebelnogo-proizvodstva/",
+   "title": "35.01.28 \"Мастер столярного и мебельного производства\"",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 0,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
    "url": "https://kitis.ru/press-center/news/for-students/gordimsya-nagrady-talantlivym-studentkam-kitisa/",
    "title": "Гордимся: награды талантливым студенткам КИТиСа",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
@@ -2584,7 +2684,7 @@
     "              div [текст 26, ссылок 0]",
     "  div.position-relative [текст 148, ссылок 3]",
     "    section.sf-tab-content-wrap.mb-4 [текст 0, ссылок 1]",
-    "      div#slider-3ieH334a.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
+    "      div#slider-25iNtHR2.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
     "        div.swiper-wrapper [текст 0, ссылок 1]",
     "          div.swiper-slide [текст 0, ссылок 1]",
     "            div.aspect-ratio.aspect-ratio-2x1 [текст 0, ссылок 1]",
@@ -2707,7 +2807,7 @@
     "              div [текст 45, ссылок 0]",
     "  div.position-relative [текст 147, ссылок 3]",
     "    section.sf-tab-content-wrap.mb-4 [текст 0, ссылок 1]",
-    "      div#slider-N5debdi2.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
+    "      div#slider-TY9Kt5yN.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
     "        div.swiper-wrapper [текст 0, ссылок 1]",
     "          div.swiper-slide [текст 0, ссылок 1]",
     "            div.aspect-ratio.aspect-ratio-2x1 [текст 0, ссылок 1]",
@@ -3215,9 +3315,9 @@
  "counts": {
   "boilerplate_links": 155,
   "boilerplate_texts": 144,
-  "requests": 210,
-  "sections": 38,
-  "sections_ok": 38,
+  "requests": 221,
+  "sections": 48,
+  "sections_ok": 48,
   "albums": 85,
   "photos": 227
  }
