@@ -1,0 +1,64 @@
+# Забирает с kitis.ru официальные разделы, страницы для студентов, преподавателей и абитуриентов
+# и фотографии (новости, объявления, мероприятия, фотогалерея). Сохраняет их в data/ и photos/.
+# Запускается каждую ночь (03:41 по Калининграду), после изменения робота
+# и вручную: вкладка Actions → «Материалы с kitis.ru» → Run workflow.
+name: Материалы с kitis.ru
+
+on:
+  schedule:
+    - cron: '41 1 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'parser/kitis_sync.py'
+      - '.github/workflows/sync-kitis.yml'
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: sync-kitis
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Установить библиотеки
+        run: pip install beautifulsoup4==4.12.3 lxml==5.3.0 pillow==11.0.0
+      - name: Скачать материалы с kitis.ru
+        run: python parser/kitis_sync.py
+      - name: Сохранить изменения
+        run: |
+          if [ ! -f data/kitis-official.js ]; then
+            echo "Сайт колледжа не ответил, данных нет"
+            exit 0
+          fi
+          mkdir -p photos
+          git add -A data/kitis-official.js data/kitis-photos.js photos parser/sync-report.json
+          if git diff --cached --quiet -- data/kitis-official.js data/kitis-photos.js photos; then
+            echo "Материалы не изменились"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Обновлены материалы и фотографии с kitis.ru"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then
+              # на всякий случай просим GitHub Pages пересобрать сайт
+              curl -fsS -X POST -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+                "https://api.github.com/repos/$GITHUB_REPOSITORY/pages/builds" >/dev/null || true
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
