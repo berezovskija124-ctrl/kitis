@@ -158,7 +158,9 @@ class Component extends DCLogic {
     const missing = pid && !byId[pid] && /^[a-z0-9-]{2,40}$/i.test(pid) && pid !== 'about';
     const cur = missing
       ? { id: pid, title: 'Раздел ещё загружается', short: '', icon: 'file', lead: 'Материалы этого раздела пока не пришли с сайта колледжа: робот забирает их каждую ночь.',
-        blocks: [{ t: 'links', items: [['Сайт колледжа', 'https://kitis.ru/', 'kitis.ru']] }, { t: 'go', items: [['О колледже', 'about']] }] }
+        blocks: /^prog-/.test(pid)
+          ? [{ t: 'links', items: [['Специальности на сайте колледжа', 'https://kitis.ru/abitur/specialties/', 'kitis.ru']] }, { t: 'go', items: [['Все специальности', 'abitur.html#catalog']] }]
+          : [{ t: 'links', items: [['Сайт колледжа', 'https://kitis.ru/', 'kitis.ru']] }, { t: 'go', items: [['О колледже', 'about']] }] }
       : (byId[pid] || byId[order[0]]);
     const curGroup = groupOf[cur.id] || null;
     const q = (s.q || '').trim().toLowerCase();

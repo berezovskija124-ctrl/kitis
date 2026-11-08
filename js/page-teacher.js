@@ -77,7 +77,7 @@ class Component extends DCLogic {
     const pq = ti < 0 ? finishPlaque({ live: false, badge: 'Кабинет преподавателя', big: 'Войдите', mono: false, size: '40px', note: 'как преподаватель — и выберите себя в списке', progress: '0', hasProgress: false, title: '', subject: '', meta: '' }) : finishPlaque(plaqueOf(tst, { nowBadge: 'Вы ведёте', title: (L) => L.group + (L.subLabel ? ' (' + L.subLabel + ')' : '') + ' · ' + L.place }));
     const sst = this.state || {};
     const bw = M.bounds();
-    const wMin = bw.min, wMax = Math.max(bw.max, 1);
+    const wMin = bw.min, wMax = bw.max;
     const wOff = Math.max(wMin, Math.min(wMax, sst.w || 0));
     const wi = M.weekInfo(wOff);
     const wk = ti >= 0 ? M.week('t', ti, wi.monday).slice(0, 6) : M.week('t', -1, wi.monday).slice(0, 6);

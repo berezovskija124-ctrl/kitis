@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/guard.js?v=c834a069b0"></script>
+<script src="js/guard.js?v=80e09ef8c1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>КИТиС · О проекте</title>
 <meta name="description" content="Учебный проект: эскиз нового сайта расписания КИТиС для компьютера и телефона.">
@@ -107,7 +107,7 @@ footer a{color:#fff}
 <span class="go">Открыть</span>
 </a>
 
-<a class="big dark" href="phone.html?frame=1" style="animation-delay:.12s">
+<a class="big dark" href="phone.html" data-view="phone" style="animation-delay:.12s">
 <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg></span>
 <h2>На телефоне</h2>
 <div class="phone-row">
@@ -136,8 +136,8 @@ footer a{color:#fff}
 <h3>Как это выглядит во время пары</h3>
 <p class="meta" style="margin:0 0 12px">Сайт показывает настоящее время. Чтобы увидеть таймер в учебный день, откройте демо: четверг, 12 ноября, 10:30 — у ИСр24-1 идёт 2 пара.</p>
 <div class="grid">
-<a class="tile" href="desktop.html?desktop=1&amp;now=2026-11-12T10:30#group=%D0%98%D0%A1%D1%8024-1"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Компьютер · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
-<a class="tile" href="phone.html?frame=1&amp;now=2026-11-12T10:30#group=%D0%98%D0%A1%D1%8024-1"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Телефон · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
+<a class="tile" data-view="desktop" href="desktop.html?now=2026-11-12T10:30#group=%D0%98%D0%A1%D1%8024-1"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Компьютер · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
+<a class="tile" data-view="phone" href="phone.html?now=2026-11-12T10:30#group=%D0%98%D0%A1%D1%8024-1"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Телефон · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
 </div>
 </section>
 

@@ -53,7 +53,7 @@ class Component extends DCLogic {
       const isProf = x[0].slice(3, 5) === '01';
       const list = subjects[group];
       return {
-        code: x[0], name: x[1], dir: x[2],
+        code: x[0], name: x[1], dir: x[2], href: 'college.html#p=prog-' + x[0].replace(/\./g, '-'),
         kind: (isProf ? 'Профессия' : 'Специальность') + ' · ' + dirs[x[2]].label,
         tagBg: dirs[x[2]].bg, tagFg: dirs[x[2]].fg,
         subjTitle: list ? 'Профильные предметы для конкурса' : 'Профильные предметы — уточняйте в приёмной комиссии',

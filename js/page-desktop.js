@@ -21,10 +21,17 @@ class Component extends DCLogic {
     }
     this._pop = () => this.setState(fromHash());
     window.addEventListener('popstate', this._pop);
+    // избранное, изменённое на другой странице или вкладке
+    this._fav = () => this.setState({ favTick: Date.now() });
+    this._store = (e) => { if (e.key === M.FAV_KEY) this._fav(); };
+    window.addEventListener('kitis-favs', this._fav);
+    window.addEventListener('storage', this._store);
   }
   componentWillUnmount() {
     clearInterval(this._timer);
     window.removeEventListener('popstate', this._pop);
+    window.removeEventListener('kitis-favs', this._fav);
+    window.removeEventListener('storage', this._store);
   }
   go(patch) {
     const M = window.KitisModel;
@@ -53,8 +60,11 @@ class Component extends DCLogic {
     const tab = s.tab || 'schedule';
     const group = s.group || '';
     const hasGroup = !!group;
-    const favs = s.favs || (me && me.group ? [me.group] : []);
-    const fav = favs.indexOf(group) >= 0;
+    // избранное хранится в браузере (KitisModel); своя группа из профиля — в избранном по умолчанию
+    const favSeed = me && me.group ? { kind: 'g', name: me.group } : null;
+    const favList = M.favs(favSeed);
+    const isFavOf = (k, n) => !!n && favList.some((x) => x.kind === k && x.name === n);
+    const fav = isFavOf('g', group);
     const menuOpen = !!s.menu;
     const dropOpen = !!s.drop;
     const tKey = s.teacher || '';
@@ -89,7 +99,8 @@ class Component extends DCLogic {
     const ri = rKey ? M.roomIndex(rKey) : -1;
     const clk = M.clock();
     const b = M.bounds();
-    const wMin = b.min, wMax = Math.max(b.max, 1);
+    // дальше последней опубликованной недели не листаем: пустая неделя только путает
+    const wMin = b.min, wMax = b.max;
     const w = Math.max(wMin, Math.min(wMax, s.w != null ? s.w : 0));
     const wi = M.weekInfo(w);
     const nowOf = (st, l) => st.mode === 'now' && l.date === clk.iso && l.n === st.lesson.n;
@@ -177,6 +188,7 @@ class Component extends DCLogic {
 
     const I = {
       cal: 'M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM16 2v4M8 2v4M3 10h18',
+      phone: 'M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM11 18h2',
       users: 'M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2',
       user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6',
       door: 'M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01',
@@ -220,7 +232,7 @@ class Component extends DCLogic {
       const items = fams[k].items.filter((g) => !gq || g.name.toLowerCase().indexOf(gq) >= 0).map((g) => {
         const on = g.name === group;
         const it = {
-          code: g.name, meta: groupMeta(g), isFav: favs.indexOf(g.name) >= 0, star: accent,
+          code: g.name, meta: groupMeta(g), isFav: isFavOf('g', g.name), star: accent,
           border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
           pick: go({ group: g.name, tab: 'schedule', w: 0 }), delay: delay(gCount)
         };
@@ -295,7 +307,7 @@ class Component extends DCLogic {
       const busy = ts.mode === 'now';
       const sub = busy ? 'Сейчас на паре · ' + ts.lesson.group + ' · ' + ts.lesson.place : (M.teacherLoad(t.i).subjects.slice(0, 2).join(', ') || 'Преподаватель');
       const it = {
-        name: t.name, ini: iniOf(t.name), sub: sub, hasSub: true, busy: busy,
+        name: t.name, ini: iniOf(t.name), sub: sub, hasSub: true, busy: busy, isFav: isFavOf('t', t.name),
         avBg: on ? accent : accentSoft, avFg: on ? '#FFFFFF' : accent,
         border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
         pick: go({ teacher: t.name, tab: 'teachers' }), delay: delay(tCount)
@@ -303,11 +315,20 @@ class Component extends DCLogic {
       tCount += 1;
       return it;
     });
+    const favBtn = (k, n) => {
+      const on = isFavOf(k, n);
+      return { pressed: on ? 'true' : 'false', label: on ? 'В избранном' : 'В избранное', fill: on ? 'currentColor' : 'none',
+        bg: on ? accentSoft : '#FFFFFF', fg: on ? accent : '#15171C', border: on ? 'transparent' : '#DCE0E6',
+        toggle: () => { M.toggleFav(k, n, favSeed); this.setState({ favTick: Date.now() }); } };
+    };
+    const favPick = (x) => x.kind === 'g' ? go({ group: x.name, tab: 'schedule', w: 0 }) : (x.kind === 't' ? go({ tab: 'teachers', teacher: x.name }) : go({ tab: 'rooms', room: x.name }));
+    const favLabel = (x) => x.kind === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name;
+    const favOfKind = (k) => { const items = favList.filter((x) => x.kind === k).map((x) => ({ label: favLabel(x), pick: favPick(x) })); return { has: items.length > 0, items: items }; };
     const info = INFO[tKey];
     const tLoad = M.teacherLoad(ti);
     const tCnt = ti >= 0 ? countWeek('t', ti) : 0;
     const selT = {
-      has: ti >= 0, none: ti < 0,
+      has: ti >= 0, none: ti < 0, fav: favBtn('t', tKey),
       full: info ? info[0] : tKey, ini: iniOf(tKey || 'П П'),
       posText: info ? info[1] : 'Преподаватель',
       prog: info ? info[2] : '', hasProg: !!(info && info[2]),
@@ -320,8 +341,18 @@ class Component extends DCLogic {
     const roomSecs = {}, roomOrder = [];
     RL.forEach((r) => { const k = /^\d/.test(r.name) ? r.name.charAt(0) : 'x'; if (!roomSecs[k]) { roomSecs[k] = []; roomOrder.push(k); } roomSecs[k].push(r); });
     let rCount = 0;
+    const rq = (s.rq || '').trim().toLowerCase().replace(/^ауд(итория)?\.?\s*/, '');
+    const rf = s.rf || 'all';
+    const roomFilters = [['all', 'Все'], ['free', 'Свободные сейчас'], ['busy', 'Занятые сейчас']].map((x) => {
+      const on = x[0] === rf;
+      return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ rf: x[0] }) };
+    });
     const roomSections = tab !== 'rooms' ? [] : roomOrder.map((k) => {
-      const list = roomSecs[k];
+      const list = roomSecs[k].filter((r) => {
+        if (rq && r.name.toLowerCase().indexOf(rq) < 0) return false;
+        if (rf === 'all') return true;
+        return (M.status('r', r.i).mode === 'now') === (rf === 'busy');
+      });
       const items = list.map((r) => {
         const rs = M.status('r', r.i);
         const busy = rs.mode === 'now';
@@ -330,19 +361,21 @@ class Component extends DCLogic {
         const it = {
           title: r.name, status: busy ? 'Занята · ' + rs.lesson.group : (cnt ? pairs(cnt) + ' за неделю' : 'Свободна всю неделю'),
           dot: busy ? '#E06A1B' : (cnt ? accent : '#C9CED6'), fg: busy ? '#9A4410' : '#5B6270',
-          border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
+          border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF', isFav: isFavOf('r', r.name),
           pick: go({ room: r.name, tab: 'rooms' }), delay: delay(rCount)
         };
         rCount += 1;
         return it;
       });
-      return { title: k === 'x' ? 'Залы, библиотека, мастерские' : list[0].name + ' – ' + list[list.length - 1].name, count: list.length, items: items };
-    });
+      if (!list.length) return null;
+      const all = roomSecs[k];
+      return { title: k === 'x' ? 'Залы, библиотека, мастерские' : all[0].name + ' – ' + all[all.length - 1].name, count: list.length, items: items };
+    }).filter(Boolean);
     const rs0 = ri >= 0 ? M.status('r', ri) : { mode: 'none' };
     const rBusy = rs0.mode === 'now';
     const rCnt = ri >= 0 ? countWeek('r', ri) : 0;
     const selR = {
-      has: ri >= 0, none: ri < 0,
+      has: ri >= 0, none: ri < 0, fav: favBtn('r', rKey),
       title: roomTitle(rKey),
       status: rBusy ? 'Сейчас занята · ' + rs0.lesson.label.toLowerCase() + ' · ' + rs0.lesson.group : 'Сейчас свободна',
       count: rCnt ? pairs(rCnt) + ' на неделе' : 'на этой неделе пар нет',
@@ -417,7 +450,7 @@ class Component extends DCLogic {
     ].concat(isTeacherView ? [{ title: 'По дисциплинам', rows: toRows(bySubj) }] : []);
     const stats = [
       [flat.length, pl(flat.length, 'пара на неделе', 'пары на неделе', 'пар на неделе'), accent],
-      [flat.length * 2, 'часа занятий', '#15171C'],
+      [M.fmtHours(flat.reduce((a, l) => a + M.durationMin(l), 0)), 'занятий на неделе', '#15171C'],
       [studyDays, pl(studyDays, 'учебный день', 'учебных дня', 'учебных дней'), '#15171C'],
       [byTeacher.length, pl(byTeacher.length, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
@@ -426,23 +459,27 @@ class Component extends DCLogic {
     const sumOf = (k) => loadRaw.reduce((a, x) => a + (x[k] || 0), 0);
     const hTotal = sumOf('total'), hFact = sumOf('fact'), hPlan = sumOf('plan');
     const fmtD = (iso) => iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.' + iso.slice(0, 4) : '—';
+    const P = M.pairsOf;
+    const pairsW = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
+    const pairsAcc = (n) => n + ' ' + pl(n, 'пару', 'пары', 'пар');
+    const pairsGen = (n) => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'пары' : 'пар');
     const loadRows = loadRaw.slice().sort((a, c) => a.subject.localeCompare(c.subject, 'ru') || a.sub - c.sub).map((x, i) => {
       const pct = x.total ? Math.min(100, Math.round(x.fact / x.total * 100)) : 0;
       const planPct = x.total ? Math.min(100, Math.round(x.plan / x.total * 100)) : 0;
       const behind = isTeacherView && x.fact < x.plan;
       return {
         subject: x.subject, meta: [x.teacher, x.type, x.sub ? x.sub + ' подгр.' : ''].filter(Boolean).join(' · '),
-        nums: isTeacherView ? 'Проведено ' + x.fact + ' из ' + x.total + ' ч · по плану к этой дате ' + x.plan + ' ч · осталось ' + x.rest + ' ч'
-          : 'Проведено ' + x.fact + ' из ' + x.total + ' ч · осталось ' + x.rest + ' ч',
+        nums: isTeacherView ? 'Проведено ' + P(x.fact) + ' из ' + pairsGen(P(x.total)) + ' · по плану к этой дате ' + pairsW(P(x.plan)) + ' · осталось ' + pairsW(P(x.rest))
+          : 'Проведено ' + P(x.fact) + ' из ' + pairsGen(P(x.total)) + ' · осталось ' + pairsW(P(x.rest)),
         end: 'до ' + fmtD(x.end), pct: pct, pctLabel: pct + '%', planPct: planPct, showPlan: isTeacherView,
         bar: behind ? '#E06A1B' : accent, chipBg: behind ? '#FFE6D3' : accentSoft, chipFg: behind ? '#9A4410' : accent,
-        state: behind ? 'Отстаёт от плана на ' + (x.plan - x.fact) + ' ч' : 'По плану', delay: delay(i)
+        state: behind ? 'Отстаёт от плана на ' + pairsAcc(P(x.plan) - P(x.fact)) : 'По плану', delay: delay(i)
       };
     });
     const loadStats = [
-      [hTotal + ' ч', 'всего за семестр', '#15171C'],
-      [hFact + ' ч', 'проведено', accent],
-      [Math.max(0, hTotal - hFact) + ' ч', 'осталось', '#15171C'],
+      [pairsW(P(hTotal)), 'всего за семестр · ' + String(P(hTotal) * 1.5).replace('.', ',') + ' ч', '#15171C'],
+      [pairsW(P(hFact)), 'проведено · ' + String(P(hFact) * 1.5).replace('.', ',') + ' ч', accent],
+      [pairsW(Math.max(0, P(hTotal) - P(hFact))), 'осталось · ' + String(Math.max(0, P(hTotal) - P(hFact)) * 1.5).replace('.', ',') + ' ч', '#15171C'],
       [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', 'пройдено', isTeacherView && hFact < hPlan ? '#9A4410' : '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
 
@@ -450,6 +487,7 @@ class Component extends DCLogic {
     const K = 'https://kitis.ru/';
     const menuDefs = [
       { title: 'Разделы сайта', icons: true, items: [
+        ['Версия для телефона', 'Расписание на маленьком экране', 'phone.html', I.phone, 'phone'],
         ['Главная колледжа', 'Новости, объявления, контакты', 'home.html', I.home],
         ['Абитуриентам', 'Специальности, приём, документы', 'abitur.html', I.plus],
         ['Студентам', 'Кабинет студента, справки, дистант', 'student.html', I.cap],
@@ -461,7 +499,7 @@ class Component extends DCLogic {
     ];
     const menu = menuDefs.map((sec, si) => ({
       title: sec.title, line: si === 0 ? 'transparent' : '#EEF0F3', delay: delay(si + 1),
-      items: sec.items.map((x) => ({ l: x[0], s: x[1], hasSub: !!x[1], h: x[2], d: x[3] || '', hasIcon: sec.icons, iconBg: accentSoft, iconFg: accent, weight: sec.icons ? 600 : 500 }))
+      items: sec.items.map((x) => ({ l: x[0], s: x[1], hasSub: !!x[1], h: x[2], d: x[3] || '', view: x[4] || '', hasIcon: sec.icons, iconBg: accentSoft, iconFg: accent, weight: sec.icons ? 600 : 500 }))
     }));
 
     const upd = M.updatedLabel();
@@ -482,7 +520,9 @@ class Component extends DCLogic {
       chooserListTitle: (ck === 'g' ? 'Группы' : (ck === 't' ? 'Преподаватели' : 'Аудитории')) + ' · ' + chooserItems.length,
       chooserMin: ck === 't' ? '220px' : '150px',
       chooserSub: (upd ? 'Данные сервера колледжа на ' + upd + '. ' : '') + 'Выберите группу, преподавателя или аудиторию — сайт покажет неделю и сколько осталось до конца пары.',
-      recent: recent, hasRecent: recent.length > 0,
+      recent: recent, hasRecent: recent.length > 0, favChips: favList.map((x) => ({ label: favLabel(x), pick: favPick(x) })), hasFavs: favList.length > 0,
+      favT: favOfKind('t'), favR: favOfKind('r'), rq: s.rq || '', roomFilters: roomFilters, noRooms: tab === 'rooms' && roomSections.length === 0,
+      onRq: (e) => this.setState({ rq: e && e.target ? e.target.value.slice(0, 40) : '' }),
       onCq: (e) => this.setState({ cq: e && e.target ? e.target.value : '' }),
       curatorLine: CURATORS[group] ? 'Куратор — ' + CURATORS[group] : 'Расписание группы с сервера колледжа',
       favPressed: fav ? 'true' : 'false', favLabel: fav ? 'В избранном' : 'В избранное', favFill: fav ? 'currentColor' : 'none',
@@ -492,7 +532,8 @@ class Component extends DCLogic {
       changed: changed,
       sourceLabel: wi.sourceLabel,
       weekLabel: wi.label, weekShort: wi.shortLabel, weekSub: wi.sub + ' · ' + wi.sourceNote, notCurrent: w !== 0, days: days,
-      nextBadge: w === 0 && b.nextPublished, prevNav: navBtn(canPrev), nextNav: navBtn(canNext),
+      nextBadge: w === 0 && b.nextPublished, prevNav: navBtn(canPrev), nextNav: navBtn(canNext), prevOff: !canPrev, nextOff: !canNext,
+      nextTitle: canNext ? '' : 'Следующая неделя ещё не опубликована на сервере колледжа',
       prefixChips: prefixChips, groupSections: groupSections, noGroups: tab === 'groups' && shownGroups === 0,
       letterChips: letterChips, teacherList: teacherList, noTeachers: tab === 'teachers' && teacherList.length === 0, selT: selT,
       roomSections: roomSections, selR: selR, skeleton: skeleton, bellCols: bellCols,
@@ -500,7 +541,7 @@ class Component extends DCLogic {
       progress: plaque.progress,
       hasStats: hasStats, noStats: !hasStats, stats: stats, charts: charts,
       hasLoad: loadRows.length > 0, noLoad: loadRows.length === 0, loadRows: loadRows, loadStats: loadStats,
-      loadNote: isTeacherView ? 'Полоса — проведено от всего объёма, чёрная черта — сколько должно быть проведено по плану к этой дате. Видно только преподавателям.' : 'Полоса — сколько часов уже проведено из всего объёма. Одна пара — 2 часа.',
+      loadNote: isTeacherView ? 'Полоса — сколько пар проведено из всего объёма, чёрная черта — сколько должно быть проведено по плану к этой дате. Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Видно только преподавателям.' : 'Полоса — сколько пар уже проведено из всего объёма. Пара длится 1,5 часа, в понедельник — 1 ч 20 мин.',
       menu: menu, menuOpen: menuOpen, menuExpanded: menuOpen ? 'true' : 'false',
       dropOpen: dropOpen, dropExpanded: dropOpen ? 'true' : 'false', dropBorder: dropOpen ? accent : '#DCE0E6', dropEmpty: dropOpen && dropSections.length === 0, dropRot: dropOpen ? '180' : '0', dropSections: dropSections, dq: s.dq || '',
       toggleDrop: set({ drop: !dropOpen, dq: '' }), closeDrop: set({ drop: false }),
@@ -509,7 +550,7 @@ class Component extends DCLogic {
       goGroups: go({ tab: 'groups' }), goBells: go({ tab: 'bells' }), goResults: go({ tab: 'results' }),
       goToday: go({ tab: 'schedule', w: 0 }), clearGroup: go({ group: null, tab: 'schedule', w: 0 }),
       prev: go({ w: canPrev ? w - 1 : w }), next: go({ w: canNext ? w + 1 : w }),
-      toggleFav: set({ favs: fav ? favs.filter((x) => x !== group) : favs.concat([group]) }),
+      toggleFav: () => { M.toggleFav('g', group, favSeed); this.setState({ favTick: Date.now() }); },
       onGq: (e) => this.setState({ gq: e && e.target ? e.target.value : '' }),
       onTq: (e) => this.setState({ tq: e && e.target ? e.target.value : '' })
     };

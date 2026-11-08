@@ -3,6 +3,7 @@
  *
  * Прошлые недели — из «Итогов» (журналы занятий), неделя со страницы «Неделя» — из расписания групп.
  * Какая неделя «текущая», а какая «следующая», считается по сегодняшней дате в Калининграде (UTC+2).
+ * В воскресенье текущей считается новая неделя (с завтрашнего понедельника), если её расписание уже опубликовано.
  * Для проверки можно подставить время: ?now=2026-11-12T10:30
  */
 (function (root) {
@@ -168,7 +169,15 @@
     return out;
   }
 
-  function currentMonday() { return mondayOf(clock().iso); }
+  function calendarMonday() { return mondayOf(clock().iso); }
+  function weekHasData(mon) { var ws = weekSrc[mon]; return !!(ws && (ws.schedule || ws.journal)); }
+  // в воскресенье неделя уже закончилась — показываем новую, если на сервере она есть
+  function currentMonday() {
+    var c = clock();
+    var mon = mondayOf(c.iso);
+    if (c.wd === 6 && weekHasData(addDays(mon, 7))) return addDays(mon, 7);
+    return mon;
+  }
 
   function weekInfo(offset) {
     var cur = currentMonday();
@@ -177,7 +186,12 @@
     var ws = weekSrc[mon] || { journal: 0, schedule: 0 };
     var source = ws.schedule ? 'schedule' : (ws.journal ? 'journal' : 'none');
     var sub;
-    if (offset === 0) sub = 'Текущая неделя';
+    var sunday = clock().wd === 6;
+    var shifted = cur !== calendarMonday();
+    if (offset === 0 && sunday && shifted) sub = 'Новая неделя · начинается завтра';
+    else if (offset === 0 && sunday) sub = 'Неделя закончилась · новое расписание ещё не опубликовано';
+    else if (offset === -1 && shifted) sub = 'Прошлая неделя · закончилась вчера';
+    else if (offset === 0) sub = 'Текущая неделя';
     else if (offset === 1) sub = 'Следующая неделя';
     else if (offset === -1) sub = 'Прошлая неделя';
     else if (offset > 1) sub = 'Через ' + offset + ' ' + plural(offset, 'неделю', 'недели', 'недель');
@@ -244,6 +258,19 @@
         planWeek: x[8], factWeek: x[9], end: x[10], pct: x[4] ? Math.round(evenHours(x[6]) / evenHours(x[4]) * 100) : x[11]
       };
     });
+  }
+
+  // Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Сервер считает объём в академических часах:
+  // одна пара — 2 академических часа, поэтому для пар делим на 2.
+  function pairsOf(acadHours) { return acadHours == null ? null : Math.round(acadHours / 2); }
+  function durationMin(l) { return l && l.hasTime ? Math.round((toSec(l.end) - toSec(l.start)) / 60) : 0; }
+  function fmtHours(min) {
+    var h = Math.floor(min / 60), m = Math.round(min % 60);
+    return h && m ? h + ' ч ' + m + ' мин' : (h ? h + ' ч' : m + ' мин');
+  }
+  function fmtPairsHours(pairs) {
+    var h = pairs * 1.5;
+    return pairs + ' ' + plural(pairs, 'пара', 'пары', 'пар') + ' · ' + String(h).replace('.', ',') + ' ч';
   }
 
   function updatedLabel() {
@@ -317,6 +344,42 @@
     } catch (e) { /* без истории выбора */ }
   }
 
+  // Избранное: группы, преподаватели и аудитории. Хранится в этом браузере; общее для всех страниц сайта.
+  var FAV_KEY = 'kitis.favs.v1';
+  var FAV_KINDS = { g: 1, t: 1, r: 1 };
+  function readFavs() {
+    var raw;
+    try { raw = root.localStorage.getItem(FAV_KEY); } catch (e) { return null; }
+    if (raw == null) return null;
+    var list;
+    try { list = JSON.parse(raw); } catch (e) { return []; }
+    if (!Array.isArray(list)) return [];
+    return list.filter(function (x) {
+      return x && typeof x === 'object' && FAV_KINDS[x.kind] === 1 && typeof x.name === 'string' && x.name.length > 0 && x.name.length <= 80 && !/[<>]/.test(x.name);
+    }).slice(0, 40).map(function (x) { return { kind: x.kind, name: x.name }; });
+  }
+  function saveFavs(list) {
+    try { root.localStorage.setItem(FAV_KEY, JSON.stringify(list.slice(0, 40))); } catch (e) { /* только на эту страницу */ }
+    try { root.dispatchEvent(new Event('kitis-favs')); } catch (e) { /* старый браузер */ }
+  }
+  // seed — своя группа из профиля: попадает в избранное, пока человек сам ничего не менял
+  var favMemory = null;
+  function favs(seed) {
+    var list = readFavs();
+    if (list == null) list = favMemory || (seed && FAV_KINDS[seed.kind] === 1 && seed.name ? [{ kind: seed.kind, name: seed.name }] : []);
+    return list;
+  }
+  function isFav(kind, name, seed) { return favs(seed).some(function (x) { return x.kind === kind && x.name === name; }); }
+  function toggleFav(kind, name, seed) {
+    if (FAV_KINDS[kind] !== 1 || !name) return false;
+    var list = favs(seed);
+    var on = list.some(function (x) { return x.kind === kind && x.name === name; });
+    list = on ? list.filter(function (x) { return !(x.kind === kind && x.name === name); }) : list.concat([{ kind: kind, name: name }]);
+    favMemory = list;
+    saveFavs(list);
+    return !on;
+  }
+
   root.KitisModel = {
     ready: !!D,
     data: D,
@@ -325,7 +388,8 @@
     addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime, pairNum: pairNum, pairLabel: pairLabel,
     CURATOR_TIME: CURATOR_TIME, evenHours: evenHours, readHash: readHash, writeHash: writeHash, changes: changes, recent: recent, remember: remember,
     clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load,
-    updatedLabel: updatedLabel,
+    updatedLabel: updatedLabel, pairsOf: pairsOf, durationMin: durationMin, fmtHours: fmtHours, fmtPairsHours: fmtPairsHours,
+    favs: favs, isFav: isFav, toggleFav: toggleFav, FAV_KEY: FAV_KEY,
     groups: function () { return groupIdx.map(function (i) { return { i: i, name: D.groups[i] }; }); },
     teachers: function () { return teacherIdx.map(function (i) { return { i: i, name: fmtName(D.teachers[i]), raw: D.teachers[i] }; }); },
     rooms: function () { return roomIdx.map(function (i) { return { i: i, name: D.rooms[i] }; }); },

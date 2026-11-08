@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/guard.js?v=c834a069b0"></script>
+<script src="js/guard.js?v=80e09ef8c1"></script>
 
 <title>КИТиС · Расписание — телефон</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=7d5f5ab40e"></script>
+<script src="kitis-model.js?v=6919a89fa8"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
 <script src="data/kitis-photos.js"></script>
@@ -99,6 +99,7 @@ button,input,select{font-family:inherit}
 <span style="font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{title}}</span>
 <span style="font-size: 12px; color: #5B6270; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{subtitle}}</span>
 </div>
+<sc-if value="{{headFav.show}}" hint-placeholder-val="{{ false }}"><button type="button" class="tap" aria-label="{{headFav.aria}}" aria-pressed="{{headFav.pressed}}" onClick="{{headFav.toggle}}" style="flex: none; width: 44px; height: 44px; border-radius: 12px; border: 0; background: {{headFav.bg}}; color: {{headFav.fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="{{headFav.fill}}" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"></path></svg></button></sc-if>
 <button type="button" class="tap" aria-label="Выбрать группу" onClick="{{openPicker}}" style="flex: none; width: 44px; height: 44px; border-radius: 12px; border: 0; background: #F1F3F6; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
 </header>
 
@@ -121,6 +122,7 @@ button,input,select{font-family:inherit}
 <sc-for list="{{chooserTabs}}" as="c" hint-placeholder-count="3"><button type="button" role="tab" class="tap" aria-selected="{{c.pressed}}" onClick="{{c.pick}}" style="height: 38px; border-radius: 9px; border: 0; background: {{c.bg}}; color: {{c.fg}}; font-weight: {{c.weight}}; font-size: 13px; cursor: pointer;">{{c.label}}</button></sc-for>
 </div>
 <label style="display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 14px; box-sizing: border-box; border-radius: 12px; background: #FFFFFF; color: #5B6270;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="{{chooserPh}}" value="{{cq}}" onChange="{{onCq}}" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 16px; color: #15171C; outline: none;"></label>
+<sc-if value="{{hasFavs}}" hint-placeholder-val="{{ true }}"><div style="display: flex; gap: 6px; overflow-x: auto;"><sc-for list="{{favChips}}" as="f" hint-placeholder-count="2"><button type="button" class="tap" onClick="{{f.pick}}" style="flex: none; display: inline-flex; align-items: center; gap: 5px; height: 32px; padding: 0 12px; border-radius: 999px; border: 0; background: rgba(255, 255, 255, 0.14); color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FFB27A" stroke="#FFB27A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"></path></svg>{{f.label}}</button></sc-for></div></sc-if>
 <sc-if value="{{hasRecent}}" hint-placeholder-val="{{ true }}"><div style="display: flex; gap: 6px; overflow-x: auto;"><sc-for list="{{recent}}" as="r" hint-placeholder-count="3"><button type="button" class="tap" onClick="{{r.pick}}" style="flex: none; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid #3A404C; background: transparent; color: #FFFFFF; font-size: 13px; cursor: pointer;">{{r.label}}</button></sc-for></div></sc-if>
 </section>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
@@ -155,12 +157,12 @@ button,input,select{font-family:inherit}
 </section>
 
 <div style="display: flex; align-items: center; gap: 8px;">
-<button type="button" class="tap" aria-label="Прошлая неделя" onClick="{{prevWeek}}" style="flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: {{prevNav.cursor}}; opacity: {{prevNav.opacity}};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button>
+<button type="button" class="tap" aria-label="Прошлая неделя" onClick="{{prevWeek}}" disabled="{{prevOff}}" style="flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: {{prevNav.cursor}}; opacity: {{prevNav.opacity}};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button>
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.25;">
 <span style="font-size: 15px; font-weight: 700;">{{weekShort}}</span>
 <span style="font-size: 11.5px; color: #5B6270;">{{weekSub}} · {{sourceNote}}</span>
 </div>
-<button type="button" class="tap" aria-label="Следующая неделя" onClick="{{nextWeek}}" style="position: relative; flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: {{nextNav.cursor}}; opacity: {{nextNav.opacity}};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><sc-if value="{{nextBadge}}" hint-placeholder-val="{{ true }}"><span aria-label="Опубликовано расписание на следующую неделю" style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; border-radius: 50%; background: #2FA35A; border: 2px solid #F4F5F7; animation: kPulse 1.8s ease-out infinite;"></span></sc-if></button>
+<button type="button" class="tap" aria-label="{{nextAria}}" onClick="{{nextWeek}}" disabled="{{nextOff}}" style="position: relative; flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: {{nextNav.cursor}}; opacity: {{nextNav.opacity}};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg><sc-if value="{{nextBadge}}" hint-placeholder-val="{{ true }}"><span aria-label="Опубликовано расписание на следующую неделю" style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; border-radius: 50%; background: #2FA35A; border: 2px solid #F4F5F7; animation: kPulse 1.8s ease-out infinite;"></span></sc-if></button>
 </div>
 <div role="tablist" aria-label="День недели" style="display: grid; grid-template-columns: {{dayCols}}; gap: 4px;">
 <sc-for list="{{dayPills}}" as="d" hint-placeholder-count="6">
@@ -375,7 +377,7 @@ button,input,select{font-family:inherit}
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 6px 14px; display: flex; flex-direction: column;">
 <span style="padding: 10px 0 4px; font-size: 12px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em;">{{sec.title}}</span>
 <sc-for list="{{sec.items}}" as="i" hint-placeholder-count="5">
-<a href="{{i.h}}" class="tap" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; border-top: 1px solid #F0F2F5; color: #15171C; text-decoration: none; font-size: 14.5px;">{{i.l}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+<a href="{{i.h}}" data-view="{{i.view}}" class="tap" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; border-top: 1px solid #F0F2F5; color: #15171C; text-decoration: none; font-size: 14.5px;">{{i.l}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
 </sc-for>
 </section>
 </sc-for>
@@ -426,7 +428,7 @@ button,input,select{font-family:inherit}
 <h2 style="margin: 4px 2px 0; font-size: 17px; font-weight: 700;">Специальности и профессии</h2>
 <section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 4px 14px;">
 <sc-for list="{{specs}}" as="sp" hint-placeholder-count="10">
-<a href="abitur.html#catalog" style="display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid {{sp.line}}; color: #15171C; text-decoration: none;">
+<a href="{{sp.href}}" style="display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid {{sp.line}}; color: #15171C; text-decoration: none;">
 <span style="flex: none; width: 62px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #3A404C;">{{sp.code}}</span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 14px; font-weight: 600;">{{sp.name}}</span><span style="font-size: 12px; color: {{sp.fg}};">{{sp.kind}}</span></span>
 </a>
@@ -551,7 +553,8 @@ button,input,select{font-family:inherit}
 <span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: #DCE0E6;"></span>
 <div style="display: flex; gap: 12px; align-items: center;">
 <span style="flex: none; min-width: 52px; height: 52px; padding: 0 6px; box-sizing: border-box; border-radius: 26px; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center;">{{sheet.badge}}</span>
-<span style="display: flex; flex-direction: column; line-height: 1.25;"><span style="font-weight: 700; font-size: 18px;">{{sheet.title}}</span><span style="font-size: 13px; color: #5B6270;">{{sheet.sub}}</span></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25;"><span style="font-weight: 700; font-size: 18px;">{{sheet.title}}</span><span style="font-size: 13px; color: #5B6270;">{{sheet.sub}}</span></span>
+<sc-if value="{{sheetFav.show}}" hint-placeholder-val="{{ false }}"><button type="button" class="tap" aria-label="{{sheetFav.aria}}" aria-pressed="{{sheetFav.pressed}}" onClick="{{sheetFav.toggle}}" style="flex: none; width: 44px; height: 44px; border-radius: 12px; border: 0; background: {{sheetFav.bg}}; color: {{sheetFav.fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="{{sheetFav.fill}}" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"></path></svg></button></sc-if>
 </div>
 <sc-if value="{{sheet.hasExtra}}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: #3A404C; padding: 10px 12px; border-radius: 10px; background: #F4F5F7;">{{sheet.extra}}</div></sc-if>
 <span style="font-size: 14px; font-weight: 700;">{{sheet.listTitle}}</span>
@@ -586,6 +589,6 @@ button,input,select{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":390,"height":844}}'></script>
 <script src="dc-runtime.js?v=cede6a8e71"></script>
-<script src="js/page-phone.js?v=ded22b7774"></script>
+<script src="js/page-phone.js?v=4548107707"></script>
 </body>
 </html>

@@ -28,10 +28,17 @@ class Component extends DCLogic {
       if (prev.tab !== next.tab || prev.page !== next.page || prev.sub !== next.sub || prev.group !== next.group) this.toTop();
     };
     window.addEventListener('popstate', this._pop);
+    // избранное, изменённое на другой странице или вкладке
+    this._fav = () => this.setState({ favTick: Date.now() });
+    this._store = (e) => { if (e.key === M.FAV_KEY) this._fav(); };
+    window.addEventListener('kitis-favs', this._fav);
+    window.addEventListener('storage', this._store);
   }
   componentWillUnmount() {
     clearInterval(this._timer);
     window.removeEventListener('popstate', this._pop);
+    window.removeEventListener('kitis-favs', this._fav);
+    window.removeEventListener('storage', this._store);
   }
   toTop() {
     try {
@@ -85,6 +92,16 @@ class Component extends DCLogic {
     const delay = (i) => (Math.min(i, 12) * 0.035).toFixed(3) + 's';
     const cap = (x) => x ? x.charAt(0).toUpperCase() + x.slice(1) : x;
     const roomTitle = (x) => /^\d/.test(x) ? 'Аудитория ' + x : x;
+    // избранное хранится в браузере (KitisModel); своя группа из профиля — в избранном по умолчанию
+    const favSeed = me && me.group ? { kind: 'g', name: me.group } : null;
+    const favList = M.favs(favSeed);
+    const isFavOf = (k, n) => !!n && favList.some((x) => x.kind === k && x.name === n);
+    const favToggle = (k, n) => () => { M.toggleFav(k, n, favSeed); this.setState({ favTick: Date.now() }); };
+    const favBtn = (k, n, what) => {
+      const on = isFavOf(k, n);
+      return { show: !!n, pressed: on ? 'true' : 'false', aria: on ? 'Убрать из избранного: ' + what : 'Добавить в избранное: ' + what,
+        fill: on ? 'currentColor' : 'none', bg: on ? accentSoft : '#F1F3F6', fg: on ? accent : '#15171C', toggle: favToggle(k, n) };
+    };
     const iniOf = (name) => { const p = name.split(' '); return (p[0] || '').charAt(0) + (p[1] || '').charAt(0); };
     const pairs = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
     const pairLine = (l) => l.label + (l.time ? ' · ' + l.time : '');
@@ -104,7 +121,8 @@ class Component extends DCLogic {
     const gi = M.groupIndex(group);
     const clk = M.clock();
     const b = M.bounds();
-    const wMin = b.min, wMax = Math.max(b.max, 1);
+    // дальше последней опубликованной недели не листаем: пустая неделя только путает
+    const wMin = b.min, wMax = b.max;
     const w = Math.max(wMin, Math.min(wMax, s.w != null ? s.w : 0));
     const wi = M.weekInfo(w);
     const canPrev = w > wMin, canNext = w < wMax;
@@ -213,7 +231,7 @@ class Component extends DCLogic {
     const studyDays = wk.filter((d) => d.lessons.length).length;
     const stats = [
       [flat.length, pl(flat.length, 'пара на неделе', 'пары на неделе', 'пар на неделе'), accent],
-      [flat.length * 2, 'часа занятий', '#15171C'],
+      [M.fmtHours(flat.reduce((a, l) => a + M.durationMin(l), 0)), 'занятий на неделе', '#15171C'],
       [studyDays, pl(studyDays, 'учебный день', 'учебных дня', 'учебных дней'), '#15171C'],
       [tCnt, pl(tCnt, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
@@ -221,20 +239,24 @@ class Component extends DCLogic {
     const sumOf = (k) => loadRaw.reduce((a, x) => a + (x[k] || 0), 0);
     const hTotal = sumOf('total'), hFact = sumOf('fact'), hPlan = sumOf('plan');
     const fmtD = (iso) => iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) : '—';
+    const P = M.pairsOf;
+    const pairsW = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
+    const pairsAcc = (n) => n + ' ' + pl(n, 'пару', 'пары', 'пар');
+    const pairsGen = (n) => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'пары' : 'пар');
     const loadRows = loadRaw.slice().sort((a, c) => a.subject.localeCompare(c.subject, 'ru') || a.sub - c.sub).map((x, i) => {
       const pct = x.total ? Math.min(100, Math.round(x.fact / x.total * 100)) : 0;
       const behind = isTeacherView && x.fact < x.plan;
       return {
         subject: x.subject, meta: [x.teacher, x.type, x.sub ? x.sub + ' подгр.' : ''].filter(Boolean).join(' · '),
-        nums: isTeacherView ? x.fact + ' из ' + x.total + ' ч · по плану ' + x.plan + ' ч · до ' + fmtD(x.end) : 'Проведено ' + x.fact + ' из ' + x.total + ' ч · осталось ' + x.rest + ' ч',
+        nums: isTeacherView ? P(x.fact) + ' из ' + pairsGen(P(x.total)) + ' · по плану ' + pairsW(P(x.plan)) + ' · до ' + fmtD(x.end) : 'Проведено ' + P(x.fact) + ' из ' + pairsGen(P(x.total)) + ' · осталось ' + pairsW(P(x.rest)),
         pct: pct, pctLabel: pct + '%', planPct: x.total ? Math.min(100, Math.round(x.plan / x.total * 100)) : 0, showPlan: isTeacherView,
-        bar: behind ? '#E06A1B' : accent, state: behind ? '−' + (x.plan - x.fact) + ' ч от плана' : 'по плану',
+        bar: behind ? '#E06A1B' : accent, state: behind ? '−' + pairsW(P(x.plan) - P(x.fact)) + ' от плана' : 'по плану',
         chipBg: behind ? '#FFE6D3' : accentSoft, chipFg: behind ? '#9A4410' : accent, delay: delay(i)
       };
     });
     const loadStats = [
-      [hFact + ' из ' + hTotal + ' ч', 'проведено за семестр', accent],
-      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', isTeacherView ? (hFact < hPlan ? 'отстаёт от плана на ' + (hPlan - hFact) + ' ч' : 'нагрузка по плану') : 'пройдено', isTeacherView && hFact < hPlan ? '#9A4410' : '#15171C']
+      [P(hFact) + ' из ' + pairsGen(P(hTotal)), 'проведено за семестр · ' + String(P(hFact) * 1.5).replace('.', ',') + ' из ' + String(P(hTotal) * 1.5).replace('.', ',') + ' ч', accent],
+      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', isTeacherView ? (hFact < hPlan ? 'отстаёт от плана на ' + pairsAcc(P(hPlan) - P(hFact)) : 'нагрузка по плану') : 'пройдено', isTeacherView && hFact < hPlan ? '#9A4410' : '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
 
     /* ---------- группы ---------- */
@@ -295,6 +317,10 @@ class Component extends DCLogic {
         return { title: r.name, sub: rs.mode === 'now' ? 'занята · ' + rs.lesson.group : 'свободна', pick: go({ tab: 'rooms', sheet: { type: 'r', key: r.name } }), delay: delay(i) };
       });
     }
+    const favChips = favList.map((x) => ({
+      label: x.kind === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name,
+      pick: x.kind === 'g' ? pickGroup(x.name) : (x.kind === 't' ? go({ tab: 'teachers', sheet: { type: 't', key: x.name } }) : go({ tab: 'rooms', sheet: { type: 'r', key: x.name } }))
+    }));
     const recent = M.recent().map((x) => ({
       label: x.kind === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name,
       pick: x.kind === 'g' ? pickGroup(x.name) : (x.kind === 't' ? go({ tab: 'teachers', sheet: { type: 't', key: x.name } }) : go({ tab: 'rooms', sheet: { type: 'r', key: x.name } }))
@@ -422,7 +448,8 @@ class Component extends DCLogic {
     const menuLinks = [
       { title: 'О колледже', items: [['О колледже', 'college.html#p=about'], ['История', 'college.html#p=history'], ['Новости', 'college.html#p=news'], ['Объявления и мероприятия', 'college.html#p=announce'], ['Выпускникам и Центр карьеры', 'college.html#p=career'], ['Профессионалитет', 'college.html#p=professionalitet'], ['УПК', 'college.html#p=upk'], ['БЦК', 'college.html#p=bck'], ['Дистанционное обучение', 'college.html#p=distance'], ['Курсы', 'college.html#p=courses'], ['Профессиональные конкурсы', 'college.html#p=contests'], ['Вакансии', 'college.html#p=vacancy'], ['Вопрос-ответ', 'college.html#p=faq'], ['Контакты и реквизиты', 'college.html#p=contacts']] },
       { title: 'Официально', items: [['Сведения об образовательной организации', 'college.html#p=sveden'], ['Обращения', 'college.html#p=forms'], ['Противодействие коррупции', 'college.html#p=anti-corruption'], ['Комплексная безопасность', 'college.html#p=security'], ['Антитеррористическая защищённость', 'college.html#p=antiterrorist'], ['Информационная безопасность', 'college.html#p=information-security'], ['БПОО', 'college.html#p=bpoo'], ['Закупки', 'college.html#p=tenders'], ['Образовательный кредит в СПО', 'college.html#p=obr-kredit']] }
-    ].map((sec) => ({ title: sec.title, items: sec.items.map((x) => ({ l: x[0], h: x[1] })) }));
+      , { title: 'Версия сайта', items: [['Полная версия сайта', 'desktop.html', 'desktop']] }
+    ].map((sec) => ({ title: sec.title, items: sec.items.map((x) => ({ l: x[0], h: x[1], view: x[2] || '' })) }));
 
     const CN = window.KITIS_COLLEGE && window.KITIS_COLLEGE.sections.filter((x) => x.id === 'news')[0];
     const newsSrc = CN ? CN.blocks[0].items.slice(0, 4).map((x) => [x[0].slice(8, 10) + '.' + x[0].slice(5, 7) + '.' + x[0].slice(0, 4), x[2]]) : [['03.11.2026', 'Гордимся: награды талантливым студенткам КИТиСа'], ['02.11.2026', 'Разговоры о важном ко Дню народного единства'], ['02.11.2026', 'Лекция «Образ будущего России» в КИТиСе'], ['31.10.2026', 'Волейболистки КИТиСа на областных соревнованиях']];
@@ -463,7 +490,7 @@ class Component extends DCLogic {
       ['08.01.28', 'Мастер отделочных строительных и декоративных работ'], ['35.01.28', 'Мастер столярного и мебельного производства']
     ].map((x, i, arr) => {
       const prof = x[0].slice(3, 5) === '01';
-      return { code: x[0], name: x[1], kind: prof ? 'Профессия' : 'Специальность', fg: prof ? '#1C6B47' : '#1F46B8', line: i < arr.length - 1 ? '#EEF0F3' : 'transparent' };
+      return { code: x[0], name: x[1], kind: prof ? 'Профессия' : 'Специальность', fg: prof ? '#1C6B47' : '#1F46B8', line: i < arr.length - 1 ? '#EEF0F3' : 'transparent', href: 'college.html#p=prog-' + x[0].replace(/\./g, '-') };
     });
     const studentLinks = [
       ['Заказ справки', I.doc, 'student.html#spravka'], ['Дистанционное обучение', I.laptop, 'college.html#p=distance'],
@@ -545,7 +572,7 @@ class Component extends DCLogic {
       bellNote: bellDay === 'mon' ? 'Кураторский день · пара 1 ч 20 мин' : 'Вторник – суббота · пара 1 ч 30 мин',
       stats: stats, bySubj: bySubj, chartTitle: isTeacherView ? 'По дисциплинам' : 'По преподавателям', hasStats: flat.length > 0, noStats: flat.length === 0,
       loadRows: loadRows, loadStats: loadStats, hasLoad: loadRows.length > 0, updLine: upd ? 'данные на ' + upd : '',
-      loadNote: isTeacherView ? 'Черта на полосе — сколько часов должно быть проведено по плану к этой дате. Видно только преподавателям.' : 'Полоса — сколько часов уже проведено. Одна пара — 2 часа.',
+      loadNote: isTeacherView ? 'Черта на полосе — сколько пар должно быть проведено по плану к этой дате. Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Видно только преподавателям.' : 'Полоса — сколько пар уже проведено. Пара длится 1,5 часа, в понедельник — 1 ч 20 мин.',
       prefixChips: prefixChips, groupSections: groupSections, noGroups: isGroupsTab && shownGroups === 0,
       letterChips: letterChips, teacherList: teacherList, noTeachers: isTeachersTab && teacherList.length === 0,
       teacherCount: TL.length + ' ' + pl(TL.length, 'преподаватель', 'преподавателя', 'преподавателей'),
@@ -553,7 +580,10 @@ class Component extends DCLogic {
       sheetOpen: !!sheet && !!sheetData.title, sheet: sheetData, closeSheet: go({ sheet: null }),
       pickerOpen: pickerOpen, pickerSections: pickerSections, pickerEmpty: pickerOpen && pickerSections.length === 0, pq: s.pq || '',
       openPicker: set({ picker: true, pq: '' }), closePicker: set({ picker: false }), onPq: (e) => this.setState({ pq: e && e.target ? e.target.value : '' }),
-      bottom: bottom, menuPages: menuPages, menuLinks: menuLinks,
+      bottom: bottom, menuPages: menuPages, menuLinks: menuLinks, favChips: favChips, hasFavs: favChips.length > 0,
+      headFav: Object.assign(favBtn('g', tab === 'schedule' && !s.page ? group : '', 'группа ' + group)),
+      sheetFav: sheet && sheet.key ? favBtn(sheet.type === 't' ? 't' : 'r', sheet.key, sheet.key) : { show: false },
+      prevOff: !canPrev, nextOff: !canNext, nextAria: canNext ? 'Следующая неделя' : 'Следующая неделя ещё не опубликована',
       news: news, steps: steps, specs: specs, studentLinks: studentLinks, stu: stu, tc: tc, teacherWeek: teacherWeek, teacherLinks: teacherLinks,
       noTeacherWeek: teacherWeek.length === 0, tcWeek: tcWeekInfo.shortLabel, changesText: changesText,
       stuName: me ? me.first || me.shortName : 'гость', stuGroupLine: myGroup ? 'Группа ' + myGroup + (CURATORS[myGroup] ? ' · куратор ' + CURATORS[myGroup] : '') : 'Войдите, чтобы видеть свою группу',

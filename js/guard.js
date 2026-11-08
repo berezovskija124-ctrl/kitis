@@ -31,14 +31,59 @@
     return;
   }
 
+  // Версия сайта, которую человек выбрал сам («Полная версия» на телефоне, «Версия для телефона»
+  // на компьютере). Запоминается до закрытия вкладки; в адресе ничего не остаётся.
+  var VIEW_KEY = 'kitis.view';
+  function getView() { try { return window.sessionStorage.getItem(VIEW_KEY) || ''; } catch (e) { return ''; } }
+  function setView(v) { try { window.sessionStorage.setItem(VIEW_KEY, v); } catch (e) { /* без запоминания */ } }
+  // старые ссылки вида ?desktop=1, ?frame=1, ?view=phone: запоминаем выбор и убираем параметр из адреса
+  var legacy = { desktop: 'desktop', frame: 'phone' };
+  function dec(x) { try { return decodeURIComponent(x); } catch (e) { return ''; } }   // битый адрес не ломает страницу
+  var parts = loc.search.replace(/^\?/, '').split('&').filter(Boolean);
+  var kept = parts.filter(function (p) {
+    var k = dec(p.split('=')[0] || '').toLowerCase();
+    var v = dec(p.split('=')[1] || '').toLowerCase();
+    if (legacy[k]) { setView(legacy[k]); return false; }
+    if (k === 'view') { if (v === 'phone' || v === 'desktop') setView(v); return false; }
+    return true;
+  });
+  var q = kept.length ? '?' + kept.join('&') : '';
+  if (kept.length !== parts.length) {
+    try { window.history.replaceState(window.history.state, '', loc.pathname + q + loc.hash); } catch (e) { /* адрес останется */ }
+  }
+  var view = getView();
+
   var mode = d.getAttribute('data-switch');
   if (mode) {
-    var q = loc.search, h = loc.hash;
+    var h = loc.hash;
     var w = Math.min(window.innerWidth || 9999, (window.screen && window.screen.width) || 9999);
-    if (mode === 'entry') { loc.replace((w < 760 ? 'phone.html' : 'desktop.html') + q + h); return; }
-    if (mode === 'to-phone' && w < 760 && !/[?&]desktop/.test(q)) { loc.replace('phone.html' + q + h); return; }
-    if (mode === 'to-desktop' && w >= 1000 && !/[?&]frame/.test(q)) { loc.replace('desktop.html' + q + h); return; }
+    if (mode === 'entry') { loc.replace((view ? (view === 'phone' ? 'phone.html' : 'desktop.html') : (w < 760 ? 'phone.html' : 'desktop.html')) + q + h); return; }
+    if (mode === 'to-phone' && w < 760 && view !== 'desktop') { loc.replace('phone.html' + q + h); return; }
+    if (mode === 'to-desktop' && w >= 1000 && view !== 'phone') { loc.replace('desktop.html' + q + h); return; }
   }
+  // Демо-время (?now=2026-11-12T10:30): говорим об этом в полосе «Учебный проект» и даём выйти
+  var demo = /(?:^|&)now=([^&]+)/.exec(q.replace(/^\?/, ''));
+  if (demo) {
+    document.addEventListener('DOMContentLoaded', function () {
+      var bar = document.querySelector('.kb');
+      var m = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2}))?/.exec(dec(demo[1]));
+      if (!bar || !m) return;
+      var MON = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+      var span = document.createElement('span');
+      span.textContent = 'Демо: время на сайте — ' + parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + (m[4] ? ', ' + m[4] + ':' + m[5] : '') + ' · ';
+      var a = document.createElement('a');
+      a.href = loc.pathname + q.replace(/([?&])now=[^&]*&?/, '$1').replace(/[?&]$/, '') + loc.hash;
+      a.textContent = 'настоящее время';
+      span.appendChild(a);
+      bar.appendChild(span);
+    });
+  }
+  // ссылка с data-view="phone" / "desktop" запоминает выбранную версию перед переходом
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[data-view]') : null;
+    var v = a ? a.getAttribute('data-view') : '';
+    if (v === 'phone' || v === 'desktop') setView(v);
+  }, true);
 
   var KEY = 'kitis.a11y';
   function read() { try { return window.localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
