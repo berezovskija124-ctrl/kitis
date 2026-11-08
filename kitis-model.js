@@ -13,7 +13,9 @@
   var DAY_NAMES = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
   var DAY_SHORT = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
   var DAY_LOWER = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-  // Звонки с kitis.ru: понедельник — кураторский день; время 7-й пары на kitis.ru не указано
+  // Звонки с kitis.ru. Понедельник — кураторский день: на сервере расписания 1-й час понедельника —
+  // кураторский час («Разговоры о важном», 08:30 – 09:00), со 2-го часа идут пары по звонкам понедельника.
+  var CURATOR_TIME = ['08:30', '09:00'];
   var MON_TIMES = [['09:10', '10:30'], ['10:40', '12:00'], ['12:20', '13:40'], ['13:50', '15:10'], ['16:00', '17:20'], ['17:30', '18:50']];
   var WK_TIMES = [['08:30', '10:00'], ['10:10', '11:40'], ['12:10', '13:40'], ['13:50', '15:20'], ['15:30', '17:00'], ['17:10', '18:40']];
   var TZ_OFFSET = 2 * 3600 * 1000;
@@ -30,7 +32,14 @@
   function yearOf(iso) { return parseInt(iso.slice(0, 4), 10); }
   function toSec(hhmm) { var p = hhmm.split(':'); return parseInt(p[0], 10) * 3600 + parseInt(p[1], 10) * 60; }
   function times(wd) { return wd === 0 ? MON_TIMES : WK_TIMES; }
-  function pairTime(wd, n) { return times(wd)[n - 1] || null; }
+  function pairTime(wd, n) {
+    if (wd === 0) return n === 1 ? CURATOR_TIME : (MON_TIMES[n - 2] || null);
+    return WK_TIMES[n - 1] || null;
+  }
+  // номер пары, как в расписании звонков (в понедельник 1-й час сервера — кураторский час)
+  function pairNum(wd, n) { return wd === 0 ? n - 1 : n; }
+  function pairLabel(wd, n) { var k = pairNum(wd, n); return k <= 0 ? 'Кураторский час' : k + ' пара'; }
+  function evenHours(v) { return v == null ? null : Math.round(v / 2) * 2; }
 
   function plural(n, one, few, many) {
     var a = Math.abs(n) % 100, b = a % 10;
@@ -128,9 +137,12 @@
     var tm = pairTime(o.wd, o.n);
     var teachers = o.t.map(teacherName);
     var rooms = o.r.map(roomName);
+    var num = pairNum(o.wd, o.n);
     return {
-      date: o.date, wd: o.wd, n: o.n, start: tm ? tm[0] : '', end: tm ? tm[1] : '', hasTime: !!tm,
-      time: tm ? tm[0] + ' – ' + tm[1] : 'время не указано',
+      date: o.date, wd: o.wd, n: o.n, num: num, badge: num <= 0 ? 'К' : String(num), label: pairLabel(o.wd, o.n), curator: num <= 0,
+      start: tm ? tm[0] : '', end: tm ? tm[1] : '', hasTime: !!tm,
+      time: tm ? tm[0] + ' – ' + tm[1] : '',
+      remote: rooms.length === 0, place: rooms.length ? rooms.map(function (x) { return /^\d/.test(x) ? 'ауд. ' + x : x; }).join(', ') : 'Дистант',
       subject: D.subjects[o.s] || '', type: D.types[o.k] || '',
       group: D.groups[o.g] || '', g: o.g,
       teacher: teachers.join(', '), teachers: teachers, t: o.t, t0: o.t.length ? o.t[0] : -1,
@@ -226,7 +238,10 @@
     return D.load[g].map(function (x) {
       return {
         subject: D.subjects[x[0]] || '', teacher: teacherName(x[1]), t: x[1], sub: x[2], type: D.types[x[3]] || '',
-        total: x[4], plan: x[5], fact: x[6], rest: x[7], planWeek: x[8], factWeek: x[9], end: x[10], pct: x[11]
+        // часы всегда чётные: одна пара — 2 часа; «план к дате» сервер считает долями, округляем до пары
+        total: evenHours(x[4]), plan: evenHours(x[5]), fact: evenHours(x[6]),
+        rest: x[4] != null && x[6] != null ? Math.max(0, evenHours(x[4]) - evenHours(x[6])) : evenHours(x[7]),
+        planWeek: x[8], factWeek: x[9], end: x[10], pct: x[4] ? Math.round(evenHours(x[6]) / evenHours(x[4]) * 100) : x[11]
       };
     });
   }
@@ -247,12 +262,56 @@
     D.rooms.forEach(function (n, i) { roomIdx.push(i); });
   }
 
+  function readHash() {
+    var out = {};
+    try {
+      var h = (root.location && root.location.hash || '').replace(/^#/, '');
+      h.split('&').forEach(function (part) {
+        if (!part) return;
+        var i = part.indexOf('=');
+        var k = decodeURIComponent(i < 0 ? part : part.slice(0, i));
+        var v = i < 0 ? '' : decodeURIComponent(part.slice(i + 1).replace(/\+/g, ' '));
+        out[k] = v;
+      });
+    } catch (e) { /* пустой адрес */ }
+    return out;
+  }
+  function hashOf(obj) {
+    return Object.keys(obj).filter(function (k) { return obj[k] != null && obj[k] !== ''; })
+      .map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(obj[k]); }).join('&');
+  }
+  function writeHash(obj, replace) {
+    try {
+      var h = hashOf(obj);
+      var cur = (root.location.hash || '').replace(/^#/, '');
+      if (h === cur) return;
+      var url = root.location.pathname + root.location.search + (h ? '#' + h : '');
+      if (replace) root.history.replaceState(null, '', url); else root.history.pushState(null, '', url);
+    } catch (e) { /* без истории */ }
+  }
+
+  function changes() { return D && D.changes ? D.changes.slice() : []; }
+
+  var RECENT_KEY = 'kitis.recent.v1';
+  function recent() {
+    try { return JSON.parse(root.localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function remember(kind, name) {
+    if (!name) return;
+    try {
+      var list = recent().filter(function (x) { return !(x.kind === kind && x.name === name); });
+      list.unshift({ kind: kind, name: name });
+      root.localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, 6)));
+    } catch (e) { /* без истории выбора */ }
+  }
+
   root.KitisModel = {
     ready: !!D,
     data: D,
     MONTHS: MONTHS, DAY_NAMES: DAY_NAMES, DAY_SHORT: DAY_SHORT, MON_TIMES: MON_TIMES, WK_TIMES: WK_TIMES,
     plural: plural, fmtName: fmtName, fmtTimer: fmtTimer, dayLabel: dayLabel, rangeLabel: rangeLabel, whenLabel: whenLabel,
-    addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime,
+    addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime, pairNum: pairNum, pairLabel: pairLabel,
+    CURATOR_TIME: CURATOR_TIME, evenHours: evenHours, readHash: readHash, writeHash: writeHash, changes: changes, recent: recent, remember: remember,
     clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load,
     updatedLabel: updatedLabel,
     groups: function () { return groupIdx.map(function (i) { return { i: i, name: D.groups[i] }; }); },

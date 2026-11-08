@@ -6,7 +6,8 @@
 
 <script src="data/kitis-data.js"></script>
 <script src="kitis-model.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="kitis-account.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Кабинет преподавателя.">
 <style>
 x-dc{display:none}
@@ -22,11 +23,13 @@ html[data-fit=phone] #app{padding:34px 16px}
 html.phone-full #app{padding:0}
 html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
 html.phone-full body{background:#F4F5F7}
+body{padding-bottom:env(safe-area-inset-bottom,0px)}
+html.phone-full body{padding-bottom:0}
 @media (max-width:520px){.kb .kb-x{display:none}}
 </style>
 </head>
 <body>
-<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="about.html">О проекте</a></div>
 <div id="app"></div>
 <x-dc>
 <helmet>
@@ -56,7 +59,7 @@ button,input{font-family:inherit}
 <a href="desktop.html" style="padding: 10px 12px; border-radius: 10px; font-weight: 500; font-size: 14.5px; text-decoration: none; color: #3A404C;">Итоги</a>
 <a href="desktop.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: 14.5px; text-decoration: none; background: #15171C; color: #FFFFFF;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Меню</a>
 </nav>
-<a href="login.html" style="display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 12px 0 4px; border-radius: 12px; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; font-weight: 600; font-size: 14px;"><span style="width: 36px; height: 36px; border-radius: 9px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">ГР</span>Громов Р. И.</a>
+<a href="{{acctHref}}" style="display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 12px 0 4px; border-radius: 12px; border: 1px solid #E3E6EB; color: #15171C; text-decoration: none; font-weight: 600; font-size: 14px;"><sc-if value="{{hasPhoto}}" hint-placeholder-val="{{ false }}"><img data-dc-src="{{photo}}" alt="" width="36" height="36" style="width: 36px; height: 36px; border-radius: 9px; object-fit: cover;"></sc-if><sc-if value="{{noPhoto}}" hint-placeholder-val="{{ true }}"><span style="width: 36px; height: 36px; border-radius: 9px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">{{acctIni}}</span></sc-if>{{acctLabel}}</a>
 </div>
 </header>
 
@@ -64,7 +67,7 @@ button,input{font-family:inherit}
 <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Добрый день!</h1>
-<p style="margin: 0; color: #5B6270;">Громов Р. И. · кабинет преподавателя · {{todayLong}}</p>
+<p style="margin: 0; color: #5B6270;">{{tcLine}} · {{todayLong}}</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
 <button type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 600; font-size: 14px; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>Сообщить в учебную часть</button>
@@ -216,13 +219,13 @@ class Component extends DCLogic {
     const inLabel = (secs) => { const mm = Math.round(secs / 60); return mm >= 60 ? 'Через ' + Math.floor(mm / 60) + ' ч ' + (mm % 60) + ' мин' : 'Через ' + mm + ' мин'; };
     const plaqueOf = (st, titleFn) => {
       const L = st.lesson;
-      if (st.mode === 'now') return { live: true, badge: titleFn.nowBadge + ' · ' + L.n + ' пара', big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до конца пары · ' + L.time,
+      if (st.mode === 'now') return { live: true, badge: titleFn.nowBadge + ' · ' + L.label, big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до конца пары · ' + L.time,
         progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true, title: titleFn.title(L), subject: L.subject,
-        meta: st.next ? 'Следующая: ' + st.next.n + ' пара в ' + st.next.start + (st.next.room ? ' · ' + fmtRoom(st.next.room) : '') : 'Это последняя пара сегодня' };
-      if (st.mode === 'break' || st.mode === 'before') return { live: true, badge: st.mode === 'break' ? 'Перемена' : 'Скоро занятия', big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до начала ' + L.n + ' пары · ' + L.time,
+        meta: st.next ? 'Далее: ' + st.next.label.toLowerCase() + ' в ' + st.next.start + ' · ' + st.next.place : 'Это последняя пара сегодня' };
+      if (st.mode === 'break' || st.mode === 'before') return { live: true, badge: st.mode === 'break' ? 'Перемена' : 'Скоро занятия', big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до начала: ' + L.label.toLowerCase() + ' · ' + L.time,
         progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: 'Начало в ' + L.start };
       if (L) return { live: false, badge: st.mode === 'after' ? 'На сегодня пары закончились' : (clk.wd === 6 ? 'Сегодня выходной' : 'Сегодня пар нет'), big: cap(M.whenLabel(L.date)), mono: false, size: '40px',
-        note: 'следующая пара · ' + L.n + ' пара · ' + L.time, progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: '' };
+        note: 'следующее занятие · ' + L.label.toLowerCase() + ' · ' + L.time, progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: '' };
       return { live: false, badge: 'Пар не найдено', big: '—', mono: false, size: '40px', note: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, title: '', subject: '', meta: '' };
     };
     const finishPlaque = (pq) => Object.assign(pq, {
@@ -242,47 +245,51 @@ class Component extends DCLogic {
       return { title: lessons.length ? title : 'Сегодня', isToday: isToday, lessons: lessons };
     };
     const stateOf = (l, isToday) => {
-      if (!isToday || !l.hasTime) return { label: l.hasTime ? 'по расписанию' : 'время не указано', kind: 'next' };
+      if (!isToday || !l.hasTime) return { label: 'по расписанию', kind: 'next' };
       const a = M.toSec(l.start), e = M.toSec(l.end);
       if (clk.secs >= e) return { label: 'Прошла', kind: 'done' };
       if (clk.secs >= a) return { label: 'Идёт · ' + Math.ceil((e - clk.secs) / 60) + ' мин', kind: 'now' };
       return { label: inLabel(a - clk.secs), kind: 'next' };
     };
 
-    const TC = 'Громов Р. И.';
-    const ti = M.teacherIndex(TC);
-    const tst = M.status('t', ti);
-    const pq = finishPlaque(plaqueOf(tst, { nowBadge: 'Вы ведёте', title: (L) => L.group + (L.subLabel ? ' (' + L.subLabel + ')' : '') + (L.room ? ' · ' + fmtRoom(L.room) : '') }));
+    const A = window.KitisAccount;
+    const me = A ? A.current() : null;
+    const acct = { acctHref: me ? 'profile.html' : 'login.html', hasPhoto: !!(me && me.photo), noPhoto: !(me && me.photo), photo: me && me.photo ? me.photo : '', acctIni: me ? me.initials : '→', acctLabel: me ? me.shortName : 'Войти' };
+    const TC = me && me.role === 'teacher' && me.teacher ? me.teacher : '';
+    const ti = TC ? M.teacherIndex(TC) : -1;
+    const tst = ti >= 0 ? M.status('t', ti) : { mode: 'none', lesson: null };
+    const pq = ti < 0 ? finishPlaque({ live: false, badge: 'Кабинет преподавателя', big: 'Войдите', mono: false, size: '40px', note: 'как преподаватель — и выберите себя в списке', progress: '0', hasProgress: false, title: '', subject: '', meta: '' }) : finishPlaque(plaqueOf(tst, { nowBadge: 'Вы ведёте', title: (L) => L.group + (L.subLabel ? ' (' + L.subLabel + ')' : '') + ' · ' + L.place }));
     const wi = M.weekInfo(0);
-    const wk = M.week('t', ti, wi.monday).slice(0, 6);
+    const wk = ti >= 0 ? M.week('t', ti, wi.monday).slice(0, 6) : M.week('t', -1, wi.monday).slice(0, 6);
     let count = 0, maxPair = 6;
-    wk.forEach((d) => d.lessons.forEach((l) => { count += 1; if (l.n > maxPair) maxPair = l.n; }));
+    let hasCurator = false;
+    wk.forEach((d) => d.lessons.forEach((l) => { count += 1; if (l.num > maxPair) maxPair = l.num; if (l.num <= 0) hasCurator = true; }));
     const heads = wk.map((d) => {
       const on = d.iso === clk.iso;
       return { label: d.short + ', ' + d.num + (on ? ' · сегодня' : ''), bg: on ? accent : '#F7F8FA', fg: on ? '#FFFFFF' : '#15171C' };
     });
     const grid = [];
-    for (let p = 1; p <= maxPair; p++) {
-      const pt = M.pairTime(1, p);
+    for (let p = hasCurator ? 0 : 1; p <= maxPair; p++) {
+      const pt = p === 0 ? M.CURATOR_TIME : M.WK_TIMES[p - 1];
       grid.push({
-        n: p + ' пара', time: pt ? pt[0] + ' – ' + pt[1] : 'время не указано',
+        n: p === 0 ? 'Кураторский час' : p + ' пара', time: p === 0 ? 'пн, ' + pt[0] + ' – ' + pt[1] : (pt ? 'вт–сб ' + pt[0] + ' – ' + pt[1] : ''),
         cells: wk.map((d) => {
-          const ls = d.lessons.filter((l) => l.n === p);
+          const ls = d.lessons.filter((l) => l.num === p);
           const has = ls.length > 0;
-          const now = has && tst.mode === 'now' && d.iso === clk.iso && tst.lesson.n === p;
+          const now = has && tst.mode === 'now' && d.iso === clk.iso && tst.lesson.num === p;
           return {
-            has: has, group: ls.map((l) => l.group + (l.sub ? ' · ' + l.sub + ' п/г' : '')).join(', '), room: has ? (ls[0].room ? fmtRoom(ls[0].room) : 'ауд. не указана') : '',
+            has: has, group: ls.map((l) => l.group + (l.sub ? ' · ' + l.sub + ' п/г' : '')).join(', '), room: has ? ls[0].place : '',
             bg: now ? '#FFF4EA' : (has ? accentSoft : '#FAFBFC'), border: now ? '#F5C9A6' : (has ? 'transparent' : '#EEF0F3'),
             fg: now ? '#9A4410' : '#15171C', sub: now ? '#9A4410' : '#3A404C'
           };
         })
       });
     }
-    const dl = dayList('t', ti);
+    const dl = ti >= 0 ? dayList('t', ti) : { title: 'Сегодня', isToday: true, lessons: [] };
     const today = dl.lessons.map((l) => {
       const s2 = stateOf(l, dl.isToday);
       const c = s2.kind === 'done' ? ['#5B6270', '#F7F8FA', '#F1F3F6', '#5B6270'] : (s2.kind === 'now' ? ['#9A4410', '#FFF4EA', '#B4530F', '#FFFFFF'] : [accent, '#FFFFFF', accentSoft, accent]);
-      return { n: l.n, time: l.time, title: l.group + (l.room ? ' · ' + fmtRoom(l.room) : ''), state: s2.label, stateFg: c[0], bg: c[1], numBg: c[2], numFg: c[3] };
+      return { n: l.badge, time: l.time || '—', title: l.group + ' · ' + l.place, state: s2.label, stateFg: c[0], bg: c[1], numBg: c[2], numFg: c[3] };
     });
     const ld = M.teacherLoad(ti);
     const CUR = { 'ИСр24-1': 'Куратор — Шевченко П. С.' };
@@ -302,9 +309,9 @@ class Component extends DCLogic {
     ].map((x) => ({ l: x[0], d: x[1], h: x[2], bg: accentSoft, fg: accent }));
     return {
       accent: accent, accentSoft: accentSoft,
-      heads: heads, grid: grid, today: today, links: links, pq: pq, todayLong: todayLong, myGroups: myGroups,
+      heads: heads, grid: grid, today: today, links: links, pq: pq, acctHref: acct.acctHref, hasPhoto: acct.hasPhoto, noPhoto: acct.noPhoto, photo: acct.photo, acctIni: acct.acctIni, acctLabel: acct.acctLabel, todayLong: todayLong, myGroups: myGroups,
       listTitle: dl.title, noToday: today.length === 0, weekShort: wi.shortLabel, sourceNote: wi.sourceNote,
-      pairsLabel: pairs(count)
+      pairsLabel: pairs(count), tcLine: TC ? TC + ' · кабинет преподавателя' : 'Вы не вошли как преподаватель'
     };
   }
 }

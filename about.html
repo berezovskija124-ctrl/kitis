@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КИТиС · О проекте</title>
+<meta name="description" content="Учебный проект: эскиз нового сайта расписания КИТиС для компьютера и телефона.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--accent:#2D5BE3;--accent-soft:rgba(45,91,227,.10);--ink:#15171C;--ink-2:#3A404C;--muted:#5B6270;--line:#E3E6EB;--bg:#F4F5F7;--card:#FFFFFF}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.5 'Onest',system-ui,-apple-system,'Segoe UI',sans-serif}
+a{color:var(--accent)}
+.kb{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 14px;padding:7px 16px;background:#FFF4D6;color:#4D3A00;font-size:12.5px;font-weight:500;text-align:center;border-bottom:1px solid #EFDCA0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+header.top{background:var(--card);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo b{width:44px;height:44px;border-radius:12px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:22px}
+.logo span{display:flex;flex-direction:column;line-height:1.15}
+.logo strong{font-size:20px;letter-spacing:-.01em}
+.logo small{font-size:12px;color:var(--muted)}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);text-align:center}
+.hero{padding:48px 0 28px;display:flex;flex-direction:column;gap:14px;animation:up .5s ease both}
+.eyebrow{font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+h1{margin:0;font-size:clamp(32px,5vw,56px);line-height:1.04;letter-spacing:-.025em;max-width:820px}
+.lead{margin:0;font-size:18px;color:var(--ink-2);max-width:720px}
+.meta{font-size:14px;color:var(--muted)}
+.main{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;padding-bottom:12px}
+.big{display:flex;flex-direction:column;gap:16px;padding:26px;border-radius:22px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);transition:transform .2s ease,box-shadow .2s ease;animation:up .5s ease both}
+.big:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(21,23,28,.10)}
+.big.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.big .ic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:var(--accent);color:#fff}
+.big h2{margin:0;font-size:26px;letter-spacing:-.01em}
+.big p{margin:0;color:var(--muted)}
+.big.dark p{color:#C5CAD3}
+.big ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.big li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+.big li::before{content:'';flex:none;width:7px;height:7px;margin-top:8px;border-radius:50%;background:var(--accent)}
+.big.dark li::before{background:#FF8A3D}
+.go{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;border-radius:14px;font-weight:600;font-size:15.5px;background:var(--accent);color:#fff}
+.big.dark .go{background:#fff;color:var(--ink)}
+.phone-row{display:flex;gap:18px;align-items:center}
+.qr{flex:none;width:132px;height:132px;padding:8px;border-radius:14px;background:#fff;display:grid;place-items:center}
+.qr img,.qr canvas{display:block;width:116px!important;height:116px!important}
+.qr-note{font-size:13px;color:#C5CAD3}
+section.block{padding:36px 0 8px}
+section.block h3{margin:0 0 14px;font-size:24px;letter-spacing:-.01em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.tile{display:flex;gap:14px;align-items:center;min-height:76px;padding:14px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:transform .2s ease,box-shadow .2s ease;animation:up .45s ease both}
+.tile:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(21,23,28,.08)}
+.tile i{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.tile span{display:flex;flex-direction:column;line-height:1.3}
+.tile b{font-size:15px}
+.tile small{font-size:12.5px;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.fact{padding:18px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.fact b{display:block;font-size:34px;line-height:1;letter-spacing:-.02em}
+.fact span{font-size:13.5px;color:var(--muted)}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.note{padding:18px 20px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-size:14.5px;color:var(--ink-2)}
+.note h4{margin:0 0 6px;font-size:16px;color:var(--ink)}
+.note code{font-size:13px;background:var(--bg);padding:1px 5px;border-radius:5px}
+footer{margin-top:48px;background:var(--ink);color:#C5CAD3;font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:24px clamp(16px,4vw,40px)}
+footer a{color:#fff}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.phone-row{flex-direction:column;align-items:flex-start}.hero{padding-top:32px}header.top .wrap{flex-wrap:wrap;padding-top:10px;padding-bottom:10px}}
+</style>
+</head>
+<body>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span>Данные: kitis.ru и 94.72.18.202:8083</span></div>
+
+<header class="top">
+<div class="wrap">
+<a class="logo" href="index.html"><b aria-hidden="true">К</b><span><strong>КИТиС</strong><small>Новый сайт расписания · эскиз</small></span></a>
+<span class="chip" id="upd">Данные сервера на 6 ноября 2026, 16:20</span>
+</div>
+</header>
+
+<main class="wrap">
+<section class="hero">
+<span class="eyebrow">Учебный проект</span>
+<h1>Новый сайт расписания КИТиС</h1>
+<p class="lead">Расписание, группы, преподаватели, аудитории, звонки и итоги — всегда на виду. Всё остальное с kitis.ru собрано во вкладке «Меню». Пары всех групп берутся с сервера расписания колледжа: прошлые недели — из итогов, текущая и следующая — из актуального расписания.</p>
+<span class="meta">Автор: [ФИО, группа] · Руководитель: [ФИО преподавателя]</span>
+</section>
+
+<div class="main">
+<a class="big" href="index.html" style="animation-delay:.05s">
+<span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
+<h2>Открыть расписание</h2>
+<p>Одна ссылка для всех: на телефоне сайт сам откроется в мобильном виде, на компьютере — в полном.</p>
+<ul>
+<li>Таймер до конца пары по настоящему времени (Калининград)</li>
+<li>Вкладки в шапке: Расписание, Группы, Преподаватели, Аудитории, Звонки, Итоги</li>
+<li>Сначала выберите группу, преподавателя или аудиторию</li>
+<li>Кнопка «Назад» в браузере возвращает на прошлый шаг</li>
+<li>Кнопка «Меню» справа — всё остальное с kitis.ru</li>
+</ul>
+<span class="go">Открыть</span>
+</a>
+
+<a class="big dark" href="phone.html?frame=1" style="animation-delay:.12s">
+<span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg></span>
+<h2>На телефоне</h2>
+<div class="phone-row">
+<div class="qr" id="qr" aria-label="QR-код со ссылкой на версию для телефона" role="img"></div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p>Наведите камеру телефона на код — откроется сайт. Нажмите на карточку, чтобы посмотреть телефонный вид здесь, в рамке.</p>
+<span class="qr-note" id="qr-note">Нижняя панель, вкладки «Пары / Звонки / Итоги», шторки преподавателей и аудиторий.</span>
+</div>
+</div>
+<span class="go">Открыть</span>
+</a>
+</div>
+
+<section class="block">
+<h3>Что уже внутри</h3>
+<div class="facts">
+<div class="fact"><b id="f-groups">60</b><span>групп</span></div>
+<div class="fact"><b id="f-teachers">77</b><span>преподавателей</span></div>
+<div class="fact"><b id="f-rooms">46</b><span>аудиторий</span></div>
+<div class="fact"><b id="f-pairs">8412</b><span id="f-pairs-l">пар в расписании</span></div>
+<div class="fact"><b id="f-weeks">11</b><span id="f-weeks-l">недель с 31 августа</span></div>
+</div>
+</section>
+
+<section class="block">
+<h3>Как это выглядит во время пары</h3>
+<p class="meta" style="margin:0 0 12px">Сайт показывает настоящее время. Чтобы увидеть таймер в учебный день, откройте демо: четверг, 12 ноября, 10:30 — у ИСр24-1 идёт 2 пара.</p>
+<div class="grid">
+<a class="tile" href="desktop.html?desktop=1&amp;now=2026-11-12T10:30#group=%D0%98%D0%A1%D1%8024-1"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Компьютер · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
+<a class="tile" href="phone.html?frame=1&amp;now=2026-11-12T10:30#group=%D0%98%D0%A1%D1%8024-1"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2.5M9 2h6"></path></svg></i><span><b>Телефон · идёт пара</b><small>Чт, 12 ноября, 10:30</small></span></a>
+</div>
+</section>
+
+<section class="block">
+<h3>Остальные экраны</h3>
+<div class="grid">
+<a class="tile" href="home.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg></i><span><b>Главная колледжа</b><small>Новости, сервисы, контакты</small></span></a>
+<a class="tile" href="abitur.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6"></path></svg></i><span><b>Абитуриентам</b><small>10 программ, сроки и документы 2026</small></span></a>
+<a class="tile" href="student.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5"></path></svg></i><span><b>Кабинет студента</b><small>Сегодня, изменения, справки</small></span></a>
+<a class="tile" href="teacher.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v12H3zM12 16v4M8 20h8M7 12l3-3 3 2 4-4"></path></svg></i><span><b>Кабинет преподавателя</b><small>Моя неделя, группы, разделы</small></span></a>
+<a class="tile" href="profile.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path></svg></i><span><b>Профиль</b><small>Фото, имя, своя группа</small></span></a>
+<a class="tile" href="register.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"></path></svg></i><span><b>Регистрация</b><small>Студент, преподаватель, абитуриент</small></span></a>
+<a class="tile" href="sitemap.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></i><span><b>Новая структура сайта</b><small>Что на виду, что в «Меню»</small></span></a>
+<a class="tile" href="structure.html"><i aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="18" height="7" rx="1"></rect></svg></i><span><b>Блочная структура</b><small>Схема страницы и путь данных</small></span></a>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<span>Учебный проект · эскиз сайта ГБУ КО ПОО «Колледж информационных технологий и строительства»</span>
+<span>Источник расписания: <a href="http://94.72.18.202:8083">http://94.72.18.202:8083</a></span>
+</div>
+</footer>
+
+<script src="data/kitis-data.js"></script>
+<script>
+(function () {
+  var D = window.KITIS_DATA;
+  if (!D) return;
+  var M = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+  var pl = function (n, a, b, c) { var x = n % 100, y = x % 10; return x > 10 && x < 20 ? c : y === 1 ? a : y >= 2 && y <= 4 ? b : c; };
+  if (D.updated) set('upd', 'Данные сервера на ' + parseInt(D.updated.slice(8, 10), 10) + ' ' + M[parseInt(D.updated.slice(5, 7), 10) - 1] + ' ' + D.updated.slice(0, 4) + ', ' + D.updated.slice(11, 16));
+  var teachers = D.teachers.filter(function (n) { return !/ваканс/i.test(n); }).length;
+  set('f-groups', D.groups.length); set('f-teachers', teachers); set('f-rooms', D.rooms.length);
+  set('f-pairs', D.lessons.length); set('f-pairs-l', pl(D.lessons.length, 'пара', 'пары', 'пар') + ' в расписании');
+  var last = D.scheduleWeek ? Math.round((Date.parse(D.scheduleWeek) - Date.parse(D.base)) / 604800000) + 1 : 0;
+  if (last) { set('f-weeks', last); set('f-weeks-l', pl(last, 'неделя', 'недели', 'недель') + ' с ' + parseInt(D.base.slice(8, 10), 10) + ' ' + M[parseInt(D.base.slice(5, 7), 10) - 1]); }
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function () {
+  var box = document.getElementById('qr');
+  var note = document.getElementById('qr-note');
+  var hide = function (text) { box.style.display = 'none'; if (text) note.textContent = text; };
+  if (location.protocol === 'file:') { hide('QR-код появится, когда сайт будет опубликован (например, на GitHub Pages).'); return; }
+  try {
+    var url = new URL('./', location.href).href;
+    new QRCode(box, { text: url, width: 116, height: 116, colorDark: '#15171C', colorLight: '#FFFFFF' });
+    box.setAttribute('aria-label', 'QR-код: ' + url);
+  } catch (e) { hide(); }
+})();
+</script>
+</body>
+</html>

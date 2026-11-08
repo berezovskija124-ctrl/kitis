@@ -261,7 +261,7 @@
     } else {
       z = Math.min(1, (vw - 32) / w);
     }
-    app.style.zoom = z > 0.3 ? String(z) : '0.3';
+    app.style.zoom = String(Math.max(z, 0.2));
   }
 
   /* ---------- запуск ---------- */

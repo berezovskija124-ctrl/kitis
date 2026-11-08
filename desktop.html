@@ -6,7 +6,9 @@
 
 <script src="data/kitis-data.js"></script>
 <script src="kitis-model.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="kitis-account.js"></script>
+<script>if(Math.min(window.innerWidth,screen.width||9999)<760&&!/[?&]desktop/.test(location.search))location.replace("phone.html"+location.search+location.hash)</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Расписание — компьютер.">
 <style>
 x-dc{display:none}
@@ -22,11 +24,13 @@ html[data-fit=phone] #app{padding:34px 16px}
 html.phone-full #app{padding:0}
 html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
 html.phone-full body{background:#F4F5F7}
+body{padding-bottom:env(safe-area-inset-bottom,0px)}
+html.phone-full body{padding-bottom:0}
 @media (max-width:520px){.kb .kb-x{display:none}}
 </style>
 </head>
 <body>
-<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="about.html">О проекте</a></div>
 <div id="app"></div>
 <x-dc>
 <helmet>
@@ -42,6 +46,7 @@ button,input{font-family:inherit}
 @keyframes kGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes kPulse{0%{box-shadow:0 0 0 0 rgba(255,138,61,.6)}70%{box-shadow:0 0 0 9px rgba(255,138,61,0)}100%{box-shadow:0 0 0 0 rgba(255,138,61,0)}}
 @keyframes kShimmer{0%{opacity:.45}50%{opacity:1}100%{opacity:.45}}
+@keyframes kDrop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .tap{transition:filter .18s ease,transform .12s ease,background-color .2s ease,color .2s ease}
 .tap:hover{filter:brightness(.96)}
 .tap:active{transform:scale(.97)}
@@ -72,20 +77,69 @@ button,input{font-family:inherit}
 <button type="button" class="tap" onClick="{{t.pick}}" aria-current="{{t.current}}" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 11px; border: 0; background: {{t.bg}}; color: {{t.fg}}; font-weight: {{t.weight}}; font-size: 15px; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-dc-d="{{t.d}}"></path></svg>{{t.label}}</button>
 </sc-for>
 </nav>
-<a href="login.html" class="tap" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; box-sizing: border-box; border-radius: 12px; border: 1px solid #DCE0E6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;">Войти</a>
+<a href="{{acct.href}}" class="tap" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px 0 {{acct.padL}}; box-sizing: border-box; border-radius: 12px; border: 1px solid #DCE0E6; color: #15171C; font-weight: 600; font-size: 14px; text-decoration: none;"><sc-if value="{{acct.hasPhoto}}" hint-placeholder-val="{{ false }}"><img data-dc-src="{{acct.photo}}" alt="" width="32" height="32" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;"></sc-if><sc-if value="{{acct.hasInitials}}" hint-placeholder-val="{{ false }}"><span style="width: 32px; height: 32px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{acct.initials}}</span></sc-if>{{acct.label}}</a>
 <button type="button" class="tap" onClick="{{openMenu}}" aria-expanded="{{menuExpanded}}" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 14px; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Меню</button>
 </div>
 </header>
 
-<div style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
-<div style="max-width: 1360px; margin: 0 auto; padding: 10px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;">
-<button type="button" class="tap" onClick="{{goGroups}}" style="display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #DCE0E6; background: #FFFFFF; color: #15171C; font-weight: 700; font-size: 14px; cursor: pointer;"><span style="font-size: 12.5px; font-weight: 500; color: #5B6270;">Группа</span>{{group}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+<div style="position: relative; z-index: 30; background: #FFFFFF; border-bottom: 1px solid #E3E6EB;">
+<div style="position: relative; max-width: 1360px; margin: 0 auto; padding: 10px clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;">
+<button type="button" class="tap" onClick="{{toggleDrop}}" aria-expanded="{{dropExpanded}}" aria-haspopup="dialog" style="display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid {{dropBorder}}; background: #FFFFFF; color: #15171C; font-weight: 700; font-size: 14px; cursor: pointer;"><span style="font-size: 12.5px; font-weight: 500; color: #5B6270;">Группа</span>{{groupLabel}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate({{dropRot}}deg); transition: transform .2s ease;"><path d="m6 9 6 6 6-6"></path></svg></button>
 <span style="flex: 1 1 200px; font-size: 13.5px; color: #5B6270;">{{ctxLine}}</span>
-<button type="button" class="tap" onClick="{{goToday}}" style="display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #15171C; color: #FFFFFF; font-size: 13.5px; cursor: pointer;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{pill.dot}}; animation: {{pill.anim}};"></span><span>{{pill.text}}</span><sc-if value="{{pill.hasTimer}}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">{{pill.timer}}</span></sc-if></button>
+<sc-if value="{{hasGroup}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{goToday}}" style="display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #15171C; color: #FFFFFF; font-size: 13.5px; cursor: pointer;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{pill.dot}}; animation: {{pill.anim}};"></span><span>{{pill.text}}</span><sc-if value="{{pill.hasTimer}}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">{{pill.timer}}</span></sc-if></button></sc-if>
+<sc-if value="{{dropOpen}}" hint-placeholder-val="{{ false }}">
+<button type="button" aria-label="Закрыть список групп" onClick="{{closeDrop}}" style="position: fixed; inset: 0; z-index: 1; border: 0; background: rgba(21, 23, 28, 0.28); cursor: pointer; animation: kFade .2s ease both;"></button>
+<div role="dialog" aria-label="Выбор группы" style="position: absolute; z-index: 2; left: clamp(16px, 3vw, 32px); top: calc(100% - 2px); width: min(760px, calc(100vw - 32px)); max-height: min(70vh, 640px); overflow-y: auto; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; box-shadow: 0 24px 60px rgba(21, 23, 28, 0.22); padding: 16px; display: flex; flex-direction: column; gap: 14px; animation: kDrop .22s cubic-bezier(.2,.8,.2,1) both;">
+<label style="display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; color: #5B6270;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Найти группу" value="{{dq}}" onChange="{{onDq}}" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 16px; color: #15171C; outline: none;"></label>
+<sc-for list="{{dropSections}}" as="sec" hint-placeholder-count="4">
+<section style="display: flex; flex-direction: column; gap: 8px;">
+<h3 style="margin: 0; font-size: 12.5px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em;">{{sec.title}}</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{sec.items}}" as="g" hint-placeholder-count="6">
+<button type="button" class="tap" onClick="{{g.pick}}" style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid {{g.border}}; background: {{g.bg}}; color: {{g.fg}}; font-weight: 700; font-size: 14.5px; cursor: pointer;">{{g.code}}</button>
+</sc-for>
+</div>
+</section>
+</sc-for>
+<sc-if value="{{dropEmpty}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; color: #5B6270;">Такой группы нет</span></sc-if>
+</div>
+</sc-if>
 </div>
 </div>
 
 <main style="width: 100%; max-width: 1360px; margin: 0 auto; box-sizing: border-box; padding: 24px clamp(16px, 3vw, 32px) 48px; flex: 1;">
+
+<sc-if value="{{isChooser}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 20px; animation: kFadeUp .45s ease both;">
+<section style="background: #15171C; color: #FFFFFF; border-radius: 22px; padding: clamp(22px, 4vw, 40px); display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 13px; font-weight: 700; color: #FFB27A; text-transform: uppercase; letter-spacing: 0.08em;">Расписание КИТиС</span>
+<h1 style="margin: 0; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; font-weight: 700; letter-spacing: -0.02em;">Чьё расписание открыть?</h1>
+<p style="margin: 0; max-width: 720px; color: #B9BEC8;">{{chooserSub}}</p>
+</div>
+<div role="tablist" aria-label="Что ищем" style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{chooserTabs}}" as="c" hint-placeholder-count="3">
+<button type="button" role="tab" class="tap" aria-selected="{{c.selected}}" onClick="{{c.pick}}" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: {{c.bg}}; color: {{c.fg}}; font-weight: 600; font-size: 15px; cursor: pointer;">{{c.label}}</button>
+</sc-for>
+</div>
+<label style="display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 16px; box-sizing: border-box; border-radius: 14px; background: #FFFFFF; color: #5B6270;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="{{chooserPh}}" value="{{cq}}" onChange="{{onCq}}" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 17px; color: #15171C; outline: none;"></label>
+<sc-if value="{{hasRecent}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;"><span style="font-size: 13px; color: #B9BEC8; margin-right: 4px;">Недавние:</span>
+<sc-for list="{{recent}}" as="r" hint-placeholder-count="3"><button type="button" class="tap" onClick="{{r.pick}}" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid #3A404C; background: transparent; color: #FFFFFF; font-size: 13.5px; cursor: pointer;">{{r.label}}</button></sc-for>
+</div>
+</sc-if>
+</section>
+<section style="display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #5B6270; text-transform: uppercase; letter-spacing: 0.08em;">{{chooserListTitle}}</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax({{chooserMin}}, 1fr)); gap: 8px;">
+<sc-for list="{{chooserItems}}" as="it" hint-placeholder-count="12">
+<button type="button" class="tap" onClick="{{it.pick}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-height: 66px; padding: 12px 14px; box-sizing: border-box; border-radius: 14px; border: 1px solid #E3E6EB; background: #FFFFFF; color: #15171C; text-align: left; cursor: pointer; animation: kFadeUp .35s ease both; animation-delay: {{it.delay}};"><span style="font-weight: 700; font-size: 17px;">{{it.title}}</span><span style="font-size: 12.5px; color: #5B6270;">{{it.sub}}</span></button>
+</sc-for>
+</div>
+<sc-if value="{{chooserEmpty}}" hint-placeholder-val="{{ false }}"><div style="padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; color: #5B6270;">Ничего не нашли — проверьте написание</div></sc-if>
+</section>
+</div>
+</sc-if>
 
 <sc-if value="{{isSchedule}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 16px; animation: kFadeUp .45s ease both;">
@@ -109,6 +163,8 @@ button,input{font-family:inherit}
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
 <span style="font-size: 13px; padding: 6px 12px; border-radius: 10px; background: #F4F5F7; color: #3A404C;">{{pairsLabel}}</span>
 <span style="font-size: 13px; padding: 6px 12px; border-radius: 10px; background: #F4F5F7; color: #3A404C;">{{daysLabel}}</span>
+<sc-if value="{{changed.has}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 10px; background: #FFF1E6; color: #9A4410;">{{changed.text}}</span></sc-if>
+<button type="button" class="tap" onClick="{{clearGroup}}" style="font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 10px; border: 0; background: {{accentSoft}}; color: {{accent}}; cursor: pointer;">Другое расписание</button>
 <a href="http://94.72.18.202:8083" style="font-size: 13px; padding: 6px 12px; border-radius: 10px; background: #F4F5F7; color: #3A404C; text-decoration: none;">Источник: 94.72.18.202:8083</a>
 </div>
 </div>
@@ -175,7 +231,7 @@ button,input{font-family:inherit}
 <sc-if value="{{l.now}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #FFE6D3; color: #9A4410;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #E06A1B;"></span>{{l.nowLabel}}</span></sc-if>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;">
 <sc-if value="{{l.hasTeacher}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openTeacher}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: #F4F5F7; color: #3A404C; font-size: 13px; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg>{{l.teacher}}</button></sc-if>
-<sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: #F4F5F7; color: #3A404C; font-size: 13px; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01"></path></svg>{{l.room}}</button></sc-if>
+<sc-if value="{{l.remote}}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 10px; border-radius: 8px; background: #DFF5E7; color: #17663A; font-size: 13px; font-weight: 700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H4zM2 20h20"></path></svg>Дистант</span></sc-if><sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: #F4F5F7; color: #3A404C; font-size: 13px; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01"></path></svg>{{l.room}}</button></sc-if>
 </div>
 </div>
 </div>
@@ -253,9 +309,10 @@ button,input{font-family:inherit}
 </sc-for>
 </div>
 <sc-if value="{{noTeachers}}" hint-placeholder-val="{{ false }}"><div style="padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; color: #5B6270;">Никого не нашли</div></sc-if>
-<span style="font-size: 13px; color: #5B6270;">В списке на сервере есть ещё две строки «Вакансия» — это свободные ставки, здесь они не показаны.</span>
 </div>
 <aside style="flex: 1 1 400px; min-width: 0; position: sticky; top: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+<sc-if value="{{selT.none}}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 8px 0;"><span style="width: 52px; height: 52px; border-radius: 14px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></span><span style="font-size: 19px; font-weight: 700;">Выберите преподавателя в списке</span><span style="font-size: 14px; color: #5B6270;">Здесь появятся пары на неделю.</span></div></sc-if>
+<sc-if value="{{selT.has}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; gap: 14px; align-items: center;">
 <span style="flex: none; width: 60px; height: 60px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center;">{{selT.ini}}</span>
 <div style="display: flex; flex-direction: column; gap: 2px; line-height: 1.25;"><span style="font-weight: 700; font-size: 19px;">{{selT.full}}</span><span style="font-size: 13.5px; color: #5B6270;">{{selT.posText}}</span></div>
@@ -276,7 +333,7 @@ button,input{font-family:inherit}
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
 <sc-if value="{{d.empty}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #5B6270;">{{d.emptyText}}</span></sc-if>
 <sc-for list="{{d.pairs}}" as="p" hint-placeholder-count="1">
-<div style="display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 13.5px; font-weight: 600; color: {{p.fg}};">{{p.n}} пара · {{p.time}}</span><span style="font-size: 12.5px; color: #5B6270;">{{p.info}}</span></div>
+<div style="display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 13.5px; font-weight: 600; color: {{p.fg}};">{{p.head}}</span><span style="font-size: 12.5px; color: #5B6270;">{{p.info}}</span></div>
 </sc-for>
 </div>
 </div>
@@ -294,6 +351,7 @@ button,input{font-family:inherit}
 </sc-for>
 </div>
 <span style="font-size: 13px; color: #3A404C; padding: 10px 12px; border-radius: 10px; background: {{accentSoft}};">Расписание на эту неделю ещё не опубликовано на сервере колледжа.</span>
+</sc-if>
 </sc-if>
 </aside>
 </div>
@@ -321,6 +379,8 @@ button,input{font-family:inherit}
 </sc-for>
 </div>
 <aside style="flex: 1 1 400px; min-width: 0; position: sticky; top: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+<sc-if value="{{selR.none}}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 8px 0;"><span style="width: 52px; height: 52px; border-radius: 14px; background: {{accentSoft}}; color: {{accent}}; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></span><span style="font-size: 19px; font-weight: 700;">Выберите аудиторию</span><span style="font-size: 14px; color: #5B6270;">Здесь появятся пары на неделю.</span></div></sc-if>
+<sc-if value="{{selR.has}}" hint-placeholder-val="{{ true }}">
 <span style="font-size: 13px; font-weight: 700; color: {{accent}}; text-transform: uppercase; letter-spacing: 0.06em;">Аудитория</span>
 <span style="font-size: 30px; font-weight: 700; line-height: 1.1;">{{selR.title}}</span>
 <span style="align-self: flex-start; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: {{selR.chipBg}}; color: {{selR.chipFg}};">{{selR.status}}</span>
@@ -337,7 +397,7 @@ button,input{font-family:inherit}
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
 <sc-if value="{{d.empty}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #5B6270;">{{d.emptyText}}</span></sc-if>
 <sc-for list="{{d.pairs}}" as="p" hint-placeholder-count="1">
-<div style="display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 13.5px; font-weight: 600; color: {{p.fg}};">{{p.n}} пара · {{p.time}}</span><span style="font-size: 12.5px; color: #5B6270;">{{p.info}}</span></div>
+<div style="display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 13.5px; font-weight: 600; color: {{p.fg}};">{{p.head}}</span><span style="font-size: 12.5px; color: #5B6270;">{{p.info}}</span></div>
 </sc-for>
 </div>
 </div>
@@ -356,6 +416,7 @@ button,input{font-family:inherit}
 </div>
 <span style="font-size: 13px; color: #3A404C; padding: 10px 12px; border-radius: 10px; background: {{accentSoft}};">Расписание на эту неделю ещё не опубликовано на сервере колледжа.</span>
 </sc-if>
+</sc-if>
 </aside>
 </div>
 </sc-if>
@@ -365,7 +426,7 @@ button,input{font-family:inherit}
 <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Расписание звонков</h1>
-<p style="margin: 0; color: #5B6270;">С сайта kitis.ru. Понедельник — кураторский день, во вторник – субботу обычный порядок. Время 7-й пары на kitis.ru не указано.</p>
+<p style="margin: 0; color: #5B6270;">С сайта kitis.ru. Понедельник — кураторский день, во вторник – субботу обычный порядок.</p>
 </div>
 <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #15171C; color: #FFFFFF;">
 <sc-if value="{{bellLive}}" hint-placeholder-val="{{ true }}"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D; animation: kPulse 1.8s ease-out infinite;"></span></sc-if>
@@ -406,6 +467,14 @@ button,input{font-family:inherit}
 </div>
 </sc-if>
 
+<sc-if value="{{isResultsNoGroup}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 32px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E3E6EB; animation: kFadeUp .45s ease both;">
+<h1 style="margin: 0; font-size: 30px; font-weight: 700;">Итоги</h1>
+<span style="color: #5B6270;">Выберите группу — покажем, сколько часов уже проведено по каждой дисциплине.</span>
+<button type="button" class="tap" onClick="{{toggleDrop}}" style="height: 46px; padding: 0 18px; border-radius: 12px; border: 0; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 15px; cursor: pointer;">Выбрать группу</button>
+</div>
+</sc-if>
+
 <sc-if value="{{isResults}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 18px; animation: kFadeUp .45s ease both;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
@@ -429,16 +498,16 @@ button,input{font-family:inherit}
 <span style="font-size: 13px; color: #5B6270;">{{r.meta}}</span>
 </div>
 <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
-<div aria-hidden="true" style="position: relative; height: 10px; border-radius: 5px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.pct}}%; border-radius: 5px; background: {{r.bar}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div><span style="position: absolute; top: 0; bottom: 0; left: {{r.planPct}}%; width: 2px; background: #15171C; opacity: .45;"></span></div>
+<div aria-hidden="true" style="position: relative; height: 10px; border-radius: 5px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.pct}}%; border-radius: 5px; background: {{r.bar}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div><sc-if value="{{r.showPlan}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 0; bottom: 0; left: {{r.planPct}}%; width: 2px; background: #15171C; opacity: .45;"></span></sc-if></div>
 <span style="font-size: 12.5px; color: #5B6270;">{{r.nums}} · {{r.end}}</span>
 </div>
 <div style="flex: none; width: 200px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
 <span style="font-size: 20px; font-weight: 700;">{{r.pctLabel}}</span>
-<span style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{r.chipBg}}; color: {{r.chipFg}};">{{r.state}}</span>
+<sc-if value="{{r.showPlan}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{r.chipBg}}; color: {{r.chipFg}};">{{r.state}}</span></sc-if>
 </div>
 </div>
 </sc-for>
-<p style="margin: 0; padding: 12px 0; font-size: 12.5px; color: #5B6270;">Полоса — проведено от всего объёма, чёрная черта — сколько должно быть проведено по плану к этой дате.</p>
+<p style="margin: 0; padding: 12px 0; font-size: 12.5px; color: #5B6270;">{{loadNote}}</p>
 </section>
 </sc-if>
 <sc-if value="{{noLoad}}" hint-placeholder-val="{{ false }}">
@@ -513,37 +582,76 @@ button,input{font-family:inherit}
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1700}}'>
 class Component extends DCLogic {
   componentDidMount() {
+    const M = window.KitisModel;
+    const A = window.KitisAccount;
     this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    const fromHash = () => {
+      const h = M.readHash();
+      return {
+        tab: h.tab || 'schedule', group: h.group || null, teacher: h.teacher || null, room: h.room || null,
+        w: h.w ? (parseInt(h.w, 10) || 0) : 0, menu: false, drop: false
+      };
+    };
+    const h = M.readHash();
+    if (Object.keys(h).length) this.setState(fromHash());
+    else {
+      const me = A ? A.current() : null;
+      if (me && me.role === 'student' && me.group) { this.setState({ group: me.group }); M.writeHash({ group: me.group }, true); }
+      else if (me && me.role === 'teacher' && me.teacher) { this.setState({ tab: 'teachers', teacher: me.teacher }); M.writeHash({ tab: 'teachers', teacher: me.teacher }, true); }
+    }
+    this._pop = () => this.setState(fromHash());
+    window.addEventListener('popstate', this._pop);
   }
   componentWillUnmount() {
     clearInterval(this._timer);
+    window.removeEventListener('popstate', this._pop);
+  }
+  go(patch) {
+    const M = window.KitisModel;
+    const s = Object.assign({}, this.state || {}, patch);
+    this.setState(Object.assign({ menu: false, drop: false, dq: '' }, patch));
+    if (patch.group) M.remember('g', patch.group);
+    if (patch.teacher) M.remember('t', patch.teacher);
+    if (patch.room) M.remember('r', patch.room);
+    const tab = s.tab || 'schedule';
+    M.writeHash({
+      tab: tab === 'schedule' ? '' : tab, group: s.group || '',
+      teacher: tab === 'teachers' ? (s.teacher || '') : '', room: tab === 'rooms' ? (s.room || '') : '', w: s.w ? String(s.w) : ''
+    });
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { /* без прокрутки */ }
   }
   renderVals() {
     const M = window.KitisModel;
+    const A = window.KitisAccount;
     const s = this.state || {};
     const accent = this.props.accent ?? '#2D5BE3';
     const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(accent);
     const rgb = m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [45, 91, 227];
     const accentSoft = 'rgba(' + rgb.join(', ') + ', 0.10)';
+    const me = A ? A.current() : null;
+    const isTeacherView = !!(me && me.role === 'teacher');
     const tab = s.tab || 'schedule';
-    const group = s.group || 'ИСр24-1';
-    const favs = s.favs || ['ИСр24-1'];
+    const group = s.group || '';
+    const hasGroup = !!group;
+    const favs = s.favs || (me && me.group ? [me.group] : []);
     const fav = favs.indexOf(group) >= 0;
     const menuOpen = !!s.menu;
-    const tKey = s.teacher || 'Громов Р. И.';
-    const rKey = s.room || '403';
+    const dropOpen = !!s.drop;
+    const tKey = s.teacher || '';
+    const rKey = s.room || '';
     const gpre = s.gpre || '';
     const tl = s.tl || '';
     const gq = (s.gq || '').trim().toLowerCase();
     const tq = (s.tq || '').trim().toLowerCase();
     const set = (o) => () => this.setState(o);
+    const go = (o) => () => this.go(o);
     const pl = M.plural;
     const delay = (i) => (Math.min(i, 14) * 0.035).toFixed(3) + 's';
     const cap = (x) => x ? x.charAt(0).toUpperCase() + x.slice(1) : x;
-    const fmtRoom = (x) => !x ? '' : (/^\d/.test(x) ? 'ауд. ' + x : x);
     const roomTitle = (x) => /^\d/.test(x) ? 'Аудитория ' + x : x;
     const iniOf = (name) => { const p = name.split(' '); return (p[0] || '').charAt(0) + (p[1] || '').charAt(0); };
     const pairs = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
+    const pairLine = (l) => l.label + (l.time ? ' · ' + l.time : '');
 
     const CURATORS = { 'ИСр24-1': 'Шевченко Полина Сергеевна' };
     const INFO = {
@@ -557,43 +665,44 @@ class Component extends DCLogic {
 
     const GL = M.groups(), TL = M.teachers(), RL = M.rooms();
     const gi = M.groupIndex(group);
-    const ti = M.teacherIndex(tKey);
-    const ri = M.roomIndex(rKey);
+    const ti = tKey ? M.teacherIndex(tKey) : -1;
+    const ri = rKey ? M.roomIndex(rKey) : -1;
     const clk = M.clock();
     const b = M.bounds();
     const wMin = b.min, wMax = Math.max(b.max, 1);
     const w = Math.max(wMin, Math.min(wMax, s.w != null ? s.w : 0));
     const wi = M.weekInfo(w);
     const nowOf = (st, l) => st.mode === 'now' && l.date === clk.iso && l.n === st.lesson.n;
+    const statusLine = (L) => [L.teacher, L.place].filter(Boolean).join(' · ');
 
     /* ---------- что сейчас у группы ---------- */
-    const st = M.status('g', gi);
+    const st = hasGroup ? M.status('g', gi) : { mode: 'none', lesson: null, left: 0, total: 0 };
     const L0 = st.lesson;
     const whenOf = (l) => M.whenLabel(l.date);
     let plaque;
     if (st.mode === 'now') {
       const nx = st.next;
       plaque = {
-        live: true, badge: 'Сейчас идёт · ' + L0.n + ' пара', when: M.DAY_SHORT[L0.wd].toLowerCase() + ', ' + M.dayLabel(L0.date) + ' · ' + L0.time,
-        big: M.fmtTimer(st.left), bigSize: '66px', bigMono: true, bigNote: 'до конца пары', progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true,
-        subject: L0.subject, meta: [L0.teacher, fmtRoom(L0.room)].filter(Boolean).join(' · '),
-        foot: nx ? 'Далее ' + nx.n + ' пара в ' + nx.start + (nx.room && nx.room === L0.room ? ' · там же' : (nx.room ? ' · ' + fmtRoom(nx.room) : '')) : 'Это последняя пара сегодня'
+        live: true, badge: 'Сейчас идёт · ' + L0.label, when: M.DAY_SHORT[L0.wd].toLowerCase() + ', ' + M.dayLabel(L0.date) + ' · ' + L0.time,
+        big: M.fmtTimer(st.left), bigSize: '66px', bigMono: true, bigNote: 'до конца', progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true,
+        subject: L0.subject, meta: statusLine(L0),
+        foot: nx ? 'Далее ' + nx.label + ' в ' + nx.start + (nx.place === L0.place ? ' · там же' : ' · ' + nx.place) : 'Это последняя пара сегодня'
       };
     } else if (st.mode === 'break' || st.mode === 'before') {
       plaque = {
         live: true, badge: st.mode === 'break' ? 'Перемена' : 'Скоро занятия', when: 'сегодня · ' + L0.time,
-        big: M.fmtTimer(st.left), bigSize: '66px', bigMono: true, bigNote: 'до начала ' + L0.n + ' пары', progress: '0', hasProgress: false,
-        subject: L0.subject, meta: [L0.teacher, fmtRoom(L0.room)].filter(Boolean).join(' · '), foot: 'Начало в ' + L0.start
+        big: M.fmtTimer(st.left), bigSize: '66px', bigMono: true, bigNote: 'до начала: ' + L0.label.toLowerCase(), progress: '0', hasProgress: false,
+        subject: L0.subject, meta: statusLine(L0), foot: 'Начало в ' + L0.start
       };
     } else if (L0) {
       plaque = {
         live: false, badge: st.mode === 'after' ? 'На сегодня пары закончились' : (clk.wd === 6 ? 'Сегодня выходной' : 'Сегодня пар нет'),
-        when: 'Следующая пара', big: cap(whenOf(L0)), bigSize: '44px', bigMono: false, bigNote: L0.n + ' пара · ' + L0.time, progress: '0', hasProgress: false,
-        subject: L0.subject, meta: [L0.teacher, fmtRoom(L0.room)].filter(Boolean).join(' · '), foot: ''
+        when: 'Следующее занятие', big: cap(whenOf(L0)) + ', ' + L0.start, bigSize: '40px', bigMono: false, bigNote: L0.label, progress: '0', hasProgress: false,
+        subject: L0.subject, meta: statusLine(L0), foot: ''
       };
     } else {
       plaque = {
-        live: false, badge: 'Пар не найдено', when: '', big: '—', bigSize: '44px', bigMono: false, bigNote: 'Ближайшее расписание группы ещё не опубликовано',
+        live: false, badge: 'Пар не найдено', when: '', big: '—', bigSize: '40px', bigMono: false, bigNote: 'Ближайшее расписание группы ещё не опубликовано',
         progress: '0', hasProgress: false, subject: '', meta: '', foot: ''
       };
     }
@@ -602,27 +711,27 @@ class Component extends DCLogic {
     plaque.bigFont = plaque.bigMono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif";
 
     let pill;
-    if (st.mode === 'now') pill = { text: group + ' · ' + L0.n + ' пара' + (L0.room ? ' · ' + fmtRoom(L0.room) : ''), timer: M.fmtTimer(st.left), live: true };
-    else if (st.mode === 'break' || st.mode === 'before') pill = { text: group + ' · до ' + L0.n + ' пары', timer: M.fmtTimer(st.left), live: true };
-    else if (L0) pill = { text: group + ' · следующая пара ' + whenOf(L0) + ' в ' + L0.start, timer: '', live: false };
+    if (st.mode === 'now') pill = { text: group + ' · ' + L0.label + ' · ' + L0.place, timer: M.fmtTimer(st.left), live: true };
+    else if (st.mode === 'break' || st.mode === 'before') pill = { text: group + ' · до начала: ' + L0.label.toLowerCase(), timer: M.fmtTimer(st.left), live: true };
+    else if (L0) pill = { text: group + ' · ' + whenOf(L0) + ' к ' + L0.start, timer: '', live: false };
     else pill = { text: group + ' · пар не найдено', timer: '', live: false };
     pill.dot = pill.live ? '#FF8A3D' : '#5B6270';
     pill.anim = pill.live ? 'kPulse 1.8s ease-out infinite' : 'none';
     pill.hasTimer = !!pill.timer;
 
     /* ---------- неделя группы ---------- */
-    const wk = M.week('g', gi, wi.monday);
+    const wk = hasGroup ? M.week('g', gi, wi.monday) : [];
     let pairsCount = 0, studyDays = 0;
     const lessonView = (l, today) => {
       const now = today && nowOf(st, l);
       const meta = [l.subLabel, l.type === 'Практика' ? 'практика' : ''].filter(Boolean).join(' · ');
       return {
-        n: l.n, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject,
-        teacher: l.teacher, hasTeacher: !!l.teacher, room: fmtRoom(l.room), hasRoom: !!l.room, meta: meta, hasMeta: !!meta,
+        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject,
+        teacher: l.teacher, hasTeacher: !!l.teacher, room: l.place, hasRoom: !l.remote, remote: l.remote, meta: meta, hasMeta: !!meta,
         now: now, nowLabel: 'Идёт · осталось ' + Math.ceil(st.left / 60) + ' мин',
-        bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : '#F1F3F6', numFg: now ? '#FFFFFF' : '#15171C',
-        openTeacher: set({ tab: 'teachers', teacher: l.teachers[0] || tKey, tl: '' }),
-        openRoom: set({ tab: 'rooms', room: l.rooms[0] || rKey })
+        bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'),
+        openTeacher: go({ tab: 'teachers', teacher: l.teachers[0] || '', tl: '' }),
+        openRoom: go({ tab: 'rooms', room: l.rooms[0] || '' })
       };
     };
     const days = wk.filter((d) => d.wd < 6 || d.lessons.length).map((d, i) => {
@@ -641,6 +750,10 @@ class Component extends DCLogic {
         headBg: today ? accentSoft : '#FFFFFF', delay: delay(i), lessons: lessons
       };
     });
+    const lastChange = M.changes()[0];
+    const changed = lastChange && lastChange.groups.indexOf(group) >= 0
+      ? { has: true, text: 'Расписание изменено ' + M.dayLabel(lastChange.updated.slice(0, 10)) + ', ' + lastChange.updated.slice(11, 16) }
+      : { has: false, text: '' };
 
     const I = {
       cal: 'M3 7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM16 2v4M8 2v4M3 10h18',
@@ -658,10 +771,10 @@ class Component extends DCLogic {
     const tabDefs = [['schedule', 'Расписание', I.cal], ['groups', 'Группы', I.users], ['teachers', 'Преподаватели', I.user], ['rooms', 'Аудитории', I.door], ['bells', 'Звонки', I.bell], ['results', 'Итоги', I.chart]];
     const tabs = tabDefs.map((x) => {
       const on = x[0] === tab;
-      return { label: x[1], d: x[2], current: on ? 'page' : 'false', bg: on ? accentSoft : 'transparent', fg: on ? accent : '#3A404C', weight: on ? 700 : 500, pick: set({ tab: x[0], menu: false }) };
+      return { label: x[1], d: x[2], current: on ? 'page' : 'false', bg: on ? accentSoft : 'transparent', fg: on ? accent : '#3A404C', weight: on ? 700 : 500, pick: go({ tab: x[0] }) };
     });
 
-    /* ---------- группы ---------- */
+    /* ---------- группы: семейства по буквам ---------- */
     const prefixOf = (g) => { const mm = /^[^\d]+/.exec(g); return mm ? mm[0] : g; };
     const fams = {}, famOrder = [];
     GL.forEach((g) => {
@@ -675,23 +788,21 @@ class Component extends DCLogic {
       const on = c.k === gpre;
       return { label: c.label, count: c.count, pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ gpre: c.k }) };
     });
+    const groupMeta = (g) => {
+      const gs = M.status('g', g.i);
+      if (gs.mode === 'now') return 'Сейчас ' + gs.lesson.label.toLowerCase() + ' · ' + gs.lesson.place;
+      if (CURATORS[g.name]) return 'Куратор ' + CURATORS[g.name].split(' ')[0] + ' ' + CURATORS[g.name].split(' ').slice(1).map((x) => x.charAt(0) + '.').join(' ');
+      const cnt = M.week('g', g.i, wi.monday).reduce((a, d) => a + d.lessons.length, 0);
+      return cnt ? pairs(cnt) + ' за неделю' : 'Нет пар за неделю';
+    };
     let gCount = 0, shownGroups = 0;
     const groupSections = tab !== 'groups' ? [] : famOrder.filter((k) => !gpre || k === gpre).map((k) => {
       const items = fams[k].items.filter((g) => !gq || g.name.toLowerCase().indexOf(gq) >= 0).map((g) => {
         const on = g.name === group;
-        const gs = M.status('g', g.i);
-        let meta;
-        if (gs.mode === 'now') meta = 'Сейчас ' + gs.lesson.n + ' пара' + (gs.lesson.room ? ' · ' + fmtRoom(gs.lesson.room) : '');
-        else if (CURATORS[g.name]) meta = 'Куратор ' + CURATORS[g.name].split(' ').slice(0, 1).join('') + ' ' + CURATORS[g.name].split(' ').slice(1).map((x) => x.charAt(0) + '.').join(' ');
-        else {
-          const cnt = M.week('g', g.i, wi.monday).reduce((a, d) => a + d.lessons.length, 0);
-          meta = cnt ? pairs(cnt) + ' за неделю' : 'Нет пар за неделю';
-        }
         const it = {
-          code: g.name, meta: meta, live: gs.mode === 'now',
-          isFav: favs.indexOf(g.name) >= 0, star: accent,
+          code: g.name, meta: groupMeta(g), isFav: favs.indexOf(g.name) >= 0, star: accent,
           border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
-          pick: set({ group: g.name, tab: 'schedule', w: 0 }), delay: delay(gCount)
+          pick: go({ group: g.name, tab: 'schedule', w: 0 }), delay: delay(gCount)
         };
         gCount += 1;
         return it;
@@ -699,6 +810,41 @@ class Component extends DCLogic {
       shownGroups += items.length;
       return { title: famLabel(k), count: items.length + ' ' + pl(items.length, 'группа', 'группы', 'групп'), items: items };
     }).filter((sec) => sec.items.length > 0);
+
+    /* ---------- выпадающий список групп ---------- */
+    const dq = (s.dq || '').trim().toLowerCase();
+    const dropSections = !dropOpen ? [] : famOrder.map((k) => ({
+      title: famLabel(k),
+      items: fams[k].items.filter((g) => !dq || g.name.toLowerCase().indexOf(dq) >= 0).map((g) => {
+        const on = g.name === group;
+        return { code: g.name, bg: on ? accent : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? accent : '#DCE0E6', pick: go({ group: g.name, tab: tab === 'results' ? 'results' : 'schedule', w: 0 }) };
+      })
+    })).filter((sec) => sec.items.length > 0);
+
+    /* ---------- титульная страница: выбор ---------- */
+    const ck = s.ck || 'g';
+    const cq = (s.cq || '').trim().toLowerCase();
+    const chooserTabs = [['g', 'Группа'], ['t', 'Преподаватель'], ['r', 'Аудитория']].map((x) => {
+      const on = x[0] === ck;
+      return { label: x[1], selected: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'rgba(255,255,255,0.08)', fg: on ? '#15171C' : '#FFFFFF', pick: set({ ck: x[0], cq: '' }) };
+    });
+    const isChooser = tab === 'schedule' && !hasGroup;
+    let chooserItems = [];
+    if (isChooser) {
+      if (ck === 'g') chooserItems = GL.filter((g) => !cq || g.name.toLowerCase().indexOf(cq) >= 0).map((g, i) => ({ title: g.name, sub: groupMeta(g), pick: go({ group: g.name, tab: 'schedule', w: 0 }), delay: delay(i) }));
+      else if (ck === 't') chooserItems = TL.filter((t) => !cq || t.name.toLowerCase().indexOf(cq) >= 0).map((t, i) => {
+        const ts = M.status('t', t.i);
+        return { title: t.name, sub: ts.mode === 'now' ? 'Сейчас на паре · ' + ts.lesson.group : (M.teacherLoad(t.i).subjects[0] || 'Преподаватель'), pick: go({ tab: 'teachers', teacher: t.name }), delay: delay(i) };
+      });
+      else chooserItems = RL.filter((r) => !cq || r.name.toLowerCase().indexOf(cq) >= 0).map((r, i) => {
+        const rs = M.status('r', r.i);
+        return { title: r.name, sub: rs.mode === 'now' ? 'Занята · ' + rs.lesson.group : 'Свободна', pick: go({ tab: 'rooms', room: r.name }), delay: delay(i) };
+      });
+    }
+    const recent = M.recent().map((x) => ({
+      label: x.kind === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name,
+      pick: x.kind === 'g' ? go({ group: x.name, tab: 'schedule', w: 0 }) : (x.kind === 't' ? go({ tab: 'teachers', teacher: x.name }) : go({ tab: 'rooms', room: x.name }))
+    }));
 
     /* ---------- неделя преподавателя и аудитории ---------- */
     const weekOf = (kind, idx, infoFn) => {
@@ -708,7 +854,7 @@ class Component extends DCLogic {
         const today = d.iso === clk.iso;
         const ps = d.lessons.map((l) => {
           const now = today && nowOf(stx, l);
-          return { n: l.n, time: l.time, info: infoFn(l), fg: now ? '#9A4410' : '#15171C' };
+          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C' };
         });
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });
@@ -726,14 +872,13 @@ class Component extends DCLogic {
     const teacherList = tab !== 'teachers' ? [] : TL.filter((t) => (!tl || t.name.charAt(0) === tl) && (!tq || t.name.toLowerCase().indexOf(tq) >= 0)).map((t) => {
       const on = t.name === tKey;
       const ts = M.status('t', t.i);
-      const ld = M.teacherLoad(t.i);
       const busy = ts.mode === 'now';
-      const sub = busy ? 'Сейчас на паре · ' + ts.lesson.group + (ts.lesson.room ? ' · ' + fmtRoom(ts.lesson.room) : '') : ld.subjects.slice(0, 2).join(', ');
+      const sub = busy ? 'Сейчас на паре · ' + ts.lesson.group + ' · ' + ts.lesson.place : (M.teacherLoad(t.i).subjects.slice(0, 2).join(', ') || 'Преподаватель');
       const it = {
-        name: t.name, ini: iniOf(t.name), sub: sub, hasSub: !!sub, busy: busy,
+        name: t.name, ini: iniOf(t.name), sub: sub, hasSub: true, busy: busy,
         avBg: on ? accent : accentSoft, avFg: on ? '#FFFFFF' : accent,
         border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
-        pick: set({ teacher: t.name }), delay: delay(tCount)
+        pick: go({ teacher: t.name, tab: 'teachers' }), delay: delay(tCount)
       };
       tCount += 1;
       return it;
@@ -742,13 +887,14 @@ class Component extends DCLogic {
     const tLoad = M.teacherLoad(ti);
     const tCnt = ti >= 0 ? countWeek('t', ti) : 0;
     const selT = {
-      full: info ? info[0] : tKey, ini: iniOf(tKey),
-      posText: info ? info[1] : 'Должность на kitis.ru не указана',
+      has: ti >= 0, none: ti < 0,
+      full: info ? info[0] : tKey, ini: iniOf(tKey || 'П П'),
+      posText: info ? info[1] : 'Преподаватель',
       prog: info ? info[2] : '', hasProg: !!(info && info[2]),
       groups: tLoad.groups.length ? 'Группы: ' + tLoad.groups.join(', ') : '', hasGroups: tLoad.groups.length > 0,
-      count: tCnt ? pairs(tCnt) + ' на неделе' : 'На этой неделе пар нет',
+      count: tCnt ? pairs(tCnt) + ' на неделе' : 'на этой неделе пар нет',
       hasWeek: wi.hasData, noWeek: !wi.hasData,
-      days: tab === 'teachers' && ti >= 0 ? weekOf('t', ti, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + ' · ' + (l.room ? fmtRoom(l.room) : 'ауд. не указана')) : []
+      days: tab === 'teachers' && ti >= 0 ? weekOf('t', ti, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + ' · ' + l.place) : []
     };
 
     const roomSecs = {}, roomOrder = [];
@@ -765,7 +911,7 @@ class Component extends DCLogic {
           title: r.name, status: busy ? 'Занята · ' + rs.lesson.group : (cnt ? pairs(cnt) + ' за неделю' : 'Свободна всю неделю'),
           dot: busy ? '#E06A1B' : (cnt ? accent : '#C9CED6'), fg: busy ? '#9A4410' : '#5B6270',
           border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
-          pick: set({ room: r.name }), delay: delay(rCount)
+          pick: go({ room: r.name, tab: 'rooms' }), delay: delay(rCount)
         };
         rCount += 1;
         return it;
@@ -776,9 +922,10 @@ class Component extends DCLogic {
     const rBusy = rs0.mode === 'now';
     const rCnt = ri >= 0 ? countWeek('r', ri) : 0;
     const selR = {
+      has: ri >= 0, none: ri < 0,
       title: roomTitle(rKey),
-      status: rBusy ? 'Сейчас занята · ' + rs0.lesson.n + ' пара · ' + rs0.lesson.group : 'Сейчас свободна',
-      count: rCnt ? pairs(rCnt) + ' на неделе' : 'На этой неделе пар нет',
+      status: rBusy ? 'Сейчас занята · ' + rs0.lesson.label.toLowerCase() + ' · ' + rs0.lesson.group : 'Сейчас свободна',
+      count: rCnt ? pairs(rCnt) + ' на неделе' : 'на этой неделе пар нет',
       chipBg: rBusy ? '#FFE6D3' : '#F1F3F6', chipFg: rBusy ? '#9A4410' : '#3A404C',
       hasWeek: wi.hasData, noWeek: !wi.hasData,
       days: tab === 'rooms' && ri >= 0 ? weekOf('r', ri, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + (l.teacher ? ' · ' + l.teacher : '')) : []
@@ -810,7 +957,7 @@ class Component extends DCLogic {
     const monNow = (i) => bellWd === 0 && bellNow === i;
     const monRows = [
       eventRow('Подъём флага', '08:15 – 08:25'), breakRow('перемена 5 мин'),
-      eventRow('Кураторский час', '08:30 – 09:00'), breakRow('перемена 10 мин'),
+      eventRow('Кураторский час · «Разговоры о важном»', '08:30 – 09:00'), breakRow('перемена 10 мин'),
       pairRow(0, monTimes[0], monNow(0)), breakRow('перемена 10 мин'),
       pairRow(1, monTimes[1], monNow(1)), breakRow('перемена 20 мин'),
       pairRow(2, monTimes[2], monNow(2)), breakRow('перемена 10 мин'),
@@ -842,41 +989,41 @@ class Component extends DCLogic {
     const bySubj = countBy((l) => l.subject);
     const byTeacher = countBy((l) => l.teacher);
     const byDay = wk.filter((d) => d.wd < 6 || d.lessons.length).map((d) => [d.name + ', ' + d.num, d.lessons.length]);
-    const maxDay = Math.max(1, Math.max.apply(null, byDay.map((x) => x[1])));
+    const maxDay = Math.max(1, Math.max.apply(null, byDay.map((x) => x[1]).concat([0])));
     const hasStats = flat.length > 0;
     const charts = [
-      { title: 'По дисциплинам', rows: toRows(bySubj) },
-      { title: 'По преподавателям', rows: toRows(byTeacher) },
-      { title: 'По дням', rows: byDay.map((x, i) => ({ label: x[0], valueLabel: pairs(x[1]), pct: Math.round(x[1] / maxDay * 100), delay: delay(i) })) }
-    ];
+      { title: 'По дням', rows: byDay.map((x, i) => ({ label: x[0], valueLabel: pairs(x[1]), pct: Math.round(x[1] / maxDay * 100), delay: delay(i) })) },
+      { title: 'По преподавателям', rows: toRows(byTeacher) }
+    ].concat(isTeacherView ? [{ title: 'По дисциплинам', rows: toRows(bySubj) }] : []);
     const stats = [
       [flat.length, pl(flat.length, 'пара на неделе', 'пары на неделе', 'пар на неделе'), accent],
+      [flat.length * 2, 'часа занятий', '#15171C'],
       [studyDays, pl(studyDays, 'учебный день', 'учебных дня', 'учебных дней'), '#15171C'],
-      [bySubj.length, pl(bySubj.length, 'дисциплина', 'дисциплины', 'дисциплин'), '#15171C'],
       [byTeacher.length, pl(byTeacher.length, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
 
-    const loadRaw = M.load(gi);
+    const loadRaw = hasGroup ? M.load(gi) : [];
     const sumOf = (k) => loadRaw.reduce((a, x) => a + (x[k] || 0), 0);
     const hTotal = sumOf('total'), hFact = sumOf('fact'), hPlan = sumOf('plan');
     const fmtD = (iso) => iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.' + iso.slice(0, 4) : '—';
     const loadRows = loadRaw.slice().sort((a, c) => a.subject.localeCompare(c.subject, 'ru') || a.sub - c.sub).map((x, i) => {
       const pct = x.total ? Math.min(100, Math.round(x.fact / x.total * 100)) : 0;
       const planPct = x.total ? Math.min(100, Math.round(x.plan / x.total * 100)) : 0;
-      const behind = x.plan != null && x.fact != null && x.fact < x.plan;
+      const behind = isTeacherView && x.fact < x.plan;
       return {
         subject: x.subject, meta: [x.teacher, x.type, x.sub ? x.sub + ' подгр.' : ''].filter(Boolean).join(' · '),
-        nums: 'Проведено ' + x.fact + ' из ' + x.total + ' ч · по плану к этой дате ' + x.plan + ' ч · осталось ' + x.rest + ' ч',
-        end: 'до ' + fmtD(x.end), pct: pct, pctLabel: (x.pct != null ? x.pct : pct) + '%', planPct: planPct,
+        nums: isTeacherView ? 'Проведено ' + x.fact + ' из ' + x.total + ' ч · по плану к этой дате ' + x.plan + ' ч · осталось ' + x.rest + ' ч'
+          : 'Проведено ' + x.fact + ' из ' + x.total + ' ч · осталось ' + x.rest + ' ч',
+        end: 'до ' + fmtD(x.end), pct: pct, pctLabel: pct + '%', planPct: planPct, showPlan: isTeacherView,
         bar: behind ? '#E06A1B' : accent, chipBg: behind ? '#FFE6D3' : accentSoft, chipFg: behind ? '#9A4410' : accent,
         state: behind ? 'Отстаёт от плана на ' + (x.plan - x.fact) + ' ч' : 'По плану', delay: delay(i)
       };
     });
     const loadStats = [
-      [hTotal + ' ч', 'всего по плану на семестр', '#15171C'],
-      [hFact + ' ч', 'проведено по журналу', accent],
-      [Math.max(0, hTotal - hFact) + ' ч', 'осталось провести', '#15171C'],
-      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', 'выполнение нагрузки', hFact < hPlan ? '#9A4410' : '#15171C']
+      [hTotal + ' ч', 'всего за семестр', '#15171C'],
+      [hFact + ' ч', 'проведено', accent],
+      [Math.max(0, hTotal - hFact) + ' ч', 'осталось', '#15171C'],
+      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', 'пройдено', isTeacherView && hFact < hPlan ? '#9A4410' : '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
 
     /* ---------- меню ---------- */
@@ -887,7 +1034,7 @@ class Component extends DCLogic {
         ['Абитуриентам', 'Специальности, приём, документы', 'abitur.html', I.plus],
         ['Студентам', 'Кабинет студента, справки, дистант', 'student.html', I.cap],
         ['Преподавателям', 'Кабинет преподавателя, материалы', 'teacher.html', I.board],
-        ['Вход и регистрация', 'Одна учётная запись для всех', 'login.html', I.key]
+        me ? ['Мой профиль', me.fullName, 'profile.html', I.key] : ['Вход и регистрация', 'Сайт запомнит вашу группу', 'login.html', I.key]
       ] },
       { title: 'О колледже', icons: false, items: [
         ['История', '', 'https://kitis.ru/life/history/'], ['Медиацентр', '', K], ['Выпускникам и Центр карьеры', '', K],
@@ -910,17 +1057,27 @@ class Component extends DCLogic {
     const canPrev = w > wMin, canNext = w < wMax;
     return {
       accent: accent, accentSoft: accentSoft, plaque: plaque, pill: pill,
-      tabs: tabs, group: group, hasData: true,
+      acct: me ? { href: 'profile.html', hasPhoto: !!me.photo, photo: me.photo || '', hasInitials: !me.photo, initials: me.initials, label: me.shortName, padL: '6px' }
+        : { href: 'login.html', hasPhoto: false, photo: '', hasInitials: false, initials: '', label: 'Войти', padL: '16px' },
+      tabs: tabs, group: group, hasGroup: hasGroup, noGroup: !hasGroup, groupLabel: group || 'выбрать',
       groupsTotal: GL.length, teachersTotal: TL.length, roomsTotal: RL.length,
       ctxLine: (upd ? 'Данные сервера на ' + upd + ' · ' : '') + GL.length + ' групп · ' + TL.length + ' преподавателей · ' + RL.length + ' аудиторий',
-      updLine: upd ? 'Данные обновлены на сервере ' + upd : 'Данные не загружены',
-      isSchedule: tab === 'schedule', isGroups: tab === 'groups', isTeachers: tab === 'teachers',
-      isRooms: tab === 'rooms', isBells: tab === 'bells', isResults: tab === 'results',
+      updLine: upd ? 'данные на ' + upd : 'данные не загружены',
+      isSchedule: tab === 'schedule' && hasGroup, isChooser: isChooser, isGroups: tab === 'groups', isTeachers: tab === 'teachers',
+      isRooms: tab === 'rooms', isBells: tab === 'bells', isResults: tab === 'results' && hasGroup, isResultsNoGroup: tab === 'results' && !hasGroup,
+      chooserTabs: chooserTabs, cq: s.cq || '', chooserItems: chooserItems, chooserEmpty: isChooser && chooserItems.length === 0,
+      chooserPh: ck === 'g' ? 'Группа, например ИСр24-1' : (ck === 't' ? 'Фамилия преподавателя' : 'Номер аудитории, например 403'),
+      chooserListTitle: (ck === 'g' ? 'Группы' : (ck === 't' ? 'Преподаватели' : 'Аудитории')) + ' · ' + chooserItems.length,
+      chooserMin: ck === 't' ? '220px' : '150px',
+      chooserSub: (upd ? 'Данные сервера колледжа на ' + upd + '. ' : '') + 'Выберите группу, преподавателя или аудиторию — сайт покажет неделю и сколько осталось до конца пары.',
+      recent: recent, hasRecent: recent.length > 0,
+      onCq: (e) => this.setState({ cq: e && e.target ? e.target.value : '' }),
       curatorLine: CURATORS[group] ? 'Куратор — ' + CURATORS[group] : 'Расписание группы с сервера колледжа',
       favPressed: fav ? 'true' : 'false', favLabel: fav ? 'В избранном' : 'В избранное', favFill: fav ? 'currentColor' : 'none',
       favBg: fav ? accentSoft : '#FFFFFF', favFg: fav ? accent : '#15171C', favBorder: fav ? 'transparent' : '#DCE0E6',
       pairsLabel: pairsCount ? pairs(pairsCount) + ' на неделе' : 'Пар на неделе нет',
       daysLabel: studyDays + ' ' + pl(studyDays, 'учебный день', 'учебных дня', 'учебных дней'),
+      changed: changed,
       sourceLabel: wi.sourceLabel,
       weekLabel: wi.label, weekShort: wi.shortLabel, weekSub: wi.sub + ' · ' + wi.sourceNote, notCurrent: w !== 0, days: days,
       nextBadge: w === 0 && b.nextPublished, prevNav: navBtn(canPrev), nextNav: navBtn(canNext),
@@ -931,11 +1088,15 @@ class Component extends DCLogic {
       progress: plaque.progress,
       hasStats: hasStats, noStats: !hasStats, stats: stats, charts: charts,
       hasLoad: loadRows.length > 0, noLoad: loadRows.length === 0, loadRows: loadRows, loadStats: loadStats,
+      loadNote: isTeacherView ? 'Полоса — проведено от всего объёма, чёрная черта — сколько должно быть проведено по плану к этой дате. Видно только преподавателям.' : 'Полоса — сколько часов уже проведено из всего объёма. Одна пара — 2 часа.',
       menu: menu, menuOpen: menuOpen, menuExpanded: menuOpen ? 'true' : 'false',
+      dropOpen: dropOpen, dropExpanded: dropOpen ? 'true' : 'false', dropBorder: dropOpen ? accent : '#DCE0E6', dropEmpty: dropOpen && dropSections.length === 0, dropRot: dropOpen ? '180' : '0', dropSections: dropSections, dq: s.dq || '',
+      toggleDrop: set({ drop: !dropOpen, dq: '' }), closeDrop: set({ drop: false }),
+      onDq: (e) => this.setState({ dq: e && e.target ? e.target.value : '' }),
       openMenu: set({ menu: true }), closeMenu: set({ menu: false }),
-      goGroups: set({ tab: 'groups' }), goBells: set({ tab: 'bells' }), goResults: set({ tab: 'results' }),
-      goToday: set({ tab: 'schedule', w: 0 }),
-      prev: set({ w: canPrev ? w - 1 : w }), next: set({ w: canNext ? w + 1 : w }),
+      goGroups: go({ tab: 'groups' }), goBells: go({ tab: 'bells' }), goResults: go({ tab: 'results' }),
+      goToday: go({ tab: 'schedule', w: 0 }), clearGroup: go({ group: null, tab: 'schedule', w: 0 }),
+      prev: go({ w: canPrev ? w - 1 : w }), next: go({ w: canNext ? w + 1 : w }),
       toggleFav: set({ favs: fav ? favs.filter((x) => x !== group) : favs.concat([group]) }),
       onGq: (e) => this.setState({ gq: e && e.target ? e.target.value : '' }),
       onTq: (e) => this.setState({ tq: e && e.target ? e.target.value : '' })

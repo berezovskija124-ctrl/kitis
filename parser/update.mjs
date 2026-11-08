@@ -47,17 +47,26 @@ if (!data.groups.length || !data.lessons.length) {
   process.exit(1);
 }
 
-// Если на сервере ничего не поменялось, файл не трогаем (чтобы не было лишних коммитов)
+// Прошлая выгрузка: по ней видно, у каких групп поменялась «Неделя»
+let old = null;
 if (existsSync(OUT)) {
-  const prev = readFileSync(OUT, 'utf8');
-  const m = /window\.KITIS_DATA = (\{[\s\S]*\});\s*$/.exec(prev);
-  if (m) {
-    const old = JSON.parse(m[1]);
-    const same = JSON.stringify({ ...old, fetched: '' }) === JSON.stringify({ ...data, fetched: '' });
-    if (same) {
-      console.log('Изменений нет — файл оставлен как есть.');
-      process.exit(0);
-    }
+  const m = /window\.KITIS_DATA = (\{[\s\S]*\});\s*$/.exec(readFileSync(OUT, 'utf8'));
+  if (m) old = JSON.parse(m[1]);
+}
+let changes = (old && old.changes) || [];
+const changed = KitisParser.changedGroups(old, data);
+if (changed && changed.length) {
+  changes = [{ updated: data.updated, fetched: data.fetched, week: data.scheduleWeek, groups: changed }, ...changes];
+  console.log('Изменилось расписание групп:', changed.join(', '));
+}
+data.changes = changes.filter((c) => c.week === data.scheduleWeek).slice(0, 10);
+
+// Если на сервере ничего не поменялось, файл не трогаем (чтобы не было лишних коммитов)
+if (old) {
+  const strip = (d) => JSON.stringify({ ...d, fetched: '' });
+  if (strip(old) === strip(data)) {
+    console.log('Изменений нет — файл оставлен как есть.');
+    process.exit(0);
   }
 }
 

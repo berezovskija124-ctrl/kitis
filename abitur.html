@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>КИТиС · Абитуриентам</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Абитуриентам.">
 <style>
 x-dc{display:none}
@@ -20,11 +20,13 @@ html[data-fit=phone] #app{padding:34px 16px}
 html.phone-full #app{padding:0}
 html.phone-full #app>div{width:100vw!important;height:calc(100dvh - var(--kb-h,0px))!important;border-radius:0!important;box-shadow:none!important}
 html.phone-full body{background:#F4F5F7}
+body{padding-bottom:env(safe-area-inset-bottom,0px)}
+html.phone-full body{padding-bottom:0}
 @media (max-width:520px){.kb .kb-x{display:none}}
 </style>
 </head>
 <body>
-<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="index.html">Все экраны</a></div>
+<div class="kb" role="note"><span>Учебный проект · не официальный сайт КИТиС</span><span class="kb-x">Данные: kitis.ru и 94.72.18.202:8083</span><a href="about.html">О проекте</a></div>
 <div id="app"></div>
 <x-dc>
 <helmet>

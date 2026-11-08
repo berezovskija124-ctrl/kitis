@@ -351,9 +351,42 @@
     };
   }
 
+  /* ---------- что изменилось в «Неделе» между двумя выгрузками ---------- */
+
+  function weekKeys(d) {
+    var out = {};
+    if (!d || !d.lessons) return out;
+    var baseMs = Date.parse(d.base + 'T12:00:00Z');
+    var list = function (v, names) {
+      var a = v == null || v === -1 ? [] : (Array.isArray(v) ? v : [v]);
+      return a.map(function (i) { return names[i] || ''; }).sort().join(',');
+    };
+    d.lessons.forEach(function (r) {
+      if (!(r[8] >= 1)) return; // только расписание со страницы «Неделя»
+      var date = new Date(baseMs + r[0] * 86400000).toISOString().slice(0, 10);
+      var g = d.groups[r[2]];
+      (out[g] || (out[g] = [])).push([date, r[1], r[3], d.subjects[r[4]], list(r[5], d.teachers), list(r[6], d.rooms)].join('|'));
+    });
+    return out;
+  }
+
+  // Группы, у которых поменялись пары на той же опубликованной неделе. null — неделя другая, сравнивать нечего.
+  function changedGroups(prev, next) {
+    if (!prev || !next || !prev.scheduleWeek || prev.scheduleWeek !== next.scheduleWeek) return null;
+    var a = weekKeys(prev), b = weekKeys(next);
+    var seen = {};
+    var out = [];
+    (next.groups || []).concat(Object.keys(a)).forEach(function (g) {
+      if (seen[g]) return;
+      seen[g] = 1;
+      if ((a[g] || []).slice().sort().join('\n') !== (b[g] || []).slice().sort().join('\n')) out.push(g);
+    });
+    return out;
+  }
+
   var api = {
     text: text, parseList: parseList, parseLoad: parseLoad, parseJournal: parseJournal, parseWeek: parseWeek,
-    parseUpdated: parseUpdated, scrape: scrape, build: build, mondayOf: mondayOf
+    parseUpdated: parseUpdated, scrape: scrape, build: build, mondayOf: mondayOf, changedGroups: changedGroups
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.KitisParser = api;
