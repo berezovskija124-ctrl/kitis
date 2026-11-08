@@ -4,7 +4,9 @@
  *
  *   cg.htm / cp.htm / ca.htm  — списки групп, преподавателей, аудиторий
  *   cgN.htm                   — «Неделя»: текущее расписание группы
- *   vg.htm / vgN.htm          — «Итоги»: выполнение нагрузки группы
+ *   vgN.htm / vpN.htm / vaN.htm — «Итоги»: выполнение нагрузки группы, преподавателя, аудитории
+ *                               (одна и та же таблица: № · преподаватель · группа · п/г · дисциплина · тип ·
+ *                               всего · план · факт · остаток · план в 1 нед. · факт в 1 нед. · окончание · %)
  *   jN.htm                    — «Журнал занятий»: каждая строка — одна проведённая пара
  *
  * Прошлые недели собираются из журналов, неделя со страницы «Неделя» — из расписания групп.
@@ -92,7 +94,7 @@
     return m ? text(m[1]) : '';
   }
 
-  // «Итоги»: выполнение нагрузки группы
+  // «Итоги»: выполнение нагрузки (страницы групп, преподавателей и аудиторий устроены одинаково)
   function parseLoad(html) {
     var items = [];
     rows(html).forEach(function (r) {
@@ -218,6 +220,15 @@
       });
     }).then(function (perGroup) {
       state.perGroup = perGroup;
+      // «Итоги» преподавателей и аудиторий — те же таблицы, что показывает сервер
+      return pool(state.teachers, limit, function (t) { return fetchText('vp' + t.id + '.htm').then(parseLoad); });
+    }).then(function (perTeacher) {
+      state.perTeacher = perTeacher;
+      return pool(state.rooms, limit, function (r) { return fetchText('va' + r.id + '.htm').then(parseLoad); });
+    }).then(function (perRoom) {
+      state.perRoom = perRoom;
+      log('Итоги преподавателей и аудиторий получены');
+      var perGroup = state.perGroup;
       var jids = {};
       perGroup.forEach(function (pg) {
         pg.load.forEach(function (it) { if (it.j != null) jids[it.j] = 1; });
@@ -263,6 +274,9 @@
     var types = {};
     state.perGroup.forEach(function (pg) {
       pg.load.forEach(function (it) { if (it.j != null) types[it.j] = it.type; });
+    });
+    (state.perTeacher || []).concat(state.perRoom || []).forEach(function (rows) {
+      (rows || []).forEach(function (it) { if (it.j != null && !types[it.j]) types[it.j] = it.type; });
     });
 
     // неделя со страницы «Неделя»
@@ -328,8 +342,17 @@
       });
     });
 
+    // итоги преподавателей и аудиторий: строки как на сервере
+    // [преподаватель, группа, подгруппа, дисциплина, тип, всего, план, факт, остаток, план в 1 нед., факт в 1 нед., окончание, %, журнал]
+    var loadRow = function (it) {
+      return [T.get(it.teacher), G.get(it.group), it.sub, S.get(it.subject), K.get(it.type), it.total, it.plan, it.fact, it.rest,
+        it.planWeek, it.factWeek, it.end, it.pct, it.j];
+    };
+    var loadT = state.teachers.map(function (t, ti) { return ((state.perTeacher || [])[ti] || []).map(loadRow); });
+    var loadR = state.rooms.map(function (r, ri) { return ((state.perRoom || [])[ri] || []).map(loadRow); });
+
     return {
-      v: 1,
+      v: 2,
       source: 'http://94.72.18.202:8083',
       updated: state.updated,
       fetched: new Date().toISOString(),
@@ -347,7 +370,10 @@
       //  аудитория (-1 | число | массив), тип занятия, источник: 0 — журнал, 1 — «Неделя», 2 — «Неделя» с изменением]
       lessons: lessons,
       // по группам: [дисциплина, преподаватель, подгруппа, тип, всего, план, факт, остаток, план в нед., факт в нед., окончание, %, журнал]
-      load: load
+      load: load,
+      // по преподавателям и аудиториям (порядок — как teachers/rooms): строки страниц vpN.htm и vaN.htm
+      loadT: loadT,
+      loadR: loadR
     };
   }
 
