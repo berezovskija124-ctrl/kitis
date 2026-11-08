@@ -1031,9 +1031,16 @@ def main():
         prev_photos[k] = v
 
     home = get_page(PUBLIC + '/')
+    for wait in (20, 60, 120):
+        if home['soup'] is not None:
+            break
+        log('Сайт колледжа не ответил, пробую ещё раз через', wait, 'с')
+        time.sleep(wait)
+        pages.pop(PUBLIC + '/', None)
+        home = get_page(PUBLIC + '/')
     if home['soup'] is None:
+        # данные и прошлый отчёт остаются как были
         log('Сайт колледжа не открылся — данные не меняю.')
-        write_report()
         return 0
 
     sveden = discover_sveden()
