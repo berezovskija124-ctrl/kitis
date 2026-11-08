@@ -115,6 +115,8 @@ NEG = re.compile(r'(^|[\s_-])(header|footer|menu|nav|navbar|sidebar|breadcrumbs?
                  r'subscribe|copyright|bx-panel|pagination|pager|counter|metrika|bvi|visually|special-version|up-button|scroll-?top)([\s_-]|$)', re.I)
 JUNK = {'подробнее', 'читать далее', 'читать полностью', 'назад', 'вернуться назад', 'скачать', 'версия для печати', 'поделиться',
         'открыть', 'смотреть', '|', '•', '-', '—', 'далее', 'все новости', 'показать еще', 'показать ещё'}
+META_LINE = re.compile(r'^\(?\s*((размер|тип файла|формат|вес)\b.{0,30}|\d+([.,]\d+)?\s*(кб|мб|kb|mb|байт|bytes?))\s*\)?$', re.I)
+HASHY = re.compile(r'^[A-Za-z0-9_-]{16,}$')
 GENERIC_LINK = re.compile(r'^(скачать|открыть|смотреть|посмотреть|ссылка|здесь|тут|файл|документ|подробнее|перейти|по ссылке|читать)\b', re.I)
 MONTHS = {'январ': 1, 'феврал': 2, 'март': 3, 'апрел': 4, 'ма': 5, 'июн': 6, 'июл': 7, 'август': 8, 'сентябр': 9,
           'октябр': 10, 'ноябр': 11, 'декабр': 12}
@@ -387,11 +389,11 @@ def strip_page(soup, url):
             continue
         links = [a for a in el.find_all('a', href=True)]
         text = clean(el.get_text(' '))
-        if len(links) >= 3:
-            hrefs = [canon(a.get('href'), url) for a in links]
+        hrefs = [h for h in (canon(a.get('href'), url) for a in links) if h]   # «#» и javascript: — не в счёт
+        if len(hrefs) >= 3:
             # подразделы самой страницы — это её содержание, даже если они есть в меню сайта
-            nb = sum(1 for h in hrefs if not h or (boiler.is_link(h, seg) and not (path_of(h).startswith(own) and path_of(h) != own)))
-            if nb / len(links) >= 0.7:
+            nb = sum(1 for h in hrefs if boiler.is_link(h, seg) and not (path_of(h).startswith(own) and path_of(h) != own))
+            if nb / len(hrefs) >= 0.7:
                 link_text = sum(len(clean(a.get_text(' '))) for a in links)
                 if len(text) - link_text <= 40 + 0.25 * len(text):
                     el.decompose()
@@ -453,6 +455,16 @@ class Builder:
             return
         if is_doc(href):
             title = text if text and not GENERIC_LINK.match(text) and len(text) > 2 else (clean(ctx) or file_title(href))
+            weak = (not title or GENERIC_LINK.match(title) or HASHY.match(title.replace(' ', '')) or META_LINE.search(title)
+                    or re.search(r'\b(размер|тип файла)\b', title, re.I) or len(title) < 4)
+            if weak:
+                # название документа стоит заголовком над ссылкой «Скачать» (карточки документов kitis.ru)
+                for k in range(len(self.blocks) - 1, max(-1, len(self.blocks) - 4), -1):
+                    if self.blocks[k]['t'] == 'h':
+                        title = self.blocks[k]['text']
+                        if k == len(self.blocks) - 1:
+                            self.blocks.pop()
+                        break
             self.add({'t': 'docs', 'items': [[short(title, 300), href, ext_of(href).upper()]]})
             return
         if is_kitis_page(href):
@@ -490,7 +502,7 @@ class Builder:
         links = self.buf_links
         self.buf, self.buf_links = [], []
         lines = [clean(x) for x in raw.split('\n')]
-        lines = [x for x in lines if x and x.lower() not in JUNK]
+        lines = [x for x in lines if x and x.lower() not in JUNK and not META_LINE.match(x)]
         whole = ' '.join(lines)
         if len(links) == 1 and is_doc(links[0][0]) and len(whole) < 300:
             self.add_link(links[0][0], doc_title(whole, links[0][1]))
