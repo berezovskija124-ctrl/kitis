@@ -9,6 +9,7 @@ class Component extends DCLogic {
       const h = M.readHash();
       return {
         tab: h.tab || 'schedule', group: h.group || null, teacher: h.teacher || null, room: h.room || null,
+        rk: h.k === 't' || h.k === 'r' ? h.k : 'g',
         w: h.w ? (parseInt(h.w, 10) || 0) : 0, menu: false, drop: false
       };
     };
@@ -43,7 +44,9 @@ class Component extends DCLogic {
     const tab = s.tab || 'schedule';
     M.writeHash({
       tab: tab === 'schedule' ? '' : tab, group: s.group || '',
-      teacher: tab === 'teachers' ? (s.teacher || '') : '', room: tab === 'rooms' ? (s.room || '') : '', w: s.w ? String(s.w) : ''
+      teacher: tab === 'teachers' || (tab === 'results' && s.rk === 't') ? (s.teacher || '') : '',
+      room: tab === 'rooms' || (tab === 'results' && s.rk === 'r') ? (s.room || '') : '',
+      k: tab === 'results' && (s.rk === 't' || s.rk === 'r') ? s.rk : '', w: s.w ? String(s.w) : ''
     });
     try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { /* без прокрутки */ }
   }
@@ -455,33 +458,65 @@ class Component extends DCLogic {
       [byTeacher.length, pl(byTeacher.length, 'преподаватель', 'преподавателя', 'преподавателей'), '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
 
-    const loadRaw = hasGroup ? M.load(gi) : [];
-    const sumOf = (k) => loadRaw.reduce((a, x) => a + (x[k] || 0), 0);
-    const hTotal = sumOf('total'), hFact = sumOf('fact'), hPlan = sumOf('plan');
+    /* ---------- «Итоги»: те же строки и числа, что на страницах vgN / vpN / vaN сервера ---------- */
+    const KD = window.KITIS_DATA || {};
+    const rk = s.rk === 't' || s.rk === 'r' ? s.rk : 'g';
+    const TLs = M.teachersAll(), RLs = M.rooms();
+    let resIdx = -1, resName = '';
+    if (rk === 'g') { resIdx = hasGroup ? gi : -1; resName = group || ''; }
+    else if (rk === 't') {
+      const want = s.teacher || (me && me.role === 'teacher' && me.teacher) || '';
+      const f = TLs.filter((t) => t.name === want || t.raw === want)[0] || TLs[0];
+      resIdx = f ? f.i : -1; resName = f ? f.name : '';
+    } else {
+      const f = RLs.filter((r) => r.name === s.room)[0] || RLs[0];
+      resIdx = f ? f.i : -1; resName = f ? f.name : '';
+    }
+    const loadSrc = resIdx >= 0 ? M.loadOf(rk, resIdx) : [];
+    const loadMissing = loadSrc === null;
+    const loadRaw = loadSrc || [];
+    const fmtN = M.fmtNum;
     const fmtD = (iso) => iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.' + iso.slice(0, 4) : '—';
-    const P = M.pairsOf;
-    const pairsW = (n) => n + ' ' + pl(n, 'пара', 'пары', 'пар');
-    const pairsAcc = (n) => n + ' ' + pl(n, 'пару', 'пары', 'пар');
-    const pairsGen = (n) => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'пары' : 'пар');
-    const loadRows = loadRaw.slice().sort((a, c) => a.subject.localeCompare(c.subject, 'ru') || a.sub - c.sub).map((x, i) => {
-      const pct = x.total ? Math.min(100, Math.round(x.fact / x.total * 100)) : 0;
-      const planPct = x.total ? Math.min(100, Math.round(x.plan / x.total * 100)) : 0;
-      const behind = isTeacherView && x.fact < x.plan;
+    const loadHead = [['№ п.п', 'left'], ['Преподаватель', 'left'], ['Группа', 'left'], ['П/г', 'center'], ['Дисциплина', 'left'], ['Тип занятия', 'left'],
+      ['Всего, час.', 'right'], ['План, час.', 'right'], ['Факт, час.', 'right'], ['Остаток, час.', 'right'], ['План в 1 нед., час.', 'right'],
+      ['Факт в 1 нед., час.', 'right'], ['Окончание', 'left'], ['Процент выполнения, %', 'left']].map((x) => ({ l: x[0], align: x[1] }));
+    const loadRows = loadRaw.map((x, i) => {
+      const pct = x.pct != null ? x.pct : 0;
       return {
-        subject: x.subject, meta: [x.teacher, x.type, x.sub ? x.sub + ' подгр.' : ''].filter(Boolean).join(' · '),
-        nums: isTeacherView ? 'Проведено ' + P(x.fact) + ' из ' + pairsGen(P(x.total)) + ' · по плану к этой дате ' + pairsW(P(x.plan)) + ' · осталось ' + pairsW(P(x.rest))
-          : 'Проведено ' + P(x.fact) + ' из ' + pairsGen(P(x.total)) + ' · осталось ' + pairsW(P(x.rest)),
-        end: 'до ' + fmtD(x.end), pct: pct, pctLabel: pct + '%', planPct: planPct, showPlan: isTeacherView,
-        bar: behind ? '#E06A1B' : accent, chipBg: behind ? '#FFE6D3' : accentSoft, chipFg: behind ? '#9A4410' : accent,
-        state: behind ? 'Отстаёт от плана на ' + pairsAcc(P(x.plan) - P(x.fact)) : 'По плану', delay: delay(i)
+        n: x.n, teacher: x.teacherRaw || x.teacher, group: x.group, sub: String(x.sub), subject: x.subject, type: x.type,
+        total: fmtN(x.total), plan: fmtN(x.plan), fact: fmtN(x.fact), rest: fmtN(x.rest), planWeek: fmtN(x.planWeek), factWeek: fmtN(x.factWeek),
+        end: fmtD(x.end), pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i)
       };
     });
+    const sumOf = (k) => loadRaw.reduce((a, x) => a + (x[k] || 0), 0);
+    const hTotal = sumOf('total'), hFact = sumOf('fact'), hPlan = sumOf('plan'), hRest = sumOf('rest');
     const loadStats = [
-      [pairsW(P(hTotal)), 'всего за семестр · ' + String(P(hTotal) * 1.5).replace('.', ',') + ' ч', '#15171C'],
-      [pairsW(P(hFact)), 'проведено · ' + String(P(hFact) * 1.5).replace('.', ',') + ' ч', accent],
-      [pairsW(Math.max(0, P(hTotal) - P(hFact))), 'осталось · ' + String(Math.max(0, P(hTotal) - P(hFact)) * 1.5).replace('.', ',') + ' ч', '#15171C'],
-      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', 'пройдено', isTeacherView && hFact < hPlan ? '#9A4410' : '#15171C']
+      [fmtN(hTotal), 'всего, час.', '#15171C'],
+      [fmtN(hPlan), 'план к этой дате, час.', '#15171C'],
+      [fmtN(hFact), 'факт, час.', accent],
+      [fmtN(hRest), 'остаток, час.', '#15171C'],
+      [(hTotal ? Math.round(hFact / hTotal * 100) : 0) + '%', 'выполнено: факт от всего', '#15171C']
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
+    const resIds = rk === 'g' ? KD.groupIds : (rk === 't' ? KD.teacherIds : KD.roomIds);
+    const resId = resIds && resIdx >= 0 ? resIds[resIdx] : null;
+    const res = {
+      title: rk === 'r' && /^\d/.test(resName) ? 'аудитория ' + resName : resName,
+      serverUrl: 'http://94.72.18.202:8083/' + (resId != null ? (rk === 'g' ? 'vg' : rk === 't' ? 'vp' : 'va') + resId + '.htm' : 'vg.htm'),
+      pickLabel: rk === 'g' ? 'Группа' : (rk === 't' ? 'Преподаватель' : 'Аудитория'),
+      kinds: [['g', 'Группы'], ['t', 'Преподаватели'], ['r', 'Аудитории']].map((x) => {
+        const on = x[0] === rk;
+        return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', weight: on ? 600 : 500, shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.10)' : 'none', pick: go({ tab: 'results', rk: x[0] }) };
+      }),
+      options: (rk === 'g' ? M.groups() : (rk === 't' ? TLs : RLs)).map((x) => ({ v: x.name, l: rk === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name, sel: x.name === resName }))
+        .concat(rk === 'g' && !hasGroup ? [{ v: '', l: 'выберите группу', sel: true }] : []),
+      pick: (e) => {
+        const v = e && e.target ? e.target.value : '';
+        if (!v) return;
+        this.go(rk === 'g' ? { tab: 'results', rk: 'g', group: v } : (rk === 't' ? { tab: 'results', rk: 't', teacher: v } : { tab: 'results', rk: 'r', room: v }));
+      }
+    };
+    const noLoadText = loadMissing ? 'Итоги преподавателей и аудиторий появятся после следующего обновления расписания с сервера.'
+      : (rk === 'g' ? 'На сервере нет итогов нагрузки для этой группы.' : (rk === 't' ? 'На сервере у этого преподавателя нет строк в «Итогах».' : 'На сервере у этой аудитории нет строк в «Итогах».'));
 
     /* ---------- меню ---------- */
     const K = 'https://kitis.ru/';
@@ -514,7 +549,7 @@ class Component extends DCLogic {
       ctxLine: (upd ? 'Данные сервера на ' + upd + ' · ' : '') + GL.length + ' групп · ' + TL.length + ' преподавателей · ' + RL.length + ' аудиторий',
       updLine: upd ? 'данные на ' + upd : 'данные не загружены',
       isSchedule: tab === 'schedule' && hasGroup, isChooser: isChooser, isGroups: tab === 'groups', isTeachers: tab === 'teachers',
-      isRooms: tab === 'rooms', isBells: tab === 'bells', isResults: tab === 'results' && hasGroup, isResultsNoGroup: tab === 'results' && !hasGroup,
+      isRooms: tab === 'rooms', isBells: tab === 'bells', isResults: tab === 'results' && (rk !== 'g' || hasGroup), isResultsNoGroup: tab === 'results' && rk === 'g' && !hasGroup, resIsGroup: rk === 'g', res: res, loadHead: loadHead, noLoadText: noLoadText,
       chooserTabs: chooserTabs, cq: s.cq || '', chooserItems: chooserItems, chooserEmpty: isChooser && chooserItems.length === 0,
       chooserPh: ck === 'g' ? 'Группа, например ИСр24-1' : (ck === 't' ? 'Фамилия преподавателя' : 'Номер аудитории, например 403'),
       chooserListTitle: (ck === 'g' ? 'Группы' : (ck === 't' ? 'Преподаватели' : 'Аудитории')) + ' · ' + chooserItems.length,
@@ -541,13 +576,13 @@ class Component extends DCLogic {
       progress: plaque.progress,
       hasStats: hasStats, noStats: !hasStats, stats: stats, charts: charts,
       hasLoad: loadRows.length > 0, noLoad: loadRows.length === 0, loadRows: loadRows, loadStats: loadStats,
-      loadNote: isTeacherView ? 'Полоса — сколько пар проведено из всего объёма, чёрная черта — сколько должно быть проведено по плану к этой дате. Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Видно только преподавателям.' : 'Полоса — сколько пар уже проведено из всего объёма. Пара длится 1,5 часа, в понедельник — 1 ч 20 мин.',
+      loadNote: 'Числа — как на странице «Итоги» сервера расписания, без пересчёта. Часы академические: одна пара = 2 академических часа (1 ч 30 мин). «План» — сколько часов должно быть проведено к сегодняшнему дню, «Факт» — сколько проведено. Процент выполнения — с сервера.',
       menu: menu, menuOpen: menuOpen, menuExpanded: menuOpen ? 'true' : 'false',
       dropOpen: dropOpen, dropExpanded: dropOpen ? 'true' : 'false', dropBorder: dropOpen ? accent : '#DCE0E6', dropEmpty: dropOpen && dropSections.length === 0, dropRot: dropOpen ? '180' : '0', dropSections: dropSections, dq: s.dq || '',
       toggleDrop: set({ drop: !dropOpen, dq: '' }), closeDrop: set({ drop: false }),
       onDq: (e) => this.setState({ dq: e && e.target ? e.target.value : '' }),
       openMenu: set({ menu: true }), closeMenu: set({ menu: false }),
-      goGroups: go({ tab: 'groups' }), goBells: go({ tab: 'bells' }), goResults: go({ tab: 'results' }),
+      goGroups: go({ tab: 'groups' }), goBells: go({ tab: 'bells' }), goResults: go({ tab: 'results', rk: 'g' }),
       goToday: go({ tab: 'schedule', w: 0 }), clearGroup: go({ group: null, tab: 'schedule', w: 0 }),
       prev: go({ w: canPrev ? w - 1 : w }), next: go({ w: canNext ? w + 1 : w }),
       toggleFav: () => { M.toggleFav('g', group, favSeed); this.setState({ favTick: Date.now() }); },

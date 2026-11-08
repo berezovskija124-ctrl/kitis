@@ -247,18 +247,27 @@
     return DAY_LOWER[weekday(iso)] + ', ' + dayLabel(iso);
   }
 
-  function load(g) {
-    if (!D || !D.load[g]) return [];
-    return D.load[g].map(function (x) {
+  // «Итоги» — строки страниц vgN / vpN / vaN сервера как есть: те же часы, остаток и процент, тот же порядок.
+  // kind: 'g' — группа, 't' — преподаватель, 'r' — аудитория. null — в данных этих итогов ещё нет.
+  function loadOf(kind, i) {
+    if (!D) return [];
+    var src = kind === 'g' ? D.load : (kind === 't' ? D.loadT : D.loadR);
+    if (!src) return kind === 'g' ? [] : null;
+    var rows = src[i] || [];
+    return rows.map(function (x, n) {
+      var r = kind === 'g'
+        ? { t: x[1], g: i, sub: x[2], s: x[0], k: x[3], total: x[4], plan: x[5], fact: x[6], rest: x[7], planWeek: x[8], factWeek: x[9], end: x[10], pct: x[11], j: x[12] }
+        : { t: x[0], g: x[1], sub: x[2], s: x[3], k: x[4], total: x[5], plan: x[6], fact: x[7], rest: x[8], planWeek: x[9], factWeek: x[10], end: x[11], pct: x[12], j: x[13] };
       return {
-        subject: D.subjects[x[0]] || '', teacher: teacherName(x[1]), t: x[1], sub: x[2], type: D.types[x[3]] || '',
-        // часы всегда чётные: одна пара — 2 часа; «план к дате» сервер считает долями, округляем до пары
-        total: evenHours(x[4]), plan: evenHours(x[5]), fact: evenHours(x[6]),
-        rest: x[4] != null && x[6] != null ? Math.max(0, evenHours(x[4]) - evenHours(x[6])) : evenHours(x[7]),
-        planWeek: x[8], factWeek: x[9], end: x[10], pct: x[4] ? Math.round(evenHours(x[6]) / evenHours(x[4]) * 100) : x[11]
+        n: n + 1, subject: D.subjects[r.s] || '', teacher: teacherName(r.t), teacherRaw: D.teachers[r.t] || '', t: r.t, group: D.groups[r.g] || '', sub: r.sub || 0,
+        type: D.types[r.k] || '', total: r.total, plan: r.plan, fact: r.fact, rest: r.rest, planWeek: r.planWeek, factWeek: r.factWeek,
+        end: r.end, pct: r.pct != null ? r.pct : (r.total ? Math.round(r.fact / r.total * 100) : null), j: r.j
       };
     });
   }
+  function load(g) { return loadOf('g', g); }
+  // числа как на сервере: дробные — с запятой (1,8), пустые — «—»
+  function fmtNum(v) { return v == null ? '—' : String(Math.round(v * 10) / 10).replace('.', ','); }
 
   // Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Сервер считает объём в академических часах:
   // одна пара — 2 академических часа, поэтому для пар делим на 2.
@@ -290,7 +299,7 @@
   }
 
   // Из адреса берём только известные ключи, по 120 символов; битая кодировка не ломает страницу
-  var HASH_KEYS = { tab: 1, group: 1, teacher: 1, room: 1, w: 1, page: 1, p: 1, q: 1, i: 1 };
+  var HASH_KEYS = { tab: 1, group: 1, teacher: 1, room: 1, w: 1, page: 1, p: 1, q: 1, i: 1, k: 1 };
   function readHash() {
     var out = {};
     var h = '';
@@ -387,11 +396,13 @@
     plural: plural, fmtName: fmtName, fmtTimer: fmtTimer, dayLabel: dayLabel, rangeLabel: rangeLabel, whenLabel: whenLabel,
     addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime, pairNum: pairNum, pairLabel: pairLabel,
     CURATOR_TIME: CURATOR_TIME, evenHours: evenHours, readHash: readHash, writeHash: writeHash, changes: changes, recent: recent, remember: remember,
-    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load,
+    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum,
     updatedLabel: updatedLabel, pairsOf: pairsOf, durationMin: durationMin, fmtHours: fmtHours, fmtPairsHours: fmtPairsHours,
     favs: favs, isFav: isFav, toggleFav: toggleFav, FAV_KEY: FAV_KEY,
     groups: function () { return groupIdx.map(function (i) { return { i: i, name: D.groups[i] }; }); },
     teachers: function () { return teacherIdx.map(function (i) { return { i: i, name: fmtName(D.teachers[i]), raw: D.teachers[i] }; }); },
+    // для «Итогов»: все строки списка vp.htm сервера, включая «Вакансию»
+    teachersAll: function () { return D.teachers.map(function (n, i) { return { i: i, name: isVacancy(n) ? n : fmtName(n), raw: n }; }); },
     rooms: function () { return roomIdx.map(function (i) { return { i: i, name: D.rooms[i] }; }); },
     groupIndex: function (name) { return D ? D.groups.indexOf(name) : -1; },
     teacherIndex: function (name) {

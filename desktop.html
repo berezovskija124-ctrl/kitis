@@ -9,7 +9,7 @@
 <title>КИТиС · Расписание — компьютер</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=6919a89fa8"></script>
+<script src="kitis-model.js?v=1352bb29fb"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Расписание — компьютер.">
@@ -525,51 +525,84 @@ button,input{font-family:inherit}
 </sc-if>
 
 <sc-if value="{{isResultsNoGroup}}" hint-placeholder-val="{{ false }}">
-<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 32px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E3E6EB; animation: kFadeUp .45s ease both;">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 32px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E3E6EB; animation: kFadeUp .45s ease both;">
 <h1 style="margin: 0; font-size: 30px; font-weight: 700;">Итоги</h1>
-<span style="color: #5B6270;">Выберите группу — покажем, сколько часов уже проведено по каждой дисциплине.</span>
-<button type="button" class="tap" onClick="{{toggleDrop}}" style="height: 46px; padding: 0 18px; border-radius: 12px; border: 0; background: #15171C; color: #FFFFFF; font-weight: 600; font-size: 15px; cursor: pointer;">Выбрать группу</button>
+<span style="color: #5B6270;">Выполнение нагрузки — та же таблица, что на странице «Итоги» сервера расписания. Выберите, чьи итоги показать.</span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+<div role="group" aria-label="Чьи итоги" style="display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: #E6E9ED;">
+<sc-for list="{{res.kinds}}" as="kd" hint-placeholder-count="3"><button type="button" class="tap" onClick="{{kd.pick}}" aria-pressed="{{kd.pressed}}" style="height: 40px; padding: 0 16px; border-radius: 9px; border: 0; background: {{kd.bg}}; color: #15171C; font-weight: {{kd.weight}}; font-size: 14px; box-shadow: {{kd.shadow}}; cursor: pointer;">{{kd.label}}</button></sc-for>
+</div>
+<label style="display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 12px 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; min-width: 240px; max-width: 100%;">
+<span style="font-size: 13px; color: #5B6270; white-space: nowrap;">{{res.pickLabel}}</span>
+<select onChange="{{res.pick}}" aria-label="{{res.pickLabel}}" style="flex: 1; min-width: 0; height: 40px; border: 0; background: transparent; font: inherit; font-size: 15px; font-weight: 600; color: #15171C; cursor: pointer;">
+<sc-for list="{{res.options}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}" selected="{{o.sel}}">{{o.l}}</option></sc-for>
+</select>
+</label>
+</div>
 </div>
 </sc-if>
 
 <sc-if value="{{isResults}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 18px; animation: kFadeUp .45s ease both;">
 <div style="display: flex; flex-direction: column; gap: 4px;">
-<h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Итоги · {{group}}</h1>
-<p style="margin: 0; color: #5B6270;">Выполнение нагрузки со страницы «Итоги» сервера расписания · {{updLine}}</p>
+<h1 style="margin: 0; font-size: 36px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;">Итоги · {{res.title}}</h1>
+<p style="margin: 0; color: #5B6270;">Выполнение нагрузки — та же таблица, что на странице «Итоги» сервера расписания · {{updLine}} · <a href="{{res.serverUrl}}" target="_blank" rel="noopener noreferrer">открыть на сервере</a></p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+<div role="group" aria-label="Чьи итоги" style="display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: #E6E9ED;">
+<sc-for list="{{res.kinds}}" as="kd" hint-placeholder-count="3"><button type="button" class="tap" onClick="{{kd.pick}}" aria-pressed="{{kd.pressed}}" style="height: 40px; padding: 0 16px; border-radius: 9px; border: 0; background: {{kd.bg}}; color: #15171C; font-weight: {{kd.weight}}; font-size: 14px; box-shadow: {{kd.shadow}}; cursor: pointer;">{{kd.label}}</button></sc-for>
+</div>
+<label style="display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 12px 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; min-width: 240px; max-width: 100%;">
+<span style="font-size: 13px; color: #5B6270; white-space: nowrap;">{{res.pickLabel}}</span>
+<select onChange="{{res.pick}}" aria-label="{{res.pickLabel}}" style="flex: 1; min-width: 0; height: 40px; border: 0; background: transparent; font: inherit; font-size: 15px; font-weight: 600; color: #15171C; cursor: pointer;">
+<sc-for list="{{res.options}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}" selected="{{o.sel}}">{{o.l}}</option></sc-for>
+</select>
+</label>
 </div>
 <sc-if value="{{hasLoad}}" hint-placeholder-val="{{ true }}">
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
-<sc-for list="{{loadStats}}" as="st" hint-placeholder-count="4">
-<div style="padding: 20px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; display: flex; flex-direction: column; gap: 4px; animation: kFadeUp .45s ease both; animation-delay: {{st.delay}};">
-<span style="font-size: 36px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: {{st.color}};">{{st.value}}</span>
-<span style="font-size: 14px; color: #5B6270;">{{st.label}}</span>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px;">
+<sc-for list="{{loadStats}}" as="st" hint-placeholder-count="5">
+<div style="padding: 18px 20px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; display: flex; flex-direction: column; gap: 4px; animation: kFadeUp .45s ease both; animation-delay: {{st.delay}};">
+<span style="font-size: 32px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: {{st.color}};">{{st.value}}</span>
+<span style="font-size: 13.5px; color: #5B6270;">{{st.label}}</span>
 </div>
 </sc-for>
 </div>
-<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; padding: 8px 20px; display: flex; flex-direction: column;">
+<section style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 18px; overflow: hidden;">
+<div style="overflow-x: auto;">
+<dc-table style="width: 100%; min-width: 1080px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums;">
+<dc-thead><dc-tr style="background: #F7F8FA; color: #3A404C; text-align: left;">
+<sc-for list="{{loadHead}}" as="h" hint-placeholder-count="14"><dc-th scope="col" style="padding: 10px 10px; font-weight: 600; font-size: 12.5px; line-height: 1.25; text-align: {{h.align}}; border-bottom: 1px solid #E3E6EB; vertical-align: bottom;">{{h.l}}</dc-th></sc-for>
+</dc-tr></dc-thead>
+<dc-tbody>
 <sc-for list="{{loadRows}}" as="r" hint-placeholder-count="8">
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 14px 0; border-bottom: 1px solid #EEF0F3; animation: kFadeUp .4s ease both; animation-delay: {{r.delay}};">
-<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
-<span style="font-weight: 600; font-size: 15px; line-height: 1.3;">{{r.subject}}</span>
-<span style="font-size: 13px; color: #5B6270;">{{r.meta}}</span>
-</div>
-<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
-<div aria-hidden="true" style="position: relative; height: 10px; border-radius: 5px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.pct}}%; border-radius: 5px; background: {{r.bar}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div><sc-if value="{{r.showPlan}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 0; bottom: 0; left: {{r.planPct}}%; width: 2px; background: #15171C; opacity: .45;"></span></sc-if></div>
-<span style="font-size: 12.5px; color: #5B6270;">{{r.nums}} · {{r.end}}</span>
-</div>
-<div style="flex: none; width: 200px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
-<span style="font-size: 20px; font-weight: 700;">{{r.pctLabel}}</span>
-<sc-if value="{{r.showPlan}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{r.chipBg}}; color: {{r.chipFg}};">{{r.state}}</span></sc-if>
-</div>
-</div>
+<dc-tr style="border-bottom: 1px solid #EEF0F3;">
+<dc-td style="padding: 10px; color: #5B6270;">{{r.n}}.</dc-td>
+<dc-td style="padding: 10px; white-space: nowrap;">{{r.teacher}}</dc-td>
+<dc-td style="padding: 10px; white-space: nowrap;">{{r.group}}</dc-td>
+<dc-td style="padding: 10px; text-align: center;">{{r.sub}}</dc-td>
+<dc-td style="padding: 10px; font-weight: 600; min-width: 200px;">{{r.subject}}</dc-td>
+<dc-td style="padding: 10px; color: #5B6270;">{{r.type}}</dc-td>
+<dc-td style="padding: 10px; text-align: right;">{{r.total}}</dc-td>
+<dc-td style="padding: 10px; text-align: right;">{{r.plan}}</dc-td>
+<dc-td style="padding: 10px; text-align: right; font-weight: 700;">{{r.fact}}</dc-td>
+<dc-td style="padding: 10px; text-align: right;">{{r.rest}}</dc-td>
+<dc-td style="padding: 10px; text-align: right;">{{r.planWeek}}</dc-td>
+<dc-td style="padding: 10px; text-align: right;">{{r.factWeek}}</dc-td>
+<dc-td style="padding: 10px; white-space: nowrap;">{{r.end}}</dc-td>
+<dc-td style="padding: 10px; min-width: 130px;"><span style="display: flex; align-items: center; gap: 8px;"><span aria-hidden="true" style="flex: 1; height: 8px; border-radius: 4px; background: #F1F3F6; overflow: hidden;"><span style="display: block; height: 100%; width: {{r.bar}}%; border-radius: 4px; background: {{r.barColor}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both;"></span></span><span style="font-weight: 700; min-width: 34px; text-align: right;">{{r.pctLabel}}</span></span></dc-td>
+</dc-tr>
 </sc-for>
-<p style="margin: 0; padding: 12px 0; font-size: 12.5px; color: #5B6270;">{{loadNote}}</p>
+</dc-tbody>
+</dc-table>
+</div>
+<p style="margin: 0; padding: 12px 16px; font-size: 12.5px; color: #5B6270; border-top: 1px solid #EEF0F3;">{{loadNote}}</p>
 </section>
 </sc-if>
 <sc-if value="{{noLoad}}" hint-placeholder-val="{{ false }}">
-<div style="padding: 32px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; color: #5B6270;">На сервере нет итогов нагрузки для этой группы.</div>
+<div style="padding: 32px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; color: #5B6270;">{{noLoadText}}</div>
 </sc-if>
+<sc-if value="{{resIsGroup}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
 <h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Неделя {{weekLabel}}</h2>
 <p style="margin: 0; color: #5B6270;">{{weekSub}} · неделю можно сменить во вкладке «Расписание»</p>
@@ -599,6 +632,7 @@ button,input{font-family:inherit}
 </sc-if>
 <sc-if value="{{noStats}}" hint-placeholder-val="{{ false }}">
 <div style="padding: 32px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E6EB; text-align: center; color: #5B6270;">На этой неделе у группы пар нет.</div>
+</sc-if>
 </sc-if>
 </div>
 </sc-if>
@@ -637,7 +671,7 @@ button,input{font-family:inherit}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1700}}'></script>
-<script src="dc-runtime.js?v=cede6a8e71"></script>
-<script src="js/page-desktop.js?v=e2ce58a7ec"></script>
+<script src="dc-runtime.js?v=7fb69be3c1"></script>
+<script src="js/page-desktop.js?v=c4b000bbff"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@
   var SVG_NS = 'http://www.w3.org/2000/svg';
   var HOLE = /\{\{\s*([^}]*?)\s*\}\}/g;
   var WHOLE = /^\{\{\s*([^}]*?)\s*\}\}$/;
+  var TABLE_TAGS = /^dc-(table|thead|tbody|tfoot|tr|th|td|caption)$/;
   var seq = 0;
 
   /* ---------- значения ---------- */
@@ -86,6 +87,8 @@
     if (node.nodeType === 3) return { k: 't', id: ++seq, pv: parseValue(node.nodeValue) };
     if (node.nodeType !== 1) return null;
     var tag = node.localName;
+    // <dc-table>, <dc-tr>, <dc-td>… — теги таблицы, спрятанные от парсера браузера (см. build.py)
+    if (TABLE_TAGS.test(tag)) tag = tag.slice(3);
     if (tag === 'sc-for') {
       return { k: 'for', id: ++seq, list: parseValue(node.getAttribute('list')), as: node.getAttribute('as') || 'item', kids: compileKids(node) };
     }

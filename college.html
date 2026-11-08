@@ -9,7 +9,7 @@
 <title>КИТиС · О колледже</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=6919a89fa8"></script>
+<script src="kitis-model.js?v=1352bb29fb"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
 <script src="data/kitis-official.js"></script>
 <script src="data/kitis-photos.js"></script>
@@ -297,14 +297,14 @@ main article{overflow-wrap:anywhere}
 
 <sc-if value="{{b.isTable}}" hint-placeholder-val="{{ false }}">
 <div class="cl-tbl">
-<table>
-<sc-if value="{{b.hasHead}}" hint-placeholder-val="{{ true }}"><thead><tr><sc-for list="{{b.head}}" as="h" hint-placeholder-count="3"><th scope="col" style="text-align: {{h.align}};">{{h.h}}</th></sc-for></tr></thead></sc-if>
-<tbody>
+<dc-table>
+<sc-if value="{{b.hasHead}}" hint-placeholder-val="{{ true }}"><dc-thead><dc-tr><sc-for list="{{b.head}}" as="h" hint-placeholder-count="3"><dc-th scope="col" style="text-align: {{h.align}};">{{h.h}}</dc-th></sc-for></dc-tr></dc-thead></sc-if>
+<dc-tbody>
 <sc-for list="{{b.rows}}" as="r" hint-placeholder-count="4">
-<tr style="background: {{r.bg}};"><sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3"><td style="font-weight: {{c.weight}}; text-align: {{c.align}}; white-space: {{c.ws}};"><sc-if value="{{c.hasHref}}" hint-placeholder-val="{{ false }}"><a href="{{c.href}}" target="_blank" rel="noopener noreferrer">{{c.c}}</a></sc-if><sc-if value="{{c.noHref}}" hint-placeholder-val="{{ true }}">{{c.c}}</sc-if></td></sc-for></tr>
+<dc-tr style="background: {{r.bg}};"><sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3"><dc-td style="font-weight: {{c.weight}}; text-align: {{c.align}}; white-space: {{c.ws}};"><sc-if value="{{c.hasHref}}" hint-placeholder-val="{{ false }}"><a href="{{c.href}}" target="_blank" rel="noopener noreferrer">{{c.c}}</a></sc-if><sc-if value="{{c.noHref}}" hint-placeholder-val="{{ true }}">{{c.c}}</sc-if></dc-td></sc-for></dc-tr>
 </sc-for>
-</tbody>
-</table>
+</dc-tbody>
+</dc-table>
 </div>
 </sc-if>
 
@@ -389,7 +389,7 @@ main article{overflow-wrap:anywhere}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1400}}'></script>
-<script src="dc-runtime.js?v=cede6a8e71"></script>
+<script src="dc-runtime.js?v=7fb69be3c1"></script>
 <script src="js/page-college.js?v=c8ee79da5e"></script>
 </body>
 </html>
