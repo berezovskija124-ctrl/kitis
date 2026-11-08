@@ -314,12 +314,14 @@
     var Component = window.__dcDefine(DCLogic);
     var inst = new Component(props);
 
-    var pending = false;
+    var pending = false, ready = false;
     function render() {
       pending = false;
       try {
         var vals = inst.renderVals ? inst.renderVals() : {};
         patchChildren(app, expand(rootKids, { vars: vals, parent: null }, '', []));
+        // метка для js/guard.js: страница отрисовалась, запасной экран не нужен
+        if (!ready) { ready = true; document.documentElement.setAttribute('data-dc-ready', ''); }
       } catch (err) {
         console.error('[макет] ошибка отрисовки', err);
       }

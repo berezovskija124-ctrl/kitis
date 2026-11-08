@@ -55,6 +55,52 @@
     }
   };
   window.addEventListener('storage', function (e) { if (e.key === KEY) apply(e.newValue === '1'); });
+
+  // 4. Запасной экран. Если страница не отрисовалась (например, браузер взял из кэша
+  //    старый скрипт от прошлой версии сайта), один раз перезагружаем её сами,
+  //    а если и это не помогло — показываем понятное сообщение вместо пустого экрана.
+  var RELOAD_KEY = 'kitis.reload';
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!document.querySelector('script[data-dc-script]')) return;
+    setTimeout(function () {
+      if (d.hasAttribute('data-dc-ready')) {
+        try { window.sessionStorage.removeItem(RELOAD_KEY); } catch (e) { /* нет хранилища */ }
+        return;
+      }
+      var last = 0;
+      try { last = +window.sessionStorage.getItem(RELOAD_KEY) || 0; } catch (e) { last = Date.now(); }
+      if (Date.now() - last > 60000) {
+        try { window.sessionStorage.setItem(RELOAD_KEY, String(Date.now())); } catch (e) { /* без повтора */ }
+        loc.reload();
+        return;
+      }
+      rescue();
+    }, 3000);
+  });
+
+  function rescue() {
+    var host = document.getElementById('app') || document.body;
+    var box = document.createElement('div');
+    box.setAttribute('role', 'alert');
+    box.style.cssText = 'max-width:420px;margin:48px auto;padding:24px;border-radius:16px;background:#fff;'
+      + 'box-shadow:0 1px 3px rgba(0,0,0,.08);font:16px/1.5 Onest,system-ui,sans-serif;color:#1d2433;text-align:center';
+    var h = document.createElement('div');
+    h.style.cssText = 'font-weight:700;font-size:18px;margin-bottom:8px';
+    h.textContent = 'Страница не загрузилась';
+    var p = document.createElement('div');
+    p.style.cssText = 'color:#5b6476;margin-bottom:16px';
+    p.textContent = 'Сайт только что обновился, и браузер мог взять старую копию. Обновите страницу через минуту.';
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'Обновить страницу';
+    b.style.cssText = 'font:inherit;font-weight:600;padding:12px 20px;border:0;border-radius:12px;background:#2D5BE3;color:#fff;cursor:pointer';
+    b.addEventListener('click', function () {
+      try { window.sessionStorage.removeItem(RELOAD_KEY); } catch (e) { /* нет хранилища */ }
+      loc.reload();
+    });
+    box.appendChild(h); box.appendChild(p); box.appendChild(b);
+    host.appendChild(box);
+  }
   // любая кнопка или ссылка с data-a11y-toggle включает и выключает версию для слабовидящих
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest ? e.target.closest('[data-a11y-toggle]') : null;
