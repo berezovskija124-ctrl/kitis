@@ -63,7 +63,10 @@ GROUPS = [
     ('students', 'Студентам'),
     ('teachers', 'Преподавателям'),
     ('abitur', 'Абитуриентам'),
+    ('programs', 'Специальности и профессии'),
 ]
+PROGRAMS_ROOT = '/abitur/specialties/'
+CODE_RE = re.compile(r'\b(\d{2})\.(\d{2})\.(\d{2})\b')
 # id, группа, название, подпись, значок, адрес на kitis.ru
 PAGES = [
     ('forms', 'official', 'Обращения', 'Как написать в колледж', 'megaphone', '/forms/'),
@@ -983,6 +986,41 @@ def discover_sveden():
 
 # ---------- новости и альбомы ----------
 
+def discover_programs():
+    """Страницы специальностей: ссылки со страницы «Специальности» на её подстраницы, код — из заголовка или ссылки."""
+    rec = get_page(PUBLIC + PROGRAMS_ROOT)
+    found = []
+    if rec['soup'] is None:
+        return found
+    for a in rec['soup'].find_all('a', href=True):
+        h = canon(a.get('href'), rec['final'])
+        if not h or not is_kitis_page(h) or urlparse(h).query:
+            continue
+        path = path_of(h)
+        if not path.startswith(PROGRAMS_ROOT) or path == PROGRAMS_ROOT or path.count('/') != PROGRAMS_ROOT.count('/') + 1:
+            continue
+        if any(x[0] == h for x in found):
+            continue
+        found.append((h, clean(a.get_text(' '))))
+    return found[:30]
+
+
+def program_section(url, link_text, link_map):
+    res = extract(url, link_text, link_map, True)
+    if res is None:
+        return None
+    title = res['title'] or link_text
+    m = CODE_RE.search(title) or CODE_RE.search(link_text) or CODE_RE.search(' '.join(b.get('text', '') for b in res['blocks'][:8] if b['t'] in ('p', 'h')))
+    code = '.'.join(m.groups()) if m else ''
+    name = clean(CODE_RE.sub('', title)).strip(' «»"-–—:') or title
+    sid = 'prog-' + (code.replace('.', '-') if code else re.sub(r'[^a-z0-9-]', '', path_of(url).rstrip('/').rsplit('/', 1)[-1].lower())[:40])
+    kind = 'Профессия' if code[3:5] == '01' else 'Специальность'
+    icon = 'laptop' if code.startswith('09') else ('compass' if code.startswith('43') else 'tool')
+    blocks = resolve_photos(merge_blocks(res['blocks']))[:500] or [{'t': 'note', 'text': 'На сайте колледжа описание программы пока не опубликовано.'}]
+    return OrderedDict(id=sid, group='programs', title=name, short=(code + ' · ' if code else '') + kind, icon=icon, url=url, code=code,
+                       blocks=blocks, ok=True)
+
+
 def discover_lists():
     """Ленты медиацентра: ищем ссылки на главной и на странице медиацентра, иначе пробуем известные адреса."""
     cands = {k: [] for k, _, _ in MEDIA_KINDS}
@@ -1126,6 +1164,9 @@ def main():
         link_map[SVEDEN_ROOT + sid + '/'] = 'sv-' + sid
     for p in PAGES:
         link_map[p[5]] = p[0]
+    programs = discover_programs()
+    for u, _ in programs:
+        get_page(u)
 
     prev_secs = {s['id']: s for s in prev_off.get('sections', [])}
     sections = []
@@ -1137,6 +1178,14 @@ def main():
         s = section_from(*p, link_map)
         sections.append(s or prev_secs.get(p[0]) or stub(p[0], p[1], p[2], p[3], p[4], PUBLIC + p[5]))
         log('раздел', p[0], 'ok' if s else 'нет')
+
+    for u, text in programs:
+        s = program_section(u, text, link_map)
+        if s is None:
+            s = next((x for x in prev_off.get('sections', []) if x.get('url') == u), None)
+        if s is not None and not any(x['id'] == s['id'] for x in sections):
+            sections.append(s)
+        log('программа', u, 'ok' if s else 'нет')
 
     albums = []
     prev_albums = {a['u']: a for a in prev_ph.get('albums', [])}
