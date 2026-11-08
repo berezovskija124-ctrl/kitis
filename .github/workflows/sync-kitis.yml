@@ -43,7 +43,7 @@ jobs:
           fi
           mkdir -p photos
           git add -A data/kitis-official.js data/kitis-photos.js photos parser/sync-report.json
-          if git diff --cached --quiet -- data/kitis-official.js data/kitis-photos.js photos; then
+          if git diff --cached --quiet; then
             echo "Материалы не изменились"
             exit 0
           fi

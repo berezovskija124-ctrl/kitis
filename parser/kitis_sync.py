@@ -230,6 +230,15 @@ def clean(s):
     return re.sub(r'\s+', ' ', s).strip()
 
 
+JUNK_TOKEN = re.compile(r'[A-Za-z0-9_+/=-]{40,}')
+
+
+def is_junk(text):
+    """Служебные строки (ключи, коды встраивания) вместо текста: длинные «слова» латиницей без пробелов."""
+    m = JUNK_TOKEN.findall(text)
+    return bool(m) and sum(len(x) for x in m) > 0.4 * len(text) and not re.search(r'https?://', text)
+
+
 def short(s, n=4000):
     s = clean(s)
     return s if len(s) <= n else s[:n - 1].rstrip() + '…'
@@ -491,7 +500,7 @@ class Builder:
         only_links = links and len(rest) - len(re.sub(r'\W', '', link_text)) < 3
         if not only_links:
             for ln in lines:
-                if len(ln) >= 2:
+                if len(ln) >= 2 and not is_junk(ln):
                     self.add({'t': 'p', 'text': short(ln)})
         ctx = ' '.join(lines)
         for href, t in links:
@@ -632,7 +641,7 @@ class Builder:
                 continue
             link_text = re.sub(r'\W', '', ''.join(clean(t) for _, t in links))
             only = links and len(re.sub(r'\W', '', text)) - len(link_text) < 3
-            if text and not only and text.lower() not in JUNK:
+            if text and not only and text.lower() not in JUNK and not is_junk(text):
                 items.append(text)
             for href, t in links:
                 self.add_link(href, t, text if only and len(links) == 1 else '')
@@ -1005,7 +1014,8 @@ def album_from(url, kind):
         p = photo(src, res['title'])
         if p and p[0] not in [x[0] for x in items]:
             items.append(p)
-    lead = next((b['text'] for b in res['blocks'] if b['t'] == 'p' and len(b['text']) > 40), '')
+    lead = next((b['text'] for b in res['blocks'] if b['t'] == 'p' and len(b['text']) > 40 and not is_junk(b['text'])
+                 and len(re.findall(r'[а-яё]', b['text'], re.I)) > len(b['text']) * 0.4), '')
     return OrderedDict(id=kind[0] + '-' + hashlib.sha1(url.encode()).hexdigest()[:10], kind=kind, d=date,
                        t=res['title'], u=url, lead=short(lead, 280), p=items)
 
