@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/guard.js?v=80e09ef8c1"></script>
+<script src="js/guard.js?v=ba09b2359e"></script>
 
 <title>КИТиС · Расписание — телефон</title>
 
@@ -94,7 +94,7 @@ button,input,select{font-family:inherit}
 
 <header class="m-head" style="flex: none; height: 60px; box-sizing: border-box; padding: 0 10px 0 12px; background: #FFFFFF; border-bottom: 1px solid #E3E6EB; display: flex; align-items: center; gap: 10px;">
 <sc-if value="{{hasPage}}" hint-placeholder-val="{{ false }}"><button type="button" class="tap" aria-label="Назад" onClick="{{goBack}}" style="flex: none; width: 44px; height: 44px; border-radius: 12px; border: 0; background: #F1F3F6; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button></sc-if>
-<sc-if value="{{noPage}}" hint-placeholder-val="{{ true }}"><span style="flex: none; width: 38px; height: 38px; border-radius: 11px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 19px;">К</span></sc-if>
+<sc-if value="{{noPage}}" hint-placeholder-val="{{ true }}"><a href="home.html" aria-label="Главная страница колледжа" style="flex: none; width: 38px; height: 38px; border-radius: 11px; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 19px; text-decoration: none;">К</a></sc-if>
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.2;">
 <span style="font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{title}}</span>
 <span style="font-size: 12px; color: #5B6270; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{subtitle}}</span>

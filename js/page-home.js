@@ -3,9 +3,26 @@ window.__dcDefine = function (DCLogic) {
 class Component extends DCLogic {
   componentDidMount() {
     this._timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    // Esc закрывает меню и возвращает фокус на кнопку «Меню»
+    this._key = (e) => { if (e.key === 'Escape' && (this.state || {}).menu) this.closeMenu(); };
+    window.addEventListener('keydown', this._key);
+    this._pop = () => { if ((this.state || {}).menu) this.setState({ menu: false }); };
+    window.addEventListener('pageshow', this._pop);
   }
   componentWillUnmount() {
     clearInterval(this._timer);
+    window.removeEventListener('keydown', this._key);
+    window.removeEventListener('pageshow', this._pop);
+  }
+  openMenu() {
+    this._from = document.activeElement;
+    this.setState({ menu: true });
+    setTimeout(() => { const b = document.querySelector('[data-menu-close]'); if (b) b.focus(); }, 30);
+  }
+  closeMenu() {
+    this.setState({ menu: false });
+    const back = this._from;
+    setTimeout(() => { try { if (back && back.focus) back.focus(); } catch (e) { /* фокус не вернуть */ } }, 30);
   }
   renderVals() {
     const s = this.state || {};
@@ -41,15 +58,25 @@ class Component extends DCLogic {
       book: 'M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h11',
       case: 'M3 8h18v12H3zM8 8V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3M3 13h18',
       award: 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8',
-      cap: 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5M22 9v6'
+      cap: 'M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5M22 9v6',
+      user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6',
+      door: 'M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01',
+      bell: 'M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10.3 21a1.9 1.9 0 0 0 3.4 0',
+      chart: 'M3 3v18h18M8 16v-5M13 16V8M18 16V9',
+      home: 'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
+      news: 'M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2M8 9h5M8 13h5',
+      image: 'M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5h.01',
+      phone: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2',
+      shield: 'M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z',
+      info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 8h.01'
     };
     const roles = [
       { title: 'Абитуриентам', text: 'Специальности, правила приёма, подача заявления и общежитие', d: I.userPlus, href: 'abitur.html', cta: 'Поступление в КИТиС', primary: true,
-        links: [['Специальности и профессии', 'abitur.html'], ['Как поступить', 'abitur.html'], ['Общежитие', 'abitur.html'], ['Образовательный кредит и целевое обучение', 'abitur.html']] },
+        links: [['Специальности и профессии', 'abitur.html#catalog'], ['Как поступить', 'abitur.html'], ['Общежитие', 'college.html#p=ab-hostel'], ['Образовательный кредит и целевое обучение', 'college.html#p=ab-credit']] },
       { title: 'Студентам', text: 'Расписание группы, замены, справки и дистанционное обучение', d: I.users, href: 'student.html', cta: 'Кабинет студента', primary: false,
-        links: [['Расписание группы', 'desktop.html'], ['Заказ справки в учебной части', 'student.html'], ['Дистанционное обучение', 'student.html'], ['ГИА и графики аттестаций', 'student.html']] },
+        links: [['Расписание группы', 'desktop.html'], ['Заказ справки в учебной части', 'student.html#spravka'], ['Дистанционное обучение', 'college.html#p=distance'], ['ГИА и графики аттестаций', 'college.html#p=st-gia']] },
       { title: 'Преподавателям', text: 'Своё расписание, группы, методические материалы и аттестация', d: I.board, href: 'teacher.html', cta: 'Кабинет преподавателя', primary: false,
-        links: [['Моё расписание', 'teacher.html'], ['Методические материалы', 'teacher.html'], ['Аттестация', 'teacher.html'], ['Объявления для преподавателей', 'teacher.html']] }
+        links: [['Моё расписание', 'teacher.html'], ['Учебно-методическая работа', 'college.html#p=tc-method'], ['Аттестация', 'college.html#p=tc-attestation'], ['Объявления для преподавателей', 'college.html#p=tc-announce']] }
     ].map((r) => ({
       title: r.title, text: r.text, d: r.d, href: r.href, cta: r.cta,
       links: r.links.map((k) => ({ l: k[0], h: k[1] })),
@@ -58,7 +85,7 @@ class Component extends DCLogic {
     }));
     const services = [
       ['Расписание занятий', I.calendar, 'desktop.html'],
-      ['Расписание звонков', I.clock, 'desktop.html'],
+      ['Расписание звонков', I.clock, 'desktop.html#tab=bells'],
       ['Заказать справку', I.doc, 'student.html#spravka'],
       ['Дистанционное обучение', I.laptop, 'college.html#p=distance'],
       ['Дневник «Моя школа»', I.book, 'student.html'],
@@ -132,7 +159,27 @@ class Component extends DCLogic {
     hw.dot = hw.live ? '#FF8A3D' : '#5B6270';
     hw.anim = hw.live ? 'kPulse 1.8s ease-out infinite' : 'none';
     const a11yOn = !!(window.KitisA11y && window.KitisA11y.on());
-    return { a11yLabel: a11yOn ? 'Обычная версия' : 'Версия для слабовидящих', a11yPressed: a11yOn ? 'true' : 'false',
+    // разделы расписания в шапке (на компьютере) и всё меню сайта (кнопка «Меню», на телефоне — главное)
+    const topNav = [['Расписание', 'desktop.html'], ['Группы', 'desktop.html#tab=groups'], ['Преподаватели', 'desktop.html#tab=teachers'],
+      ['Аудитории', 'desktop.html#tab=rooms'], ['Звонки', 'desktop.html#tab=bells'], ['Абитуриентам', 'abitur.html'], ['О колледже', 'college.html#p=about']].map((x) => ({ l: x[0], h: x[1] }));
+    const close = () => this.setState({ menu: false });
+    const menu = [
+      { title: 'Расписание', items: [['Расписание занятий', I.calendar, 'desktop.html'], ['Группы', I.users, 'desktop.html#tab=groups'], ['Преподаватели', I.user, 'desktop.html#tab=teachers'],
+        ['Аудитории', I.door, 'desktop.html#tab=rooms'], ['Звонки', I.bell, 'desktop.html#tab=bells'], ['Итоги', I.chart, 'desktop.html#tab=results']] },
+      { title: 'Разделы сайта', items: [['Абитуриентам', I.userPlus, 'abitur.html'], ['Специальности и профессии', I.cap, 'abitur.html#catalog'], ['Студентам', I.users, 'student.html'],
+        ['Преподавателям', I.board, 'teacher.html'], me ? ['Мой профиль', I.user, 'profile.html'] : ['Вход и регистрация', I.user, 'login.html']] },
+      { title: 'О колледже', items: [['О колледже', I.home, 'college.html#p=about'], ['Новости', I.news, 'college.html#p=news'], ['Фотографии', I.image, 'college.html#p=photos'],
+        ['Объявления и мероприятия', I.calendar, 'college.html#p=announce'], ['Центр карьеры', I.case, 'college.html#p=career'], ['Контакты', I.phone, 'college.html#p=contacts']] },
+      { title: 'Официально', items: [['Сведения об образовательной организации', I.info, 'college.html#p=sveden'], ['Обращения', I.doc, 'college.html#p=forms'],
+        ['Противодействие коррупции', I.shield, 'college.html#p=anti-corruption'], ['Безопасность', I.shield, 'college.html#p=security'], ['Закупки', I.case, 'college.html#p=tenders']] }
+    ].map((sec) => ({ title: sec.title, items: sec.items.map((x) => ({ l: x[0], d: x[1], h: x[2], go: close })) }));
+    const acct = me
+      ? { href: 'profile.html', label: me.shortName || 'Профиль', aria: 'Мой профиль: ' + (me.shortName || ''), hasPhoto: !!me.photo, photo: me.photo || '', hasIni: !me.photo, ini: me.initials || '', isGuest: false }
+      : { href: 'login.html', label: 'Войти', aria: 'Войти или зарегистрироваться', hasPhoto: false, photo: '', hasIni: false, ini: '', isGuest: true };
+    const menuOpen = !!s.menu;
+    return {
+      topNav: topNav, menu: menu, menuOpen: menuOpen, menuExpanded: menuOpen ? 'true' : 'false', acct: acct,
+      openMenu: () => this.openMenu(), closeMenu: () => this.closeMenu(), a11yLabel: a11yOn ? 'Обычная версия' : 'Версия для слабовидящих', a11yPressed: a11yOn ? 'true' : 'false',
       toggleA11y: (e) => { if (e && e.preventDefault) e.preventDefault(); if (window.KitisA11y) window.KitisA11y.toggle(); this.setState({ a11y: Date.now() }); },
       accent: accent, accentSoft: accentSoft, scopes: scopes, ph: ph, roles: roles, services: services, news: news, hasGallery: PH.length > 0, main: mainList, hw: hw,
       q: s.q || '', onQ: (e) => this.setState({ q: e && e.target ? e.target.value : '' }), results: results, hasResults: results.length > 0, noResults: !!q && results.length === 0,

@@ -1,7 +1,7 @@
 /*
  * Первый скрипт каждой страницы сайта КИТиС (подключается в <head>, до отрисовки).
  * 1. Защита от кликджекинга: страница не показывается внутри чужого сайта (iframe).
- * 2. Одна ссылка для всех: телефон получает мобильный вид, компьютер — полный.
+ * 2. Адрес сайта открывает главную страницу; расписание: телефон получает мобильный вид, компьютер — полный.
  * 3. Версия для слабовидящих: включается до отрисовки, чтобы страница не мигала.
  */
 (function () {
@@ -57,7 +57,13 @@
   if (mode) {
     var h = loc.hash;
     var w = Math.min(window.innerWidth || 9999, (window.screen && window.screen.width) || 9999);
-    if (mode === 'entry') { loc.replace((view ? (view === 'phone' ? 'phone.html' : 'desktop.html') : (w < 760 ? 'phone.html' : 'desktop.html')) + q + h); return; }
+    if (mode === 'entry') {
+      // адрес сайта открывает главную страницу колледжа — и на компьютере, и на телефоне;
+      // старые ссылки на расписание (#group=…, #teacher=…, #room=…, #tab=…) по-прежнему ведут в расписание
+      var toSchedule = /(^#|&)(group|teacher|room|tab)=/.test(h);
+      if (!toSchedule) { loc.replace('home.html' + q + h); return; }
+      loc.replace((view ? (view === 'phone' ? 'phone.html' : 'desktop.html') : (w < 760 ? 'phone.html' : 'desktop.html')) + q + h); return;
+    }
     if (mode === 'to-phone' && w < 760 && view !== 'desktop') { loc.replace('phone.html' + q + h); return; }
     if (mode === 'to-desktop' && w >= 1000 && view !== 'phone') { loc.replace('desktop.html' + q + h); return; }
   }
