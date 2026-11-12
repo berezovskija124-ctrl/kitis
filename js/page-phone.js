@@ -184,8 +184,8 @@ class Component extends DCLogic {
       return {
         n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color, teacher: l.teacher, hasTeacher: !!l.teacher,
         room: l.place, hasRoom: !l.remote, remote: l.remote, now: now, meta: meta, hasMeta: !!meta,
-        bg: now ? '#FFF4EA' : '#FFFFFF', border: now ? '#F5C9A6' : '#E3E6EB',
-        numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'), delay: delay(k),
+        bg: now ? '#FFF4EA' : M.fade(l.color, 0.3), border: now ? '#F5C9A6' : '#E3E6EB', chipBg: 'rgba(255, 255, 255, 0.82)',
+        numBg: now ? '#B4530F' : M.tint(l.color, 0.5), numFg: now ? '#FFFFFF' : '#15171C', delay: delay(k),
         openTeacher: go({ sheet: { type: 't', key: l.teachers[0] || '' } }),
         openRoom: go({ sheet: { type: 'r', key: l.rooms[0] || '' } })
       };
@@ -411,7 +411,7 @@ class Component extends DCLogic {
       const stx = M.status(kind, idx);
       return M.week(kind, idx, wi.monday).filter((d) => d.wd < 6 || d.lessons.length).map((d, di) => {
         const today = d.iso === clk.iso;
-        const ps = d.lessons.map((l) => ({ head: pairLine(l), info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C', color: l.color }));
+        const ps = d.lessons.map((l) => ({ head: pairLine(l), info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C', color: l.color, tint: today && nowOf(stx, l) ? '#FFF4EA' : M.fade(l.color, 0.32) }));
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });
     };

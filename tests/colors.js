@@ -35,7 +35,7 @@ const hex = (rgb) => { const m = /rgba?\((\d+), (\d+), (\d+)/.exec(rgb || ''); r
   console.log('преподаватели: строк', rows, '; новых проблем', bad.length - nBad);
   const m = await b.newContext(devices['iPhone 15']); const q = await m.newPage(); q.on('pageerror', (e) => errs.push('phone ' + e.message));
   await q.goto(B + 'phone.html?now=2026-11-12T10:30#group=' + encodeURIComponent('ИСп24-1')); await q.waitForTimeout(900);
-  const ph = await q.$$eval('div[style*="inset 4px 0 0"]', (ds) => ds.map((d) => [d.querySelector('span[style*="font-weight: 600"]').innerText.trim(), getComputedStyle(d).boxShadow]));
+  const ph = await q.$$eval('div[style*="inset 6px 0 0"]', (ds) => ds.map((d) => [d.querySelector('span[style*="font-weight: 600"]').innerText.trim(), getComputedStyle(d).boxShadow]));
   ph.forEach(([s, sh]) => note(s, hex(sh), 'телефон'));
   console.log('телефон: карточек', ph.length, '; всего проблем', bad.length, '; без горизонтальной прокрутки', await q.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   console.log('ошибки страниц', JSON.stringify(errs));
