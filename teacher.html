@@ -9,7 +9,7 @@
 <title>КИТиС · Кабинет преподавателя</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=e8ec2324c3"></script>
+<script src="kitis-model.js?v=99feeca529"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Кабинет преподавателя.">
@@ -123,7 +123,7 @@ button,input{font-family:inherit}
 <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
 <sc-if value="{{pq.hasProgress}}" hint-placeholder-val="{{ true }}"><div aria-hidden="true" style="height: 6px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{pq.progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div></sc-if>
 <sc-if value="{{pq.hasTitle}}" hint-placeholder-val="{{ true }}"><span style="font-size: 26px; font-weight: 700; line-height: 1.2;">{{pq.title}}</span></sc-if>
-<sc-if value="{{pq.hasSubject}}" hint-placeholder-val="{{ true }}"><span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15px; color: #FFFFFF;"><span aria-hidden="true" style="flex: none; width: 9px; height: 9px; margin-top: 6px; border-radius: 50%; background: {{pq.color}};"></span><span>{{pq.subject}}</span></span></sc-if>
+<sc-if value="{{pq.hasSubject}}" hint-placeholder-val="{{ true }}"><span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15px; color: #FFFFFF;"><span aria-hidden="true" style="flex: none; width: 12px; height: 12px; margin-top: 5px; border-radius: 50%; background: {{pq.color}};"></span><span>{{pq.subject}}</span></span></sc-if>
 <sc-if value="{{pq.hasMeta}}" hint-placeholder-val="{{ true }}"><span style="font-size: 14px; color: #B9BEC8;">{{pq.meta}}</span></sc-if>
 </div>
 </section>
@@ -151,7 +151,7 @@ button,input{font-family:inherit}
 <div role="row" style="display: grid; grid-template-columns: 96px repeat(6, minmax(0, 1fr)); gap: 6px;">
 <span role="rowheader" style="display: flex; flex-direction: column; justify-content: center; padding: 4px; line-height: 1.2;"><span style="font-weight: 700; font-size: 14px;">{{row.n}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{row.time}}</span></span>
 <sc-for list="{{row.cells}}" as="c" hint-placeholder-count="6">
-<span role="cell" title="{{c.subject}}" style="min-height: 58px; box-sizing: border-box; padding: 8px 10px; border-radius: 10px; background: {{c.bg}}; border: 1px solid {{c.border}}; box-shadow: inset 4px 0 0 {{c.color}}; display: flex; flex-direction: column; justify-content: center; gap: 1px; line-height: 1.25;">
+<span role="cell" title="{{c.subject}}" style="min-height: 58px; box-sizing: border-box; padding: 8px 10px; border-radius: 10px; background: {{c.bg}}; border: 1px solid {{c.border}}; box-shadow: inset 6px 0 0 {{c.color}}; display: flex; flex-direction: column; justify-content: center; gap: 1px; line-height: 1.25;">
 <sc-if value="{{c.has}}" hint-placeholder-val="{{ false }}">
 <span style="font-weight: 700; font-size: 14px; color: {{c.fg}};">{{c.group}}</span>
 <span style="font-size: 12px; color: {{c.sub}};">{{c.room}}</span>
@@ -171,7 +171,7 @@ button,input{font-family:inherit}
 <h2 style="margin: 0; font-size: 18px; font-weight: 700;">{{listTitle}}</h2>
 <sc-if value="{{noToday}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; color: #5B6270;">Ближайших пар нет в источнике</span></sc-if>
 <sc-for list="{{today}}" as="t" hint-placeholder-count="3">
-<div title="{{t.subject}}" style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: {{t.bg}}; box-shadow: inset 4px 0 0 {{t.color}};">
+<div title="{{t.subject}}" style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: {{t.bg}}; box-shadow: inset 6px 0 0 {{t.color}};">
 <span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{t.numBg}}; color: {{t.numFg}}; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">{{t.n}}</span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-weight: 600; font-size: 14.5px;">{{t.title}}</span><span style="font-size: 12.5px; color: #5B6270;">{{t.time}}</span></span>
 <span style="flex: none; font-size: 12px; font-weight: 600; color: {{t.stateFg}};">{{t.state}}</span>
@@ -234,6 +234,6 @@ button,input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1600}}'></script>
 <script src="dc-runtime.js?v=7fb69be3c1"></script>
-<script src="js/page-teacher.js?v=ee5a27c7bf"></script>
+<script src="js/page-teacher.js?v=3173f94d03"></script>
 </body>
 </html>

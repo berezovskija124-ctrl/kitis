@@ -20,7 +20,7 @@ const hex = (rgb) => { const m = /rgba?\((\d+), (\d+), (\d+)/.exec(rgb || ''); r
   for (const g of D.groups) {
     for (const w of [0, -1]) {
       await p.goto(B + 'desktop.html?now=2026-11-12T10:30#group=' + encodeURIComponent(g) + (w ? '&w=' + w : '')); await p.reload(); await p.waitForTimeout(150);
-      const items = await p.$$eval('main div[style*="inset 4px 0 0"]', (ds) => ds.map((d) => [d.querySelector('span[style*="font-weight: 600"]').innerText.trim(), getComputedStyle(d).boxShadow]));
+      const items = await p.$$eval('main div[style*="inset 6px 0 0"]', (ds) => ds.map((d) => [d.querySelector('span[style*="font-weight: 600"]').innerText.trim(), getComputedStyle(d).boxShadow]));
       items.forEach(([s, sh]) => note(s, hex(sh), g));
     }
   }
@@ -29,7 +29,7 @@ const hex = (rgb) => { const m = /rgba?\((\d+), (\d+), (\d+)/.exec(rgb || ''); r
   for (const t of ['Андрийченко В.А.', 'Журский Р. Д.', 'Максимова Н. А.']) {
     const ti = D.teachers.findIndex((x) => x.replace(/\s/g, '') === t.replace(/\s/g, ''));
     await p.goto(B + 'desktop.html?now=2026-11-12T10:30#tab=teachers&teacher=' + encodeURIComponent(D.teachers[ti])); await p.reload(); await p.waitForTimeout(300);
-    const items = await p.$$eval('div[style*="border-left: 3px solid"]', (ds) => ds.map((d) => [d.children[1].innerText, getComputedStyle(d).borderLeftColor]));
+    const items = await p.$$eval('div[style*="inset 5px 0 0"]', (ds) => ds.map((d) => [d.children[1].innerText, getComputedStyle(d).boxShadow]));
     items.forEach(([info, c]) => { const subj = D.subjects.filter((s) => info.includes(' · ' + s + ' · ') || info.endsWith(' · ' + s)).sort((a, z) => z.length - a.length)[0]; if (subj) note(subj, hex(c), t); });
   }
   console.log('преподаватели: строк', rows, '; новых проблем', bad.length - nBad);

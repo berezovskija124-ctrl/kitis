@@ -281,6 +281,15 @@
     return '#' + rgb.map(function (v) { return ('0' + Math.round((v + m) * 255).toString(16)).slice(-2); }).join('');
   }
 
+  // светлый оттенок цвета: k = 0 — белый, 1 — сам цвет (для фона пары на компьютере)
+  function tint(hex, k) {
+    if (!/^#[0-9a-f]{6}$/i.test(hex || '')) return '#FFFFFF';
+    return '#' + [1, 3, 5].map(function (i) {
+      var c = parseInt(hex.slice(i, i + 2), 16);
+      return ('0' + Math.round(255 - (255 - c) * k).toString(16)).slice(-2);
+    }).join('');
+  }
+
   function fmtNum(v) { return v == null ? '—' : String(Math.round(v * 10) / 10).replace('.', ','); }
 
   // Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Сервер считает объём в академических часах:
@@ -410,7 +419,7 @@
     plural: plural, fmtName: fmtName, fmtTimer: fmtTimer, dayLabel: dayLabel, rangeLabel: rangeLabel, whenLabel: whenLabel,
     addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime, pairNum: pairNum, pairLabel: pairLabel,
     CURATOR_TIME: CURATOR_TIME, evenHours: evenHours, readHash: readHash, writeHash: writeHash, changes: changes, recent: recent, remember: remember,
-    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum, subjectColor: subjectColor,
+    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum, subjectColor: subjectColor, tint: tint,
     updatedLabel: updatedLabel, pairsOf: pairsOf, durationMin: durationMin, fmtHours: fmtHours, fmtPairsHours: fmtPairsHours,
     favs: favs, isFav: isFav, toggleFav: toggleFav, FAV_KEY: FAV_KEY,
     groups: function () { return groupIdx.map(function (i) { return { i: i, name: D.groups[i] }; }); },
