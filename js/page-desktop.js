@@ -164,7 +164,7 @@ class Component extends DCLogic {
         n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color,
         teacher: l.teacher, hasTeacher: !!l.teacher, room: l.place, hasRoom: !l.remote, remote: l.remote, meta: meta, hasMeta: !!meta,
         now: now, nowLabel: 'Идёт · осталось ' + Math.ceil(st.left / 60) + ' мин',
-        bg: now ? '#FFF4EA' : M.tint(l.color, 0.13), numBg: now ? '#B4530F' : M.tint(l.color, 0.45), numFg: now ? '#FFFFFF' : '#15171C',
+        bg: now ? '#FFF4EA' : M.fade(l.color, 0.3), numBg: now ? '#B4530F' : M.tint(l.color, 0.5), numFg: now ? '#FFFFFF' : '#15171C',
         chipBg: 'rgba(255, 255, 255, 0.82)',
         openTeacher: go({ tab: 'teachers', teacher: l.teachers[0] || '', tl: '' }),
         openRoom: go({ tab: 'rooms', room: l.rooms[0] || '' })
@@ -291,7 +291,7 @@ class Component extends DCLogic {
         const today = d.iso === clk.iso;
         const ps = d.lessons.map((l) => {
           const now = today && nowOf(stx, l);
-          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C', color: l.color, tint: now ? '#FFF4EA' : M.tint(l.color, 0.16) };
+          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C', color: l.color, tint: now ? '#FFF4EA' : M.fade(l.color, 0.32) };
         });
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });

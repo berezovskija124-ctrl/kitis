@@ -102,7 +102,7 @@ class Component extends DCLogic {
           return {
             has: has, group: ls.map((l) => l.group + (l.sub ? ' · ' + l.sub + ' п/г' : '')).join(', '), room: has ? ls[0].place : '',
             subject: has ? ls[0].subject : '', color: has ? ls[0].color : 'transparent',
-            bg: now ? '#FFF4EA' : (has ? M.tint(ls[0].color, 0.16) : '#FAFBFC'), border: now ? '#F5C9A6' : (has ? 'transparent' : '#EEF0F3'),
+            bg: now ? '#FFF4EA' : (has ? M.fade(ls[0].color, 0.32) : '#FAFBFC'), border: now ? '#F5C9A6' : (has ? '#E3E6EB' : '#EEF0F3'),
             fg: now ? '#9A4410' : '#15171C', sub: now ? '#9A4410' : '#3A404C'
           };
         })
