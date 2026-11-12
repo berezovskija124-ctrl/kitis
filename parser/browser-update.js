@@ -410,9 +410,180 @@
     return out;
   }
 
+  /* ---------- цвета предметов ----------
+   * У каждого предмета свой спокойный (неяркий) цвет, и два предмета никогда не получают один цвет.
+   * Цвет закрепляется за названием навсегда: следующая выгрузка берёт его из прошлой (prev.colors),
+   * даже если предмет на время пропал из расписания. Новый предмет получает свободный цвет —
+   * самый непохожий на цвета предметов, с которыми он встречается у той же группы или того же преподавателя.
+   * Цвета берутся из пространства OKLCH: одинаковая светлота и умеренная насыщенность, разный оттенок.
+   */
+  var PALETTE = null;
+
+  function oklchColor(L, C, hDeg) {
+    var toHex = function (v) {
+      var x = v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+      return ('0' + Math.round(Math.min(1, Math.max(0, x)) * 255).toString(16)).slice(-2);
+    };
+    for (var c = C; c >= 0; c -= 0.005) {
+      var h = hDeg * Math.PI / 180, a = c * Math.cos(h), b = c * Math.sin(h);
+      var l_ = Math.pow(L + 0.3963377774 * a + 0.2158037573 * b, 3);
+      var m_ = Math.pow(L - 0.1055613458 * a - 0.0638541728 * b, 3);
+      var s_ = Math.pow(L - 0.0894841775 * a - 1.2914855480 * b, 3);
+      var rgb = [
+        4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_,
+        -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_,
+        -0.0041960863 * l_ - 0.7034186147 * m_ + 1.7076147010 * s_
+      ];
+      if (rgb.every(function (v) { return v >= -1e-4 && v <= 1 + 1e-4; })) {
+        return { hex: '#' + rgb.map(toHex).join(''), lab: [L, a, b] };
+      }
+    }
+    return null;
+  }
+
+  function palette() {
+    if (PALETTE) return PALETTE;
+    var out = [], seen = {};
+    // светлота и насыщенность: сначала основной ряд, дальше запасные (цветов хватит на ~360 предметов)
+    [[0.72, 0.095], [0.64, 0.085], [0.80, 0.075], [0.68, 0.09], [0.76, 0.085]].forEach(function (lv, li) {
+      for (var k = 0; k < 72; k++) {
+        var col = oklchColor(lv[0], lv[1], k * 5 + (li % 2 ? 2.5 : 0));
+        if (col && !seen[col.hex]) { seen[col.hex] = 1; out.push(col); }
+      }
+    });
+    PALETTE = out;
+    return out;
+  }
+
+  function hexLab(hex) {
+    var lin = function (i) {
+      var v = parseInt(hex.slice(i, i + 2), 16) / 255;
+      return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    };
+    var r = lin(1), g = lin(3), b = lin(5);
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+      1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+      0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+
+  function labDist(p, q) {
+    var dl = p[0] - q[0], da = p[1] - q[1], db = p[2] - q[2];
+    return Math.sqrt(dl * dl + da * da + db * db);
+  }
+
+  // { "Название предмета": "#rrggbb", … } — для всех предметов выгрузки и всех, что были раньше
+  function subjectColors(data, prev) {
+    var subjects = (data && data.subjects) || [];
+    var colors = {}, used = {};
+    var old = (prev && prev.colors) || {};
+    Object.keys(old).forEach(function (name) {
+      var hex = String(old[name] || '').toLowerCase();
+      if (/^#[0-9a-f]{6}$/.test(hex) && !used[hex]) { colors[name] = hex; used[hex] = name; }
+    });
+
+    // какие предметы встречаются в одном расписании: у одной группы (вес 1) или одного преподавателя (вес 0,2)
+    var weight = subjects.map(function () { return {}; });
+    var link = function (set, w) {
+      var list = Object.keys(set);
+      list.forEach(function (a) { list.forEach(function (b) { if (a !== b && !(weight[a][b] >= w)) weight[a][b] = w; }); });
+    };
+    var byGroup = {}, byTeacher = {};
+    var add = function (map, key, s) { if (s == null || s < 0) return; (map[key] || (map[key] = {}))[s] = 1; };
+    (data.lessons || []).forEach(function (r) {
+      add(byGroup, r[2], r[4]);
+      [].concat(r[5]).forEach(function (t) { if (t != null && t >= 0) add(byTeacher, t, r[4]); });
+    });
+    (data.load || []).forEach(function (rows, g) { rows.forEach(function (x) { add(byGroup, g, x[0]); if (x[1] >= 0) add(byTeacher, x[1], x[0]); }); });
+    (data.loadT || []).forEach(function (rows, t) { rows.forEach(function (x) { add(byTeacher, t, x[3]); }); });
+    Object.keys(byTeacher).forEach(function (k) { link(byTeacher[k], 0.2); });
+    Object.keys(byGroup).forEach(function (k) { link(byGroup[k], 1); });
+
+    // 1. Жадно: каждому новому предмету — свободный цвет, самый далёкий от цветов его соседей
+    var todo = subjects.map(function (n, i) { return i; }).filter(function (i) { return !colors[subjects[i]]; });
+    todo.sort(function (a, b) {
+      return Object.keys(weight[b]).length - Object.keys(weight[a]).length || (subjects[a] < subjects[b] ? -1 : subjects[a] > subjects[b] ? 1 : 0);
+    });
+    var pal = palette();
+    var labOf = {};
+    Object.keys(colors).forEach(function (n) { labOf[n] = hexLab(colors[n]); });
+    var fresh = [];
+    todo.forEach(function (si) {
+      var name = subjects[si];
+      if (colors[name]) return;   // одинаковые названия
+      var neighbours = Object.keys(weight[si]).map(function (j) { return labOf[subjects[j]]; }).filter(Boolean);
+      var all = Object.keys(labOf).map(function (n) { return labOf[n]; });
+      var best = null, bestNear = -1, bestAll = -1;
+      pal.forEach(function (col) {
+        if (used[col.hex]) return;
+        var dn = Infinity, da = Infinity;
+        neighbours.forEach(function (q) { dn = Math.min(dn, labDist(col.lab, q)); });
+        all.forEach(function (q) { da = Math.min(da, labDist(col.lab, q)); });
+        if (dn > bestNear + 1e-9 || (Math.abs(dn - bestNear) <= 1e-9 && da > bestAll + 1e-9)) { best = col; bestNear = dn; bestAll = da; }
+      });
+      if (!best) {   // палитра кончилась: свободный оттенок по «золотому углу»
+        for (var k = 0; !best; k++) {
+          var c = oklchColor(0.7, 0.08, (k * 137.508) % 360);
+          if (c && !used[c.hex]) best = c;
+        }
+      }
+      colors[name] = best.hex;
+      used[best.hex] = name;
+      labOf[name] = best.lab;
+      fresh.push(si);
+    });
+
+    // 2. Доводка: новые предметы меняются цветами между собой или берут свободный цвет,
+    //    если от этого похожих цветов у соседей становится меньше. Прежние цвета не трогаем.
+    //    Случайность с постоянным зерном — результат один и тот же при каждом запуске.
+    if (fresh.length > 1) {
+      var seed = 20261112;
+      var rnd = function () {
+        seed = (seed + 0x6D2B79F5) | 0;
+        var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+      var penalty = function (d) { return Math.pow(0.05 / (d + 1e-6), 6); };
+      var energy = function (si, lab) {
+        var e = 0, w = weight[si];
+        for (var j in w) { var q = labOf[subjects[j]]; if (q) e += w[j] * penalty(labDist(lab, q)); }
+        return e;
+      };
+      var free = pal.filter(function (col) { return !used[col.hex]; });
+      for (var it = 0; it < 150000; it++) {
+        var a = fresh[Math.floor(rnd() * fresh.length)], na = subjects[a];
+        if (rnd() < 0.5) {
+          var fi = Math.floor(rnd() * free.length), cand = free[fi];
+          if (!cand || used[cand.hex]) continue;
+          if (energy(a, cand.lab) < energy(a, labOf[na]) - 1e-12) {
+            var was = { hex: colors[na], lab: labOf[na] };
+            delete used[was.hex];
+            colors[na] = cand.hex; labOf[na] = cand.lab; used[cand.hex] = na;
+            free[fi] = was;
+          }
+        } else {
+          var b = fresh[Math.floor(rnd() * fresh.length)], nb = subjects[b];
+          if (a === b) continue;
+          var la = labOf[na], lb = labOf[nb];
+          var before = energy(a, la) + energy(b, lb);
+          labOf[na] = lb; labOf[nb] = la;
+          if (energy(a, lb) + energy(b, la) < before - 1e-12) {
+            var h = colors[na]; colors[na] = colors[nb]; colors[nb] = h;
+            used[colors[na]] = na; used[colors[nb]] = nb;
+          } else { labOf[na] = la; labOf[nb] = lb; }
+        }
+      }
+    }
+    return colors;
+  }
+
   var api = {
     text: text, parseList: parseList, parseLoad: parseLoad, parseJournal: parseJournal, parseWeek: parseWeek,
-    parseUpdated: parseUpdated, scrape: scrape, build: build, mondayOf: mondayOf, changedGroups: changedGroups
+    parseUpdated: parseUpdated, scrape: scrape, build: build, mondayOf: mondayOf, changedGroups: changedGroups,
+    subjectColors: subjectColors
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.KitisParser = api;
@@ -431,6 +602,7 @@
   };
   console.log('КИТиС: сбор расписания начался…');
   var data = await KitisParser.scrape({ fetchText: fetchText, concurrency: 4, log: function (m) { console.log('КИТиС:', m); } });
+  data.colors = KitisParser.subjectColors(data, null);   // цвета предметов (робот на GitHub сохраняет прежние)
   var text = '/* Данные сервера расписания КИТиС (' + data.source + '), собраны парсером parser/kitis-parser.js.\n'
     + ' * Обновлено на сервере: ' + data.updated + '. Собрано: ' + data.fetched + '. Не правьте вручную — файл перезаписывается. */\n'
     + 'window.KITIS_DATA = ' + JSON.stringify(data) + ';\n';

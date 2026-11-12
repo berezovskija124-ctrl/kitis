@@ -144,7 +144,7 @@
       start: tm ? tm[0] : '', end: tm ? tm[1] : '', hasTime: !!tm,
       time: tm ? tm[0] + ' – ' + tm[1] : '',
       remote: rooms.length === 0, place: rooms.length ? rooms.map(function (x) { return /^\d/.test(x) ? 'ауд. ' + x : x; }).join(', ') : 'Дистант',
-      subject: D.subjects[o.s] || '', type: D.types[o.k] || '',
+      subject: D.subjects[o.s] || '', color: subjectColor(D.subjects[o.s] || ''), type: D.types[o.k] || '',
       group: D.groups[o.g] || '', g: o.g,
       teacher: teachers.join(', '), teachers: teachers, t: o.t, t0: o.t.length ? o.t[0] : -1,
       room: rooms.join(', '), rooms: rooms, r: o.r, r0: o.r.length ? o.r[0] : -1,
@@ -259,7 +259,7 @@
         ? { t: x[1], g: i, sub: x[2], s: x[0], k: x[3], total: x[4], plan: x[5], fact: x[6], rest: x[7], planWeek: x[8], factWeek: x[9], end: x[10], pct: x[11], j: x[12] }
         : { t: x[0], g: x[1], sub: x[2], s: x[3], k: x[4], total: x[5], plan: x[6], fact: x[7], rest: x[8], planWeek: x[9], factWeek: x[10], end: x[11], pct: x[12], j: x[13] };
       return {
-        n: n + 1, subject: D.subjects[r.s] || '', teacher: teacherName(r.t), teacherRaw: D.teachers[r.t] || '', t: r.t, group: D.groups[r.g] || '', sub: r.sub || 0,
+        n: n + 1, subject: D.subjects[r.s] || '', color: subjectColor(D.subjects[r.s] || ''), teacher: teacherName(r.t), teacherRaw: D.teachers[r.t] || '', t: r.t, group: D.groups[r.g] || '', sub: r.sub || 0,
         type: D.types[r.k] || '', total: r.total, plan: r.plan, fact: r.fact, rest: r.rest, planWeek: r.planWeek, factWeek: r.factWeek,
         end: r.end, pct: r.pct != null ? r.pct : (r.total ? Math.round(r.fact / r.total * 100) : null), j: r.j
       };
@@ -267,6 +267,20 @@
   }
   function load(g) { return loadOf('g', g); }
   // числа как на сервере: дробные — с запятой (1,8), пустые — «—»
+  /* ---------- цвета предметов ----------
+   * Цвет закреплён за названием предмета в данных (KITIS_DATA.colors). Его подбирает робот:
+   * у каждого предмета свой спокойный цвет, цвета не повторяются и не меняются от обновления к обновлению.
+   * Если в данных цвета нет (старая выгрузка), берётся запасной спокойный цвет по названию. */
+  function subjectColor(name) {
+    var c = D && D.colors && D.colors[name];
+    if (c && /^#[0-9a-f]{6}$/i.test(c)) return c;
+    var h = 0;
+    for (var i = 0; i < String(name || '').length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    var hue = (h % 360) / 60, ch = 0.3, x = ch * (1 - Math.abs(hue % 2 - 1)), m = 0.62 - ch / 2;
+    var rgb = hue < 1 ? [ch, x, 0] : hue < 2 ? [x, ch, 0] : hue < 3 ? [0, ch, x] : hue < 4 ? [0, x, ch] : hue < 5 ? [x, 0, ch] : [ch, 0, x];
+    return '#' + rgb.map(function (v) { return ('0' + Math.round((v + m) * 255).toString(16)).slice(-2); }).join('');
+  }
+
   function fmtNum(v) { return v == null ? '—' : String(Math.round(v * 10) / 10).replace('.', ','); }
 
   // Пара длится 1,5 часа (в понедельник — 1 ч 20 мин). Сервер считает объём в академических часах:
@@ -396,7 +410,7 @@
     plural: plural, fmtName: fmtName, fmtTimer: fmtTimer, dayLabel: dayLabel, rangeLabel: rangeLabel, whenLabel: whenLabel,
     addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime, pairNum: pairNum, pairLabel: pairLabel,
     CURATOR_TIME: CURATOR_TIME, evenHours: evenHours, readHash: readHash, writeHash: writeHash, changes: changes, recent: recent, remember: remember,
-    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum,
+    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum, subjectColor: subjectColor,
     updatedLabel: updatedLabel, pairsOf: pairsOf, durationMin: durationMin, fmtHours: fmtHours, fmtPairsHours: fmtPairsHours,
     favs: favs, isFav: isFav, toggleFav: toggleFav, FAV_KEY: FAV_KEY,
     groups: function () { return groupIdx.map(function (i) { return { i: i, name: D.groups[i] }; }); },

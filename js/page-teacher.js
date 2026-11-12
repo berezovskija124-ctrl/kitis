@@ -22,7 +22,7 @@ class Component extends DCLogic {
     const LONG = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
     const todayLong = LONG[clk.wd] + ', ' + M.dayLabel(clk.iso);
     const inLabel = (secs) => { const mm = Math.round(secs / 60); return mm >= 60 ? 'Через ' + Math.floor(mm / 60) + ' ч ' + (mm % 60) + ' мин' : 'Через ' + mm + ' мин'; };
-    const plaqueOf = (st, titleFn) => {
+    const plaqueOf0 = (st, titleFn) => {
       const L = st.lesson;
       if (st.mode === 'now') return { live: true, badge: titleFn.nowBadge + ' · ' + L.label, big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до конца пары · ' + L.time,
         progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true, title: titleFn.title(L), subject: L.subject,
@@ -33,6 +33,8 @@ class Component extends DCLogic {
         note: 'следующее занятие · ' + L.label.toLowerCase() + ' · ' + L.time, progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: '' };
       return { live: false, badge: 'Пар не найдено', big: '—', mono: false, size: '40px', note: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, title: '', subject: '', meta: '' };
     };
+    // цвет предмета у таблички «сейчас идёт»
+    const plaqueOf = (st, titleFn) => Object.assign(plaqueOf0(st, titleFn), { color: st.lesson ? st.lesson.color : 'transparent' });
     const finishPlaque = (pq) => Object.assign(pq, {
       dot: pq.live ? '#FF8A3D' : '#5B6270', anim: pq.live ? 'kPulse 1.8s ease-out infinite' : 'none',
       font: pq.mono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif", hasTitle: !!pq.title, hasSubject: !!pq.subject, hasMeta: !!pq.meta
@@ -99,6 +101,7 @@ class Component extends DCLogic {
           const now = has && tst.mode === 'now' && d.iso === clk.iso && tst.lesson.num === p;
           return {
             has: has, group: ls.map((l) => l.group + (l.sub ? ' · ' + l.sub + ' п/г' : '')).join(', '), room: has ? ls[0].place : '',
+            subject: has ? ls[0].subject : '', color: has ? ls[0].color : 'transparent',
             bg: now ? '#FFF4EA' : (has ? accentSoft : '#FAFBFC'), border: now ? '#F5C9A6' : (has ? 'transparent' : '#EEF0F3'),
             fg: now ? '#9A4410' : '#15171C', sub: now ? '#9A4410' : '#3A404C'
           };
@@ -109,7 +112,7 @@ class Component extends DCLogic {
     const today = dl.lessons.map((l) => {
       const s2 = stateOf(l, dl.isToday);
       const c = s2.kind === 'done' ? ['#5B6270', '#F7F8FA', '#F1F3F6', '#5B6270'] : (s2.kind === 'now' ? ['#9A4410', '#FFF4EA', '#B4530F', '#FFFFFF'] : [accent, '#FFFFFF', accentSoft, accent]);
-      return { n: l.badge, time: l.time || '—', title: l.group + ' · ' + l.place, state: s2.label, stateFg: c[0], bg: c[1], numBg: c[2], numFg: c[3] };
+      return { n: l.badge, time: l.time || '—', subject: l.subject, color: l.color, title: l.group + ' · ' + l.place, state: s2.label, stateFg: c[0], bg: c[1], numBg: c[2], numFg: c[3] };
     });
     const ld = M.teacherLoad(ti);
     const CUR = { 'ИСр24-1': 'Куратор — Шевченко П. С.' };

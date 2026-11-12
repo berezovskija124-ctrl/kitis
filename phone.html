@@ -9,7 +9,7 @@
 <title>КИТиС · Расписание — телефон</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=1352bb29fb"></script>
+<script src="kitis-model.js?v=e8ec2324c3"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
 <script src="data/kitis-photos.js"></script>
@@ -151,7 +151,7 @@ button,input,select{font-family:inherit}
 <div aria-hidden="true" style="height: 5px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{plaque.progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div>
 </sc-if>
 <sc-if value="{{plaque.hasSubject}}" hint-placeholder-val="{{ true }}">
-<span style="font-size: 15.5px; font-weight: 600; line-height: 1.3;">{{plaque.subject}}</span>
+<span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15.5px; font-weight: 600; line-height: 1.3;"><span aria-hidden="true" style="flex: none; width: 9px; height: 9px; margin-top: 6px; border-radius: 50%; background: {{plaque.color}};"></span><span>{{plaque.subject}}</span></span>
 <span style="font-size: 13px; color: #B9BEC8;">{{plaque.meta}}</span>
 </sc-if>
 </section>
@@ -179,7 +179,7 @@ button,input,select{font-family:inherit}
 </div>
 <sc-if value="{{dayNote}}" hint-placeholder-val="{{ false }}"><div style="font-size: 12.5px; color: #3A404C; padding: 8px 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E6EB;">Кураторский день: подъём флага 08:15, кураторский час 08:30</div></sc-if>
 <sc-for list="{{dayLessons}}" as="l" hint-placeholder-count="3">
-<div style="background: {{l.bg}}; border: 1px solid {{l.border}}; border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; animation: kSlideLeft .35s ease both; animation-delay: {{l.delay}};">
+<div style="background: {{l.bg}}; border: 1px solid {{l.border}}; border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; box-shadow: inset 4px 0 0 {{l.color}}; animation: kSlideLeft .35s ease both; animation-delay: {{l.delay}};">
 <div style="flex: none; width: 44px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
 <span style="width: 28px; height: 28px; border-radius: 8px; background: {{l.numBg}}; color: {{l.numFg}}; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 2px;">{{l.n}}</span>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{l.start}}</span>
@@ -272,7 +272,7 @@ button,input,select{font-family:inherit}
 <sc-for list="{{loadRows}}" as="r" hint-placeholder-count="6">
 <div style="display: flex; flex-direction: column; gap: 7px; padding: 12px 0; border-bottom: 1px solid #EEF0F3; animation: kFadeUp .35s ease both; animation-delay: {{r.delay}};">
 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
-<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;"><span style="font-weight: 600; font-size: 14px; line-height: 1.3;">{{r.n}}. {{r.subject}}</span><span style="font-size: 12px; color: #5B6270;">{{r.meta}}</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;"><span style="font-weight: 600; font-size: 14px; line-height: 1.3;"><span aria-hidden="true" style="display: inline-block; width: 9px; height: 9px; margin-right: 8px; border-radius: 50%; background: {{r.color}}; vertical-align: 1px;"></span>{{r.n}}. {{r.subject}}</span><span style="font-size: 12px; color: #5B6270;">{{r.meta}}</span></span>
 <span style="flex: none; font-size: 17px; font-weight: 700;">{{r.pctLabel}}</span>
 </div>
 <div aria-hidden="true" style="height: 8px; border-radius: 4px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.bar}}%; border-radius: 4px; background: {{r.barColor}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div></div>
@@ -587,7 +587,7 @@ button,input,select{font-family:inherit}
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
 <sc-if value="{{d.empty}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12.5px; color: #5B6270;">{{d.emptyText}}</span></sc-if>
 <sc-for list="{{d.pairs}}" as="p" hint-placeholder-count="1">
-<div style="display: flex; flex-direction: column; line-height: 1.3;"><span style="font-size: 13px; font-weight: 600; color: {{p.fg}};">{{p.head}}</span><span style="font-size: 12px; color: #5B6270;">{{p.info}}</span></div>
+<div style="display: flex; flex-direction: column; line-height: 1.3; border-left: 3px solid {{p.color}}; padding-left: 9px;"><span style="font-size: 13px; font-weight: 600; color: {{p.fg}};">{{p.head}}</span><span style="font-size: 12px; color: #5B6270;">{{p.info}}</span></div>
 </sc-for>
 </div>
 </div>
@@ -611,6 +611,6 @@ button,input,select{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":390,"height":844}}'></script>
 <script src="dc-runtime.js?v=7fb69be3c1"></script>
-<script src="js/page-phone.js?v=77b39bf946"></script>
+<script src="js/page-phone.js?v=1836d0b0f3"></script>
 </body>
 </html>

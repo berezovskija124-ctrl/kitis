@@ -155,6 +155,7 @@ class Component extends DCLogic {
       plaque = { live: false, badge: 'Пар не найдено', when: '', big: '—', bigMono: false, bigSize: '28px', bigNote: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, subject: '', meta: '' };
     }
     plaque.hasSubject = !!plaque.subject;
+    plaque.color = L0 ? L0.color : 'transparent';
     plaque.dot = plaque.live ? '#FF8A3D' : '#5B6270';
     plaque.anim = plaque.live ? 'kPulse 1.8s ease-out infinite' : 'none';
     plaque.bigFont = plaque.bigMono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif";
@@ -181,7 +182,7 @@ class Component extends DCLogic {
       const now = dToday && nowOf(st, l);
       const meta = [l.subLabel, l.type === 'Практика' ? 'практика' : ''].filter(Boolean).join(' · ');
       return {
-        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, teacher: l.teacher, hasTeacher: !!l.teacher,
+        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color, teacher: l.teacher, hasTeacher: !!l.teacher,
         room: l.place, hasRoom: !l.remote, remote: l.remote, now: now, meta: meta, hasMeta: !!meta,
         bg: now ? '#FFF4EA' : '#FFFFFF', border: now ? '#F5C9A6' : '#E3E6EB',
         numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'), delay: delay(k),
@@ -263,7 +264,7 @@ class Component extends DCLogic {
     const loadRows = loadRaw.map((x, i) => {
       const pct = x.pct != null ? x.pct : 0;
       return {
-        n: x.n, subject: x.subject, meta: [x.teacherRaw || x.teacher, x.group, 'п/г ' + x.sub, x.type].filter(Boolean).join(' · '),
+        n: x.n, subject: x.subject, color: x.color, meta: [x.teacherRaw || x.teacher, x.group, 'п/г ' + x.sub, x.type].filter(Boolean).join(' · '),
         pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i),
         cells: [['Всего', x.total], ['План', x.plan], ['Факт', x.fact, 1], ['Остаток', x.rest], ['План в 1 нед.', x.planWeek], ['Факт в 1 нед.', x.factWeek]]
           .map((c) => ({ l: c[0], v: fmtN(c[1]), w: c[2] ? 700 : 500 })).concat([{ l: 'Окончание', v: fmtD(x.end), w: 500 }])
@@ -410,7 +411,7 @@ class Component extends DCLogic {
       const stx = M.status(kind, idx);
       return M.week(kind, idx, wi.monday).filter((d) => d.wd < 6 || d.lessons.length).map((d, di) => {
         const today = d.iso === clk.iso;
-        const ps = d.lessons.map((l) => ({ head: pairLine(l), info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C' }));
+        const ps = d.lessons.map((l) => ({ head: pairLine(l), info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C', color: l.color }));
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });
     };

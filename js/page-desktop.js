@@ -142,6 +142,7 @@ class Component extends DCLogic {
     }
     plaque.hasFoot = !!plaque.foot;
     plaque.hasSubject = !!plaque.subject;
+    plaque.color = L0 ? L0.color : 'transparent';
     plaque.bigFont = plaque.bigMono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif";
 
     let pill;
@@ -160,7 +161,7 @@ class Component extends DCLogic {
       const now = today && nowOf(st, l);
       const meta = [l.subLabel, l.type === 'Практика' ? 'практика' : ''].filter(Boolean).join(' · ');
       return {
-        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject,
+        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color,
         teacher: l.teacher, hasTeacher: !!l.teacher, room: l.place, hasRoom: !l.remote, remote: l.remote, meta: meta, hasMeta: !!meta,
         now: now, nowLabel: 'Идёт · осталось ' + Math.ceil(st.left / 60) + ' мин',
         bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'),
@@ -289,7 +290,7 @@ class Component extends DCLogic {
         const today = d.iso === clk.iso;
         const ps = d.lessons.map((l) => {
           const now = today && nowOf(stx, l);
-          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C' };
+          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C', color: l.color };
         });
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });
@@ -483,7 +484,7 @@ class Component extends DCLogic {
     const loadRows = loadRaw.map((x, i) => {
       const pct = x.pct != null ? x.pct : 0;
       return {
-        n: x.n, teacher: x.teacherRaw || x.teacher, group: x.group, sub: String(x.sub), subject: x.subject, type: x.type,
+        n: x.n, teacher: x.teacherRaw || x.teacher, group: x.group, sub: String(x.sub), subject: x.subject, color: x.color, type: x.type,
         total: fmtN(x.total), plan: fmtN(x.plan), fact: fmtN(x.fact), rest: fmtN(x.rest), planWeek: fmtN(x.planWeek), factWeek: fmtN(x.factWeek),
         end: fmtD(x.end), pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i)
       };

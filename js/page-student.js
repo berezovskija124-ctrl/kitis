@@ -23,7 +23,7 @@ class Component extends DCLogic {
     const LONG = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
     const todayLong = LONG[clk.wd] + ', ' + M.dayLabel(clk.iso);
     const inLabel = (secs) => { const mm = Math.round(secs / 60); return mm >= 60 ? 'Через ' + Math.floor(mm / 60) + ' ч ' + (mm % 60) + ' мин' : 'Через ' + mm + ' мин'; };
-    const plaqueOf = (st, titleFn) => {
+    const plaqueOf0 = (st, titleFn) => {
       const L = st.lesson;
       if (st.mode === 'now') return { live: true, badge: titleFn.nowBadge + ' · ' + L.label, big: M.fmtTimer(st.left), mono: true, size: '60px', note: 'до конца пары · ' + L.time,
         progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true, title: titleFn.title(L), subject: L.subject,
@@ -34,6 +34,8 @@ class Component extends DCLogic {
         note: 'следующее занятие · ' + L.label.toLowerCase() + ' · ' + L.time, progress: '0', hasProgress: false, title: titleFn.title(L), subject: L.subject, meta: '' };
       return { live: false, badge: 'Пар не найдено', big: '—', mono: false, size: '40px', note: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, title: '', subject: '', meta: '' };
     };
+    // цвет предмета у таблички «сейчас идёт»
+    const plaqueOf = (st, titleFn) => Object.assign(plaqueOf0(st, titleFn), { color: st.lesson ? st.lesson.color : 'transparent' });
     const finishPlaque = (pq) => Object.assign(pq, {
       dot: pq.live ? '#FF8A3D' : '#5B6270', anim: pq.live ? 'kPulse 1.8s ease-out infinite' : 'none',
       font: pq.mono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif", hasTitle: !!pq.title, hasSubject: !!pq.subject, hasMeta: !!pq.meta
@@ -78,7 +80,7 @@ class Component extends DCLogic {
     const today = dl.lessons.map((l) => {
       const s2 = stateOf(l, dl.isToday);
       const sx = states[s2.kind];
-      return { n: l.badge, time: l.time || '—', subject: l.subject, meta: [l.teacher, l.place, l.subLabel].filter(Boolean).join(' · '), state: s2.label, chipBg: sx.bg, chipFg: sx.fg, numBg: sx.numBg, numFg: sx.numFg };
+      return { n: l.badge, time: l.time || '—', subject: l.subject, color: l.color, meta: [l.teacher, l.place, l.subLabel].filter(Boolean).join(' · '), state: s2.label, chipBg: sx.bg, chipFg: sx.fg, numBg: sx.numBg, numFg: sx.numFg };
     });
     const sst = this.state || {};
     const openSpravka = (e) => {
