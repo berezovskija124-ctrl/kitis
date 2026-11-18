@@ -177,6 +177,11 @@ class Component extends DCLogic {
       };
     });
     const dSel = showDays[day] || { name: '', label: '', lessons: [], wd: 1, iso: '' };
+    // плавное появление пар: при выборе другого дня (недели, группы) имя анимации меняется kDayInA ↔ kDayInB,
+    // и браузер проигрывает её заново, даже если карточки остались те же. Тиканье часов анимацию не трогает.
+    const animKey = [hasGroup ? gi : '', wi.monday, dSel.iso].join('|');
+    if (this._animKey !== animKey) { this._animKey = animKey; this._animFlip = !this._animFlip; }
+    const dayAnim = this._animFlip ? 'kDayInA' : 'kDayInB';
     const dToday = dSel.iso === clk.iso;
     const dayLessons = dSel.lessons.map((l, k) => {
       const now = dToday && nowOf(st, l);
@@ -185,7 +190,8 @@ class Component extends DCLogic {
         n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color, teacher: l.teacher, hasTeacher: !!l.teacher,
         room: l.place, hasRoom: !l.remote, remote: l.remote, now: now, meta: meta, hasMeta: !!meta,
         bg: now ? '#FFF4EA' : M.fade(l.color, 0.3), border: now ? '#F5C9A6' : '#E3E6EB', chipBg: 'rgba(255, 255, 255, 0.82)',
-        numBg: now ? '#B4530F' : M.tint(l.color, 0.5), numFg: now ? '#FFFFFF' : '#15171C', delay: delay(k),
+        numBg: now ? '#B4530F' : M.tint(l.color, 0.5), numFg: now ? '#FFFFFF' : '#15171C',
+        anim: dayAnim, delay: (0.06 + Math.min(k, 8) * 0.07).toFixed(2) + 's',
         openTeacher: go({ sheet: { type: 't', key: l.teachers[0] || '' } }),
         openRoom: go({ sheet: { type: 'r', key: l.rooms[0] || '' } })
       };
@@ -607,7 +613,7 @@ class Component extends DCLogic {
       prevWeek: go({ w: canPrev ? w - 1 : w, day: null }), nextWeek: go({ w: canNext ? w + 1 : w, day: null }),
       dayPills: dayPills, dayLessons: dayLessons, dayCols: 'repeat(' + Math.max(1, showDays.length) + ', minmax(0, 1fr))',
       dayTitle: dSel.name + (dSel.label ? ', ' + dSel.label : ''), dayCount: dc ? pairs(dc) : '',
-      dayNote: dSel.wd === 0 && dc > 0, dayEmpty: dc === 0,
+      dayNote: dSel.wd === 0 && dc > 0, dayEmpty: dc === 0, dayAnim: dayAnim,
       dayEmptyText: wi.hasData ? 'В этот день пар нет' : (w > 0 ? 'Расписание ещё не опубликовано на сервере' : 'За эту неделю данных на сервере нет'),
       bells: bells, bellTabs: bellTabs, bellProgress: bellProgress,
       bellNote: bellDay === 'mon' ? 'Кураторский день · пара 1 ч 20 мин' : 'Вторник – суббота · пара 1 ч 30 мин',
