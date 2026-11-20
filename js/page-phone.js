@@ -196,6 +196,10 @@ class Component extends DCLogic {
       });
     });
     const dc = dayLessons.length;
+    // легенда под парами: только виды, которые есть на этой неделе
+    const kindsHere = {};
+    wk.forEach((d) => d.lessons.forEach((l) => { kindsHere[l.tags.kind] = 1; }));
+    const legend = ['lec', 'prac', 'up', 'pp', 'pdp'].filter((k) => kindsHere[k]).map((k) => ({ color: M.KINDS[k].color, label: M.KINDS[k].label + ({ up: ' (УП)', pp: ' (ПП)', pdp: ' (ПДП)' }[k] || '') }));
 
     /* ---------- звонки ---------- */
     const monTimes = M.MON_TIMES, wkTimes = M.WK_TIMES;
@@ -269,7 +273,8 @@ class Component extends DCLogic {
     const loadRows = loadRaw.map((x, i) => {
       const pct = x.pct != null ? x.pct : 0;
       return {
-        n: x.n, subject: x.subject, meta: [x.teacherRaw || x.teacher, x.group, 'п/г ' + x.sub, x.type].filter(Boolean).join(' · '),
+        n: x.n, subject: x.subject, meta: [x.teacherRaw || x.teacher, x.group, 'п/г ' + x.sub].filter(Boolean).join(' · '),
+        type: x.type, hasType: !!x.type, kindBg: M.lessonTags(x.subject, x.type).kindBg, kindFg: M.lessonTags(x.subject, x.type).kindFg,
         pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i),
         cells: [['Всего', x.total], ['План', x.plan], ['Факт', x.fact, 1], ['Остаток', x.rest], ['План в 1 нед.', x.planWeek], ['Факт в 1 нед.', x.factWeek]]
           .map((c) => ({ l: c[0], v: fmtN(c[1]), w: c[2] ? 700 : 500 })).concat([{ l: 'Окончание', v: fmtD(x.end), w: 500 }])
@@ -631,7 +636,7 @@ class Component extends DCLogic {
       prevWeek: go({ w: canPrev ? w - 1 : w, day: null }), nextWeek: go({ w: canNext ? w + 1 : w, day: null }),
       dayPills: dayPills, dayLessons: dayLessons, dayCols: 'repeat(' + Math.max(1, showDays.length) + ', minmax(0, 1fr))',
       dayTitle: dSel.name + (dSel.label ? ', ' + dSel.label : ''), dayCount: dc ? pairs(dc) : '',
-      dayNote: dSel.wd === 0 && dc > 0, dayEmpty: dc === 0, dayAnim: dayAnim,
+      dayNote: dSel.wd === 0 && dc > 0, dayEmpty: dc === 0, dayAnim: dayAnim, legend: legend, hasLegend: legend.length > 0,
       dayEmptyText: wi.hasData ? 'В этот день пар нет' : (w > 0 ? 'Расписание ещё не опубликовано на сервере' : 'За эту неделю данных на сервере нет'),
       bells: bells, bellTabs: bellTabs, bellProgress: bellProgress,
       bellNote: bellDay === 'mon' ? 'Кураторский день · пара 1 ч 20 мин' : 'Вторник – суббота · пара 1 ч 30 мин',

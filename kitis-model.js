@@ -158,7 +158,29 @@
     if (!D || i == null || i < 0) return [];
     var m = idx[kind][i];
     var list = (m && m[iso]) || [];
-    return list.slice().sort(function (a, b) { return a.n - b.n || a.sub - b.sub || a.g - b.g; }).map(view);
+    var res = list.slice().sort(function (a, b) { return a.n - b.n || a.sub - b.sub || a.g - b.g; }).map(view);
+    return kind === 'g' ? res : mergeShared(res);
+  }
+
+  // У преподавателя и в аудитории одна и та же пара сразу у нескольких групп (сдвоенная, поток) —
+  // одной карточкой, как на сервере: «С24-2, С23УЗ · Управление деятельностью…».
+  function mergeShared(list) {
+    var out = [], byKey = {};
+    list.forEach(function (l) {
+      var key = [l.date, l.n, l.subject, l.type, l.rooms.join('|'), l.teachers.join('|')].join('#');
+      var gl = { name: l.group, sub: l.sub, label: l.group + (l.sub ? ' (' + l.sub + ' подгр.)' : '') };
+      var m = byKey[key];
+      if (!m) { m = Object.assign({}, l, { groupsList: [gl], shared: false }); byKey[key] = m; out.push(m); return; }
+      if (!m.groupsList.some(function (x) { return x.name === gl.name && x.sub === gl.sub; })) m.groupsList.push(gl);
+    });
+    out.forEach(function (m) {
+      if (m.groupsList.length > 1) {
+        m.shared = true;
+        m.group = m.groupsList.map(function (x) { return x.label; }).join(', ');
+        m.sub = 0; m.subLabel = '';
+      }
+    });
+    return out;
   }
 
   function week(kind, i, monday) {

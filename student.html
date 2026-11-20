@@ -9,7 +9,7 @@
 <title>КИТиС · Кабинет студента</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=d74443c14c"></script>
+<script src="kitis-model.js?v=96ec32e5f9"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Кабинет студента.">
@@ -49,10 +49,13 @@ button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:in
 a.tap{position:relative}
 @media (hover:hover) and (pointer:fine){
 button:not(:disabled):hover::after,a.tap:hover::after{opacity:.05}
-a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
+a[href][style*="display: flex"]:not(header a):not(nav a):not(footer a):hover,a[href][style*="display: inline-flex"]:not(header a):not(nav a):not(footer a):hover,a[href][style*="display: grid"]:not(header a):not(nav a):not(footer a):hover,a[href][style*="display: block"]:not(header a):not(nav a):not(footer a):hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
 }
 button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
 button:not(:disabled):active::after,a.tap:active::after{opacity:.08}
+/* затемнение под списками, шторками и меню — не кнопка: не сжимается при нажатии и не «улетает» */
+button[style*="inset: 0"],button[style*="inset: 0"]:active{transform:none!important;transition:none!important}
+button[style*="inset: 0"]::after{content:none!important}
 :focus{outline:none}
 /* рамка фокуса — только при работе с клавиатуры (Tab), мышью и пальцем синего выделения нет */
 html.kbd :focus-visible{outline:2px solid #15171C!important;outline-offset:2px}

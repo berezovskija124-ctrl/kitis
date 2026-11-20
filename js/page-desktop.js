@@ -178,7 +178,9 @@ class Component extends DCLogic {
       return Object.assign({}, l.tags, {
         n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject,
         teacher: l.teacher, hasTeacher: whoKind !== 't' && !!l.teacher, room: l.place, hasRoom: whoKind !== 'r' && !l.remote, remote: l.remote, meta: meta, hasMeta: !!meta,
-        hasGroup: whoKind !== 'g' && !!l.group, groupLabel: l.group + (l.subLabel ? ' · ' + l.subLabel : ''), openGroup: go({ group: l.group, tab: 'schedule' }),
+        // у преподавателя и аудитории — кнопка каждой группы пары (у сдвоенной пары их несколько)
+        groupChips: whoKind === 'g' ? [] : (l.groupsList || [{ name: l.group, sub: l.sub }]).map((x) => ({
+          label: x.name + (x.sub ? ' · ' + x.sub + ' подгр.' : ''), open: go({ group: x.name, tab: 'schedule' }) })),
         now: now, nowLabel: 'Идёт · осталось ' + Math.ceil(wst.left / 60) + ' мин',
         bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'),
         chipBg: now ? '#FFFFFF' : '#F4F5F7',
@@ -503,6 +505,7 @@ class Component extends DCLogic {
       const pct = x.pct != null ? x.pct : 0;
       return {
         n: x.n, teacher: x.teacherRaw || x.teacher, group: x.group, sub: String(x.sub), subject: x.subject, type: x.type,
+        kindBg: M.lessonTags(x.subject, x.type).kindBg, kindFg: M.lessonTags(x.subject, x.type).kindFg,
         total: fmtN(x.total), plan: fmtN(x.plan), fact: fmtN(x.fact), rest: fmtN(x.rest), planWeek: fmtN(x.planWeek), factWeek: fmtN(x.factWeek),
         end: fmtD(x.end), pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i)
       };
@@ -577,6 +580,8 @@ class Component extends DCLogic {
     const upd = M.updatedLabel();
     const navBtn = (on) => ({ opacity: on ? '1' : '0.4', cursor: on ? 'pointer' : 'default' });
     const canPrev = w > wMin, canNext = w < wMax;
+    // легенда: какой цвет у какого вида занятия
+    const legend = ['lec', 'prac', 'up', 'pp', 'pdp'].map((k) => ({ color: M.KINDS[k].color, label: M.KINDS[k].label + ({ up: ' (УП)', pp: ' (ПП)', pdp: ' (ПДП)' }[k] || '') }));
     const whoFav = favBtn(whoKind || 'g', whoName);
     const schTitle = whoKind === 't' ? tKey : (whoKind === 'r' ? roomTitle(rKey) : group);
     const schBadge = whoKind === 't' ? 'Преподаватель' : (whoKind === 'r' ? 'Аудитория' : 'Группа');
@@ -602,7 +607,7 @@ class Component extends DCLogic {
       favT: favOfKind('t'), favR: favOfKind('r'), rq: s.rq || '', roomFilters: roomFilters, noRooms: tab === 'rooms' && roomSections.length === 0,
       onRq: (e) => this.setState({ rq: e && e.target ? e.target.value.slice(0, 40) : '' }),
       onCq: (e) => this.setState({ cq: e && e.target ? e.target.value : '' }),
-      schTitle: schTitle, schBadge: schBadge, schCrumb: schCrumb, schSub: schSub,
+      legend: legend, schTitle: schTitle, schBadge: schBadge, schCrumb: schCrumb, schSub: schSub,
       backLabel: whoKind === 't' ? 'Все преподаватели' : (whoKind === 'r' ? 'Все аудитории' : 'Другое расписание'),
       favPressed: whoFav.pressed, favLabel: whoFav.label, favFill: whoFav.fill,
       favBg: whoFav.bg, favFg: whoFav.fg, favBorder: whoFav.border,

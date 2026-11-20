@@ -9,7 +9,7 @@
 <title>КИТиС · Расписание — компьютер</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=d74443c14c"></script>
+<script src="kitis-model.js?v=96ec32e5f9"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Расписание — компьютер.">
@@ -49,10 +49,13 @@ button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:in
 a.tap{position:relative}
 @media (hover:hover) and (pointer:fine){
 button:not(:disabled):hover::after,a.tap:hover::after{opacity:.05}
-a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
+a[href][style*="display: flex"]:not(header a):not(nav a):not(footer a):hover,a[href][style*="display: inline-flex"]:not(header a):not(nav a):not(footer a):hover,a[href][style*="display: grid"]:not(header a):not(nav a):not(footer a):hover,a[href][style*="display: block"]:not(header a):not(nav a):not(footer a):hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
 }
 button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
 button:not(:disabled):active::after,a.tap:active::after{opacity:.08}
+/* затемнение под списками, шторками и меню — не кнопка: не сжимается при нажатии и не «улетает» */
+button[style*="inset: 0"],button[style*="inset: 0"]:active{transform:none!important;transition:none!important}
+button[style*="inset: 0"]::after{content:none!important}
 :focus{outline:none}
 /* рамка фокуса — только при работе с клавиатуры (Tab), мышью и пальцем синего выделения нет */
 html.kbd :focus-visible{outline:2px solid #15171C!important;outline-offset:2px}
@@ -250,6 +253,8 @@ button,input{font-family:inherit}
 </sc-if>
 </div>
 
+<div role="note" aria-label="Что значит цвет пары" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; padding: 2px 4px; font-size: 13px; color: #3A404C;"><span style="font-weight: 600; color: #5B6270;">Цвет пары — вид занятия:</span><sc-for list="{{legend}}" as="lg" hint-placeholder-count="5"><span style="display: inline-flex; align-items: center; gap: 7px;"><span aria-hidden="true" style="flex: none; width: 4px; height: 16px; border-radius: 2px; background: {{lg.color}};"></span>{{lg.label}}</span></sc-for></div>
+
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; align-items: start;">
 <sc-for list="{{days}}" as="d" hint-placeholder-count="6">
 <section style="background: #FFFFFF; border: 1px solid {{d.borderColor}}; box-shadow: {{d.shadow}}; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; animation: kFadeUp .5s ease both; animation-delay: {{d.delay}};">
@@ -275,7 +280,7 @@ button,input{font-family:inherit}
 <div style="display: flex; flex-wrap: wrap; gap: 4px 6px;"><sc-if value="{{l.hasKind}}" hint-placeholder-val="{{ true }}"><span style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{l.kindBg}}; color: {{l.kindFg}};">{{l.kindLabel}}</span></sc-if><sc-if value="{{l.hasCycle}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{l.cycleBg}}; color: {{l.cycleFg}};">{{l.cycleLabel}}</span></sc-if><sc-if value="{{l.hasMeta}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #F1F3F6; color: #3A404C;">{{l.meta}}</span></sc-if></div>
 <sc-if value="{{l.now}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #FFE6D3; color: #9A4410;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #E06A1B;"></span>{{l.nowLabel}}</span></sc-if>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;">
-<sc-if value="{{l.hasGroup}}" hint-placeholder-val="{{ false }}"><button type="button" class="tap" onClick="{{l.openGroup}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #15171C; font-size: 13px; font-weight: 600; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2"></path></svg>{{l.groupLabel}}</button></sc-if>
+<sc-for list="{{l.groupChips}}" as="gc" hint-placeholder-count="1"><button type="button" class="tap" onClick="{{gc.open}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #15171C; font-size: 13px; font-weight: 600; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .7 3.5 2.4 3.5 5.2"></path></svg>{{gc.label}}</button></sc-for>
 <sc-if value="{{l.hasTeacher}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openTeacher}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #3A404C; font-size: 13px; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg>{{l.teacher}}</button></sc-if>
 <sc-if value="{{l.remote}}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 10px; border-radius: 8px; background: #F1F3F6; color: #15171C; font-size: 13px; font-weight: 700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H4zM2 20h20"></path></svg>Дистант</span></sc-if><sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #3A404C; font-size: 13px; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01"></path></svg>{{l.room}}</button></sc-if>
 </div>
@@ -515,7 +520,7 @@ button,input{font-family:inherit}
 <dc-td style="padding: 10px; white-space: nowrap;">{{r.group}}</dc-td>
 <dc-td style="padding: 10px; text-align: center;">{{r.sub}}</dc-td>
 <dc-td style="padding: 10px; font-weight: 600; min-width: 200px;">{{r.subject}}</dc-td>
-<dc-td style="padding: 10px; color: #5B6270;">{{r.type}}</dc-td>
+<dc-td style="padding: 10px;"><span style="display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: {{r.kindBg}}; color: {{r.kindFg}}; white-space: nowrap;">{{r.type}}</span></dc-td>
 <dc-td style="padding: 10px; text-align: right;">{{r.total}}</dc-td>
 <dc-td style="padding: 10px; text-align: right;">{{r.plan}}</dc-td>
 <dc-td style="padding: 10px; text-align: right; font-weight: 700;">{{r.fact}}</dc-td>
@@ -605,6 +610,6 @@ button,input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1700}}'></script>
 <script src="dc-runtime.js?v=7fb69be3c1"></script>
-<script src="js/page-desktop.js?v=222c270e61"></script>
+<script src="js/page-desktop.js?v=3d78831afe"></script>
 </body>
 </html>

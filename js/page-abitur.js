@@ -54,7 +54,8 @@ class Component extends DCLogic {
       const list = subjects[group];
       return {
         code: x[0], name: x[1], dir: x[2], href: 'college.html#p=prog-' + x[0].replace(/\./g, '-'),
-        kind: (isProf ? 'Профессия' : 'Специальность') + ' · ' + dirs[x[2]].label,
+        // подпись короткая: «Специальность» или «Профессия»; направление — цветом текста (фильтр по направлениям — сверху)
+        kind: isProf ? 'Профессия' : 'Специальность',
         tagBg: dirs[x[2]].bg, tagFg: dirs[x[2]].fg,
         subjTitle: list ? 'Профильные предметы для конкурса' : 'Профильные предметы — уточняйте в приёмной комиссии',
         subjects: (list || []).map((n) => ({ name: n }))
