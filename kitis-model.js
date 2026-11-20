@@ -144,12 +144,13 @@
       start: tm ? tm[0] : '', end: tm ? tm[1] : '', hasTime: !!tm,
       time: tm ? tm[0] + ' – ' + tm[1] : '',
       remote: rooms.length === 0, place: rooms.length ? rooms.map(function (x) { return /^\d/.test(x) ? 'ауд. ' + x : x; }).join(', ') : 'Дистант',
-      subject: D.subjects[o.s] || '', color: subjectColor(D.subjects[o.s] || ''), type: D.types[o.k] || '',
+      subject: D.subjects[o.s] || '', type: D.types[o.k] || '',
       group: D.groups[o.g] || '', g: o.g,
       teacher: teachers.join(', '), teachers: teachers, t: o.t, t0: o.t.length ? o.t[0] : -1,
       room: rooms.join(', '), rooms: rooms, r: o.r, r0: o.r.length ? o.r[0] : -1,
       sub: o.sub, subLabel: o.sub ? o.sub + ' подгр.' : '',
-      src: o.src, changed: o.src === 2
+      src: o.src, changed: o.src === 2,
+      tags: lessonTags(D.subjects[o.s], D.types[o.k], D.groups[o.g], o.date)
     };
   }
 
@@ -259,7 +260,7 @@
         ? { t: x[1], g: i, sub: x[2], s: x[0], k: x[3], total: x[4], plan: x[5], fact: x[6], rest: x[7], planWeek: x[8], factWeek: x[9], end: x[10], pct: x[11], j: x[12] }
         : { t: x[0], g: x[1], sub: x[2], s: x[3], k: x[4], total: x[5], plan: x[6], fact: x[7], rest: x[8], planWeek: x[9], factWeek: x[10], end: x[11], pct: x[12], j: x[13] };
       return {
-        n: n + 1, subject: D.subjects[r.s] || '', color: subjectColor(D.subjects[r.s] || ''), teacher: teacherName(r.t), teacherRaw: D.teachers[r.t] || '', t: r.t, group: D.groups[r.g] || '', sub: r.sub || 0,
+        n: n + 1, subject: D.subjects[r.s] || '', teacher: teacherName(r.t), teacherRaw: D.teachers[r.t] || '', t: r.t, group: D.groups[r.g] || '', sub: r.sub || 0,
         type: D.types[r.k] || '', total: r.total, plan: r.plan, fact: r.fact, rest: r.rest, planWeek: r.planWeek, factWeek: r.factWeek,
         end: r.end, pct: r.pct != null ? r.pct : (r.total ? Math.round(r.fact / r.total * 100) : null), j: r.j
       };
@@ -267,32 +268,71 @@
   }
   function load(g) { return loadOf('g', g); }
   // числа как на сервере: дробные — с запятой (1,8), пустые — «—»
-  /* ---------- цвета предметов ----------
-   * Цвет закреплён за названием предмета в данных (KITIS_DATA.colors). Его подбирает робот:
-   * у каждого предмета свой спокойный цвет, цвета не повторяются и не меняются от обновления к обновлению.
-   * Если в данных цвета нет (старая выгрузка), берётся запасной спокойный цвет по названию. */
-  function subjectColor(name) {
-    var c = D && D.colors && D.colors[name];
-    if (c && /^#[0-9a-f]{6}$/i.test(c)) return c;
-    var h = 0;
-    for (var i = 0; i < String(name || '').length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
-    var hue = (h % 360) / 60, ch = 0.3, x = ch * (1 - Math.abs(hue % 2 - 1)), m = 0.62 - ch / 2;
-    var rgb = hue < 1 ? [ch, x, 0] : hue < 2 ? [x, ch, 0] : hue < 3 ? [0, ch, x] : hue < 4 ? [0, x, ch] : hue < 5 ? [x, 0, ch] : [ch, 0, x];
-    return '#' + rgb.map(function (v) { return ('0' + Math.round((v + m) * 255).toString(16)).slice(-2); }).join('');
+  /* ---------- вид занятия и цикл: цвет пары ----------
+   * Цвет у пары означает только вид занятия (так попросили преподаватели):
+   *   лекционное занятие, практическое занятие, учебная практика (УП), производственная (ПП), преддипломная (ПДП).
+   * Вид берётся с сервера («Тип занятия»: Лекция / Практика), практики УП/ПП/ПДП — по названию предмета.
+   * Пары без вида (кураторский час, «Разговоры о важном») — серые.
+   * Плашка цикла: общеобразовательные предметы — зелёная, социально-гуманитарные — жёлтая.
+   * Списки предметов циклов — ниже, их легко поправить. */
+  var KINDS = {
+    lec: { label: 'Лекция', color: '#7A6FE0', bg: '#EEECFC', fg: '#4A3FB0' },
+    prac: { label: 'Практическое занятие', color: '#E5484D', bg: '#FDE9EA', fg: '#A8262C' },
+    up: { label: 'Учебная практика', color: '#2F7BEB', bg: '#E5EFFE', fg: '#1C56AE' },
+    pp: { label: 'Производственная практика', color: '#F08A24', bg: '#FEF0DF', fg: '#9A520B' },
+    pdp: { label: 'Преддипломная практика', color: '#12A594', bg: '#DFF6F2', fg: '#0B6B60' },
+    none: { label: '', color: '#C9CED6', bg: '#F1F3F6', fg: '#3A404C' }
+  };
+  var CYCLES = {
+    gen: { label: 'Общеобразовательный', bg: '#E3F5E9', fg: '#1F7A3E' },
+    soc: { label: 'Социально-гуманитарный', bg: '#FFF2C2', fg: '#7A5A00' }
+  };
+  // общеобразовательная подготовка (1 курс)
+  var GEN_SUBJECTS = ['русский язык', 'литература', 'родная литература', 'иностранный язык', 'математика', 'история',
+    'обществознание', 'география', 'физика', 'химия', 'биология', 'информатика', 'основы безопасности и защиты родины',
+    'индивидуальный проект', 'астрономия', 'физическая культура'];
+  // социально-гуманитарный цикл (СГ)
+  var SOC_SUBJECTS = ['история россии', 'иностранный язык в профессиональной деятельности', 'безопасность жизнедеятельности',
+    'основы бережливого производства', 'основы финансовой грамотности', 'финансовая грамотность', 'психология общения',
+    'основы философии', 'русский язык и культура речи', 'социальная адаптация и основы социально-правовых знаний',
+    'основы бизнеса, коммуникаци и финансовой грамотности', 'основы бизнеса, коммуникации и финансовой грамотности',
+    'психология личности и профессиональное самоопределение'];
+
+  function kindOf(subject, type) {
+    var s = String(subject || '').toLowerCase();
+    if (/разговоры о важном/.test(s)) return 'none';   // кураторский час, не лекция
+    if (/преддипломн/.test(s)) return 'pdp';
+    if (/производственн\S* практик/.test(s)) return 'pp';
+    if (/учебн\S* практик/.test(s)) return 'up';
+    if (type === 'Практика') return 'prac';
+    if (type === 'Лекция') return 'lec';
+    return 'none';
   }
 
-  // светлый оттенок цвета: k = 0 — белый, 1 — сам цвет (для фона пары на компьютере)
-  function tint(hex, k) {
-    if (!/^#[0-9a-f]{6}$/i.test(hex || '')) return '#FFFFFF';
-    return '#' + [1, 3, 5].map(function (i) {
-      var c = parseInt(hex.slice(i, i + 2), 16);
-      return ('0' + Math.round(255 - (255 - c) * k).toString(16)).slice(-2);
-    }).join('');
+  // курс группы: ИСр24-1 в 2026/27 учебном году — 3 курс
+  function courseOf(group, iso) {
+    var m = /(\d{2})/.exec(group || '');
+    if (!m || !iso) return 0;
+    var y = +iso.slice(0, 4), start = +iso.slice(5, 7) >= 9 ? y : y - 1;
+    return start - (2000 + +m[1]) + 1;
   }
 
-  // плавный переход: слева — оттенок цвета предмета, к правому краю — белый (фон пары на компьютере)
-  function fade(hex, k) {
-    return 'linear-gradient(90deg, ' + tint(hex, k) + ' 0%, ' + tint(hex, k * 0.45) + ' 45%, #FFFFFF 100%)';
+  function cycleOf(subject, group, iso) {
+    var s = String(subject || '').toLowerCase().replace(/\s*\((?:\d|л|пр)\)\s*$/, '').trim();
+    // физкультура: на 1 курсе — общеобразовательная, дальше — в социально-гуманитарном цикле
+    if (s === 'физическая культура') return courseOf(group, iso) > 1 ? 'soc' : 'gen';
+    if (SOC_SUBJECTS.indexOf(s) >= 0) return 'soc';
+    if (GEN_SUBJECTS.indexOf(s) >= 0) return 'gen';
+    return '';
+  }
+
+  function lessonTags(subject, type, group, iso) {
+    var k = kindOf(subject, type), c = cycleOf(subject, group, iso);
+    var K = KINDS[k], C = CYCLES[c];
+    return {
+      kind: k, color: K.color, hasKind: k !== 'none', kindLabel: K.label, kindBg: K.bg, kindFg: K.fg,
+      cycle: c, hasCycle: !!C, cycleLabel: C ? C.label : '', cycleBg: C ? C.bg : '', cycleFg: C ? C.fg : ''
+    };
   }
 
   function fmtNum(v) { return v == null ? '—' : String(Math.round(v * 10) / 10).replace('.', ','); }
@@ -424,7 +464,7 @@
     plural: plural, fmtName: fmtName, fmtTimer: fmtTimer, dayLabel: dayLabel, rangeLabel: rangeLabel, whenLabel: whenLabel,
     addDays: addDays, weekday: weekday, mondayOf: mondayOf, toSec: toSec, times: times, pairTime: pairTime, pairNum: pairNum, pairLabel: pairLabel,
     CURATOR_TIME: CURATOR_TIME, evenHours: evenHours, readHash: readHash, writeHash: writeHash, changes: changes, recent: recent, remember: remember,
-    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum, subjectColor: subjectColor, tint: tint, fade: fade,
+    clock: clock, week: week, weekInfo: weekInfo, bounds: bounds, lessonsOn: lessonsOn, status: status, load: load, loadOf: loadOf, fmtNum: fmtNum, KINDS: KINDS, CYCLES: CYCLES, kindOf: kindOf, cycleOf: cycleOf, lessonTags: lessonTags,
     updatedLabel: updatedLabel, pairsOf: pairsOf, durationMin: durationMin, fmtHours: fmtHours, fmtPairsHours: fmtPairsHours,
     favs: favs, isFav: isFav, toggleFav: toggleFav, FAV_KEY: FAV_KEY,
     groups: function () { return groupIdx.map(function (i) { return { i: i, name: D.groups[i] }; }); },

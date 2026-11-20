@@ -55,7 +55,7 @@ class Component extends DCLogic {
     const prev = this.state || {};
     const s = Object.assign({}, prev, patch);
     if (['tab', 'page', 'sub', 'group'].some((k) => k in patch && patch[k] !== prev[k])) this.toTop();
-    this.setState(Object.assign({ picker: false, pq: '' }, patch));
+    this.setState(Object.assign({ picker: false, pq: '', ls: '', lsQ: '' }, patch));
     if (patch.group) M.remember('g', patch.group);
     if (patch.sheet && patch.sheet.type === 't') M.remember('t', patch.sheet.key);
     if (patch.sheet && patch.sheet.type === 'r') M.remember('r', patch.sheet.key);
@@ -155,7 +155,6 @@ class Component extends DCLogic {
       plaque = { live: false, badge: 'Пар не найдено', when: '', big: '—', bigMono: false, bigSize: '28px', bigNote: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, subject: '', meta: '' };
     }
     plaque.hasSubject = !!plaque.subject;
-    plaque.color = L0 ? L0.color : 'transparent';
     plaque.dot = plaque.live ? '#FF8A3D' : '#5B6270';
     plaque.anim = plaque.live ? 'kPulse 1.8s ease-out infinite' : 'none';
     plaque.bigFont = plaque.bigMono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif";
@@ -185,16 +184,16 @@ class Component extends DCLogic {
     const dToday = dSel.iso === clk.iso;
     const dayLessons = dSel.lessons.map((l, k) => {
       const now = dToday && nowOf(st, l);
-      const meta = [l.subLabel, l.type === 'Практика' ? 'практика' : ''].filter(Boolean).join(' · ');
-      return {
-        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color, teacher: l.teacher, hasTeacher: !!l.teacher,
+      const meta = l.subLabel;
+      return Object.assign({}, l.tags, {
+        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, teacher: l.teacher, hasTeacher: !!l.teacher,
         room: l.place, hasRoom: !l.remote, remote: l.remote, now: now, meta: meta, hasMeta: !!meta,
-        bg: now ? '#FFF4EA' : M.fade(l.color, 0.3), border: now ? '#F5C9A6' : '#E3E6EB', chipBg: 'rgba(255, 255, 255, 0.82)',
-        numBg: now ? '#B4530F' : M.tint(l.color, 0.5), numFg: now ? '#FFFFFF' : '#15171C',
+        bg: now ? '#FFF4EA' : '#FFFFFF', border: now ? '#F5C9A6' : '#E3E6EB', chipBg: now ? '#FFFFFF' : '#F1F3F6',
+        numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'),
         anim: dayAnim, delay: (0.06 + Math.min(k, 8) * 0.07).toFixed(2) + 's',
         openTeacher: go({ sheet: { type: 't', key: l.teachers[0] || '' } }),
         openRoom: go({ sheet: { type: 'r', key: l.rooms[0] || '' } })
-      };
+      });
     });
     const dc = dayLessons.length;
 
@@ -270,7 +269,7 @@ class Component extends DCLogic {
     const loadRows = loadRaw.map((x, i) => {
       const pct = x.pct != null ? x.pct : 0;
       return {
-        n: x.n, subject: x.subject, color: x.color, meta: [x.teacherRaw || x.teacher, x.group, 'п/г ' + x.sub, x.type].filter(Boolean).join(' · '),
+        n: x.n, subject: x.subject, meta: [x.teacherRaw || x.teacher, x.group, 'п/г ' + x.sub, x.type].filter(Boolean).join(' · '),
         pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i),
         cells: [['Всего', x.total], ['План', x.plan], ['Факт', x.fact, 1], ['Остаток', x.rest], ['План в 1 нед.', x.planWeek], ['Факт в 1 нед.', x.factWeek]]
           .map((c) => ({ l: c[0], v: fmtN(c[1]), w: c[2] ? 700 : 500 })).concat([{ l: 'Окончание', v: fmtD(x.end), w: 500 }])
@@ -294,13 +293,8 @@ class Component extends DCLogic {
         const on = x[0] === rk;
         return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', weight: on ? 600 : 500, shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.10)' : 'none', pick: go({ tab: 'schedule', sub: 'results', page: '', rk: x[0] }) };
       }),
-      options: (rk === 'g' ? M.groups() : (rk === 't' ? resTL : resRL)).map((x) => ({ v: x.name, l: rk === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name, sel: x.name === resName }))
-        .concat(rk === 'g' && !hasGroup ? [{ v: '', l: 'выберите группу', sel: true }] : []),
-      pick: (e) => {
-        const v = e && e.target ? e.target.value : '';
-        if (!v) return;
-        this.go(rk === 'g' ? { tab: 'schedule', sub: 'results', rk: 'g', group: v } : (rk === 't' ? { tab: 'schedule', sub: 'results', rk: 't', rt: v } : { tab: 'schedule', sub: 'results', rk: 'r', rr: v }));
-      }
+      current: resName ? (rk === 'r' && /^\d/.test(resName) ? 'ауд. ' + resName : resName) : (rk === 'g' ? 'выберите группу' : 'выберите'),
+      openList: set({ ls: 'res', lsQ: '' })
     };
     const noLoadText = loadMissing ? 'Итоги преподавателей и аудиторий появятся после следующего обновления расписания с сервера.'
       : (rk === 'g' ? 'На сервере нет итогов нагрузки для этой группы.' : (rk === 't' ? 'На сервере у этого преподавателя нет строк в «Итогах».' : 'На сервере у этой аудитории нет строк в «Итогах».'));
@@ -327,7 +321,7 @@ class Component extends DCLogic {
         const on = g.name === group;
         const gs = M.status('g', g.i);
         const meta = gs.mode === 'now' ? 'сейчас ' + gs.lesson.label.toLowerCase() : (CURATORS[g.name] ? 'куратор ' + CURATORS[g.name] : (on ? 'открыта' : 'открыть'));
-        const it = { code: g.name, meta: meta, border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF', pick: pickGroup(g.name), delay: delay(gCount) };
+        const it = { code: g.name, meta: meta, busy: gs.mode === 'now', border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF', pick: pickGroup(g.name), delay: delay(gCount) };
         gCount += 1;
         return it;
       });
@@ -417,7 +411,7 @@ class Component extends DCLogic {
       const stx = M.status(kind, idx);
       return M.week(kind, idx, wi.monday).filter((d) => d.wd < 6 || d.lessons.length).map((d, di) => {
         const today = d.iso === clk.iso;
-        const ps = d.lessons.map((l) => ({ head: pairLine(l), info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C', color: l.color, tint: today && nowOf(stx, l) ? '#FFF4EA' : M.fade(l.color, 0.32) }));
+        const ps = d.lessons.map((l) => ({ head: pairLine(l), info: infoFn(l), fg: today && nowOf(stx, l) ? '#9A4410' : '#15171C', color: l.tags.color, tint: today && nowOf(stx, l) ? '#FFF4EA' : '#FFFFFF' }));
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });
     };
@@ -582,6 +576,30 @@ class Component extends DCLogic {
     });
     const groupOptions = GL.map((g) => ({ code: g.name, selected: g.name === myGroup }));
 
+    /* ---------- шторка-список вместо системных выпадающих списков ---------- */
+    const lsKind = s.ls || '';
+    const lsQv = (s.lsQ || '').trim().toLowerCase();
+    const INTERESTS = ['09.02.09 Веб-разработка', '09.02.06 Сетевое и системное администрирование', '43.02.16 Туризм и гостеприимство', 'Пока не решил(а)'];
+    const regGroup = s.regGroup || myGroup || '';
+    const regInt = s.regInt || INTERESTS[0];
+    let lsAll = [], lsCur = '', lsTitle = '', lsPh = '', lsPickOf = () => null;
+    if (lsKind === 'res') {
+      lsAll = (rk === 'g' ? M.groups() : (rk === 't' ? resTL : resRL)).map((x) => ({ v: x.name, l: rk === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name }));
+      lsCur = resName; lsTitle = rk === 'g' ? 'Итоги группы' : (rk === 't' ? 'Итоги преподавателя' : 'Итоги аудитории');
+      lsPh = rk === 'g' ? 'Например, ИСр24-1' : (rk === 't' ? 'Фамилия' : 'Номер, например 402');
+      lsPickOf = (v) => go(rk === 'g' ? { tab: 'schedule', sub: 'results', rk: 'g', group: v } : (rk === 't' ? { tab: 'schedule', sub: 'results', rk: 't', rt: v } : { tab: 'schedule', sub: 'results', rk: 'r', rr: v }));
+    } else if (lsKind === 'regGroup') {
+      lsAll = GL.map((g) => ({ v: g.name, l: g.name })); lsCur = regGroup; lsTitle = 'Ваша группа'; lsPh = 'Например, ИСр24-1';
+      lsPickOf = (v) => set({ regGroup: v, ls: '', lsQ: '' });
+    } else if (lsKind === 'regInt') {
+      lsAll = INTERESTS.map((x) => ({ v: x, l: x })); lsCur = regInt; lsTitle = 'Что интересует';
+      lsPickOf = (v) => set({ regInt: v, ls: '', lsQ: '' });
+    }
+    const lsOptions = lsAll.filter((o) => !lsQv || o.l.toLowerCase().indexOf(lsQv) >= 0).map((o) => {
+      const on = o.v === lsCur;
+      return { l: o.l, on: on, sel: on ? 'true' : 'false', bg: on ? '#F1F3F6' : 'transparent', weight: on ? 700 : 500, pick: lsPickOf(o.v) };
+    });
+
     const todayLabel = M.DAY_SHORT[clk.wd].toLowerCase() + ', ' + M.dayLabel(clk.iso);
     const pageTitles = { home: ['Главная колледжа', 'kitis.ru'], abitur: ['Абитуриентам', 'Приём 2026'], student: ['Кабинет студента', myGroup || 'нужен вход'], teacher: ['Кабинет преподавателя', myTeacher || 'нужен вход'], login: ['Вход', 'Личный кабинет'], register: ['Регистрация', 'Личный кабинет'] };
     const tabTitles = { schedule: ['Расписание', (group || 'выберите группу') + ' · ' + todayLabel], groups: ['Группы', GL.length + ' групп'], teachers: ['Преподаватели', TL.length + ' преподавателей'], rooms: ['Аудитории', RL.length + ' аудиторий'], menu: ['Меню', 'Всё, что не про расписание'] };
@@ -636,6 +654,11 @@ class Component extends DCLogic {
       stuName: me ? me.first || me.shortName : 'гость', stuGroupLine: myGroup ? 'Группа ' + myGroup + (CURATORS[myGroup] ? ' · куратор ' + CURATORS[myGroup] : '') : 'Войдите, чтобы видеть свою группу',
       tcName: myTeacher || 'Кабинет преподавателя', tcIni: myTeacher ? iniOf(myTeacher) : 'П',
       roles: roles, roleNote: roleNote, roleStudent: role === 'student', roleAbitur: role === 'abitur', groupOptions: groupOptions,
+      lsOpen: !!lsKind, lsTitle: lsTitle, lsSearch: lsAll.length > 8, lsPh: lsPh, lsQ: s.lsQ || '', lsOptions: lsOptions,
+      lsEmpty: !!lsKind && lsOptions.length === 0, lsClose: set({ ls: '', lsQ: '' }),
+      lsOnQ: (e) => this.setState({ lsQ: e && e.target ? e.target.value : '' }),
+      regGroupOpen: set({ ls: 'regGroup', lsQ: '' }), regIntOpen: set({ ls: 'regInt', lsQ: '' }),
+      regGroupLabel: regGroup || 'Выберите группу', regIntLabel: regInt,
       goBack: () => { if (window.history.length > 1) window.history.back(); else this.go({ page: '', tab: 'menu' }); },
       goGroups: go({ tab: 'groups', page: '', sheet: null }),
       goSchedule: go({ tab: 'schedule', sub: 'pairs', page: '', group: myGroup || group || null }),

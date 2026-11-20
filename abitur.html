@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/guard.js?v=ba09b2359e"></script>
+<script src="js/guard.js?v=82f96f5f9b"></script>
 
 <title>КИТиС · Абитуриентам</title>
 
@@ -42,15 +42,19 @@ html:has([data-scroll-lock]),html:has([data-scroll-lock]) body{overflow:hidden}
 button,a,[role=button],[role=tab],select,summary,label{-webkit-tap-highlight-color:transparent}
 button:not(:disabled),a[href],select,summary{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,filter .2s ease,opacity .2s ease}
 button{position:relative}
-button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:0;pointer-events:none;transition:opacity .18s ease}
+button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:#15171C;opacity:0;pointer-events:none;transition:opacity .18s ease}
 a.tap{position:relative}
 @media (hover:hover) and (pointer:fine){
-button:not(:disabled):hover::after,a.tap:hover::after{opacity:.07}
+button:not(:disabled):hover::after,a.tap:hover::after{opacity:.05}
 a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
 }
 button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
-button:not(:disabled):active::after,a.tap:active::after{opacity:.12}
-:focus-visible{outline:3px solid #2D5BE3!important;outline-offset:2px}
+button:not(:disabled):active::after,a.tap:active::after{opacity:.08}
+:focus{outline:none}
+/* рамка фокуса — только при работе с клавиатуры (Tab), мышью и пальцем синего выделения нет */
+html.kbd :focus-visible{outline:2px solid #15171C!important;outline-offset:2px}
+input:focus,select:focus,textarea:focus{outline:none!important}
+label:focus-within{box-shadow:inset 0 0 0 1px #9AA1AD}
 button:disabled{cursor:not-allowed}
 @media (prefers-reduced-motion:reduce){button,a{transition:none!important}}
 /* версия для слабовидящих */
@@ -58,7 +62,7 @@ html.a11y .a11y-off,html:not(.a11y) .a11y-on{display:none}
 html.a11y body{zoom:1.18}
 html.a11y{filter:contrast(1.12)}
 html.a11y #app a{text-decoration:underline!important;text-underline-offset:3px}
-html.a11y :focus-visible{outline-width:4px!important}
+html.a11y.kbd :focus-visible{outline-width:4px!important}
 @media print{.kb,nav,.no-print{display:none!important}body{background:#fff!important}}
 </style>
 </head>

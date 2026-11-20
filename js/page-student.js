@@ -35,7 +35,7 @@ class Component extends DCLogic {
       return { live: false, badge: 'Пар не найдено', big: '—', mono: false, size: '40px', note: 'расписание ещё не опубликовано', progress: '0', hasProgress: false, title: '', subject: '', meta: '' };
     };
     // цвет предмета у таблички «сейчас идёт»
-    const plaqueOf = (st, titleFn) => Object.assign(plaqueOf0(st, titleFn), { color: st.lesson ? st.lesson.color : 'transparent' });
+    const plaqueOf = plaqueOf0;
     const finishPlaque = (pq) => Object.assign(pq, {
       dot: pq.live ? '#FF8A3D' : '#5B6270', anim: pq.live ? 'kPulse 1.8s ease-out infinite' : 'none',
       font: pq.mono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif", hasTitle: !!pq.title, hasSubject: !!pq.subject, hasMeta: !!pq.meta
@@ -80,7 +80,7 @@ class Component extends DCLogic {
     const today = dl.lessons.map((l) => {
       const s2 = stateOf(l, dl.isToday);
       const sx = states[s2.kind];
-      return { n: l.badge, time: l.time || '—', subject: l.subject, color: l.color, meta: [l.teacher, l.place, l.subLabel].filter(Boolean).join(' · '), state: s2.label, chipBg: sx.bg, chipFg: sx.fg, numBg: sx.numBg, numFg: sx.numFg };
+      return { n: l.badge, time: l.time || '—', subject: l.subject, color: l.tags.color, meta: [l.tags.kindLabel, l.teacher, l.place, l.subLabel].filter(Boolean).join(' · '), state: s2.label, chipBg: sx.bg, chipFg: sx.fg, numBg: sx.numBg, numFg: sx.numFg };
     });
     const sst = this.state || {};
     const openSpravka = (e) => {

@@ -22,6 +22,9 @@ class Component extends DCLogic {
     }
     this._pop = () => this.setState(fromHash());
     window.addEventListener('popstate', this._pop);
+    // Esc закрывает открытые списки и меню
+    this._esc = (e) => { if (e.key === 'Escape') this.setState({ rsel: false, rselQ: '', drop: false, menu: false }); };
+    window.addEventListener('keydown', this._esc);
     // избранное, изменённое на другой странице или вкладке
     this._fav = () => this.setState({ favTick: Date.now() });
     this._store = (e) => { if (e.key === M.FAV_KEY) this._fav(); };
@@ -31,13 +34,14 @@ class Component extends DCLogic {
   componentWillUnmount() {
     clearInterval(this._timer);
     window.removeEventListener('popstate', this._pop);
+    window.removeEventListener('keydown', this._esc);
     window.removeEventListener('kitis-favs', this._fav);
     window.removeEventListener('storage', this._store);
   }
   go(patch) {
     const M = window.KitisModel;
     const s = Object.assign({}, this.state || {}, patch);
-    this.setState(Object.assign({ menu: false, drop: false, dq: '' }, patch));
+    this.setState(Object.assign({ menu: false, drop: false, dq: '', rsel: false, rselQ: '' }, patch));
     if (patch.group) M.remember('g', patch.group);
     if (patch.teacher) M.remember('t', patch.teacher);
     if (patch.room) M.remember('r', patch.room);
@@ -100,6 +104,10 @@ class Component extends DCLogic {
     const gi = M.groupIndex(group);
     const ti = tKey ? M.teacherIndex(tKey) : -1;
     const ri = rKey ? M.roomIndex(rKey) : -1;
+    // чьё полное расписание открыто: группы, преподавателя или аудитории — страница одна и та же
+    const whoKind = tab === 'schedule' && hasGroup ? 'g' : (tab === 'teachers' && ti >= 0 ? 't' : (tab === 'rooms' && ri >= 0 ? 'r' : ''));
+    const whoIdx = whoKind === 'g' ? gi : (whoKind === 't' ? ti : ri);
+    const whoName = whoKind === 'g' ? group : (whoKind === 't' ? tKey : rKey);
     const clk = M.clock();
     const b = M.bounds();
     // дальше последней опубликованной недели не листаем: пустая неделя только путает
@@ -113,36 +121,43 @@ class Component extends DCLogic {
     const st = hasGroup ? M.status('g', gi) : { mode: 'none', lesson: null, left: 0, total: 0 };
     const L0 = st.lesson;
     const whenOf = (l) => M.whenLabel(l.date);
+    const wst = whoKind ? M.status(whoKind, whoIdx) : st;
+    const W0 = wst.lesson;
+    const whoWord = whoKind === 't' ? 'преподавателя' : (whoKind === 'r' ? 'аудитории' : 'группы');
+    // что показать под названием пары: у группы — преподаватель и аудитория, у преподавателя — группа и аудитория, у аудитории — группа и преподаватель
+    const metaOf = whoKind === 't' ? (L) => [L.group + (L.subLabel ? ' (' + L.subLabel + ')' : ''), L.place].join(' · ')
+      : (whoKind === 'r' ? (L) => [L.group + (L.subLabel ? ' (' + L.subLabel + ')' : ''), L.teacher].filter(Boolean).join(' · ') : statusLine);
     let plaque;
-    if (st.mode === 'now') {
-      const nx = st.next;
+    if (wst.mode === 'now') {
+      const nx = wst.next;
       plaque = {
-        live: true, badge: 'Сейчас идёт · ' + L0.label, when: M.DAY_SHORT[L0.wd].toLowerCase() + ', ' + M.dayLabel(L0.date) + ' · ' + L0.time,
-        big: M.fmtTimer(st.left), bigSize: '66px', bigMono: true, bigNote: 'до конца', progress: ((1 - st.left / st.total) * 100).toFixed(1), hasProgress: true,
-        subject: L0.subject, meta: statusLine(L0),
-        foot: nx ? 'Далее ' + nx.label + ' в ' + nx.start + (nx.place === L0.place ? ' · там же' : ' · ' + nx.place) : 'Это последняя пара сегодня'
+        live: true, badge: 'Сейчас идёт · ' + W0.label, when: M.DAY_SHORT[W0.wd].toLowerCase() + ', ' + M.dayLabel(W0.date) + ' · ' + W0.time,
+        big: M.fmtTimer(wst.left), bigSize: '66px', bigMono: true, bigNote: 'до конца', progress: ((1 - wst.left / wst.total) * 100).toFixed(1), hasProgress: true,
+        subject: W0.subject, meta: metaOf(W0),
+        foot: nx ? 'Далее ' + nx.label + ' в ' + nx.start + (nx.place === W0.place ? ' · там же' : ' · ' + nx.place) : 'Это последняя пара сегодня'
       };
-    } else if (st.mode === 'break' || st.mode === 'before') {
+    } else if (wst.mode === 'break' || wst.mode === 'before') {
       plaque = {
-        live: true, badge: st.mode === 'break' ? 'Перемена' : 'Скоро занятия', when: 'сегодня · ' + L0.time,
-        big: M.fmtTimer(st.left), bigSize: '66px', bigMono: true, bigNote: 'до начала: ' + L0.label.toLowerCase(), progress: '0', hasProgress: false,
-        subject: L0.subject, meta: statusLine(L0), foot: 'Начало в ' + L0.start
+        live: true, badge: wst.mode === 'break' ? 'Перемена' : 'Скоро занятия', when: 'сегодня · ' + W0.time,
+        big: M.fmtTimer(wst.left), bigSize: '66px', bigMono: true, bigNote: 'до начала: ' + W0.label.toLowerCase(), progress: '0', hasProgress: false,
+        subject: W0.subject, meta: metaOf(W0), foot: 'Начало в ' + W0.start
       };
-    } else if (L0) {
+    } else if (W0) {
       plaque = {
-        live: false, badge: st.mode === 'after' ? 'На сегодня пары закончились' : (clk.wd === 6 ? 'Сегодня выходной' : 'Сегодня пар нет'),
-        when: 'Следующее занятие', big: cap(whenOf(L0)) + ', ' + L0.start, bigSize: '40px', bigMono: false, bigNote: L0.label, progress: '0', hasProgress: false,
-        subject: L0.subject, meta: statusLine(L0), foot: ''
+        live: false, badge: wst.mode === 'after' ? 'На сегодня пары закончились' : (clk.wd === 6 ? 'Сегодня выходной' : 'Сегодня пар нет'),
+        when: 'Следующее занятие', big: cap(whenOf(W0)) + ', ' + W0.start, bigSize: '40px', bigMono: false, bigNote: W0.label, progress: '0', hasProgress: false,
+        subject: W0.subject, meta: metaOf(W0), foot: ''
       };
     } else {
       plaque = {
-        live: false, badge: 'Пар не найдено', when: '', big: '—', bigSize: '40px', bigMono: false, bigNote: 'Ближайшее расписание группы ещё не опубликовано',
+        live: false, badge: 'Пар не найдено', when: '', big: '—', bigSize: '40px', bigMono: false, bigNote: 'Ближайшее расписание ' + whoWord + ' ещё не опубликовано',
         progress: '0', hasProgress: false, subject: '', meta: '', foot: ''
       };
     }
     plaque.hasFoot = !!plaque.foot;
     plaque.hasSubject = !!plaque.subject;
-    plaque.color = L0 ? L0.color : 'transparent';
+    plaque.dot = plaque.live ? '#FF8A3D' : '#5B6270';
+    plaque.anim = plaque.live ? 'kPulse 1.8s ease-out infinite' : 'none';
     plaque.bigFont = plaque.bigMono ? "'JetBrains Mono', monospace" : "'Onest', system-ui, sans-serif";
 
     let pill;
@@ -155,20 +170,21 @@ class Component extends DCLogic {
     pill.hasTimer = !!pill.timer;
 
     /* ---------- неделя группы ---------- */
-    const wk = hasGroup ? M.week('g', gi, wi.monday) : [];
+    const wk = whoKind ? M.week(whoKind, whoIdx, wi.monday) : [];
     let pairsCount = 0, studyDays = 0;
     const lessonView = (l, today) => {
-      const now = today && nowOf(st, l);
-      const meta = [l.subLabel, l.type === 'Практика' ? 'практика' : ''].filter(Boolean).join(' · ');
-      return {
-        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject, color: l.color,
-        teacher: l.teacher, hasTeacher: !!l.teacher, room: l.place, hasRoom: !l.remote, remote: l.remote, meta: meta, hasMeta: !!meta,
-        now: now, nowLabel: 'Идёт · осталось ' + Math.ceil(st.left / 60) + ' мин',
-        bg: now ? '#FFF4EA' : M.fade(l.color, 0.3), numBg: now ? '#B4530F' : M.tint(l.color, 0.5), numFg: now ? '#FFFFFF' : '#15171C',
-        chipBg: 'rgba(255, 255, 255, 0.82)',
+      const now = today && nowOf(wst, l);
+      const meta = whoKind === 'g' ? l.subLabel : '';
+      return Object.assign({}, l.tags, {
+        n: l.badge, start: l.hasTime ? l.start : '—', end: l.hasTime ? l.end : '', subject: l.subject,
+        teacher: l.teacher, hasTeacher: whoKind !== 't' && !!l.teacher, room: l.place, hasRoom: whoKind !== 'r' && !l.remote, remote: l.remote, meta: meta, hasMeta: !!meta,
+        hasGroup: whoKind !== 'g' && !!l.group, groupLabel: l.group + (l.subLabel ? ' · ' + l.subLabel : ''), openGroup: go({ group: l.group, tab: 'schedule' }),
+        now: now, nowLabel: 'Идёт · осталось ' + Math.ceil(wst.left / 60) + ' мин',
+        bg: now ? '#FFF4EA' : '#FFFFFF', numBg: now ? '#B4530F' : (l.curator ? accentSoft : '#F1F3F6'), numFg: now ? '#FFFFFF' : (l.curator ? accent : '#15171C'),
+        chipBg: now ? '#FFFFFF' : '#F4F5F7',
         openTeacher: go({ tab: 'teachers', teacher: l.teachers[0] || '', tl: '' }),
         openRoom: go({ tab: 'rooms', room: l.rooms[0] || '' })
-      };
+      });
     };
     const days = wk.filter((d) => d.wd < 6 || d.lessons.length).map((d, i) => {
       const today = d.iso === clk.iso;
@@ -225,6 +241,7 @@ class Component extends DCLogic {
       const on = c.k === gpre;
       return { label: c.label, count: c.count, pressed: on ? 'true' : 'false', bg: on ? '#15171C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#15171C', border: on ? '#15171C' : '#DCE0E6', pick: set({ gpre: c.k }) };
     });
+    const groupBusy = (g) => M.status('g', g.i).mode === 'now';
     const groupMeta = (g) => {
       const gs = M.status('g', g.i);
       if (gs.mode === 'now') return 'Сейчас ' + gs.lesson.label.toLowerCase() + ' · ' + gs.lesson.place;
@@ -237,7 +254,7 @@ class Component extends DCLogic {
       const items = fams[k].items.filter((g) => !gq || g.name.toLowerCase().indexOf(gq) >= 0).map((g) => {
         const on = g.name === group;
         const it = {
-          code: g.name, meta: groupMeta(g), isFav: isFavOf('g', g.name), star: accent,
+          code: g.name, meta: groupMeta(g), busy: groupBusy(g), isFav: isFavOf('g', g.name), star: accent,
           border: on ? '2px solid ' + accent : '1px solid #E3E6EB', bg: on ? accentSoft : '#FFFFFF',
           pick: go({ group: g.name, tab: 'schedule', w: 0 }), delay: delay(gCount)
         };
@@ -291,7 +308,7 @@ class Component extends DCLogic {
         const today = d.iso === clk.iso;
         const ps = d.lessons.map((l) => {
           const now = today && nowOf(stx, l);
-          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C', color: l.color, tint: now ? '#FFF4EA' : M.fade(l.color, 0.32) };
+          return { head: pairLine(l), info: infoFn(l), fg: now ? '#9A4410' : '#15171C', color: l.tags.color, tint: now ? '#FFF4EA' : '#FFFFFF' };
         });
         return { label: d.short + ', ' + d.num, pairs: ps, empty: ps.length === 0, emptyText: 'Нет пар', bg: today ? accentSoft : '#F7F8FA', delay: delay(di) };
       });
@@ -340,7 +357,7 @@ class Component extends DCLogic {
       groups: tLoad.groups.length ? 'Группы: ' + tLoad.groups.join(', ') : '', hasGroups: tLoad.groups.length > 0,
       count: tCnt ? pairs(tCnt) + ' на неделе' : 'на этой неделе пар нет',
       hasWeek: wi.hasData, noWeek: !wi.hasData,
-      days: tab === 'teachers' && ti >= 0 ? weekOf('t', ti, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + ' · ' + l.place) : []
+      days: []
     };
 
     const roomSecs = {}, roomOrder = [];
@@ -386,7 +403,7 @@ class Component extends DCLogic {
       count: rCnt ? pairs(rCnt) + ' на неделе' : 'на этой неделе пар нет',
       chipBg: rBusy ? '#FFE6D3' : '#F1F3F6', chipFg: rBusy ? '#9A4410' : '#3A404C',
       hasWeek: wi.hasData, noWeek: !wi.hasData,
-      days: tab === 'rooms' && ri >= 0 ? weekOf('r', ri, (l) => l.group + (l.subLabel ? ' (' + l.subLabel + ')' : '') + ' · ' + l.subject + (l.teacher ? ' · ' + l.teacher : '')) : []
+      days: []
     };
 
     /* ---------- звонки ---------- */
@@ -485,7 +502,7 @@ class Component extends DCLogic {
     const loadRows = loadRaw.map((x, i) => {
       const pct = x.pct != null ? x.pct : 0;
       return {
-        n: x.n, teacher: x.teacherRaw || x.teacher, group: x.group, sub: String(x.sub), subject: x.subject, color: x.color, type: x.type,
+        n: x.n, teacher: x.teacherRaw || x.teacher, group: x.group, sub: String(x.sub), subject: x.subject, type: x.type,
         total: fmtN(x.total), plan: fmtN(x.plan), fact: fmtN(x.fact), rest: fmtN(x.rest), planWeek: fmtN(x.planWeek), factWeek: fmtN(x.factWeek),
         end: fmtD(x.end), pctLabel: x.pct != null ? x.pct + '%' : '—', bar: Math.min(100, Math.max(0, pct)), barColor: pct >= 100 ? '#1C8A5A' : accent, delay: delay(i)
       };
@@ -501,6 +518,15 @@ class Component extends DCLogic {
     ].map((x, i) => ({ value: x[0], label: x[1], color: x[2], delay: delay(i) }));
     const resIds = rk === 'g' ? KD.groupIds : (rk === 't' ? KD.teacherIds : KD.roomIds);
     const resId = resIds && resIdx >= 0 ? resIds[resIdx] : null;
+    const rselOpen = !!s.rsel;
+    const rselQ = (s.rselQ || '').trim().toLowerCase();
+    const resOpts = !rselOpen ? [] : (rk === 'g' ? M.groups() : (rk === 't' ? TLs : RLs)).map((x) => ({ v: x.name, l: rk === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name }))
+      .filter((o) => !rselQ || o.l.toLowerCase().indexOf(rselQ) >= 0)
+      .map((o) => {
+        const on = o.v === resName;
+        return { l: o.l, on: on, sel: on ? 'true' : 'false', bg: on ? '#F1F3F6' : 'transparent', weight: on ? 700 : 500,
+          pick: go(rk === 'g' ? { tab: 'results', rk: 'g', group: o.v } : (rk === 't' ? { tab: 'results', rk: 't', teacher: o.v } : { tab: 'results', rk: 'r', room: o.v })) };
+      });
     const res = {
       title: rk === 'r' && /^\d/.test(resName) ? 'аудитория ' + resName : resName,
       serverUrl: 'http://94.72.18.202:8083/' + (resId != null ? (rk === 'g' ? 'vg' : rk === 't' ? 'vp' : 'va') + resId + '.htm' : 'vg.htm'),
@@ -509,13 +535,22 @@ class Component extends DCLogic {
         const on = x[0] === rk;
         return { label: x[1], pressed: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', weight: on ? 600 : 500, shadow: on ? '0 1px 2px rgba(21, 23, 28, 0.10)' : 'none', pick: go({ tab: 'results', rk: x[0] }) };
       }),
-      options: (rk === 'g' ? M.groups() : (rk === 't' ? TLs : RLs)).map((x) => ({ v: x.name, l: rk === 'r' && /^\d/.test(x.name) ? 'ауд. ' + x.name : x.name, sel: x.name === resName }))
-        .concat(rk === 'g' && !hasGroup ? [{ v: '', l: 'выберите группу', sel: true }] : []),
-      pick: (e) => {
-        const v = e && e.target ? e.target.value : '';
-        if (!v) return;
-        this.go(rk === 'g' ? { tab: 'results', rk: 'g', group: v } : (rk === 't' ? { tab: 'results', rk: 't', teacher: v } : { tab: 'results', rk: 'r', room: v }));
-      }
+      // свой выпадающий список вместо системного: поиск, отметка выбранного, в стиле сайта
+      current: resName ? (rk === 'r' && /^\d/.test(resName) ? 'ауд. ' + resName : resName) : (rk === 'g' ? 'выберите группу' : 'выберите'),
+      open: rselOpen, expanded: rselOpen ? 'true' : 'false', rot: rselOpen ? '180' : '0', border: rselOpen ? '#8A919E' : '#C9CED6',
+      q: s.rselQ || '', searchPh: rk === 'g' ? 'Например, ИСр24-1' : (rk === 't' ? 'Фамилия' : 'Номер, например 402'),
+      options: resOpts, empty: rselOpen && resOpts.length === 0,
+      toggle: () => {
+        this.setState({ rsel: !rselOpen, rselQ: '' });
+        if (!rselOpen) setTimeout(() => {
+          const opt = document.querySelector('[role="listbox"] [aria-selected="true"]');
+          if (opt && opt.scrollIntoView) opt.scrollIntoView({ block: 'center' });
+          const inp = document.querySelector('input[data-res-q]');
+          if (inp) inp.focus({ preventScroll: true });
+        }, 40);
+      },
+      close: set({ rsel: false, rselQ: '' }),
+      onQ: (e) => this.setState({ rselQ: e && e.target ? e.target.value : '' })
     };
     const noLoadText = loadMissing ? 'Итоги преподавателей и аудиторий появятся после следующего обновления расписания с сервера.'
       : (rk === 'g' ? 'На сервере нет итогов нагрузки для этой группы.' : (rk === 't' ? 'На сервере у этого преподавателя нет строк в «Итогах».' : 'На сервере у этой аудитории нет строк в «Итогах».'));
@@ -542,6 +577,12 @@ class Component extends DCLogic {
     const upd = M.updatedLabel();
     const navBtn = (on) => ({ opacity: on ? '1' : '0.4', cursor: on ? 'pointer' : 'default' });
     const canPrev = w > wMin, canNext = w < wMax;
+    const whoFav = favBtn(whoKind || 'g', whoName);
+    const schTitle = whoKind === 't' ? tKey : (whoKind === 'r' ? roomTitle(rKey) : group);
+    const schBadge = whoKind === 't' ? 'Преподаватель' : (whoKind === 'r' ? 'Аудитория' : 'Группа');
+    const schCrumb = whoKind === 't' ? 'Преподаватели' : (whoKind === 'r' ? 'Аудитории' : 'Группы');
+    const schSub = whoKind === 't' ? [info ? info[0] + ' · ' + info[1] : 'Преподаватель', selT.groups].filter(Boolean).join(' · ')
+      : (whoKind === 'r' ? selR.status : (CURATORS[group] ? 'Куратор — ' + CURATORS[group] : 'Расписание группы с сервера колледжа'));
     return {
       accent: accent, accentSoft: accentSoft, plaque: plaque, pill: pill,
       acct: me ? { href: 'profile.html', hasPhoto: !!me.photo, photo: me.photo || '', hasInitials: !me.photo, initials: me.initials, label: me.shortName, padL: '6px' }
@@ -550,8 +591,8 @@ class Component extends DCLogic {
       groupsTotal: GL.length, teachersTotal: TL.length, roomsTotal: RL.length,
       ctxLine: (upd ? 'Данные сервера на ' + upd + ' · ' : '') + GL.length + ' групп · ' + TL.length + ' преподавателей · ' + RL.length + ' аудиторий',
       updLine: upd ? 'данные на ' + upd : 'данные не загружены',
-      isSchedule: tab === 'schedule' && hasGroup, isChooser: isChooser, isGroups: tab === 'groups', isTeachers: tab === 'teachers',
-      isRooms: tab === 'rooms', isBells: tab === 'bells', isResults: tab === 'results' && (rk !== 'g' || hasGroup), isResultsNoGroup: tab === 'results' && rk === 'g' && !hasGroup, resIsGroup: rk === 'g', res: res, loadHead: loadHead, noLoadText: noLoadText,
+      isSchedule: !!whoKind, isChooser: isChooser, isGroups: tab === 'groups', isTeachers: tab === 'teachers' && ti < 0,
+      isRooms: tab === 'rooms' && ri < 0, isBells: tab === 'bells', isResults: tab === 'results' && (rk !== 'g' || hasGroup), isResultsNoGroup: tab === 'results' && rk === 'g' && !hasGroup, resIsGroup: rk === 'g', res: res, loadHead: loadHead, noLoadText: noLoadText,
       chooserTabs: chooserTabs, cq: s.cq || '', chooserItems: chooserItems, chooserEmpty: isChooser && chooserItems.length === 0,
       chooserPh: ck === 'g' ? 'Группа, например ИСр24-1' : (ck === 't' ? 'Фамилия преподавателя' : 'Номер аудитории, например 403'),
       chooserListTitle: (ck === 'g' ? 'Группы' : (ck === 't' ? 'Преподаватели' : 'Аудитории')) + ' · ' + chooserItems.length,
@@ -561,12 +602,13 @@ class Component extends DCLogic {
       favT: favOfKind('t'), favR: favOfKind('r'), rq: s.rq || '', roomFilters: roomFilters, noRooms: tab === 'rooms' && roomSections.length === 0,
       onRq: (e) => this.setState({ rq: e && e.target ? e.target.value.slice(0, 40) : '' }),
       onCq: (e) => this.setState({ cq: e && e.target ? e.target.value : '' }),
-      curatorLine: CURATORS[group] ? 'Куратор — ' + CURATORS[group] : 'Расписание группы с сервера колледжа',
-      favPressed: fav ? 'true' : 'false', favLabel: fav ? 'В избранном' : 'В избранное', favFill: fav ? 'currentColor' : 'none',
-      favBg: fav ? accentSoft : '#FFFFFF', favFg: fav ? accent : '#15171C', favBorder: fav ? 'transparent' : '#DCE0E6',
+      schTitle: schTitle, schBadge: schBadge, schCrumb: schCrumb, schSub: schSub,
+      backLabel: whoKind === 't' ? 'Все преподаватели' : (whoKind === 'r' ? 'Все аудитории' : 'Другое расписание'),
+      favPressed: whoFav.pressed, favLabel: whoFav.label, favFill: whoFav.fill,
+      favBg: whoFav.bg, favFg: whoFav.fg, favBorder: whoFav.border,
       pairsLabel: pairsCount ? pairs(pairsCount) + ' на неделе' : 'Пар на неделе нет',
       daysLabel: studyDays + ' ' + pl(studyDays, 'учебный день', 'учебных дня', 'учебных дней'),
-      changed: changed,
+      changed: whoKind === 'g' ? changed : { has: false, text: '' },
       sourceLabel: wi.sourceLabel,
       weekLabel: wi.label, weekShort: wi.shortLabel, weekSub: wi.sub + ' · ' + wi.sourceNote, notCurrent: w !== 0, days: days,
       nextBadge: w === 0 && b.nextPublished, prevNav: navBtn(canPrev), nextNav: navBtn(canNext), prevOff: !canPrev, nextOff: !canNext,
@@ -584,10 +626,11 @@ class Component extends DCLogic {
       toggleDrop: set({ drop: !dropOpen, dq: '' }), closeDrop: set({ drop: false }),
       onDq: (e) => this.setState({ dq: e && e.target ? e.target.value : '' }),
       openMenu: set({ menu: true }), closeMenu: set({ menu: false }),
-      goGroups: go({ tab: 'groups' }), goBells: go({ tab: 'bells' }), goResults: go({ tab: 'results', rk: 'g' }),
-      goToday: go({ tab: 'schedule', w: 0 }), clearGroup: go({ group: null, tab: 'schedule', w: 0 }),
+      goGroups: go({ tab: 'groups' }), goBells: go({ tab: 'bells' }), goResults: go({ tab: 'results', rk: whoKind === 't' ? 't' : (whoKind === 'r' ? 'r' : 'g') }),
+      goToday: go({ w: 0 }),
+      clearGroup: whoKind === 't' ? go({ teacher: null, tab: 'teachers' }) : (whoKind === 'r' ? go({ room: null, tab: 'rooms' }) : go({ group: null, tab: 'schedule', w: 0 })),
       prev: go({ w: canPrev ? w - 1 : w }), next: go({ w: canNext ? w + 1 : w }),
-      toggleFav: () => { M.toggleFav('g', group, favSeed); this.setState({ favTick: Date.now() }); },
+      toggleFav: whoFav.toggle,
       onGq: (e) => this.setState({ gq: e && e.target ? e.target.value : '' }),
       onTq: (e) => this.setState({ tq: e && e.target ? e.target.value : '' })
     };

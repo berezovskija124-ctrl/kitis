@@ -84,6 +84,12 @@
       bar.appendChild(span);
     });
   }
+  // рамка фокуса только для тех, кто ходит по сайту клавишей Tab
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab' || e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') d.classList.add('kbd');
+  }, true);
+  window.addEventListener('pointerdown', function () { d.classList.remove('kbd'); }, true);
+
   // ссылка с data-view="phone" / "desktop" запоминает выбранную версию перед переходом
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a[data-view]') : null;

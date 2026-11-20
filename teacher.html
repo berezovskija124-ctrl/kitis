@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/guard.js?v=ba09b2359e"></script>
+<script src="js/guard.js?v=82f96f5f9b"></script>
 
 <title>КИТиС · Кабинет преподавателя</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=29eb99f686"></script>
+<script src="kitis-model.js?v=d74443c14c"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Учебный проект: новый сайт расписания КИТиС — Кабинет преподавателя.">
@@ -45,15 +45,19 @@ html:has([data-scroll-lock]),html:has([data-scroll-lock]) body{overflow:hidden}
 button,a,[role=button],[role=tab],select,summary,label{-webkit-tap-highlight-color:transparent}
 button:not(:disabled),a[href],select,summary{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,filter .2s ease,opacity .2s ease}
 button{position:relative}
-button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:0;pointer-events:none;transition:opacity .18s ease}
+button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:#15171C;opacity:0;pointer-events:none;transition:opacity .18s ease}
 a.tap{position:relative}
 @media (hover:hover) and (pointer:fine){
-button:not(:disabled):hover::after,a.tap:hover::after{opacity:.07}
+button:not(:disabled):hover::after,a.tap:hover::after{opacity:.05}
 a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
 }
 button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
-button:not(:disabled):active::after,a.tap:active::after{opacity:.12}
-:focus-visible{outline:3px solid #2D5BE3!important;outline-offset:2px}
+button:not(:disabled):active::after,a.tap:active::after{opacity:.08}
+:focus{outline:none}
+/* рамка фокуса — только при работе с клавиатуры (Tab), мышью и пальцем синего выделения нет */
+html.kbd :focus-visible{outline:2px solid #15171C!important;outline-offset:2px}
+input:focus,select:focus,textarea:focus{outline:none!important}
+label:focus-within{box-shadow:inset 0 0 0 1px #9AA1AD}
 button:disabled{cursor:not-allowed}
 @media (prefers-reduced-motion:reduce){button,a{transition:none!important}}
 /* версия для слабовидящих */
@@ -61,7 +65,7 @@ html.a11y .a11y-off,html:not(.a11y) .a11y-on{display:none}
 html.a11y body{zoom:1.18}
 html.a11y{filter:contrast(1.12)}
 html.a11y #app a{text-decoration:underline!important;text-underline-offset:3px}
-html.a11y :focus-visible{outline-width:4px!important}
+html.a11y.kbd :focus-visible{outline-width:4px!important}
 @media print{.kb,nav,.no-print{display:none!important}body{background:#fff!important}}
 </style>
 </head>
@@ -123,7 +127,7 @@ button,input{font-family:inherit}
 <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
 <sc-if value="{{pq.hasProgress}}" hint-placeholder-val="{{ true }}"><div aria-hidden="true" style="height: 6px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{pq.progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div></sc-if>
 <sc-if value="{{pq.hasTitle}}" hint-placeholder-val="{{ true }}"><span style="font-size: 26px; font-weight: 700; line-height: 1.2;">{{pq.title}}</span></sc-if>
-<sc-if value="{{pq.hasSubject}}" hint-placeholder-val="{{ true }}"><span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15px; color: #FFFFFF;"><span aria-hidden="true" style="flex: none; width: 12px; height: 12px; margin-top: 5px; border-radius: 50%; background: {{pq.color}};"></span><span>{{pq.subject}}</span></span></sc-if>
+<sc-if value="{{pq.hasSubject}}" hint-placeholder-val="{{ true }}"><span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15px; color: #FFFFFF;"><span>{{pq.subject}}</span></span></sc-if>
 <sc-if value="{{pq.hasMeta}}" hint-placeholder-val="{{ true }}"><span style="font-size: 14px; color: #B9BEC8;">{{pq.meta}}</span></sc-if>
 </div>
 </section>
@@ -151,7 +155,7 @@ button,input{font-family:inherit}
 <div role="row" style="display: grid; grid-template-columns: 96px repeat(6, minmax(0, 1fr)); gap: 6px;">
 <span role="rowheader" style="display: flex; flex-direction: column; justify-content: center; padding: 4px; line-height: 1.2;"><span style="font-weight: 700; font-size: 14px;">{{row.n}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{row.time}}</span></span>
 <sc-for list="{{row.cells}}" as="c" hint-placeholder-count="6">
-<span role="cell" title="{{c.subject}}" style="min-height: 58px; box-sizing: border-box; padding: 8px 10px; border-radius: 10px; background: {{c.bg}}; border: 1px solid {{c.border}}; box-shadow: inset 6px 0 0 {{c.color}}; display: flex; flex-direction: column; justify-content: center; gap: 1px; line-height: 1.25;">
+<span role="cell" title="{{c.subject}}" style="min-height: 58px; box-sizing: border-box; padding: 8px 10px; border-radius: 10px; background: {{c.bg}}; border: 1px solid {{c.border}}; box-shadow: inset 4px 0 0 {{c.color}}; display: flex; flex-direction: column; justify-content: center; gap: 1px; line-height: 1.25;">
 <sc-if value="{{c.has}}" hint-placeholder-val="{{ false }}">
 <span style="font-weight: 700; font-size: 14px; color: {{c.fg}};">{{c.group}}</span>
 <span style="font-size: 12px; color: {{c.sub}};">{{c.room}}</span>
@@ -171,7 +175,7 @@ button,input{font-family:inherit}
 <h2 style="margin: 0; font-size: 18px; font-weight: 700;">{{listTitle}}</h2>
 <sc-if value="{{noToday}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; color: #5B6270;">Ближайших пар нет в источнике</span></sc-if>
 <sc-for list="{{today}}" as="t" hint-placeholder-count="3">
-<div title="{{t.subject}}" style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: {{t.bg}}; box-shadow: inset 6px 0 0 {{t.color}};">
+<div title="{{t.subject}}" style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: {{t.bg}}; box-shadow: inset 4px 0 0 {{t.color}};">
 <span style="flex: none; width: 30px; height: 30px; border-radius: 9px; background: {{t.numBg}}; color: {{t.numFg}}; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;">{{t.n}}</span>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3;"><span style="font-weight: 600; font-size: 14.5px;">{{t.title}}</span><span style="font-size: 12.5px; color: #5B6270;">{{t.time}}</span></span>
 <span style="flex: none; font-size: 12px; font-weight: 600; color: {{t.stateFg}};">{{t.state}}</span>
@@ -234,6 +238,6 @@ button,input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":1440,"height":1600}}'></script>
 <script src="dc-runtime.js?v=7fb69be3c1"></script>
-<script src="js/page-teacher.js?v=643e567c92"></script>
+<script src="js/page-teacher.js?v=08e76d94b0"></script>
 </body>
 </html>

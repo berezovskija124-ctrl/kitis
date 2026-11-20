@@ -61,8 +61,6 @@ if (changed && changed.length) {
 }
 data.changes = changes.filter((c) => c.week === data.scheduleWeek).slice(0, 10);
 
-// Цвета предметов: прежние остаются за своими предметами, новые получают свободный цвет
-data.colors = KitisParser.subjectColors(data, old);
 
 // Если на сервере ничего не поменялось, файл не трогаем (чтобы не было лишних коммитов)
 if (old) {

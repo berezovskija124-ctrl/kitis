@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kitis.ru; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/guard.js?v=ba09b2359e"></script>
+<script src="js/guard.js?v=82f96f5f9b"></script>
 
 <title>КИТиС · Расписание — телефон</title>
 
 <script src="data/kitis-data.js"></script>
-<script src="kitis-model.js?v=29eb99f686"></script>
+<script src="kitis-model.js?v=d74443c14c"></script>
 <script src="kitis-account.js?v=c604cc7291"></script>
 <script src="data/kitis-college.js?v=85cf7a1649"></script>
 <script src="data/kitis-photos.js"></script>
@@ -47,15 +47,19 @@ html:has([data-scroll-lock]),html:has([data-scroll-lock]) body{overflow:hidden}
 button,a,[role=button],[role=tab],select,summary,label{-webkit-tap-highlight-color:transparent}
 button:not(:disabled),a[href],select,summary{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,filter .2s ease,opacity .2s ease}
 button{position:relative}
-button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:currentColor;opacity:0;pointer-events:none;transition:opacity .18s ease}
+button::after,a.tap::after{content:'';position:absolute;inset:0;border-radius:inherit;background:#15171C;opacity:0;pointer-events:none;transition:opacity .18s ease}
 a.tap{position:relative}
 @media (hover:hover) and (pointer:fine){
-button:not(:disabled):hover::after,a.tap:hover::after{opacity:.07}
+button:not(:disabled):hover::after,a.tap:hover::after{opacity:.05}
 a[href][style*="display: flex"]:hover,a[href][style*="display: inline-flex"]:hover,a[href][style*="display: grid"]:hover,a[href][style*="display: block"]:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(21,23,28,.45)}
 }
 button:not(:disabled):active,a[href]:active{transform:scale(.97);transition-duration:.06s}
-button:not(:disabled):active::after,a.tap:active::after{opacity:.12}
-:focus-visible{outline:3px solid #2D5BE3!important;outline-offset:2px}
+button:not(:disabled):active::after,a.tap:active::after{opacity:.08}
+:focus{outline:none}
+/* рамка фокуса — только при работе с клавиатуры (Tab), мышью и пальцем синего выделения нет */
+html.kbd :focus-visible{outline:2px solid #15171C!important;outline-offset:2px}
+input:focus,select:focus,textarea:focus{outline:none!important}
+label:focus-within{box-shadow:inset 0 0 0 1px #9AA1AD}
 button:disabled{cursor:not-allowed}
 @media (prefers-reduced-motion:reduce){button,a{transition:none!important}}
 /* версия для слабовидящих */
@@ -63,7 +67,7 @@ html.a11y .a11y-off,html:not(.a11y) .a11y-on{display:none}
 html.a11y body{zoom:1.18}
 html.a11y{filter:contrast(1.12)}
 html.a11y #app a{text-decoration:underline!important;text-underline-offset:3px}
-html.a11y :focus-visible{outline-width:4px!important}
+html.a11y.kbd :focus-visible{outline-width:4px!important}
 @media print{.kb,nav,.no-print{display:none!important}body{background:#fff!important}}
 </style>
 </head>
@@ -153,7 +157,7 @@ button,input,select{font-family:inherit}
 <div aria-hidden="true" style="height: 5px; border-radius: 3px; background: #2C3039; overflow: hidden;"><div style="height: 100%; width: {{plaque.progress}}%; background: #FF8A3D; border-radius: 3px; transition: width 1s linear;"></div></div>
 </sc-if>
 <sc-if value="{{plaque.hasSubject}}" hint-placeholder-val="{{ true }}">
-<span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15.5px; font-weight: 600; line-height: 1.3;"><span aria-hidden="true" style="flex: none; width: 12px; height: 12px; margin-top: 5px; border-radius: 50%; background: {{plaque.color}};"></span><span>{{plaque.subject}}</span></span>
+<span style="display: flex; align-items: flex-start; gap: 8px; font-size: 15.5px; font-weight: 600; line-height: 1.3;"><span>{{plaque.subject}}</span></span>
 <span style="font-size: 13px; color: #B9BEC8;">{{plaque.meta}}</span>
 </sc-if>
 </section>
@@ -181,7 +185,7 @@ button,input,select{font-family:inherit}
 </div>
 <sc-if value="{{dayNote}}" hint-placeholder-val="{{ false }}"><div style="font-size: 12.5px; color: #3A404C; padding: 8px 12px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E3E6EB; animation: {{dayAnim}} .4s cubic-bezier(.2,.8,.2,1) both;">Кураторский день: подъём флага 08:15, кураторский час 08:30</div></sc-if>
 <sc-for list="{{dayLessons}}" as="l" hint-placeholder-count="3">
-<div style="background: {{l.bg}}; border: 1px solid {{l.border}}; border-radius: 14px; padding: 12px 14px 12px 18px; display: flex; gap: 12px; box-shadow: inset 6px 0 0 {{l.color}}; animation: {{l.anim}} .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{l.delay}};">
+<div style="background: {{l.bg}}; border: 1px solid {{l.border}}; border-radius: 14px; padding: 12px 14px 12px 18px; display: flex; gap: 12px; box-shadow: inset 4px 0 0 {{l.color}}; animation: {{l.anim}} .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{l.delay}};">
 <div style="flex: none; width: 44px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
 <span style="width: 28px; height: 28px; border-radius: 8px; background: {{l.numBg}}; color: {{l.numFg}}; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 2px;">{{l.n}}</span>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #5B6270;">{{l.start}}</span>
@@ -189,11 +193,11 @@ button,input,select{font-family:inherit}
 </div>
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
 <span style="font-weight: 600; font-size: 15px; line-height: 1.3;">{{l.subject}}</span>
-<sc-if value="{{l.hasMeta}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: {{l.chipBg}}; color: #3A404C;">{{l.meta}}</span></sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 6px;"><sc-if value="{{l.hasKind}}" hint-placeholder-val="{{ true }}"><span style="font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: {{l.kindBg}}; color: {{l.kindFg}};">{{l.kindLabel}}</span></sc-if><sc-if value="{{l.hasCycle}}" hint-placeholder-val="{{ false }}"><span style="font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: {{l.cycleBg}}; color: {{l.cycleFg}};">{{l.cycleLabel}}</span></sc-if><sc-if value="{{l.hasMeta}}" hint-placeholder-val="{{ false }}"><span style="font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: #F1F3F6; color: #3A404C;">{{l.meta}}</span></sc-if></div>
 <sc-if value="{{l.now}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: #FFE6D3; color: #9A4410;">Идёт сейчас</span></sc-if>
 <div style="display: flex; flex-wrap: wrap; gap: 6px;">
 <sc-if value="{{l.hasTeacher}}" hint-placeholder-val="{{ true }}"><sc-if value="{{l.hasTeacher}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openTeacher}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.teacher}}</button></sc-if></sc-if>
-<sc-if value="{{l.remote}}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; min-height: 30px; padding: 0 10px; border-radius: 8px; background: #DFF5E7; color: #17663A; font-size: 12.5px; font-weight: 700;">Дистант</span></sc-if><sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.room}}</button></sc-if>
+<sc-if value="{{l.remote}}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; min-height: 30px; padding: 0 10px; border-radius: 8px; background: #F1F3F6; color: #15171C; font-size: 12.5px; font-weight: 700;">Дистант</span></sc-if><sc-if value="{{l.hasRoom}}" hint-placeholder-val="{{ true }}"><button type="button" class="tap" onClick="{{l.openRoom}}" style="min-height: 30px; padding: 0 9px; border-radius: 8px; border: 0; background: {{l.chipBg}}; color: #3A404C; font-size: 12.5px; cursor: pointer;">{{l.room}}</button></sc-if>
 </div>
 </div>
 </div>
@@ -240,12 +244,7 @@ button,input,select{font-family:inherit}
 <div role="group" aria-label="Чьи итоги" style="display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: #E6E9ED;">
 <sc-for list="{{res.kinds}}" as="kd" hint-placeholder-count="3"><button type="button" class="tap" onClick="{{kd.pick}}" aria-pressed="{{kd.pressed}}" style="flex: 1; height: 38px; border-radius: 9px; border: 0; background: {{kd.bg}}; color: #15171C; font-weight: {{kd.weight}}; font-size: 13.5px; box-shadow: {{kd.shadow}}; cursor: pointer;">{{kd.label}}</button></sc-for>
 </div>
-<label style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 10px 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF;">
-<span style="font-size: 12.5px; color: #5B6270; white-space: nowrap;">{{res.pickLabel}}</span>
-<select onChange="{{res.pick}}" aria-label="{{res.pickLabel}}" style="flex: 1; min-width: 0; height: 42px; border: 0; background: transparent; font: inherit; font-size: 16px; font-weight: 600; color: #15171C;">
-<sc-for list="{{res.options}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}" selected="{{o.sel}}">{{o.l}}</option></sc-for>
-</select>
-</label>
+<button type="button" class="tap" onClick="{{res.openList}}" aria-haspopup="listbox" style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 12px 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #15171C; font: inherit; text-align: left; cursor: pointer;"><span style="font-size: 12.5px; color: #5B6270; white-space: nowrap;">{{res.pickLabel}}</span><span style="flex: 1; min-width: 0; font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{res.current}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; color: #5B6270;"><path d="m6 9 6 6 6-6"></path></svg></button>
 </div>
 </sc-if>
 
@@ -255,12 +254,7 @@ button,input,select{font-family:inherit}
 <div role="group" aria-label="Чьи итоги" style="display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: #E6E9ED;">
 <sc-for list="{{res.kinds}}" as="kd" hint-placeholder-count="3"><button type="button" class="tap" onClick="{{kd.pick}}" aria-pressed="{{kd.pressed}}" style="flex: 1; height: 38px; border-radius: 9px; border: 0; background: {{kd.bg}}; color: #15171C; font-weight: {{kd.weight}}; font-size: 13.5px; box-shadow: {{kd.shadow}}; cursor: pointer;">{{kd.label}}</button></sc-for>
 </div>
-<label style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 10px 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF;">
-<span style="font-size: 12.5px; color: #5B6270; white-space: nowrap;">{{res.pickLabel}}</span>
-<select onChange="{{res.pick}}" aria-label="{{res.pickLabel}}" style="flex: 1; min-width: 0; height: 42px; border: 0; background: transparent; font: inherit; font-size: 16px; font-weight: 600; color: #15171C;">
-<sc-for list="{{res.options}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}" selected="{{o.sel}}">{{o.l}}</option></sc-for>
-</select>
-</label>
+<button type="button" class="tap" onClick="{{res.openList}}" aria-haspopup="listbox" style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 12px 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #15171C; font: inherit; text-align: left; cursor: pointer;"><span style="font-size: 12.5px; color: #5B6270; white-space: nowrap;">{{res.pickLabel}}</span><span style="flex: 1; min-width: 0; font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{res.current}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; color: #5B6270;"><path d="m6 9 6 6 6-6"></path></svg></button>
 <sc-if value="{{hasLoad}}" hint-placeholder-val="{{ true }}">
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
 <sc-for list="{{loadStats}}" as="st" hint-placeholder-count="4">
@@ -274,7 +268,7 @@ button,input,select{font-family:inherit}
 <sc-for list="{{loadRows}}" as="r" hint-placeholder-count="6">
 <div style="display: flex; flex-direction: column; gap: 7px; padding: 12px 0; border-bottom: 1px solid #EEF0F3; animation: kFadeUp .35s ease both; animation-delay: {{r.delay}};">
 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
-<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;"><span style="font-weight: 600; font-size: 14px; line-height: 1.3;"><span aria-hidden="true" style="display: inline-block; width: 12px; height: 12px; margin-right: 8px; border-radius: 50%; background: {{r.color}}; vertical-align: -1px;"></span>{{r.n}}. {{r.subject}}</span><span style="font-size: 12px; color: #5B6270;">{{r.meta}}</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;"><span style="font-weight: 600; font-size: 14px; line-height: 1.3;">{{r.n}}. {{r.subject}}</span><span style="font-size: 12px; color: #5B6270;">{{r.meta}}</span></span>
 <span style="flex: none; font-size: 17px; font-weight: 700;">{{r.pctLabel}}</span>
 </div>
 <div aria-hidden="true" style="height: 8px; border-radius: 4px; background: #F1F3F6; overflow: hidden;"><div style="height: 100%; width: {{r.bar}}%; border-radius: 4px; background: {{r.barColor}}; transform-origin: left center; animation: kGrow .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: {{r.delay}};"></div></div>
@@ -330,7 +324,7 @@ button,input,select{font-family:inherit}
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
 <sc-for list="{{sec.items}}" as="g" hint-placeholder-count="6">
 <button type="button" class="tap" onClick="{{g.pick}}" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; min-height: 58px; padding: 8px 10px; box-sizing: border-box; border-radius: 12px; border: {{g.border}}; background: {{g.bg}}; color: #15171C; text-align: left; cursor: pointer; animation: kFadeUp .35s ease both; animation-delay: {{g.delay}};">
-<span style="font-size: 15px; font-weight: 700;">{{g.code}}</span>
+<span style="display: inline-flex; align-items: center; gap: 7px;"><span style="font-size: 15px; font-weight: 700;">{{g.code}}</span><sc-if value="{{g.busy}}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="Сейчас на паре" style="flex: none; width: 8px; height: 8px; border-radius: 50%; background: #E06A1B; animation: kPulse 1.8s ease-out infinite;"></span></sc-if></span>
 <span style="font-size: 10.5px; color: #5B6270;">{{g.meta}}</span>
 </button>
 </sc-for>
@@ -527,8 +521,8 @@ button,input,select{font-family:inherit}
 </div>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">ФИО<input type="text" style="height: 46px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">E-mail<input type="email" style="height: 46px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
-<sc-if value="{{roleStudent}}" hint-placeholder-val="{{ true }}"><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Группа<select style="height: 46px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"><option>СОД25-1</option><option>СОД25-2К</option><option>СОД26-1</option><option>СОД26-2К</option><option>С23-1</option><option>С23-3К</option><option>С23УЗ</option><option>С24-1</option><option>С24-2</option><option>С24-3К</option><option>С24УЗ</option><option>С25-1</option><option>С25-2</option><option>С25-3</option><option>С25-УЗ</option><option>С26-1</option><option>С26-2</option><option>С26-3</option><option>С26-4</option><option>С26-УЗ</option><option>УМД25-1</option><option>УМД26-1</option><option>ИМс24-1</option><option>ИМС25-1</option><option>ИМС26-1</option><option>ИМС26-2</option><option>СА23-1</option><option>СА24-1</option><option>СА24-2</option><option>СА24УЗ</option><option>СА25-1</option><option>СА25-2</option><option>СА25-УЗ</option><option>СА26-1</option><option>СА26-2</option><option>СА26-УЗ</option><option>ИСа23-1</option><option>ИСа24-1</option><option>ИСа25-1</option><option>ИСп23-1</option><option>ИСп23-2К</option><option>ИСп24-1</option><option>ИСп24-2К</option><option>ИСп25-1</option><option selected>ИСр24-1</option><option>ИСр25-1</option><option>ИСс24-1</option><option>ИСс25-1</option><option>ВЕБ26-1</option><option>ВЕБ26-2</option><option>РКИ25-1</option><option>РКИ26-1</option><option>РКИ26-2</option><option>СВ25-1</option><option>СВ25-2К</option><option>СВ26-1</option><option>СВ26-2К</option><option>М25-1</option><option>М26-1</option><option>ТГ26-1К</option></select></label></sc-if>
-<sc-if value="{{roleAbitur}}" hint-placeholder-val="{{ false }}"><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Интересует<select style="height: 46px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 14px; background: #FFFFFF;"><option selected="">09.02.09 Веб-разработка</option><option>09.02.06 Сетевое и системное администрирование</option><option>43.02.16 Туризм и гостеприимство</option><option>Пока не решил(а)</option></select></label></sc-if>
+<sc-if value="{{roleStudent}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Группа<button type="button" class="tap" onClick="{{regGroupOpen}}" aria-haspopup="listbox" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 46px; box-sizing: border-box; padding: 0 12px 0 14px; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #15171C; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer;"><span>{{regGroupLabel}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; color: #5B6270;"><path d="m6 9 6 6 6-6"></path></svg></button></div></sc-if>
+<sc-if value="{{roleAbitur}}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Интересует<button type="button" class="tap" onClick="{{regIntOpen}}" aria-haspopup="listbox" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 46px; box-sizing: border-box; padding: 8px 12px 8px 14px; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #15171C; font: inherit; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer;"><span>{{regIntLabel}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; color: #5B6270;"><path d="m6 9 6 6 6-6"></path></svg></button></div></sc-if>
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600;">Пароль<input type="password" style="height: 46px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; font-size: 15px; background: #FFFFFF;"></label>
 <div style="padding: 12px; border-radius: 12px; background: {{accentSoft}}; font-size: 13px; color: #15171C;">{{roleNote}}</div>
 <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 13.5px; color: #3A404C;"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: {{accent}};">Согласен(на) на обработку персональных данных</label>
@@ -545,6 +539,23 @@ button,input,select{font-family:inherit}
 </button>
 </sc-for>
 </nav>
+
+<sc-if value="{{lsOpen}}" hint-placeholder-val="{{ false }}">
+<div class="m-sheet" style="position: absolute; inset: 0; z-index: 26; display: flex; flex-direction: column; justify-content: flex-end;">
+<button type="button" aria-label="Закрыть" onClick="{{lsClose}}" style="position: absolute; inset: 0; border: 0; background: rgba(21, 23, 28, 0.45); cursor: pointer; animation: kFade .25s ease both;"></button>
+<section role="dialog" aria-label="{{lsTitle}}" style="position: relative; max-height: 86%; display: flex; flex-direction: column; background: #FFFFFF; border-radius: 22px 22px 0 0; animation: kSlideUp .32s cubic-bezier(.2,.8,.2,1) both;">
+<div style="flex: none; padding: 10px 16px 10px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #EEF0F3;">
+<span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: #DCE0E6;"></span>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="font-size: 19px; font-weight: 700;">{{lsTitle}}</span><button type="button" class="tap" onClick="{{lsClose}}" aria-label="Закрыть" style="width: 40px; height: 40px; border-radius: 12px; border: 0; background: #F1F3F6; color: #15171C; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div>
+<sc-if value="{{lsSearch}}" hint-placeholder-val="{{ true }}"><label style="display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 14px; box-sizing: border-box; border: 1px solid #C9CED6; border-radius: 12px; color: #5B6270;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="{{lsPh}}" value="{{lsQ}}" onChange="{{lsOnQ}}" aria-label="Найти в списке" style="flex: 1; min-width: 0; border: 0; background: transparent; font-size: 16px; color: #15171C; outline: none;"></label></sc-if>
+</div>
+<div role="listbox" aria-label="{{lsTitle}}" style="flex: 1; min-height: 0; overflow-y: auto; padding: 8px 10px 24px;">
+<sc-for list="{{lsOptions}}" as="o" hint-placeholder-count="8"><button type="button" role="option" class="tap" aria-selected="{{o.sel}}" onClick="{{o.pick}}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; padding: 0 12px; border: 0; border-radius: 12px; background: {{o.bg}}; color: #15171C; font: inherit; font-size: 16px; font-weight: {{o.weight}}; text-align: left; cursor: pointer;"><span>{{o.l}}</span><sc-if value="{{o.on}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"></path></svg></sc-if></button></sc-for>
+<sc-if value="{{lsEmpty}}" hint-placeholder-val="{{ false }}"><div style="padding: 14px 12px; font-size: 14.5px; color: #5B6270;">Ничего не нашлось</div></sc-if>
+</div>
+</section>
+</div>
+</sc-if>
 
 <sc-if value="{{pickerOpen}}" hint-placeholder-val="{{ false }}">
 <div class="m-sheet" style="position: absolute; inset: 0; z-index: 25; display: flex; flex-direction: column; justify-content: flex-end;">
@@ -589,7 +600,7 @@ button,input,select{font-family:inherit}
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
 <sc-if value="{{d.empty}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12.5px; color: #5B6270;">{{d.emptyText}}</span></sc-if>
 <sc-for list="{{d.pairs}}" as="p" hint-placeholder-count="1">
-<div style="display: flex; flex-direction: column; line-height: 1.3; padding: 6px 10px 6px 14px; border-radius: 8px; background: {{p.tint}}; box-shadow: inset 5px 0 0 {{p.color}};"><span style="font-size: 13px; font-weight: 600; color: {{p.fg}};">{{p.head}}</span><span style="font-size: 12px; color: #5B6270;">{{p.info}}</span></div>
+<div style="display: flex; flex-direction: column; line-height: 1.3; padding: 6px 10px 6px 14px; border-radius: 8px; background: {{p.tint}}; box-shadow: inset 4px 0 0 {{p.color}};"><span style="font-size: 13px; font-weight: 600; color: {{p.fg}};">{{p.head}}</span><span style="font-size: 12px; color: #5B6270;">{{p.info}}</span></div>
 </sc-for>
 </div>
 </div>
@@ -613,6 +624,6 @@ button,input,select{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2D5BE3","options":["#2D5BE3","#0F766E","#7C3AED","#C2410C"]},"$preview":{"width":390,"height":844}}'></script>
 <script src="dc-runtime.js?v=7fb69be3c1"></script>
-<script src="js/page-phone.js?v=035334a7b9"></script>
+<script src="js/page-phone.js?v=a8f7bf042c"></script>
 </body>
 </html>
