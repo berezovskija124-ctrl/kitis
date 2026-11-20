@@ -1922,6 +1922,66 @@
    "tree": 0
   },
   {
+   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/studenty-kitisa-na-proekte-pogruzhenie-v-kulturu/",
+   "title": "Студенты КИТиСа на проекте „Погружение в культуру“",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 4,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/",
+   "title": "Культурная жизнь",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 27,
+   "photos": 0,
+   "children": 5,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/debaty-o-bezopasnosti-i-grazhdanskoy-otvetstvennosti/",
+   "title": "Дебаты о безопасности и гражданской ответственности",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 3,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/",
+   "title": "Воспитательная работа",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 27,
+   "photos": 0,
+   "children": 5,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/kinopokaz-filma-ne-govori-da/",
+   "title": "Кинопоказ фильма „Не говори Да“",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 4,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/razgovory-o-vazhnom-miloserdie-i-narodnye-promysly/",
+   "title": "Разговоры о важном: милосердие и народные промыслы",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 9,
+   "photos": 5,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
    "url": "https://kitis.ru/press-center/news/sport-life/sportsmeny-kitisa-na-kubke-oblasti-po-pauerliftingu/",
    "title": "Спортсмены КИТиСа на Кубке области по пауэрлифтингу",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
@@ -2025,7 +2085,7 @@
    "url": "https://kitis.ru/press-center/news/for-students/",
    "title": "Для студентов",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 30,
+   "blocks": 29,
    "photos": 0,
    "children": 5,
    "form": false,
@@ -2062,16 +2122,6 @@
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/",
-   "title": "Воспитательная работа",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 31,
-   "photos": 0,
-   "children": 5,
-   "form": false,
-   "tree": 0
-  },
-  {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/svetlaya-pamyat-o-marine-alekseevne-krivulya/",
    "title": "Светлая память о Марине Алексеевне Кривуля",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
@@ -2088,16 +2138,6 @@
    "blocks": 10,
    "photos": 3,
    "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/",
-   "title": "Культурная жизнь",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 25,
-   "photos": 0,
-   "children": 5,
    "form": false,
    "tree": 0
   },
@@ -2152,20 +2192,20 @@
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/uchebnye-sbory-v-tsentre-avangard/",
-   "title": "Учебные сборы в центре „Авангард“",
+   "url": "https://kitis.ru/press-center/news/for-students/grazhdansko-patrioticheskiy-diktant-5-8-noyabrya/",
+   "title": "Гражданско-патриотический диктант: 5–8 ноября",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 9,
-   "photos": 4,
+   "blocks": 15,
+   "photos": 1,
    "children": 0,
    "form": false,
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/international-activity/bolshoy-etnograficheskiy-diktant-startoval/",
-   "title": "Большой этнографический диктант стартовал",
+   "url": "https://kitis.ru/press-center/news/international-activity/priglashaem-na-geograficheskiy-diktant-2026/",
+   "title": "Приглашаем на Географический диктант — 2026",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 9,
+   "blocks": 15,
    "photos": 1,
    "children": 0,
    "form": false,
@@ -2232,51 +2272,11 @@
    ]
   },
   {
-   "url": "https://kitis.ru/press-center/news/for-students/gordimsya-nagrady-talantlivym-studentkam-kitisa/",
-   "title": "Гордимся: награды талантливым студенткам КИТиСа",
+   "url": "https://kitis.ru/press-center/news/for-students/v-sezon-diktanta-moya-lyubov-dusha-moya-rossiya-/",
+   "title": "V сезон диктанта „Моя любовь, душа моя – Россия!“",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 11,
+   "blocks": 19,
    "photos": 1,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/vstrecha-ko-dnyu-narodnogo-edinstva-v-kitise/",
-   "title": "Встреча ко Дню народного единства в КИТиСе",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 8,
-   "photos": 2,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/razgovory-o-vazhnom-ko-dnyu-narodnogo-edinstva/",
-   "title": "Разговоры о важном ко Дню народного единства",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 10,
-   "photos": 3,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/for-students/lektsiya-obraz-budushchego-rossii-v-kitise/",
-   "title": "Лекция „Образ будущего России“ в КИТиСе",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 10,
-   "photos": 2,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/sport-life/voleybolistki-kitisa-na-oblastnykh-sorevnovaniyakh/",
-   "title": "Волейболистки КИТиСа на областных соревнованиях",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 7,
-   "photos": 2,
    "children": 0,
    "form": false,
    "tree": 0
@@ -2734,7 +2734,7 @@
     "              div [текст 26, ссылок 0]",
     "  div.position-relative [текст 148, ссылок 3]",
     "    section.sf-tab-content-wrap.mb-4 [текст 0, ссылок 1]",
-    "      div#slider-hAD5YREt.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
+    "      div#slider-DBFKfbnG.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
     "        div.swiper-wrapper [текст 0, ссылок 1]",
     "          div.swiper-slide [текст 0, ссылок 1]",
     "            div.aspect-ratio.aspect-ratio-2x1 [текст 0, ссылок 1]",
@@ -2857,7 +2857,7 @@
     "              div [текст 45, ссылок 0]",
     "  div.position-relative [текст 147, ссылок 3]",
     "    section.sf-tab-content-wrap.mb-4 [текст 0, ссылок 1]",
-    "      div#slider-kBhQseQr.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
+    "      div#slider-yFiGFNRE.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
     "        div.swiper-wrapper [текст 0, ссылок 1]",
     "          div.swiper-slide [текст 0, ссылок 1]",
     "            div.aspect-ratio.aspect-ratio-2x1 [текст 0, ссылок 1]",
@@ -3365,10 +3365,10 @@
  "counts": {
   "boilerplate_links": 155,
   "boilerplate_texts": 144,
-  "requests": 221,
+  "requests": 240,
   "sections": 48,
   "sections_ok": 48,
   "albums": 85,
-  "photos": 237
+  "photos": 241
  }
 }
