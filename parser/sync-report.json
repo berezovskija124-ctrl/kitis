@@ -1922,18 +1922,18 @@
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/primi-uchastie-v-nalogovom-diktante-do-5-dekabrya/",
-   "title": "Прими участие в налоговом диктанте до 5 декабря",
+   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/novyy-god-vremya-sobiratsya-vmeste/",
+   "title": "Новый год: время собираться вместе",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 12,
+   "blocks": 13,
    "photos": 1,
    "children": 0,
    "form": false,
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/",
-   "title": "Воспитательная работа",
+   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/",
+   "title": "Культурная жизнь",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
    "blocks": 27,
    "photos": 0,
@@ -1942,21 +1942,11 @@
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/pyat-dney-o-vazhnom-nedelya-psikhologii-v-kitise/",
-   "title": "Пять дней о важном: Неделя психологии в КИТиСе",
+   "url": "https://kitis.ru/press-center/news/professionalnye-konkursy/tekhnogto-proverka-znaniy-studentov-kitisa/",
+   "title": "ТехноГТО: проверка знаний студентов КИТиСа",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 11,
-   "photos": 2,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/professionalnye-konkursy/studentki-kitisa-na-konkurse-kosmos-na-otkrytke/",
-   "title": "Студентки КИТиСа на конкурсе „Космос на открытке“",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 8,
-   "photos": 5,
+   "blocks": 9,
+   "photos": 3,
    "children": 0,
    "form": false,
    "tree": 0
@@ -2020,6 +2010,56 @@
     "select.form-control [текст 90]",
     "script. [текст 350]"
    ]
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/primi-uchastie-v-nalogovom-diktante-do-5-dekabrya/",
+   "title": "Прими участие в налоговом диктанте до 5 декабря",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 12,
+   "photos": 1,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/",
+   "title": "Воспитательная работа",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 27,
+   "photos": 0,
+   "children": 5,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/pyat-dney-o-vazhnom-nedelya-psikhologii-v-kitise/",
+   "title": "Пять дней о важном: Неделя психологии в КИТиСе",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 2,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/puteshestvie-v-mir-russkogo-slova-den-dalya/",
+   "title": "Путешествие в мир русского слова: день Даля",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 11,
+   "photos": 3,
+   "children": 0,
+   "form": false,
+   "tree": 0
+  },
+  {
+   "url": "https://kitis.ru/press-center/news/professionalnye-konkursy/studentki-kitisa-na-konkurse-kosmos-na-otkrytke/",
+   "title": "Студентки КИТиСа на конкурсе „Космос на открытке“",
+   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
+   "blocks": 8,
+   "photos": 5,
+   "children": 0,
+   "form": false,
+   "tree": 0
   },
   {
    "url": "https://kitis.ru/press-center/news/vospitatelnaya-rabota/lektsiya-ob-opasnosti-dropperstva-v-kitise/",
@@ -2142,16 +2182,6 @@
    "tree": 0
   },
   {
-   "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/",
-   "title": "Культурная жизнь",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 28,
-   "photos": 0,
-   "children": 5,
-   "form": false,
-   "tree": 0
-  },
-  {
    "url": "https://kitis.ru/press-center/news/kulturnaya-zhizn/315-let-lomonosovu/",
    "title": "315 лет Ломоносову",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
@@ -2246,36 +2276,6 @@
    "title": "„Акустика“ и „Авиал“ отличились на закрытии сезона",
    "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
    "blocks": 10,
-   "photos": 3,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/for-students/biznes-igra-ya-v-dele-proshla-v-kitise/",
-   "title": "Бизнес-игра „Я в деле“ прошла в КИТиСе",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 9,
-   "photos": 2,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/for-students/imennaya-stipendiya-gubernatora-u-studentki-kitisa/",
-   "title": "Именная стипендия Губернатора у студентки КИТиСа",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 7,
-   "photos": 2,
-   "children": 0,
-   "form": false,
-   "tree": 0
-  },
-  {
-   "url": "https://kitis.ru/press-center/news/for-students/zashchita-ot-moshennikov-lektsiya-ko-dnyu-ekonomista/",
-   "title": "Защита от мошенников: лекция ко Дню экономиста",
-   "container": "main.sf-main-area.col-12 < section.sf-page-area.sf-page-area-section < div.container < section.sf-pagewrap-area.overflow-hidden < body.lazyload.sf-pagewrap-area-layout-wide < html",
-   "blocks": 11,
    "photos": 3,
    "children": 0,
    "form": false,
@@ -2734,7 +2734,7 @@
     "              div [текст 26, ссылок 0]",
     "  div.position-relative [текст 148, ссылок 3]",
     "    section.sf-tab-content-wrap.mb-4 [текст 0, ссылок 1]",
-    "      div#slider-7TSSyAYZ.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
+    "      div#slider-bGTfZ66A.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
     "        div.swiper-wrapper [текст 0, ссылок 1]",
     "          div.swiper-slide [текст 0, ссылок 1]",
     "            div.aspect-ratio.aspect-ratio-2x1 [текст 0, ссылок 1]",
@@ -2857,7 +2857,7 @@
     "              div [текст 45, ссылок 0]",
     "  div.position-relative [текст 147, ссылок 3]",
     "    section.sf-tab-content-wrap.mb-4 [текст 0, ссылок 1]",
-    "      div#slider-d85Q36tz.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
+    "      div#slider-6bnzKRG5.swiper-container.sf-news-detail-video.r-default [текст 0, ссылок 1]",
     "        div.swiper-wrapper [текст 0, ссылок 1]",
     "          div.swiper-slide [текст 0, ссылок 1]",
     "            div.aspect-ratio.aspect-ratio-2x1 [текст 0, ссылок 1]",
@@ -3365,7 +3365,7 @@
  "counts": {
   "boilerplate_links": 155,
   "boilerplate_texts": 144,
-  "requests": 249,
+  "requests": 228,
   "sections": 48,
   "sections_ok": 48,
   "albums": 85,
